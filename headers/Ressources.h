@@ -6,6 +6,7 @@ public:
 	Ressources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 
 	//set and get all the different values
+	void set_ressources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 	void set_gold(int gold);
 	int get_gold() const;
 	void set_wood(int wood);
