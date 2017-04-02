@@ -126,6 +126,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="classes\Game.cpp" />
+    <ClCompile Include="classes\Ressources.cpp" />
     <ClCompile Include="classes\SDL_setup.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
@@ -138,7 +139,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Ressources.cpp" />
     <ClCompile Include="Shot.cpp" />
     <ClCompile Include="Tower.cpp" />
     <ClCompile Include="Unit.cpp" />
@@ -150,13 +150,13 @@
     <ClInclude Include="Damage.h" />
     <ClInclude Include="Defense.h" />
     <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\Ressources.h" />
     <ClInclude Include="headers\SDL_setup.h" />
     <ClInclude Include="IndustrialBuilding.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LTexture.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Ressources.h" />
     <ClInclude Include="Shot.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="Unit.h" />
