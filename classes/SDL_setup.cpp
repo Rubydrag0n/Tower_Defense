@@ -5,9 +5,7 @@
 #include <string>
 #include <ctime>
 #include "SDL_setup.h"
-
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include "ConfigFile.h"
 
 SDL_Renderer* gRenderer = nullptr;
 
@@ -49,7 +47,7 @@ bool initGraphics()
 	srand(time(nullptr));
 
 	//Initialize SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		success = false;
@@ -63,7 +61,10 @@ bool initGraphics()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow("Belt Balancer Creator", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+		ConfigFile cf("config/game.cfg");
+		int SCREEN_WIDTH = cf.Value("video", "screen_width");
+		int SCREEN_HEIGHT = cf.Value("video", "screen_height");
+		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 		if (gWindow == nullptr)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());

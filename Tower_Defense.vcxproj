@@ -126,6 +126,8 @@
   <ItemGroup>
     <ClCompile Include="classes\Building.cpp" />
     <ClCompile Include="classes\Button.cpp" />
+    <ClCompile Include="classes\Chameleon.cpp" />
+    <ClCompile Include="classes\ConfigFile.cpp" />
     <ClCompile Include="classes\Damage.cpp" />
     <ClCompile Include="classes\Defense.cpp" />
     <ClCompile Include="classes\Game.cpp" />
@@ -135,6 +137,7 @@
     <ClCompile Include="classes\Map.cpp" />
     <ClCompile Include="classes\Menu.cpp" />
     <ClCompile Include="classes\Ressources.cpp" />
+    <ClCompile Include="classes\SDLMappy.cpp" />
     <ClCompile Include="classes\SDL_setup.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
@@ -148,6 +151,8 @@
   <ItemGroup>
     <ClInclude Include="headers\Building.h" />
     <ClInclude Include="headers\Button.h" />
+    <ClInclude Include="headers\Chameleon.h" />
+    <ClInclude Include="headers\ConfigFile.h" />
     <ClInclude Include="headers\Damage.h" />
     <ClInclude Include="headers\Defense.h" />
     <ClInclude Include="headers\Game.h" />
@@ -157,11 +162,18 @@
     <ClInclude Include="headers\Map.h" />
     <ClInclude Include="headers\Menu.h" />
     <ClInclude Include="headers\Ressources.h" />
+    <ClInclude Include="headers\SDLMappy.h" />
     <ClInclude Include="headers\SDL_setup.h" />
     <ClInclude Include="headers\Shot.h" />
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\Unit.h" />
     <ClInclude Include="headers\Wave.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config\game.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\background.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
