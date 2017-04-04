@@ -64,7 +64,12 @@ bool initGraphics()
 		ConfigFile cf("config/game.cfg");
 		int SCREEN_WIDTH = cf.Value("video", "screen_width");
 		int SCREEN_HEIGHT = cf.Value("video", "screen_height");
-		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+		std::string windowflags = cf.Value("video", "window_mode");
+		Uint32 flags;
+		if (windowflags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
+		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS;
+		else flags = 0;
+		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
 		if (gWindow == nullptr)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());

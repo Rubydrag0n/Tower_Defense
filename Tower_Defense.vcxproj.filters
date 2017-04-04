@@ -139,6 +139,9 @@
     <None Include="config\game.cfg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="level\Level1.FMP">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.bmp">

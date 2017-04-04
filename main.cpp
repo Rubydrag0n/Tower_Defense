@@ -2,7 +2,6 @@
 #include <stdio.h>
 //#include "game.h"
 #include "SDL_setup.h"
-#include "SDL_config.h"
 #include "Map.h"
 
 int main( int argc, char* args[] )
@@ -14,19 +13,22 @@ int main( int argc, char* args[] )
 	else
 	{
 		auto test = new Map("level/Level1.FMP");
-		SDL_Surface *surface = nullptr;
+		auto surface = SDL_LoadBMP("resources/background.bmp");
 
-		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
-		
-		surface = SDL_LoadBMP("resources/background.bmp");
 
+		//surface = new SDL_Surface();
+
+		auto bg = SDL_CreateTextureFromSurface(gRenderer, surface);
+		
 		test->render(surface);
 
 		auto texture = SDL_CreateTextureFromSurface(gRenderer, surface);
 		SDL_FreeSurface(surface);
 
+		SDL_RenderCopy(gRenderer, bg, nullptr, nullptr);
 		SDL_RenderCopy(gRenderer, texture, nullptr, nullptr);
+
 		SDL_RenderPresent(gRenderer);
 	}
 
