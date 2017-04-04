@@ -106,3 +106,28 @@ int Ressources::get_food() const
 	return mFood;
 }
 
+bool Ressources::sub(Ressources *cost)
+{
+	//Returns true if the subtracting succeeded, false if there wasn't enough ressources
+	if (mGold - cost->get_gold() > 0 &&
+		mWood - cost->get_wood() > 0 &&
+		mStone - cost->get_stone() > 0 &&
+		mIron - cost->get_iron() > 0 &&
+		mEnergy - cost->get_energy() > 0 &&
+		mWater - cost->get_water() > 0 &&
+		mFood - cost->get_food() > 0)
+	{
+		mGold -= cost->get_gold();
+		mWood -= cost->get_wood();
+		mStone -= cost->get_stone();
+		mIron -= cost->get_iron();
+		mEnergy -= cost->get_energy();
+		mWater -= cost->get_water();
+		mFood -= cost->get_food();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

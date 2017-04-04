@@ -95,3 +95,25 @@ double Defense::get_elec_res() const
 {
 	return mElec_res;
 }
+
+double Defense::get_damage_taken(Damage *dmg) const
+{
+	auto phys_dmg = dmg->get_phys_dmg() * 100 / (100 + mArmor);
+	if (mPhys_immune) phys_dmg = 0.0;
+
+	auto magic_dmg = dmg->get_magic_dmg() * 100 / (100 + mMagic_res);
+	if (mMagic_immune) magic_dmg = 0.0;
+
+	auto fire_dmg = dmg->get_fire_dmg() * 100 / (100 + mFire_res);
+	if (mFire_immune) fire_dmg = 0.0;
+
+	auto water_dmg = dmg->get_water_dmg() * 100 / (100 + mWater_res);
+	if (mWater_immune) water_dmg = 0.0;
+
+	auto elec_dmg = dmg->get_elec_dmg() * 100 / (100 + mElec_res);
+	if (mElec_immune) elec_dmg = 0.0;
+
+	auto total_dmg = phys_dmg + magic_dmg + fire_dmg + water_dmg + elec_dmg;
+
+	return total_dmg;
+}

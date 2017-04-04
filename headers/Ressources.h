@@ -21,6 +21,8 @@ public:
 	int get_water() const;
 	void set_food(int food);
 	int get_food() const;
+	
+	bool sub(Ressources *cost);
 
 private:
 	int mGold;

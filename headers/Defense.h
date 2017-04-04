@@ -1,4 +1,6 @@
 #pragma once
+#include "Damage.h"
+
 class Defense
 {
 public:
@@ -19,7 +21,8 @@ public:
 	void set_elec_res(double elec_res);
 	double get_elec_res() const;
 
-	
+	//Calculating the actual Damage taken from an object of the Damage type
+	double get_damage_taken(Damage *dmg) const;
 
 private:
 	double mArmor;
