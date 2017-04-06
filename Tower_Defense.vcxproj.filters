@@ -148,9 +148,15 @@
     <None Include="level\Level1.FMP">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resources\LinkMonster.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\LinkMonster.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -174,9 +174,11 @@
   <ItemGroup>
     <None Include="config\game.cfg" />
     <None Include="level\Level1.FMP" />
+    <None Include="resources\LinkMonster.cfg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.bmp" />
+    <Image Include="resources\LinkMonster.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
