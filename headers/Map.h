@@ -1,5 +1,6 @@
 #pragma once
 #include "SDLMappy.h"
+#include <SDL.h>
 
 class Map
 {
@@ -10,7 +11,7 @@ public:
 	int get_height() const;
 	int get_width() const;
 
-	void render(SDL_Surface *s) const;
+	void render() const;
 
 private:
 	SDLMappy *mMap;

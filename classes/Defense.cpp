@@ -2,6 +2,7 @@
 
 Defense::Defense()
 {
+	mHealth = 0.0;
 	mArmor = 0.0;
 	mMagic_res = 0.0;
 	mFire_res = 0.0;
@@ -14,8 +15,9 @@ Defense::Defense()
 	mElec_immune = false;
 }
 
-Defense::Defense(double armor, double magic_res, double fire_res, double water_res, double elec_res)
+Defense::Defense(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res)
 {
+	mHealth = health;
 	mArmor = armor;
 	mMagic_res = magic_res;
 	mFire_res = fire_res;
@@ -28,8 +30,9 @@ Defense::Defense(double armor, double magic_res, double fire_res, double water_r
 	mElec_immune = false;
 }
 
-void Defense::set_defenses(double armor, double magic_res, double fire_res, double water_res, double elec_res)
+void Defense::set_defenses(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res)
 {
+	mHealth = health;
 	mArmor = armor;
 	mMagic_res = magic_res;
 	mFire_res = fire_res;
@@ -44,6 +47,16 @@ void Defense::set_immunities(bool phys, bool magic, bool fire, bool water, bool 
 	mFire_immune = fire;
 	mWater_immune = water;
 	mElec_immune = elec;
+}
+
+void Defense::set_health(double health)
+{
+	mHealth = health;
+}
+
+double Defense::get_health() const
+{
+	return mHealth;
 }
 
 void Defense::set_armor(double armor)
@@ -96,7 +109,7 @@ double Defense::get_elec_res() const
 	return mElec_res;
 }
 
-double Defense::get_damage_taken(Damage *dmg) const
+bool Defense::take_damage(Damage *dmg)
 {
 	auto phys_dmg = dmg->get_phys_dmg() * 100 / (100 + mArmor);
 	if (mPhys_immune) phys_dmg = 0.0;
@@ -115,5 +128,16 @@ double Defense::get_damage_taken(Damage *dmg) const
 
 	auto total_dmg = phys_dmg + magic_dmg + fire_dmg + water_dmg + elec_dmg;
 
-	return total_dmg;
+	auto killed = false;
+
+	if (total_dmg > mHealth)
+	{
+		mHealth = 0.0;
+		killed = true;
+	}
+	else
+	{
+		mHealth -= total_dmg;
+	}
+	return killed;
 }

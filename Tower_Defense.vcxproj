@@ -136,6 +136,7 @@
     <ClCompile Include="classes\LTexture.cpp" />
     <ClCompile Include="classes\Map.cpp" />
     <ClCompile Include="classes\Menu.cpp" />
+    <ClCompile Include="classes\MonsterGroup.cpp" />
     <ClCompile Include="classes\Ressources.cpp" />
     <ClCompile Include="classes\SDLMappy.cpp" />
     <ClCompile Include="classes\SDL_setup.cpp">
@@ -161,6 +162,7 @@
     <ClInclude Include="headers\LTexture.h" />
     <ClInclude Include="headers\Map.h" />
     <ClInclude Include="headers\Menu.h" />
+    <ClInclude Include="headers\MonsterGroup.h" />
     <ClInclude Include="headers\Ressources.h" />
     <ClInclude Include="headers\SDLMappy.h" />
     <ClInclude Include="headers\SDL_setup.h" />

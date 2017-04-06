@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "ConfigFile.h"
+#include "SDL_setup.h"
 
 Map::Map(char *map_path)
 {
@@ -29,16 +30,32 @@ int Map::get_width() const
 	return mWidth;
 }
 
-void Map::render(SDL_Surface* s) const
+void Map::render() const
 {
 	mMap->MapMoveTo(mOffset_left, mOffset_top);
+	mMap->MapChangeLayer(0);	//Background first
+	auto s = SDL_LoadBMP("resources/background.bmp");
 	if (mMap->MapDrawBG(s) == -1)
 		printf("Failed to draw background of Map!\n");
-
-	/*for (auto i = 1; i < mLayer_count; i++)
+	
+	for (auto i = 1; i < mLayer_count; i++)
 	{
+		auto s2 = SDL_LoadBMP("resources/background.bmp");
 		mMap->MapChangeLayer(i);
-		if (mMap->MapDrawFG(s) == -1)
+		if (mMap->MapDrawBGT(s2) == -1)
 			printf("Failed to draw layer %i of foreground of Map!\n", mLayer_count);
-	}*/
+		else
+		{
+			SDL_SetColorKey(s2, 1, 0);		//setting the transparent color for this surface to black (the 0)
+			SDL_SetSurfaceBlendMode(s2, SDL_BLENDMODE_BLEND);
+			SDL_BlitSurface(s2, nullptr, s, nullptr);		//blit the new layer on top of the total
+			SDL_FreeSurface(s2);
+		}
+	}
+	auto texture = SDL_CreateTextureFromSurface(gRenderer, s);
+
+	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+	SDL_RenderCopy(gRenderer, texture, nullptr, nullptr);
+	SDL_DestroyTexture(texture);
+	SDL_FreeSurface(s);
 }

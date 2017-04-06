@@ -1,15 +1,20 @@
 #pragma once
 #include "Damage.h"
-
+/*
+ * Holds all the defensive stats of a Unit: life, armor, resistances, immunities
+ * Also able to directly calculate damage taken when given a Damage Object
+ */
 class Defense
 {
 public:
 	Defense();
-	Defense(double armor, double magic_res, double fire_res, double water_res, double elec_res);
+	Defense(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res);
 
 	//Setting all the different defenses
-	void set_defenses(double armor, double magic_res, double fire_res, double water_res, double elec_res);
+	void set_defenses(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res);
 	void set_immunities(bool phys, bool magic, bool fire, bool water, bool elec);
+	void set_health(double health);
+	double get_health() const;
 	void set_armor(double armor);
 	double get_armor() const;
 	void set_magic_res(double magic_res);
@@ -22,9 +27,12 @@ public:
 	double get_elec_res() const;
 
 	//Calculating the actual Damage taken from an object of the Damage type
-	double get_damage_taken(Damage *dmg) const;
+	//Returns true if unit got killed
+	bool take_damage(Damage *dmg);
 
 private:
+	double mHealth;
+
 	double mArmor;
 	double mMagic_res;
 	double mFire_res;
