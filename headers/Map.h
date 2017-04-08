@@ -14,6 +14,10 @@ public:
 	void render() const;
 
 private:
+	void update_map_texture();
+
+	SDL_Texture *mMap_texture;
+
 	SDLMappy *mMap;
 	int mOffset_left;
 	int mOffset_top;

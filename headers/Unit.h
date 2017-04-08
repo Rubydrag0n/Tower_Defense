@@ -21,12 +21,12 @@ enum DIRECTION
 class Unit
 {
 public:
-	Unit(SDL_Point pos, std::string cfg_path);
+	Unit(std::string unit_name);
 	~Unit();
 
 	void render();
 
-private:
+protected:
 	void update_animation_clip();
 
 	Defense mDefense;

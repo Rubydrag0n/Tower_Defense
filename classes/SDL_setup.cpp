@@ -78,6 +78,7 @@ bool initGraphics()
 		else
 		{
 			//Create renderer for window
+			//SDL_RENDERER_PRESENTVSYNC locks framerate to the monitors' framerate
 			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
 			if (gRenderer == nullptr)
 			{

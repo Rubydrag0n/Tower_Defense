@@ -3,15 +3,15 @@
 #include "SDL_setup.h"
 
 
-Unit::Unit(SDL_Point pos, std::string cfg_path) : mDefense(), mSprite(), mClips(), mSprite_dimensions()
+Unit::Unit(std::string unit_name) : mDefense(), mSprite(), mClips(), mSprite_dimensions()
 {
-	ConfigFile cf(cfg_path);
-	mSprite = loadTexture(cf.Value("sprite", "path"));
+	ConfigFile cf("config/game.cfg");
+	mSprite = loadTexture(cf.Value(unit_name+"/sprite", "path"));
 
-	mSprite_dimensions.w = cf.Value("sprite", "image_width");
-	mSprite_dimensions.h = cf.Value("sprite", "image_height");
-	int clip_width = cf.Value("sprite", "clip_width");
-	int clip_height = cf.Value("sprite", "clip_height");
+	mSprite_dimensions.w = cf.Value(unit_name + "/sprite", "image_width");
+	mSprite_dimensions.h = cf.Value(unit_name + "/sprite", "image_height");
+	int clip_width = cf.Value(unit_name + "/sprite", "clip_width");
+	int clip_height = cf.Value(unit_name + "/sprite", "clip_height");
 	for (auto i = 0; i < mSprite_dimensions.h; i += clip_height)
 	{
 		for (auto j = 0; j < mSprite_dimensions.w; j += clip_width)
@@ -25,27 +25,29 @@ Unit::Unit(SDL_Point pos, std::string cfg_path) : mDefense(), mSprite(), mClips(
 		}
 	}
 	mAnimation_tick = 0;
-	mTickcount_per_clip = cf.Value("sprite", "tickcount_per_clip");
+	mTickcount_per_clip = cf.Value(unit_name + "/sprite", "tickcount_per_clip");
 	
 	// animation tick count is how many ticks it takes for one cycle of the animation to run through.
 	// each clip gets shown for tickcount_per_clip ticks
 	mAnimation_tick_count = mSprite_dimensions.w / clip_width * mTickcount_per_clip;
 
-	mPosition = pos;
+	//gets initialized in the derived classes
+	mPosition.x = 0;
+	mPosition.y = 0;
 	mDirection = DIRECTION::DOWN;
 
-	mMoveSpeed = cf.Value("stats", "movementspeed");
-	mDefense.set_defenses(double(int(cf.Value("stats", "health"))), 
-						  double(int(cf.Value("stats", "armor"))), 
-						  double(int(cf.Value("stats", "magicres"))), 
-						  double(int(cf.Value("stats", "fireres"))), 
-						  double(int(cf.Value("stats", "waterres"))), 
-						  double(int(cf.Value("stats", "elecres"))));
-	mDefense.set_immunities(bool(int(cf.Value("stats", "physimm"))), 
-							bool(int(cf.Value("stats", "magicimm"))), 
-							bool(int(cf.Value("stats", "fireimm"))), 
-							bool(int(cf.Value("stats", "waterimm"))), 
-							bool(int(cf.Value("stats", "elecimm"))));
+	mMoveSpeed = cf.Value(unit_name + "/stats", "movementspeed");
+	mDefense.set_defenses(double(int(cf.Value(unit_name + "/stats", "health"))),
+						  double(int(cf.Value(unit_name + "/stats", "armor"))),
+						  double(int(cf.Value(unit_name + "/stats", "magicres"))),
+						  double(int(cf.Value(unit_name + "/stats", "fireres"))),
+						  double(int(cf.Value(unit_name + "/stats", "waterres"))),
+						  double(int(cf.Value(unit_name + "/stats", "elecres"))));
+	mDefense.set_immunities(bool(int(cf.Value(unit_name + "/stats", "physimm"))),
+							bool(int(cf.Value(unit_name + "/stats", "magicimm"))),
+							bool(int(cf.Value(unit_name + "/stats", "fireimm"))),
+							bool(int(cf.Value(unit_name + "/stats", "waterimm"))),
+							bool(int(cf.Value(unit_name + "/stats", "elecimm"))));
 	//setting up the blending
 	SDL_SetTextureBlendMode(mSprite, SDL_BLENDMODE_BLEND);
 

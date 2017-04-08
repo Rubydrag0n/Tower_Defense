@@ -130,6 +130,7 @@
     <ClCompile Include="classes\ConfigFile.cpp" />
     <ClCompile Include="classes\Damage.cpp" />
     <ClCompile Include="classes\Defense.cpp" />
+    <ClCompile Include="classes\Enemy.cpp" />
     <ClCompile Include="classes\Game.cpp" />
     <ClCompile Include="classes\IndustrialBuilding.cpp" />
     <ClCompile Include="classes\Level.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="headers\ConfigFile.h" />
     <ClInclude Include="headers\Damage.h" />
     <ClInclude Include="headers\Defense.h" />
+    <ClInclude Include="headers\Enemy.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\IndustrialBuilding.h" />
     <ClInclude Include="headers\Level.h" />
