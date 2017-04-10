@@ -11,16 +11,31 @@
 class MonsterGroup
 {
 public:
-	MonsterGroup();
+	MonsterGroup(std::string monster_name, std::string level, int way, int delay_ticks, int monster_count);
 	~MonsterGroup();
+
+	//updates the monster group: looks if anyone has died, spawns new monsters in the given intervals
+	//also moves all its monsters
+	void update();
+	//renders all the montsers in this group
+	void render();
+	//returns if every unit of this monstergroup
+	bool isDead();
 
 private:
 	//the amount of monsters coming in this group
-	int mMonster_count;
+	int mMax_monster_count;
+	//the amount already spawned
+	int mCurrent_monster_count;
+	//counts the already killed monsters
+	int mDead_monsters;
 	//to load the right stats etc. for the monsters
 	std::string mMonster_name;
+	std::string mLevel;
+	int mWay;
 	//the delay between each new monster of this group
 	int mDelay_ticks;
+	int mElapsed_ticks;
 	//vector actually storing the generated monsters
-	std::vector<Enemy> mMonsters;
+	std::vector<Enemy*> mMonsters;
 };

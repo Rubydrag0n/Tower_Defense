@@ -4,7 +4,7 @@
 #include "SDL_setup.h"
 #include "Map.h"
 #include "Unit.h"
-#include "Enemy.h"
+#include "MonsterGroup.h"
 
 int main( int argc, char* args[] )
 {
@@ -22,22 +22,19 @@ int main( int argc, char* args[] )
 
 		SDL_RenderPresent(gRenderer);
 
-		auto testUnit = new Enemy("monster1", "level1", 0);
-		for (auto i = 0; i < 10000; i++)
+		auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 10);
+		for (auto i = 0; i < 3000; i++)
 		{
 			//SDL_Delay(400);
-			testUnit->move();
+			testMonsterGroup->update();
 			SDL_RenderClear(gRenderer);
 			test->render();
-			testUnit->render();
+			testMonsterGroup->render();
 			SDL_RenderPresent(gRenderer);
-			if (testUnit->isDead())
-			{
-				break;
-			}
 			if (i % 60 == 0) printf("Second...\n");
+			if (testMonsterGroup->isDead()) break;
 		}
-		delete testUnit;
+		delete testMonsterGroup;
 		delete test;
 	}
 	
