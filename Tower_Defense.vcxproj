@@ -145,6 +145,7 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </ClCompile>
     <ClCompile Include="classes\Shot.cpp" />
+    <ClCompile Include="classes\Textures.cpp" />
     <ClCompile Include="classes\Tower.cpp" />
     <ClCompile Include="classes\Unit.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="headers\SDLMappy.h" />
     <ClInclude Include="headers\SDL_setup.h" />
     <ClInclude Include="headers\Shot.h" />
+    <ClInclude Include="headers\Textures.h" />
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\Unit.h" />
     <ClInclude Include="headers\Wave.h" />
