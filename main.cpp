@@ -22,8 +22,8 @@ int main( int argc, char* args[] )
 
 		SDL_RenderPresent(gRenderer);
 
-		auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 10);
-		for (auto i = 0; i < 3000; i++)
+		auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 1, 3000);
+		for (auto i = 0; i < 4000; i++)
 		{
 			//SDL_Delay(400);
 			testMonsterGroup->update();
