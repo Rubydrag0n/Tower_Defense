@@ -7,7 +7,9 @@
 Unit::Unit(std::string unit_name) : mDefense(), mSprite(), mClips(), mSprite_dimensions()
 {
 	ConfigFile cf("config/game.cfg");
-	mSprite = gTextures->get_texture(unit_name);
+	//load path of the sprite
+	std::string path = cf.Value(unit_name + "/sprite", "path");
+	mSprite = gTextures->get_texture(path);	//set the pointer to the sprite
 
 	mSprite_dimensions.w = cf.Value(unit_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(unit_name + "/sprite", "image_height");

@@ -12,10 +12,10 @@ public:
 
 	//retrieving a texture
 	//will load the texture if it's not yet saved
-	SDL_Texture* get_texture(std::string name);
+	SDL_Texture* get_texture(std::string path);
 
 	//deletes a loaded texture with a given name
-	bool del_texture(std::string name);
+	bool del_texture(std::string path);
 
 private:
 	//stores the unit name strings and the associated sprite

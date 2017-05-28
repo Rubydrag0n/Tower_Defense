@@ -1,6 +1,5 @@
 #include "Textures.h"
 #include "SDL_setup.h"
-#include "ConfigFile.h"
 
 
 Textures::Textures() : mContent{}
@@ -10,17 +9,19 @@ Textures::Textures() : mContent{}
 
 Textures::~Textures()
 {
+	for (auto iter = mContent.begin(); iter != mContent.end(); ++iter)
+	{
+		//Getting rid of all the left textures
+		SDL_DestroyTexture(iter->second);
+	}
+	//empty the map itself
 	mContent.clear();
 }
 
-SDL_Texture* Textures::get_texture(std::string name)
+SDL_Texture* Textures::get_texture(std::string path)
 {
-	ConfigFile cf("config/game.cfg");
-	//load the path from the config file
-	std::string path = cf.Value(name + "/sprite", "path");
-
-	//search for the name as key
-	auto it = mContent.find(name);
+	//search for the path as key
+	auto it = mContent.find(path);
 	if (it != mContent.end())	//if the name is found -> it's already loaded
 	{
 		return it->second;		//return the actual pointer to the SDL_Texture
@@ -29,14 +30,14 @@ SDL_Texture* Textures::get_texture(std::string name)
 	//if not yet loaded -> load now
 
 	auto tex = loadTexture(path);	//load texture
-	mContent.insert(std::pair<std::string, SDL_Texture*>(name, tex));	//insert key and value in the map
+	mContent.insert(std::pair<std::string, SDL_Texture*>(path, tex));	//insert key and value in the map
 
 	return tex;
 }
 
-bool Textures::del_texture(std::string name)
+bool Textures::del_texture(std::string path)
 {
-	auto it = mContent.find(name);
+	auto it = mContent.find(path);
 	if (it != mContent.end())
 	{
 		//deallocate memory
