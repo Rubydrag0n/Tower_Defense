@@ -19,6 +19,10 @@ Window::Window(SDL_Rect dim, STYLE style)
 	mCorner_height = cf.Value(category, "corner_height");
 	mCorner_width = cf.Value(category, "corner_width");
 	mBorder_thickness = cf.Value(category, "border_thickness");
+
+	mR = cf.Value(category, "backgroundcolorred");
+	mG = cf.Value(category, "backgroundcolorgreen");
+	mB = cf.Value(category, "backgroundcolorblue");
 }
 
 Window::~Window()
@@ -28,15 +32,24 @@ Window::~Window()
 
 void Window::render() const
 {
-	//TODO: Draw the background first
-	
 	SDL_Rect dest;
+	dest.w = mDim.w;
+	dest.h = mDim.h;
+
+	dest.x = mDim.x;
+	dest.y = mDim.y;
+
+	SDL_SetRenderDrawColor(gRenderer, mR, mG, mB, 255);
+	SDL_RenderFillRect(gRenderer, &dest);
+
+
 	dest.w = mCorner_width;
 	dest.h = mCorner_height;
 
-	//draw the four corners
 	dest.x = mDim.x;
 	dest.y = mDim.y;
+
+	//draw the four corners
 	SDL_RenderCopy(gRenderer, mTlcorner, nullptr, &dest);
 	dest.x = mDim.x + mDim.w - mCorner_width;
 	SDL_RenderCopy(gRenderer, mTrcorner, nullptr, &dest);

@@ -35,4 +35,8 @@ private:
 	int mCorner_width;
 	int mCorner_height;
 	int mBorder_thickness;
+
+	int mR;
+	int mG;
+	int mB;
 };
