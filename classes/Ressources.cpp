@@ -13,7 +13,6 @@ Ressources::Ressources()
 	mFood = 0;
 }
 
-
 Ressources::Ressources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
 	mGold = gold;

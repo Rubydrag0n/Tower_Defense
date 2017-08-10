@@ -1,4 +1,5 @@
 #include "Unit.h"
+#include "Textures.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 
@@ -6,7 +7,9 @@
 Unit::Unit(std::string unit_name) : mDefense(), mSprite(), mClips(), mSprite_dimensions()
 {
 	ConfigFile cf("config/game.cfg");
-	mSprite = loadTexture(cf.Value(unit_name+"/sprite", "path"));
+	//load path of the sprite
+	std::string path = cf.Value(unit_name + "/sprite", "path");
+	mSprite = gTextures->get_texture(path);	//set the pointer to the sprite
 
 	mSprite_dimensions.w = cf.Value(unit_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(unit_name + "/sprite", "image_height");
@@ -56,7 +59,7 @@ Unit::Unit(std::string unit_name) : mDefense(), mSprite(), mClips(), mSprite_dim
 
 Unit::~Unit()
 {
-	SDL_DestroyTexture(mSprite);
+	//Don't destroy texture here, that is handled by the Textures class
 }
 
 void Unit::render()

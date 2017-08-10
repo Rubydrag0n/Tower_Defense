@@ -6,10 +6,13 @@
 #include <ctime>
 #include "SDL_setup.h"
 #include "ConfigFile.h"
+#include "Textures.h"
 
 SDL_Renderer* gRenderer = nullptr;
 
 SDL_Window* gWindow = nullptr;
+
+Textures* gTextures = nullptr;
 
 SDL_Texture* loadTexture(std::string path)
 {
@@ -108,6 +111,9 @@ bool initGraphics()
 			}
 		}
 	}
+
+	//initialize Textures Object
+	gTextures = new Textures();
 
 	return success;
 }
