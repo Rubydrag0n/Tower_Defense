@@ -158,6 +158,9 @@
     <ClInclude Include="headers\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Clickable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="config\game.cfg">

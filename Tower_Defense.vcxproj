@@ -156,6 +156,7 @@
     <ClInclude Include="headers\Building.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\Chameleon.h" />
+    <ClInclude Include="headers\Clickable.h" />
     <ClInclude Include="headers\ConfigFile.h" />
     <ClInclude Include="headers\Damage.h" />
     <ClInclude Include="headers\Defense.h" />
