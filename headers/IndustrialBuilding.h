@@ -4,7 +4,7 @@ class IndustrialBuilding :
 	public Building
 {
 public:
-	IndustrialBuilding();
+	IndustrialBuilding(std::string industrialBuilding_name);
 	~IndustrialBuilding();
 };
 
