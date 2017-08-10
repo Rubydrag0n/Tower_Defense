@@ -5,6 +5,8 @@
 #include "Map.h"
 #include "Unit.h"
 #include "MonsterGroup.h"
+#include "Window.h"
+#include "Tower.h"
 
 int main( int argc, char* args[] )
 {

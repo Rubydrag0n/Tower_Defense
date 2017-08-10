@@ -3,16 +3,17 @@
 #include "SDL_setup.h"
 
 
-Building::Building(std::string building_name)
+Building::Building(std::string building_name, SDL_Point coords)
 {
 	ConfigFile cf("config/game.cfg");
 	mSprite = loadTexture(cf.Value(building_name + "/sprite", "path"));
 	mSprite_dimensions.w = cf.Value(building_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(building_name + "/sprite", "image_height");
-	 
+
 
 	mPosition.x = 0;
 	mPosition.y = 0;
+}
 
 Building::Building()
 {
