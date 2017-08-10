@@ -2,7 +2,7 @@
 
 
 
-IndustrialBuilding::IndustrialBuilding(std::string industrialBuilding_name) : Building(industrialBuilding_name)
+IndustrialBuilding::IndustrialBuilding(std::string industrialBuilding_name, SDL_Point coords) : Building(industrialBuilding_name, coords)
 {
 
 }
