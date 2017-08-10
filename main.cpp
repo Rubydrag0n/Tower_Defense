@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Unit.h"
 #include "MonsterGroup.h"
+#include "Tower.h"
 
 int main( int argc, char* args[] )
 {
@@ -19,17 +20,21 @@ int main( int argc, char* args[] )
 		SDL_RenderClear(gRenderer);
 
 		test->render();
-
+		
 		SDL_RenderPresent(gRenderer);
-
-		auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 70, 20);
-		for (auto i = 0; i < 3500; i++)
+		SDL_Point coords;
+		coords.x = 100;
+		coords.y = 100;
+		auto testTower = new Tower("tower1", coords);
+		auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 10);
+		for (auto i = 0; i < 3000; i++)
 		{
 			//SDL_Delay(400);
 			testMonsterGroup->update();
 			SDL_RenderClear(gRenderer);
 			test->render();
 			testMonsterGroup->render();
+			testTower->render();
 			SDL_RenderPresent(gRenderer);
 			if (i % 60 == 0) printf("Second...\n");
 			if (testMonsterGroup->isDead()) break;

@@ -17,7 +17,7 @@ public:
 	//updates the monster group: looks if anyone has died, spawns new monsters in the given intervals
 	//also moves all its monsters
 	void update();
-	//renders all the montsers in this group
+	//renders all the monsters in this group
 	void render();
 	//returns if every unit of this monstergroup
 	bool isDead();
