@@ -14,20 +14,15 @@ Building::Building(std::string building_name)
 	mPosition.x = 0;
 	mPosition.y = 0;
 
-	SDL_SetTextureBlendMode(mSprite, SDL_BLENDMODE_BLEND);
-
+Building::Building()
+{
 }
 
-
-Building::~Building()
+void Building::set_construction_costs(Ressources cost)
 {
-	SDL_DestroyTexture(mSprite);
+	mConstruction_costs = cost;
 }
 
-void Building::render()
+void Building::set_maintenance(Ressources new_maintenance)
 {
-	SDL_Rect dest;
-	dest.x = mPosition.x;
-	dest.y = mPosition.y;
-	SDL_RenderCopy(gRenderer, mSprite, nullptr, &dest);
 }
