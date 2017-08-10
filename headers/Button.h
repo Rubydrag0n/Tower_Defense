@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
 #include "LTexture.h"
-#include "Clickable.h"
 
 enum LButtonSprite
 {
@@ -12,7 +11,7 @@ enum LButtonSprite
 	BUTTON_SPRITE_TOTAL = 4
 };
 
-class Button : Clickable
+class Button
 {
 public:
 	Button();
@@ -28,7 +27,7 @@ public:
 	void setSpriteClips(SDL_Rect *clips);
 
 	//Handles mouse event
-	void handleEvent(SDL_Event* e) override;
+	void handleEvent(SDL_Event* e);
 
 	//Shows button sprite
 	void render();
