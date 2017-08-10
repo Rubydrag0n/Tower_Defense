@@ -22,9 +22,10 @@ int main( int argc, char* args[] )
 		test->render();
 		
 		SDL_RenderPresent(gRenderer);
-
-		auto testTower = new Tower("tower1");
-		testTower->placeTower(500, 500);
+		SDL_Point coords;
+		coords.x = 100;
+		coords.y = 100;
+		auto testTower = new Tower("tower1", coords);
 		auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 10);
 		for (auto i = 0; i < 3000; i++)
 		{
