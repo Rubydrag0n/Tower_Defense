@@ -31,6 +31,8 @@ Enemy::Enemy(std::string monster_name, std::string level, int way) : Unit(monste
 }
 
 
+
+
 Enemy::~Enemy()
 {
 }
@@ -107,4 +109,14 @@ void Enemy::got_through()
 bool Enemy::isDead() const
 {
 	return mDead;
+}
+
+Defense Enemy::get_defense()
+{
+	return mDefense;
+}
+
+SDL_Point Enemy::get_position()
+{
+	return mPosition;
 }

@@ -70,3 +70,9 @@ bool MonsterGroup::isDead()
 	//otherwise
 	return false;
 }
+
+std::vector<Enemy*> MonsterGroup::get_monsters()
+{
+	return mMonsters;
+}
+

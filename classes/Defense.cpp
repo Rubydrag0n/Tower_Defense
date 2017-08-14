@@ -1,4 +1,6 @@
 #include "Defense.h"
+#include <ostream>
+#include <iostream>
 
 Defense::Defense()
 {
@@ -127,6 +129,7 @@ bool Defense::take_damage(Damage *dmg)
 	if (mElec_immune) elec_dmg = 0.0;
 
 	auto total_dmg = phys_dmg + magic_dmg + fire_dmg + water_dmg + elec_dmg;
+	std::cout << "total_dmg " << total_dmg << std::endl;
 
 	auto killed = false;
 

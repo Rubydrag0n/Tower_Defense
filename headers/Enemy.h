@@ -9,6 +9,8 @@ public:
 
 	void move();
 	void got_through();
+	Defense get_defense();
+	SDL_Point get_position();
 
 	bool isDead() const;
 

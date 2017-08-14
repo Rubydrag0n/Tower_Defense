@@ -21,6 +21,8 @@ public:
 	//returns if every unit of this monstergroup
 	bool isDead();
 
+	std::vector<Enemy*> get_monsters();
+
 private:
 	//the amount of monsters coming in this group
 	int mMax_monster_count;
