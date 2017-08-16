@@ -9,7 +9,7 @@
 Shot::Shot(std::string projectile_name, Tower tower, double projectile_speed, Enemy *enemy_to_shot)
 {
 	ConfigFile cf("config/game.cfg");
-	mSprite = loadTexture(cf.Value(projectile_name + "/sprite", "path"));
+	mSprite =gTextures->get_texture(cf.Value(projectile_name + "/sprite", "path"));
 	mSprite_dimensions.w = cf.Value(projectile_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(projectile_name + "/sprite", "image_height");
 	mCoords = tower.get_coords();
@@ -77,7 +77,3 @@ Enemy Shot::get_enemy_to_shot()
 {
 	return *mEnemy_to_shot;
 }
-
-
-
-

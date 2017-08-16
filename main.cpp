@@ -14,10 +14,14 @@ int main( int argc, char* args[] )
 	else
 	{
 		auto game = new Game();
+
 		game->start_game();
+		
+		delete game;
 	}
 	
 	SDL_Delay(1000);
+
 	
 
 	return 0;

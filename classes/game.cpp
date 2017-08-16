@@ -47,6 +47,7 @@ void Game::start_game()
 	}
 	delete testMonsterGroup;
 	delete test;
+	delete testTower;
 }
 
 void Game::add_enemies(std::vector<Enemy*> enemies)

@@ -38,30 +38,33 @@ void Tower::render()
 
 void Tower::update(std::vector<Enemy*> all_enemies)
 {
-	if(mElapsed_ticks == 0)
+	if (mElapsed_ticks == 0)
 	{
 		while (!all_enemies.empty())
 		{
 			if (enemy_in_range(all_enemies.at(0)))
 			{
-				
+
 				auto shot = new Shot(mProjectile_name, *this, mProjectile_speed, all_enemies.at(0));
 				std::cout << "new shot" << std::endl;
 				mShots.push_back(shot);
+				mElapsed_ticks = mAttack_cooldown;
 			}
 			all_enemies.erase(all_enemies.begin());
 		}
-		this->shot();
-		return;
 	}
-	mElapsed_ticks--;
+	else 
+	{
+		mElapsed_ticks--;
+	}
+	this->shot();
 }
 
 bool Tower::enemy_in_range(Enemy* enemy)
 {
 	auto x_div = mCoords.x - enemy->get_position().x;
 	auto y_div = mCoords.y - enemy->get_position().y;
-	auto dist_to_enemy = x_div * x_div + y_div * y_div;
+	double dist_to_enemy = x_div * x_div + y_div * y_div;
 	dist_to_enemy = sqrt(dist_to_enemy);
 	if(dist_to_enemy <= mRange)
 	{
@@ -73,7 +76,6 @@ bool Tower::enemy_in_range(Enemy* enemy)
 //all projectiles, that are fired from this tower are updated
 void Tower::shot()
 { 
-	mElapsed_ticks = mAttack_cooldown;
 	for(auto i=0; i<mShots.size(); i++ )
 	{
 		std::cout << mShots[i] << std::endl;
@@ -87,7 +89,3 @@ void Tower::shot()
 		}
 	}
 }
-
-
-
-
