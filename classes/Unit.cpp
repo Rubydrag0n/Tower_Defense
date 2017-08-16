@@ -4,7 +4,7 @@
 #include "SDL_setup.h"
 
 
-Unit::Unit(std::string unit_name) : mDefense(), mSprite(), mClips(), mSprite_dimensions()
+Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 {
 	ConfigFile cf("config/game.cfg");
 	//load path of the sprite

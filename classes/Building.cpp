@@ -1,6 +1,7 @@
 #include "Building.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
+#include <SDL.h>
 
 
 Building::Building(std::string building_name, SDL_Point coords)
@@ -20,8 +21,16 @@ Building::~Building()
 
 void Building::render()
 {
-	
+	SDL_Rect dest;
+	dest.x = mCoords.x - mSprite_dimensions.w / 2;
+	dest.y = mCoords.y - mSprite_dimensions.h / 2;
+	dest.w = mSprite_dimensions.w;
+	dest.h = mSprite_dimensions.h;
+
+	SDL_RenderCopy(gRenderer, mSprite, NULL, &dest);
+
 }
+
 void Building::set_construction_costs(Ressources costs)
 {
 	mConstruction_costs = costs;
@@ -36,7 +45,6 @@ void Building::set_coords(SDL_Point coords)
 {
 	mCoords = coords;
 }
-
 
 SDL_Point Building::get_coords() const
 {

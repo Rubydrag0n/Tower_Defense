@@ -1,5 +1,7 @@
 #pragma once
 #include "Building.h"
+#include <SDL.h>
+
 class Tower : 
 	public Building
 {
