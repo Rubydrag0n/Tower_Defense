@@ -1,7 +1,6 @@
 #pragma once
 #include "Defense.h"
 #include <SDL.h>
-#include <string>
 #include <vector>
 
 //The numbers are the rowpositions of the rotations in the sprite image

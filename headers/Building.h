@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <SDL.h>
 #include "Ressources.h"
 #include <vector>
@@ -11,11 +10,13 @@ public:
 	~Building();
 
 	void render();
+	void select();
+	void place();
+
 	SDL_Point get_coords() const;
 	Ressources get_construction_costs() const;
 	Ressources get_maintenance() const;
 	void set_coords(SDL_Point coords);
-	void set_construction_costs(Ressources costs);
 	void set_maintenance(Ressources maintenance);
 
 protected:
@@ -24,7 +25,6 @@ protected:
 	Ressources mMaintenance;
 	SDL_Texture *mSprite;
 	SDL_Rect mSprite_dimensions;
-	SDL_Rect mClip;
 };
 
 
