@@ -120,3 +120,14 @@ SDL_Point Enemy::get_position()
 {
 	return mPosition;
 }
+
+bool Enemy::take_damage(Damage *dmg)
+{
+	if(mDefense.take_damage(dmg))
+	{
+		mDead = true;
+		return true;
+	}
+	return false;
+}
+

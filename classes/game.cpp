@@ -27,20 +27,24 @@ void Game::start_game()
 	SDL_Point coords;
 	coords.x = 600;
 	coords.y = 600;
+	auto testTower1 = new Tower("tower1", coords);
+	coords.y = 300;
 	auto testTower = new Tower("tower1", coords);
 	//add_tower(*testTower);
-	auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 1);
+	auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 10);
 	for (auto i = 0; i < 3000; i++)
 	{
-		//SDL_Delay(400);
+		//SDL_Delay(100);
 		mAll_enemies.clear();
 		testMonsterGroup->update();
 		add_enemies(testMonsterGroup->get_monsters());
 		testTower->update(mAll_enemies);
+		testTower1->update(mAll_enemies);
 		SDL_RenderClear(gRenderer);
 		test->render();
 		testMonsterGroup->render();
 		testTower->render();
+		testTower1->render();
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0) printf("Second...\n");
 		if (testMonsterGroup->isDead()) break;

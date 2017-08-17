@@ -148,6 +148,7 @@
     <ClCompile Include="classes\Button.cpp" />
     <ClCompile Include="classes\Chameleon.cpp" />
     <ClCompile Include="classes\ConfigFile.cpp" />
+    <ClCompile Include="classes\CoordinatesInDouble.cpp" />
     <ClCompile Include="classes\Damage.cpp" />
     <ClCompile Include="classes\Defense.cpp" />
     <ClCompile Include="classes\Enemy.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\Chameleon.h" />
     <ClInclude Include="headers\ConfigFile.h" />
+    <ClInclude Include="headers\CoordinatesInDouble.h" />
     <ClInclude Include="headers\Damage.h" />
     <ClInclude Include="headers\Defense.h" />
     <ClInclude Include="headers\Enemy.h" />

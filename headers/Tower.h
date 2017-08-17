@@ -11,7 +11,7 @@ public:
 	Tower(std::string tower_name, SDL_Point coords);
 	~Tower();
 
-	void shot();
+	void shoot();
 	void update(std::vector<Enemy*> all_enemies);
 	bool enemy_in_range(Enemy* enemy);
 	void render();

@@ -40,13 +40,11 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 {
 	if (mElapsed_ticks == 0)
 	{
-		while (!all_enemies.empty())
+		while (!all_enemies.empty() && mElapsed_ticks == 0)
 		{
 			if (enemy_in_range(all_enemies.at(0)))
 			{
-
-				auto shot = new Shot(mProjectile_name, *this, mProjectile_speed, all_enemies.at(0));
-				std::cout << "new shot" << std::endl;
+				auto shot = new Shot(mProjectile_name, this, mProjectile_speed, all_enemies.at(0));
 				mShots.push_back(shot);
 				mElapsed_ticks = mAttack_cooldown;
 			}
@@ -57,7 +55,7 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 	{
 		mElapsed_ticks--;
 	}
-	this->shot();
+	this->shoot();
 }
 
 bool Tower::enemy_in_range(Enemy* enemy)
@@ -74,16 +72,20 @@ bool Tower::enemy_in_range(Enemy* enemy)
 }
 
 //all projectiles, that are fired from this tower are updated
-void Tower::shot()
+void Tower::shoot()
 { 
 	for(auto i=0; i<mShots.size(); i++ )
 	{
 		std::cout << mShots[i] << std::endl;
+		if(mShots[i]->get_enemy_to_shoot()->isDead())
+		{
+			delete mShots[i];
+			mShots.erase(mShots.begin() + i);
+			continue;
+		}
 		if (mShots[i]->follow())
 		{
-			std::cout << "Health: " << mShots[i]->get_enemy_to_shot().get_defense().get_health();
-			mShots[i]->get_enemy_to_shot().get_defense().take_damage(&mDamage);
-			std::cout << "Health: " << mShots[i]->get_enemy_to_shot().get_defense().get_health();
+			mShots[i]->get_enemy_to_shoot()->take_damage(&mDamage);
 			delete mShots[i];
 			mShots.erase(mShots.begin() + i);
 		}

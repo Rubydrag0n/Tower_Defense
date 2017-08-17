@@ -11,6 +11,7 @@ public:
 	void got_through();
 	Defense get_defense();
 	SDL_Point get_position();
+	bool take_damage(Damage *dmg);
 
 	bool isDead() const;
 

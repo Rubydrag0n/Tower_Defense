@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Game.h"
 
+
 int main( int argc, char* args[] )
 {
 	if (!initGraphics())
