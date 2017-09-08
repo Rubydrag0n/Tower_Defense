@@ -7,10 +7,11 @@
  * describing in what intervals they are spawning
  * Is used in "Wave"
  */
+
 class MonsterGroup
 {
 public:
-	MonsterGroup(std::string monster_name, std::string level, int way, int delay_ticks, int monster_count);
+	MonsterGroup(std::string level, std::string wave_number, std::string monster_group_number, Level* Level);
 	~MonsterGroup();
 
 	//updates the monster group: looks if anyone has died, spawns new monsters in the given intervals
@@ -39,4 +40,5 @@ private:
 	int mElapsed_ticks;
 	//vector actually storing the generated monsters
 	std::vector<Enemy*> mMonsters;
+	Level* mlevel;
 };

@@ -4,6 +4,7 @@
 
 Defense::Defense()
 {
+	mFull_health = 0.0;
 	mHealth = 0.0;
 	mArmor = 0.0;
 	mMagic_res = 0.0;
@@ -19,6 +20,7 @@ Defense::Defense()
 
 Defense::Defense(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res)
 {
+	mFull_health = health;
 	mHealth = health;
 	mArmor = armor;
 	mMagic_res = magic_res;
@@ -34,6 +36,7 @@ Defense::Defense(double health, double armor, double magic_res, double fire_res,
 
 void Defense::set_defenses(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res)
 {
+	mFull_health = health;
 	mHealth = health;
 	mArmor = armor;
 	mMagic_res = magic_res;
@@ -59,6 +62,16 @@ void Defense::set_health(double health)
 double Defense::get_health() const
 {
 	return mHealth;
+}
+
+void Defense::set_full_health(double health)
+{
+	mFull_health = health;
+}
+
+double Defense::get_full_health() const
+{
+	return mFull_health;
 }
 
 void Defense::set_armor(double armor)
@@ -129,11 +142,10 @@ bool Defense::take_damage(Damage *dmg)
 	if (mElec_immune) elec_dmg = 0.0;
 
 	auto total_dmg = phys_dmg + magic_dmg + fire_dmg + water_dmg + elec_dmg;
-	std::cout << "total_dmg " << total_dmg << std::endl;
 
 	auto killed = false;
 
-	if (total_dmg > mHealth)
+	if (total_dmg >= mHealth)
 	{
 		mHealth = 0.0;
 		killed = true;

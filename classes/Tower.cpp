@@ -76,7 +76,6 @@ void Tower::shoot()
 { 
 	for(auto i=0; i<mShots.size(); i++ )
 	{
-		std::cout << mShots[i] << std::endl;
 		if(mShots[i]->get_enemy_to_shoot()->isDead())
 		{
 			delete mShots[i];

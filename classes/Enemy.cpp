@@ -1,11 +1,14 @@
 #include "../headers/Enemy.h"
 #include "ConfigFile.h"
+#include "SDL_setup.h"
+#include <iostream>
+#include "Level.h"
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(std::string monster_name, std::string level, int way) : Unit(monster_name)
+Enemy::Enemy(std::string monster_name, std::string level, int way, Level* Level) : Unit(monster_name)
 {
 	ConfigFile cf("config/game.cfg");
-	
+	mLevel = Level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	auto s_way = std::to_string(way);
 	printf("reading checkpointnumber...\n");
@@ -103,7 +106,9 @@ void Enemy::got_through()
 {
 	//TODO: Remove Life or something
 	//kill the unit
+	mLevel->set_lives(mLevel->get_lives() - 1);
 	mDead = true;
+	std::cout << "through: " << mLevel->get_lives() << std::endl;
 }
 
 bool Enemy::isDead() const
@@ -129,5 +134,23 @@ bool Enemy::take_damage(Damage *dmg)
 		return true;
 	}
 	return false;
+}
+
+void Enemy::render()
+{
+	Unit::render();
+	SDL_Rect full_health;
+	full_health.x = mPosition.x - mCurrent_clip.w / 2;
+	full_health.y = mPosition.y - mCurrent_clip.h / 2;
+	full_health.w = mCurrent_clip.w;
+	full_health.h = 20;
+
+	SDL_Rect current_health = full_health;
+	current_health.w = mCurrent_clip.w * (this->get_defense().get_health()/this->get_defense().get_full_health());
+	
+	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+	SDL_RenderFillRect(gRenderer, &full_health);
+	SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
+	SDL_RenderFillRect(gRenderer, &current_health);
 }
 
