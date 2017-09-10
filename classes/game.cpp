@@ -36,11 +36,11 @@ void Game::start_game()
 		mAll_enemies.clear();
 		testMonsterGroup->update();
 		add_enemies(testMonsterGroup->get_monsters());
-		testTower->update(mAll_enemies);
 		SDL_RenderClear(gRenderer);
 		test->render();
 		testMonsterGroup->render();
 		testTower->render();
+		testTower->update(mAll_enemies);
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0) printf("Second...\n");
 		if (testMonsterGroup->isDead()) break;

@@ -45,7 +45,7 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 			if (enemy_in_range(all_enemies.at(0)))
 			{
 
-				auto shot = new Shot(mProjectile_name, *this, mProjectile_speed, all_enemies.at(0));
+				auto shot = new Shot(mProjectile_name, this, mProjectile_speed, all_enemies.at(0));
 				std::cout << "new shot" << std::endl;
 				mShots.push_back(shot);
 				mElapsed_ticks = mAttack_cooldown;

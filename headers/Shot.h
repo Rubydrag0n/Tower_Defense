@@ -6,7 +6,7 @@ class Tower;
 class Shot
 {
 public:
-	Shot(std::string shot_name, Tower tower, double projectile_speed, Enemy *enemy_to_shot);
+	Shot(std::string shot_name, Tower *tower, double projectile_speed, Enemy *enemy_to_shot);
 	~Shot();
 	
 	void render();
