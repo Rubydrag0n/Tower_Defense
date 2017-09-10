@@ -1,7 +1,14 @@
 #pragma once
+#include "Level.h"
+
 class Menu
 {
 public:
-	Menu();
+	Menu(Level *level);
 	~Menu();
+
+	void render();
+
+private:
+	Level *mLevel;
 };

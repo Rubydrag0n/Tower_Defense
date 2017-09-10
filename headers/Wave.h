@@ -4,7 +4,7 @@
 class Wave
 {
 public:
-	Wave(std::string level_number, std::string wave_number, Level* level);
+	Wave(std::string wave_number, Level* level);
 	~Wave();
 
 	void update();

@@ -11,7 +11,7 @@
 class MonsterGroup
 {
 public:
-	MonsterGroup(std::string level, std::string wave_number, std::string monster_group_number, Level* Level);
+	MonsterGroup(std::string wave_number, std::string monster_group_number, Level* Level);
 	~MonsterGroup();
 
 	//updates the monster group: looks if anyone has died, spawns new monsters in the given intervals
@@ -33,12 +33,11 @@ private:
 	int mDead_monsters;
 	//to load the right stats etc. for the monsters
 	std::string mMonster_name;
-	std::string mLevel;
 	int mWay;
 	//the delay between each new monster of this group
 	int mDelay_ticks;
 	int mElapsed_ticks;
 	//vector actually storing the generated monsters
 	std::vector<Enemy*> mMonsters;
-	Level* mlevel;
+	Level* mLevel;
 };

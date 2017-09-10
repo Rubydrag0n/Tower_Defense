@@ -7,6 +7,7 @@
 #include "Tower.h"
 #include <iostream>
 #include "Level.h"
+#include "Button.h"
 
 Game::Game()
 {
@@ -28,12 +29,10 @@ void Game::start_game()
 	SDL_Point coords;
 	coords.x = 600;
 	coords.y = 600;
-	auto testTower1 = new Tower("tower1", coords);
-	coords.y = 300;
-	//auto testTower = new Tower("tower1", coords);
-	//add_tower(*testTower);
+	
+
 	auto testLevel = new Level("1");
-	//auto testLevel = new Level("1");
+	auto testTower1 = new Tower("tower1", coords, testLevel);
 
 	for (auto i = 0; i < 300000; i++)
 	{
@@ -49,12 +48,10 @@ void Game::start_game()
 			}
 		}
 
-		//testTower->update(mAll_enemies);
 		testTower1->update(mAll_enemies);
 		SDL_RenderClear(gRenderer);
 		testMap->render();
 		testLevel->render();
-		//testTower->render();
 		testTower1->render();
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0) printf("Second...\n");
@@ -73,7 +70,6 @@ void Game::start_game()
 	}
 	delete testLevel;
 	delete testMap;
-	//delete testTower;
 }
 
 void Game::add_enemies(std::vector<Enemy*> enemies)

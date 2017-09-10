@@ -8,7 +8,7 @@ class Enemy :
 	public Unit
 {
 public:
-	Enemy(std::string monster_name, std::string level, int way, Level* Level);
+	Enemy(std::string monster_name, int way, Level* Level);
 	~Enemy();
 
 	void move();

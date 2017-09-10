@@ -2,15 +2,19 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include <SDL.h>
+#include "Level.h"
 
 
-Building::Building(std::string building_name, SDL_Point coords)
+Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
 	ConfigFile cf("config/game.cfg");
-	
+
+	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(cf.Value(building_name + "/sprite", "path"));
 	mSprite_dimensions.w = cf.Value(building_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(building_name + "/sprite", "image_height");
+
+	//set the construction costs of the building
 	mConstruction_costs.set_ressources(cf.Value(building_name + "/stats", "goldcosts"),
 									   cf.Value(building_name + "/stats", "woodcosts"),
 									   cf.Value(building_name + "/stats", "stonecosts"),
@@ -18,6 +22,8 @@ Building::Building(std::string building_name, SDL_Point coords)
 									   cf.Value(building_name + "/stats", "energycosts"),
 									   cf.Value(building_name + "/stats", "watercosts"),
 									   cf.Value(building_name + "/stats", "foodcosts"));
+
+	//set the maintenance costs of the building
 	mMaintenance.set_ressources(cf.Value(building_name + "/stats", "goldMain"),
 		cf.Value(building_name + "/stats", "woodMain"),
 		cf.Value(building_name + "/stats", "stoneMain"),
@@ -26,7 +32,7 @@ Building::Building(std::string building_name, SDL_Point coords)
 		cf.Value(building_name + "/stats", "waterMain"),
 		cf.Value(building_name + "/stats", "foodMain"));
 
-
+	mLevel = level;
 	set_coords(coords);
 }
 
@@ -35,6 +41,7 @@ Building::~Building()
 	SDL_DestroyTexture(mSprite);
 }
 
+//render the picture of the building
 void Building::render()
 {
 	SDL_Rect dest;
@@ -46,6 +53,11 @@ void Building::render()
 	SDL_RenderCopy(gRenderer, mSprite, &mSprite_dimensions, &dest);
 }
 
+void Building::update()
+{
+	mLevel->get_ressources().sub(&mMaintenance);
+}
+
 void Building::select()
 {
 	
@@ -53,7 +65,7 @@ void Building::select()
 
 void Building::place()
 {
-	
+	mLevel->get_ressources().sub(&mConstruction_costs);
 }
 
 

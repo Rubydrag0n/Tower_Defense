@@ -4,6 +4,7 @@
 #include "SDL_setup.h"
 #include "Map.h"
 #include "Game.h"
+#include <SDL_ttf.h>
 
 
 int main( int argc, char* args[] )

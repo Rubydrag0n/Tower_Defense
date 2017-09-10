@@ -5,20 +5,21 @@
 #include <iostream>
 
 
-Tower::Tower(std::string tower_name, SDL_Point coords) : Building(tower_name, coords)
+Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(tower_name, coords, level)
 {
 	ConfigFile cf("config/game.cfg");
 	mTower_name = tower_name;
-	mDamage.set_damages(cf.Value(tower_name + "/stats", "phys"),
-		cf.Value(tower_name + "/stats", "magic"),
-		cf.Value(tower_name + "/stats", "fire"),
-		cf.Value(tower_name + "/stats", "water"),
-		cf.Value(tower_name + "/stats", "elec"));
 
-	mRange = cf.Value(tower_name + "/stats", "range");
-	mAS = cf.Value(tower_name + "/stats", "attackspeed");
-	mProjectile_speed = cf.Value(tower_name + "/stats", "projectilespeed");
-	mProjectile_name.assign(cf.Value(tower_name + "/stats", "projectile_name"));
+	mDamage.set_damages(cf.Value(mTower_name + "/stats", "phys"),
+		cf.Value(mTower_name + "/stats", "magic"),
+		cf.Value(mTower_name + "/stats", "fire"),
+		cf.Value(mTower_name + "/stats", "water"),
+		cf.Value(mTower_name + "/stats", "elec"));
+
+	mRange = cf.Value(mTower_name + "/stats", "range");
+	mAS = cf.Value(mTower_name + "/stats", "attackspeed");
+	mProjectile_speed = cf.Value(mTower_name + "/stats", "projectilespeed");
+	mProjectile_name.assign(cf.Value(mTower_name + "/stats", "projectile_name"));
 	mAttack_cooldown = 60 / mAS;
 	mElapsed_ticks = 0;
 }
@@ -36,6 +37,7 @@ void Tower::render()
 	}
 }
 
+//checks if the tower can shoot at an enemy
 void Tower::update(std::vector<Enemy*> all_enemies)
 {
 	if (mElapsed_ticks == 0)
@@ -44,7 +46,7 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 		{
 			if (enemy_in_range(all_enemies.at(0)))
 			{
-				auto shot = new Shot(mProjectile_name, this, mProjectile_speed, all_enemies.at(0));
+				auto shot = new Shot(this, all_enemies.at(0));
 				mShots.push_back(shot);
 				mElapsed_ticks = mAttack_cooldown;
 			}
@@ -58,12 +60,12 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 	this->shoot();
 }
 
+//checks if an enemy is in range of the tower
 bool Tower::enemy_in_range(Enemy* enemy)
 {
 	auto x_div = mCoords.x - enemy->get_position().x;
 	auto y_div = mCoords.y - enemy->get_position().y;
-	double dist_to_enemy = x_div * x_div + y_div * y_div;
-	dist_to_enemy = sqrt(dist_to_enemy);
+	double dist_to_enemy = sqrt(x_div * x_div + y_div * y_div);
 	if(dist_to_enemy <= mRange)
 	{
 		return true;
@@ -90,3 +92,14 @@ void Tower::shoot()
 		}
 	}
 }
+
+std::string Tower::get_projectile_name()
+{
+	return mProjectile_name;
+}
+
+double Tower::get_projectile_speed()
+{
+	return mProjectile_speed;
+}
+

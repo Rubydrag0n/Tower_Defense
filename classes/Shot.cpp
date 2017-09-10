@@ -7,30 +7,33 @@
 #include <math.h>
 
 
-Shot::Shot(std::string projectile_name, Tower* tower, double projectile_speed, Enemy *enemy_to_shot)
+Shot::Shot(Tower* tower, Enemy *enemy_to_shot)
 {
 	ConfigFile cf("config/game.cfg");
-	mSprite = gTextures->get_texture(cf.Value(projectile_name + "/sprite", "path"));
-	mSprite_dimensions.w = cf.Value(projectile_name + "/sprite", "image_width");
-	mSprite_dimensions.h = cf.Value(projectile_name + "/sprite", "image_height");
+
 	mCoords = tower->get_coords();
+	mProjectile_speed = tower->get_projectile_speed();
 	mCoords_in_double.x = mCoords.x;
 	mCoords_in_double.y = mCoords.y;
-	mProjectile_speed = projectile_speed;
 	mEnemy_to_shoot = enemy_to_shot;
+
+	mSprite = gTextures->get_texture(cf.Value(tower->get_projectile_name() + "/sprite", "path"));
+	mSprite_dimensions.w = cf.Value(tower->get_projectile_name() + "/sprite", "image_width");
+	mSprite_dimensions.h = cf.Value(tower->get_projectile_name() + "/sprite", "image_height");
 }
 
 Shot::~Shot()
 {
 }
 
+
 void Shot::render()
 {
 	double angle_in_rad = 0;
 	double x_d = mEnemy_to_shoot->get_position().x - mCoords.x;
 	double y_d = mEnemy_to_shoot->get_position().y - mCoords.y;
-	auto dist_to_enemy = x_d * x_d + y_d * y_d;
-	dist_to_enemy = sqrt(dist_to_enemy);
+	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
+
 	if(x_d < 0)
 	{
 		angle_in_rad = asin(-(y_d / dist_to_enemy));
@@ -47,6 +50,7 @@ void Shot::render()
 		}
 	}
 	double angle_in_deg = angle_in_rad / M_PI * 180;
+
 	SDL_Rect dest;
 	SDL_Point center;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
@@ -67,8 +71,7 @@ bool Shot::follow()
 	double x_d_abs = sqrt(x_d * x_d); //take the absolute value for further calculations
 	double y_d = mEnemy_to_shoot->get_position().y - mCoords.y;
 	double y_d_abs = sqrt(y_d * y_d); //same as above
-	auto dist_to_enemy = x_d * x_d + y_d * y_d;
-	dist_to_enemy = sqrt(dist_to_enemy);
+	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
 
 	if(dist_to_enemy < travel_dist)
 	{

@@ -1,19 +1,20 @@
 #include "MonsterGroup.h"
 #include "ConfigFile.h"
+#include "Level.h"
 #include <iostream>
 
-MonsterGroup::MonsterGroup(std::string level, std::string wave_number, std::string monster_group_number, Level* Level) : mMonsters()
+MonsterGroup::MonsterGroup(std::string wave_number, std::string monster_group_number, Level* Level) : mMonsters()
 {
 	ConfigFile cf("config/game.cfg");
-	mMonster_name.assign(cf.Value("monstergroup" + level + wave_number + monster_group_number, "monstername"));
-	mDelay_ticks = cf.Value("monstergroup" + level + wave_number + monster_group_number, "delay_ticks");
+	mLevel = Level;
 	mElapsed_ticks = 0;
-	mLevel = "level" + level;
-	mMax_monster_count = cf.Value("monstergroup" + level + wave_number + monster_group_number, "monster_count");
 	mCurrent_monster_count = 0;
-	mWay = cf.Value("monstergroup" + level + wave_number + monster_group_number, "way");
 	mDead_monsters = 0;
-	mlevel = Level;
+
+	mMonster_name.assign(cf.Value("monstergroup" + mLevel->mLevel_number + wave_number + monster_group_number, "monstername"));
+	mDelay_ticks = cf.Value("monstergroup" + mLevel->mLevel_number + wave_number + monster_group_number, "delay_ticks");
+	mMax_monster_count = cf.Value("monstergroup" + mLevel->mLevel_number + wave_number + monster_group_number, "monster_count");
+	mWay = cf.Value("monstergroup" + mLevel->mLevel_number + wave_number + monster_group_number, "way");
 }
 
 MonsterGroup::~MonsterGroup()
@@ -31,7 +32,7 @@ void MonsterGroup::update()
 	//whenever elapsed ticks is zero spawn new enemy copy
 	if (mElapsed_ticks == 0 && mCurrent_monster_count < mMax_monster_count)
 	{
-		auto new_enemy = new Enemy(mMonster_name, mLevel, mWay, mlevel);
+		auto new_enemy = new Enemy(mMonster_name, mWay, mLevel);
 		mMonsters.push_back(new_enemy);
 		mCurrent_monster_count++;
 	}

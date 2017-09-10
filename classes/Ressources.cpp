@@ -130,3 +130,14 @@ bool Ressources::sub(Ressources *cost)
 		return false;
 	}
 }
+
+void Ressources::add(Ressources *income)
+{
+	mGold += income->get_gold();
+	mWood += income->get_food();
+	mStone += income->get_stone();
+	mIron += income->get_iron();
+	mEnergy += income->get_energy();
+	mWater += income->get_water();
+	mFood += income->get_food();
+}
