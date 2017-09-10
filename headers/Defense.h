@@ -15,6 +15,8 @@ public:
 	void set_immunities(bool phys, bool magic, bool fire, bool water, bool elec);
 	void set_health(double health);
 	double get_health() const;
+	void set_full_health(double health);
+	double get_full_health() const;
 	void set_armor(double armor);
 	double get_armor() const;
 	void set_magic_res(double magic_res);
@@ -32,6 +34,7 @@ public:
 
 private:
 	double mHealth;
+	double mFull_health;
 
 	double mArmor;
 	double mMagic_res;

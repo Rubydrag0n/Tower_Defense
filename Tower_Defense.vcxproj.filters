@@ -84,6 +84,9 @@
     <ClCompile Include="classes\Textures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="classes\CoordinatesInDouble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Level.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\Textures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\CoordinatesInDouble.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

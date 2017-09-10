@@ -1,15 +1,18 @@
 #include "../headers/Enemy.h"
 #include "ConfigFile.h"
+#include "SDL_setup.h"
+#include <iostream>
+#include "Level.h"
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(std::string monster_name, std::string level, int way) : Unit(monster_name)
+Enemy::Enemy(std::string monster_name, int way, Level* Level) : Unit(monster_name)
 {
 	ConfigFile cf("config/game.cfg");
-	
+	mLevel = Level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	auto s_way = std::to_string(way);
 	printf("reading checkpointnumber...\n");
-	int checkpoint_number = cf.Value(level, "way" + s_way + "number_of_checkpoints");
+	int checkpoint_number = cf.Value("level" + mLevel->mLevel_number, "way" + s_way + "number_of_checkpoints");
 
 	for (auto i = 0; i < checkpoint_number; i++)
 	{
@@ -18,8 +21,8 @@ Enemy::Enemy(std::string monster_name, std::string level, int way) : Unit(monste
 		SDL_Point p;
 
 		printf("reading checkpoint %i\n", i);
-		p.x = cf.Value(level, "way" + s_way + "checkpoint" + number + "x");
-		p.y = cf.Value(level, "way" + s_way + "checkpoint" + number + "y");
+		p.x = cf.Value("level" + mLevel->mLevel_number, "way" + s_way + "checkpoint" + number + "x");
+		p.y = cf.Value("level" + mLevel->mLevel_number, "way" + s_way + "checkpoint" + number + "y");
 		//sorting the checkpoints into the array (they have to be in the right order)
 		mCheckpoints.push_back(p);
 	}
@@ -103,6 +106,7 @@ void Enemy::got_through()
 {
 	//TODO: Remove Life or something
 	//kill the unit
+	mLevel->set_lives(mLevel->get_lives() - 1);
 	mDead = true;
 }
 
@@ -120,3 +124,33 @@ SDL_Point Enemy::get_position()
 {
 	return mPosition;
 }
+
+bool Enemy::take_damage(Damage *dmg)
+{
+	if(mDefense.take_damage(dmg))
+	{
+		mDead = true;
+		return true;
+	}
+	return false;
+}
+
+//calls Unit::render() and shows the health bar with two rectangles
+void Enemy::render()
+{
+	Unit::render();
+	SDL_Rect full_health;
+	full_health.x = mPosition.x - mCurrent_clip.w / 2;
+	full_health.y = mPosition.y - mCurrent_clip.h / 2;
+	full_health.w = mCurrent_clip.w;
+	full_health.h = 20;
+
+	SDL_Rect current_health = full_health;
+	current_health.w = mCurrent_clip.w * (this->get_defense().get_health()/this->get_defense().get_full_health());
+	
+	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+	SDL_RenderFillRect(gRenderer, &full_health);
+	SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
+	SDL_RenderFillRect(gRenderer, &current_health);
+}
+

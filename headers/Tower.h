@@ -8,14 +8,16 @@ class Tower :
 	public Building
 {
 public:
-	Tower(std::string tower_name, SDL_Point coords);
+	Tower(std::string tower_name, SDL_Point coords, Level* level);
 	~Tower();
 
-	void shot();
+	void shoot();
 	void update(std::vector<Enemy*> all_enemies);
 	bool enemy_in_range(Enemy* enemy);
 	void render();
 
+	std::string get_projectile_name();
+	double get_projectile_speed();
 
 
 

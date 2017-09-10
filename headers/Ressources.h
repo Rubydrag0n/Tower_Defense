@@ -23,6 +23,7 @@ public:
 	int get_food() const;
 	
 	bool sub(Ressources *cost);
+	void add(Ressources *income);
 
 private:
 	int mGold;

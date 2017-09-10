@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include "Tower.h"
 #include <iostream>
+#include "Level.h"
+#include "Button.h"
 
 Game::Game()
 {
@@ -17,37 +19,57 @@ Game::~Game()
 
 void Game::start_game()
 {
-	auto test = new Map("level/Level1.FMP");
+	auto testMap = new Map("level/Level1.FMP");
 
 	SDL_RenderClear(gRenderer);
 
-	test->render();
+	testMap->render();
 
 	SDL_RenderPresent(gRenderer);
 	SDL_Point coords;
 	coords.x = 600;
 	coords.y = 600;
-	auto testTower = new Tower("tower1", coords);
-	//add_tower(*testTower);
-	auto testMonsterGroup = new MonsterGroup("monster1", "level1", 0, 100, 1);
-	for (auto i = 0; i < 3000; i++)
+	
+
+	auto testLevel = new Level("1");
+	auto testTower1 = new Tower("tower1", coords, testLevel);
+
+	for (auto i = 0; i < 300000; i++)
 	{
-		//SDL_Delay(400);
+		//SDL_Delay(100);
 		mAll_enemies.clear();
-		testMonsterGroup->update();
-		add_enemies(testMonsterGroup->get_monsters());
+		testLevel->update();
+		//add all enemies for every wave every monstergroup in the level
+		for(int n = 0; n < testLevel->get_waves_count(); n++)
+		{
+			for(int m = 0; m < testLevel->get_waves()->at(n).get_monster_group_count(); m++)
+			{
+				add_enemies(testLevel->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
+			}
+		}
+
+		testTower1->update(mAll_enemies);
 		SDL_RenderClear(gRenderer);
-		test->render();
-		testMonsterGroup->render();
-		testTower->render();
-		testTower->update(mAll_enemies);
+		testMap->render();
+		testLevel->render();
+		testTower1->render();
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0) printf("Second...\n");
-		if (testMonsterGroup->isDead()) break;
+		if (testLevel->isDead())
+		{
+			std::cout << "all enemies dead" << std::endl;
+			SDL_Delay(10000);
+			break;
+		}
+		if (testLevel->noLives()) 
+		{
+			std::cout << "no lives" << std::endl;
+			SDL_Delay(10000);
+			break;
+		}
 	}
-	delete testMonsterGroup;
-	delete test;
-	delete testTower;
+	delete testLevel;
+	delete testMap;
 }
 
 void Game::add_enemies(std::vector<Enemy*> enemies)
