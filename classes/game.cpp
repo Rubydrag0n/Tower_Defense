@@ -8,6 +8,8 @@
 #include <iostream>
 #include "Level.h"
 #include "Button.h"
+#include "Menu.h"
+
 
 Game::Game()
 {
@@ -33,6 +35,7 @@ void Game::start_game()
 
 	auto testLevel = new Level("1");
 	auto testTower1 = new Tower("tower1", coords, testLevel);
+	auto testMenu = new Menu(testLevel);
 
 	for (auto i = 0; i < 300000; i++)
 	{
@@ -47,12 +50,12 @@ void Game::start_game()
 				add_enemies(testLevel->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
 			}
 		}
-
 		testTower1->update(mAll_enemies);
 		SDL_RenderClear(gRenderer);
 		testMap->render();
 		testLevel->render();
 		testTower1->render();
+		testMenu->render();
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0) printf("Second...\n");
 		if (testLevel->isDead())

@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BA372483-5172-4022-B2F9-27F8710B6FB3}</ProjectGuid>
     <RootNamespace>Tower_Defense</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\vs_dev_lib\include;C:\Users\haban\Source\Repos\Tower_Defense\headers;C:\Program Files\vs_lib\SDL2-2.0.5\include;C:\Program Files\vs_lib\SDL2_lib\include;F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;E:\Anwendungen\Tower_Defense\Tower_Defense\headers;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vs_dev_lib\lib\x86;C:\Program Files\vs_lib\SDL2-2.0.5\lib\x86;C:\Program Files\vs_lib\SDL2_lib\lib\x86;C:\Users\haban\Source\Repos\Tower_Defense\classes;C:\Users\haban\Source\Repos\Tower_Defense\headers;C:\Users\haban\Source\Repos\Tower_Defense;F:\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Anwendungen\Tower_Defense\Tower_Defense\classes;E:\Anwendungen\Tower_Defense\Tower_Defense\headers;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Programmieren\SDL2\SDL2-2.0.5\lib\x86;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\classes;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2_image-2.0.1\include;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
@@ -82,13 +82,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Programmieren\SDL2\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>F:\Programmieren\SDL2\SDL2-2.0.5\lib\x86;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\classes;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -117,6 +118,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

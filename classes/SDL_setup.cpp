@@ -14,6 +14,8 @@ SDL_Window* gWindow = nullptr;
 
 Textures* gTextures = nullptr;
 
+TTF_Font* gFont = nullptr;
+
 SDL_Texture* loadTexture(std::string path)
 {
 	//The final texture
@@ -48,6 +50,8 @@ bool initGraphics()
 
 	//Initalize randomness
 	srand(time(nullptr));
+
+	gFont = TTF_OpenFont("16_true_type_fonts/lazy.ttf", 28);
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
