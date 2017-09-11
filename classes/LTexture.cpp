@@ -1,6 +1,7 @@
 #include "LTexture.h"
 #include "SDL_setup.h"
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 
 LTexture::LTexture()
@@ -63,7 +64,7 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
 {
 	//Get rid of preexisting texture
 	free();
-
+	gFont = TTF_OpenFont("16_true_type_fonts/lazy.ttf", 28);
 	//Render text surface
 	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
 	if (textSurface == NULL)

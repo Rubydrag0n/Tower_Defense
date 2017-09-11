@@ -7,6 +7,7 @@
 #include <SDL_ttf.h>
 
 
+
 int main( int argc, char* args[] )
 {
 	if (!initGraphics())
