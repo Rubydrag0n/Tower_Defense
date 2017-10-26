@@ -64,8 +64,12 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
 {
 	//Get rid of preexisting texture
 	free();
-	gFont = TTF_OpenFont("16_true_type_fonts/lazy.ttf", 28);
+	gFont = TTF_OpenFont("resources/lazy.ttf", 28);
 	//Render text surface
+	if (!gFont)
+	{
+		throw std::errc::bad_file_descriptor;
+	}
 	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
 	if (textSurface == NULL)
 	{

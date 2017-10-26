@@ -1,11 +1,9 @@
 //Using SDL and standard IO
-#include <stdio.h>
-//#include "game.h"
 #include "SDL_setup.h"
 #include "Map.h"
 #include "Game.h"
 #include <SDL_ttf.h>
-
+#include <stdio.h>
 
 
 int main( int argc, char* args[] )
