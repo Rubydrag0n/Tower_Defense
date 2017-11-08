@@ -32,7 +32,9 @@ void Game::start_game()
 	coords.x = 600;
 	coords.y = 600;
 	
-
+	auto testButton = new Button();
+	testButton->setPosition(500, 500);
+	testButton->setDimension(300, 100);
 	auto testLevel = new Level("1");
 	auto testTower1 = new Tower("tower1", coords, testLevel);
 	auto testMenu = new Menu(testLevel);
@@ -42,10 +44,10 @@ void Game::start_game()
 		//SDL_Delay(100);
 		mAll_enemies.clear();
 		testLevel->update();
-		//add all enemies for every wave every monstergroup in the level
-		for(int n = 0; n < testLevel->get_waves_count(); n++)
+		//add all enemies: for every wave every monstergroup in the level
+		for(auto n = 0; n < testLevel->get_waves_count(); n++)
 		{
-			for(int m = 0; m < testLevel->get_waves()->at(n).get_monster_group_count(); m++)
+			for(auto m = 0; m < testLevel->get_waves()->at(n).get_monster_group_count(); m++)
 			{
 				add_enemies(testLevel->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
 			}
@@ -56,6 +58,7 @@ void Game::start_game()
 		testLevel->render();
 		testTower1->render();
 		testMenu->render();
+		testButton->render();
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0) printf("Second...\n");
 		if (testLevel->isDead())
@@ -64,6 +67,7 @@ void Game::start_game()
 			SDL_Delay(10000);
 			break;
 		}
+
 		if (testLevel->noLives()) 
 		{
 			std::cout << "no lives" << std::endl;
@@ -71,8 +75,11 @@ void Game::start_game()
 			break;
 		}
 	}
+	delete testTower1;
+	delete testMenu;
 	delete testLevel;
 	delete testMap;
+	delete testButton;
 }
 
 void Game::add_enemies(std::vector<Enemy*> enemies)

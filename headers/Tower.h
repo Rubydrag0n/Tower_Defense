@@ -3,6 +3,8 @@
 #include "Damage.h"
 #include "Enemy.h"
 #include "Shot.h"
+#include <SDL.h>
+#include <vector>
 
 class Tower : 
 	public Building

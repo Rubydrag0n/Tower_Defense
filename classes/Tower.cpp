@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Shot.h"
 #include <iostream>
+#include <SDL.h>
 
 
 Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(tower_name, coords, level)
@@ -30,6 +31,7 @@ Tower::~Tower()
 
 void Tower::render()
 {
+	std::cout << "render Tower" << std::endl;
 	Building::render();
 	for(auto i = 0; i<mShots.size(); i++)
 	{
@@ -65,7 +67,7 @@ bool Tower::enemy_in_range(Enemy* enemy)
 {
 	auto x_div = mCoords.x - enemy->get_position().x;
 	auto y_div = mCoords.y - enemy->get_position().y;
-	double dist_to_enemy = sqrt(x_div * x_div + y_div * y_div);
+	auto dist_to_enemy = sqrt(x_div * x_div + y_div * y_div);
 	if(dist_to_enemy <= mRange)
 	{
 		return true;

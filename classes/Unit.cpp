@@ -13,6 +13,8 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 
 	mSprite_dimensions.w = cf.Value(unit_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(unit_name + "/sprite", "image_height");
+	mSprite_dimensions.x = 0;
+	mSprite_dimensions.y = 0;
 	int clip_width = cf.Value(unit_name + "/sprite", "clip_width");
 	int clip_height = cf.Value(unit_name + "/sprite", "clip_height");
 	for (auto i = 0; i < mSprite_dimensions.h; i += clip_height)

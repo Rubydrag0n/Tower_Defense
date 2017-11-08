@@ -1,6 +1,7 @@
 #include "ConfigFile.h"
-
 #include <fstream>
+#include <string>
+#include <map>
 
 std::string trim(std::string const& source, char const* delims = " \t\r\n") {
 	std::string result(source);
@@ -15,6 +16,8 @@ std::string trim(std::string const& source, char const* delims = " \t\r\n") {
 		result.erase();
 	return result;
 }
+
+
 
 ConfigFile::ConfigFile(std::string const& configFile) {
 	std::ifstream file(configFile.c_str());
