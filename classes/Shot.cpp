@@ -20,6 +20,8 @@ Shot::Shot(Tower* tower, Enemy *enemy_to_shot)
 	mSprite = gTextures->get_texture(cf.Value(tower->get_projectile_name() + "/sprite", "path"));
 	mSprite_dimensions.w = cf.Value(tower->get_projectile_name() + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(tower->get_projectile_name() + "/sprite", "image_height");
+	mSprite_dimensions.x = 0;
+	mSprite_dimensions.y = 0;
 }
 
 Shot::~Shot()
@@ -29,7 +31,7 @@ Shot::~Shot()
 
 void Shot::render()
 {
-	double angle_in_rad = 0;
+	double angle_in_rad;
 	double x_d = mEnemy_to_shoot->get_position().x - mCoords.x;
 	double y_d = mEnemy_to_shoot->get_position().y - mCoords.y;
 	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);

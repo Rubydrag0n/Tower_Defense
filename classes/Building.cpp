@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include <SDL.h>
 #include "Level.h"
+#include <iostream>
 
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
@@ -13,6 +14,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mSprite = gTextures->get_texture(cf.Value(building_name + "/sprite", "path"));
 	mSprite_dimensions.w = cf.Value(building_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(building_name + "/sprite", "image_height");
+	mSprite_dimensions.x = 0;
+	mSprite_dimensions.y = 0;
 
 	//set the construction costs of the building
 	mConstruction_costs.set_ressources(cf.Value(building_name + "/stats", "goldcosts"),
@@ -33,7 +36,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		cf.Value(building_name + "/stats", "foodMain"));
 
 	mLevel = level;
-	set_coords(coords);
+	mCoords = coords;
 }
 
 Building::~Building()
@@ -44,6 +47,7 @@ Building::~Building()
 //render the picture of the building
 void Building::render()
 {
+	std::cout << "render building" << std::endl;
 	SDL_Rect dest;
 	dest.x = mCoords.x - mSprite_dimensions.w / 2;
 	dest.y = mCoords.y - mSprite_dimensions.h / 2;

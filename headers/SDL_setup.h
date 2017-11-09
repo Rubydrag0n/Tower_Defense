@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL.h>
-#include <string>
 #include "Textures.h"
 #include <SDL_ttf.h>
 
