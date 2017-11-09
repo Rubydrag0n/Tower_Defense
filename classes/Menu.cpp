@@ -26,5 +26,7 @@ void Menu::render()
 	some_text.loadFromRenderedText("something", text_color);
 
 	some_text.render(0, 0, nullptr, 0, nullptr, SDL_FLIP_NONE);
+
+	some_text.free();
 }
 
