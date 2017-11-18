@@ -36,10 +36,10 @@ void Tower::render()
 
 
 //checks if an enemy is in range of the tower
-bool Tower::enemy_in_range(Enemy* enemy, double radius)
+bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center)
 {
-	auto x_div = mCoords.x - enemy->get_position().x;
-	auto y_div = mCoords.y - enemy->get_position().y;
+	auto x_div = center.x - enemy->get_position().x;
+	auto y_div = center.y - enemy->get_position().y;
 	auto dist_to_enemy = sqrt(x_div * x_div + y_div * y_div);
 	if(dist_to_enemy <= radius)
 	{

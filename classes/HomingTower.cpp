@@ -27,7 +27,7 @@ void HomingTower::update(std::vector<Enemy*> all_enemies)
 	{
 		while (!all_enemies.empty() && mElapsed_ticks == 0)
 		{
-			if (enemy_in_range(all_enemies.at(0), mRange))
+			if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
 			{
 				auto shot = new HomingShot(this, all_enemies.at(0));
 				mShots.push_back(shot);
