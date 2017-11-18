@@ -13,25 +13,26 @@ public:
 	Tower(std::string tower_name, SDL_Point coords, Level* level);
 	~Tower();
 
-	void shoot();
-	void update(std::vector<Enemy*> all_enemies);
-	bool enemy_in_range(Enemy* enemy);
+	bool enemy_in_range(Enemy* enemy, double radius);
 	void render();
 
 	std::string get_projectile_name();
 	double get_projectile_speed();
 
-
-
-private:
-	std::string mTower_name;
-	Damage mDamage;
+protected:
+	int mElapsed_ticks;
+	int mAttack_cooldown;
 	double mRange;
 	double mAS; //Attacks per second
 	double mProjectile_speed;
+	Damage mDamage;
 	std::string mProjectile_name;
-	int mAttack_cooldown;
-	int mElapsed_ticks;
-	std::vector<Shot*> mShots;
+	std::string mTower_name;
+
+
+
+
+private:
+
 };
 

@@ -47,7 +47,6 @@ Building::~Building()
 //render the picture of the building
 void Building::render()
 {
-	std::cout << "render building" << std::endl;
 	SDL_Rect dest;
 	dest.x = mCoords.x - mSprite_dimensions.w / 2;
 	dest.y = mCoords.y - mSprite_dimensions.h / 2;
@@ -59,7 +58,7 @@ void Building::render()
 
 void Building::update()
 {
-	mLevel->get_ressources().sub(&mMaintenance);
+	mLevel->get_ressources()->sub(&mMaintenance);
 }
 
 void Building::select()
@@ -69,7 +68,7 @@ void Building::select()
 
 void Building::place()
 {
-	mLevel->get_ressources().sub(&mConstruction_costs);
+	mLevel->get_ressources()->sub(&mConstruction_costs);
 }
 
 

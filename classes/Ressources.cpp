@@ -134,7 +134,7 @@ bool Ressources::sub(Ressources *cost)
 void Ressources::add(Ressources *income)
 {
 	mGold += income->get_gold();
-	mWood += income->get_food();
+	mWood += income->get_wood();
 	mStone += income->get_stone();
 	mIron += income->get_iron();
 	mEnergy += income->get_energy();

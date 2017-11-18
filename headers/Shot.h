@@ -7,23 +7,23 @@ class Tower;
 class Shot
 {
 public:
-	Shot(Tower* tower, Enemy *enemy_to_shot);
+	Shot(Tower* tower);
 	~Shot();
 	
-	void render();
-	bool follow();
+	void render(SDL_Point target);
+	bool follow(SDL_Point target);
 
 	SDL_Point get_coords() const;
 	void set_coords(SDL_Point coords);
-	Enemy *get_enemy_to_shoot();
 
-private:
+
+protected:
 	SDL_Point mCoords;
 	CoordinatesInDouble mCoords_in_double;
-	SDL_Texture *mSprite;
-	SDL_Rect mSprite_dimensions;
 	double mProjectile_speed;
-	Enemy *mEnemy_to_shoot;
 
+private:
+	SDL_Texture *mSprite;
+	SDL_Rect mSprite_dimensions;	
 };
 

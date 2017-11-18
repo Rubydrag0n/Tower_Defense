@@ -21,8 +21,13 @@ IndustrialBuilding::~IndustrialBuilding()
 {
 }
 
+void IndustrialBuilding::render()
+{
+	Building::render();
+}
+
 void IndustrialBuilding::update()
 {
 	Building::update();
-	mLevel->get_ressources().add(&mRessources_produced_per_second);
+	mLevel->get_ressources()->add(&mRessources_produced_per_second);
 }

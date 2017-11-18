@@ -18,7 +18,7 @@ public:
 	int get_waves_count();
 	std::vector<Wave>* get_waves();
 	int get_lives();
-	Ressources get_ressources();
+	Ressources* get_ressources();
 
 	void set_ressources(Ressources ressources);
 	void set_lives(int lives);

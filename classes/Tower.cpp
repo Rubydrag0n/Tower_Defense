@@ -31,69 +31,24 @@ Tower::~Tower()
 
 void Tower::render()
 {
-	std::cout << "render Tower" << std::endl;
 	Building::render();
-	for(auto i = 0; i<mShots.size(); i++)
-	{
-		mShots.at(i)->render();
-	}
 }
 
-//checks if the tower can shoot at an enemy
-void Tower::update(std::vector<Enemy*> all_enemies)
-{
-	if (mElapsed_ticks == 0)
-	{
-		while (!all_enemies.empty() && mElapsed_ticks == 0)
-		{
-			if (enemy_in_range(all_enemies.at(0)))
-			{
-				auto shot = new Shot(this, all_enemies.at(0));
-				mShots.push_back(shot);
-				mElapsed_ticks = mAttack_cooldown;
-			}
-			all_enemies.erase(all_enemies.begin());
-		}
-	}
-	else 
-	{
-		mElapsed_ticks--;
-	}
-	this->shoot();
-}
 
 //checks if an enemy is in range of the tower
-bool Tower::enemy_in_range(Enemy* enemy)
+bool Tower::enemy_in_range(Enemy* enemy, double radius)
 {
 	auto x_div = mCoords.x - enemy->get_position().x;
 	auto y_div = mCoords.y - enemy->get_position().y;
 	auto dist_to_enemy = sqrt(x_div * x_div + y_div * y_div);
-	if(dist_to_enemy <= mRange)
+	if(dist_to_enemy <= radius)
 	{
 		return true;
 	}
 	return false;
 }
 
-//all projectiles, that are fired from this tower are updated
-void Tower::shoot()
-{ 
-	for(auto i=0; i<mShots.size(); i++ )
-	{
-		if(mShots[i]->get_enemy_to_shoot()->isDead())
-		{
-			delete mShots[i];
-			mShots.erase(mShots.begin() + i);
-			continue;
-		}
-		if (mShots[i]->follow())
-		{
-			mShots[i]->get_enemy_to_shoot()->take_damage(&mDamage);
-			delete mShots[i];
-			mShots.erase(mShots.begin() + i);
-		}
-	}
-}
+
 
 std::string Tower::get_projectile_name()
 {

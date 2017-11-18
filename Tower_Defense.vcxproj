@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classes\AoeShot.cpp" />
+    <ClCompile Include="classes\AoeTower.cpp" />
     <ClCompile Include="classes\Building.cpp" />
     <ClCompile Include="classes\Button.cpp" />
     <ClCompile Include="classes\Chameleon.cpp" />
@@ -157,6 +159,8 @@
     <ClCompile Include="classes\Defense.cpp" />
     <ClCompile Include="classes\Enemy.cpp" />
     <ClCompile Include="classes\Game.cpp" />
+    <ClCompile Include="classes\HomingShot.cpp" />
+    <ClCompile Include="classes\HomingTower.cpp" />
     <ClCompile Include="classes\IndustrialBuilding.cpp" />
     <ClCompile Include="classes\Level.cpp" />
     <ClCompile Include="classes\LTexture.cpp" />
@@ -177,6 +181,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\AoeShot.h" />
+    <ClInclude Include="headers\AoeTower.h" />
     <ClInclude Include="headers\Building.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\Chameleon.h" />
@@ -186,6 +192,8 @@
     <ClInclude Include="headers\Defense.h" />
     <ClInclude Include="headers\Enemy.h" />
     <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\HomingShot.h" />
+    <ClInclude Include="headers\HomingTower.h" />
     <ClInclude Include="headers\IndustrialBuilding.h" />
     <ClInclude Include="headers\Level.h" />
     <ClInclude Include="headers\LTexture.h" />
@@ -202,6 +210,8 @@
     <ClInclude Include="headers\Wave.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="config\game.cfg" />
     <None Include="level\Level1.FMP" />
     <None Include="resources\LinkMonster.cfg" />

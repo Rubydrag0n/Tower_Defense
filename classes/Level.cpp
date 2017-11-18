@@ -81,9 +81,9 @@ std::vector<Wave>* Level::get_waves()
 	return &mWaves;
 }
 
-Ressources Level::get_ressources()
+Ressources* Level::get_ressources()
 {
-	return mRessources;
+	return &mRessources;
 }
 
 

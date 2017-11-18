@@ -7,7 +7,7 @@
 #include <math.h>
 
 
-Shot::Shot(Tower* tower, Enemy *enemy_to_shot)
+Shot::Shot(Tower* tower)
 {
 	ConfigFile cf("config/game.cfg");
 
@@ -15,7 +15,6 @@ Shot::Shot(Tower* tower, Enemy *enemy_to_shot)
 	mProjectile_speed = tower->get_projectile_speed();
 	mCoords_in_double.x = mCoords.x;
 	mCoords_in_double.y = mCoords.y;
-	mEnemy_to_shoot = enemy_to_shot;
 
 	mSprite = gTextures->get_texture(cf.Value(tower->get_projectile_name() + "/sprite", "path"));
 	mSprite_dimensions.w = cf.Value(tower->get_projectile_name() + "/sprite", "image_width");
@@ -29,11 +28,11 @@ Shot::~Shot()
 }
 
 
-void Shot::render()
+void Shot::render(SDL_Point target)
 {
 	double angle_in_rad;
-	double x_d = mEnemy_to_shoot->get_position().x - mCoords.x;
-	double y_d = mEnemy_to_shoot->get_position().y - mCoords.y;
+	double x_d = target.x - mCoords.x;
+	double y_d = target.y - mCoords.y;
 	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
 
 	if(x_d < 0)
@@ -51,11 +50,11 @@ void Shot::render()
 			angle_in_rad = asin(-(x_d / dist_to_enemy)) - (M_PI / 2);
 		}
 	}
-	double angle_in_deg = angle_in_rad / M_PI * 180;
+	auto angle_in_deg = angle_in_rad / M_PI * 180;
 
 	SDL_Rect dest;
 	SDL_Point center;
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
+	auto flip = SDL_FLIP_NONE;
 	center.x = mSprite_dimensions.w / 2;
 	center.y = mSprite_dimensions.h / 2;
 	dest.x = mCoords.x - center.x;
@@ -66,19 +65,19 @@ void Shot::render()
 }
 
 //follows the enemy and returns true when it hits
-bool Shot::follow()
+bool Shot::follow(SDL_Point target)
 {
 	auto travel_dist = mProjectile_speed / 60.0;
-	double x_d = mEnemy_to_shoot->get_position().x - mCoords.x;
-	double x_d_abs = sqrt(x_d * x_d); //take the absolute value for further calculations
-	double y_d = mEnemy_to_shoot->get_position().y - mCoords.y;
-	double y_d_abs = sqrt(y_d * y_d); //same as above
+	double x_d = target.x - mCoords.x;
+	auto x_d_abs = sqrt(x_d * x_d); //take the absolute value for further calculations
+	double y_d = target.y - mCoords.y;
+	auto y_d_abs = sqrt(y_d * y_d); //same as above
 	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
 
 	if(dist_to_enemy < travel_dist)
 	{
-		mCoords.x = mEnemy_to_shoot->get_position().x;
-		mCoords.y = mEnemy_to_shoot->get_position().y;
+		mCoords.x = target.x;
+		mCoords.y = target.y;
 		return true;
 	}
 	mCoords_in_double.x += travel_dist * (x_d / (x_d_abs + y_d_abs));
@@ -99,7 +98,3 @@ void Shot::set_coords(SDL_Point coords)
 	mCoords = coords;
 }
 
-Enemy *Shot::get_enemy_to_shoot()
-{
-	return mEnemy_to_shoot;
-}

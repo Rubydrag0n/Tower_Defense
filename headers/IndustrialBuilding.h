@@ -9,6 +9,7 @@ public:
 	IndustrialBuilding(std::string industrialBuilding_name, SDL_Point coords, Level* level);
 	~IndustrialBuilding();
 	void update();
+	void render();
 
 
 private:
