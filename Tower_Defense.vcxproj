@@ -200,7 +200,7 @@
     <ClInclude Include="headers\Map.h" />
     <ClInclude Include="headers\Menu.h" />
     <ClInclude Include="headers\MonsterGroup.h" />
-    <ClInclude Include="headers\Ressources.h" />
+    <ClInclude Include="headers\Resources.h" />
     <ClInclude Include="headers\SDLMappy.h" />
     <ClInclude Include="headers\SDL_setup.h" />
     <ClInclude Include="headers\Shot.h" />

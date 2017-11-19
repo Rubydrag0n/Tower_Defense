@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h>
-#include "Ressources.h"
+#include "Resources.h"
 #include <string>
 
 class Level;

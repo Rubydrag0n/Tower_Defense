@@ -113,9 +113,6 @@
     <ClInclude Include="headers\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Ressources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\SDL_setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -180,6 +177,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\AoeTower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

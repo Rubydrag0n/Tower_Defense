@@ -6,7 +6,7 @@
 AoeTower::AoeTower(std::string tower_name, SDL_Point coords, Level* level) : Tower(tower_name, coords, level)
 {
 	ConfigFile cf("config/game.cfg");
-	mExplosiveRadius = cf.Value(mTower_name + "/stats", "explosiveradius");
+	mExplosive_radius = cf.Value(mTower_name + "/stats", "explosiveradius");
 }
 
 
@@ -56,7 +56,7 @@ void AoeTower::shoot(std::vector<Enemy*> all_enemies)
 		{
 			while (!all_enemies.empty())
 			{
-				if (enemy_in_range(all_enemies.at(0), mExplosiveRadius, mShots[i]->get_coords()))
+				if (enemy_in_range(all_enemies.at(0), mExplosive_radius, mShots[i]->get_coords()))
 				{
 					all_enemies.at(0)->take_damage(&mDamage);
 				}

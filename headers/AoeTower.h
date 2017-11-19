@@ -15,7 +15,7 @@ public:
 
 
 private:
-	double mExplosiveRadius;
+	double mExplosive_radius;
 	std::vector<AoeShot*> mShots;
 };
 

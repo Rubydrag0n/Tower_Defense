@@ -40,7 +40,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 
 Building::~Building()
 {
-	SDL_DestroyTexture(mSprite);
+	//don't destroy texture, handled by texture class
 }
 
 //render the picture of the building

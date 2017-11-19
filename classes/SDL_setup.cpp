@@ -38,6 +38,7 @@ SDL_Texture* load_texture(std::string path)
 
 		//Get rid of old loaded surface
 		SDL_FreeSurface(loaded_surface);
+		gFont = TTF_OpenFont("resources/lazy.ttf", 28);
 	}
 
 	return new_texture;
