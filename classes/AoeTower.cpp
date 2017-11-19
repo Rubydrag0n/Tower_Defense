@@ -49,7 +49,7 @@ void AoeTower::update(std::vector<Enemy*> all_enemies)
 //all projectiles, that are fired from this tower are updated
 void AoeTower::shoot(std::vector<Enemy*> all_enemies)
 {
-	std::vector<Enemy*> copy = all_enemies;
+	const auto copy = all_enemies;
 	for (auto i = 0; i<mShots.size(); i++)
 	{
 		if (mShots[i]->follow())

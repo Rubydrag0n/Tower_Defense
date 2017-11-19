@@ -1,7 +1,6 @@
 #include "../headers/Enemy.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
-#include <iostream>
 #include "Level.h"
 
 //needs the level name for getting the movement checkpoints from the config file
@@ -115,12 +114,12 @@ bool Enemy::isDead() const
 	return mDead;
 }
 
-Defense Enemy::get_defense()
+Defense Enemy::get_defense() const
 {
 	return mDefense;
 }
 
-SDL_Point Enemy::get_position()
+SDL_Point Enemy::get_position() const
 {
 	return mPosition;
 }
@@ -145,7 +144,7 @@ void Enemy::render()
 	full_health.w = mCurrent_clip.w;
 	full_health.h = 20;
 
-	SDL_Rect current_health = full_health;
+	auto current_health = full_health;
 	current_health.w = mCurrent_clip.w * (this->get_defense().get_health()/this->get_defense().get_full_health());
 	
 	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);

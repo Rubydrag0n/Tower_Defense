@@ -20,9 +20,9 @@ public:
 	//renders all the monsters in this group
 	void render();
 	//returns if every unit of this monstergroup
-	bool isDead();
+	bool is_dead() const;
 
-	std::vector<Enemy*> get_monsters();
+	std::vector<Enemy*> get_monsters() const;
 
 private:
 	//the amount of monsters coming in this group

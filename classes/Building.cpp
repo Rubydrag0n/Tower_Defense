@@ -3,7 +3,6 @@
 #include "SDL_setup.h"
 #include <SDL.h>
 #include "Level.h"
-#include <iostream>
 
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
@@ -45,7 +44,7 @@ Building::~Building()
 }
 
 //render the picture of the building
-void Building::render()
+void Building::render() const
 {
 	SDL_Rect dest;
 	dest.x = mCoords.x - mSprite_dimensions.w / 2;

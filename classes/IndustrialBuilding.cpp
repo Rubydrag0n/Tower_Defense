@@ -21,7 +21,7 @@ IndustrialBuilding::~IndustrialBuilding()
 {
 }
 
-void IndustrialBuilding::render()
+void IndustrialBuilding::render() const
 {
 	Building::render();
 }

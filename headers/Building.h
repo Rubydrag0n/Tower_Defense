@@ -11,7 +11,7 @@ public:
 	Building(std::string building_name, SDL_Point coords, Level *level);
 	~Building();
 
-	void render();
+	void render() const;
 	void select();
 	void place();
 	void update();

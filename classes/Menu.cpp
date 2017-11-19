@@ -16,7 +16,7 @@ Menu::~Menu()
 }
 
 
-void Menu::render()
+void Menu::render() const
 {
 	SDL_Color text_color = { 0, 0, 255 };
 	

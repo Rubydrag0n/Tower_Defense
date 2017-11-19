@@ -9,7 +9,7 @@ public:
 	~AoeShot();
 
 	bool follow();
-	SDL_Point get_location_to_shoot();
+	SDL_Point get_location_to_shoot() const;
 
 private:
 	SDL_Point mLocation_to_shoot;

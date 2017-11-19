@@ -79,14 +79,14 @@ void Game::start_game()
 			printf("Second...\n");
 			testIndustrialBuilding->update();
 		}
-		if (testLevel->isDead())
+		if (testLevel->is_dead())
 		{
 			std::cout << "all enemies dead" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
 
-		if (testLevel->noLives()) 
+		if (testLevel->no_lives()) 
 		{
 			std::cout << "no lives" << std::endl;
 			SDL_Delay(10000);

@@ -7,7 +7,7 @@ public:
 	Menu(Level *level);
 	~Menu();
 
-	void render();
+	void render() const;
 
 private:
 	Level *mLevel;

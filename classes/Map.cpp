@@ -11,7 +11,7 @@ Map::Map(char *map_path) : mMap_texture()
 	mHeight = cf.Value("map", "height");
 	mLayer_count = cf.Value("map", "layer_count");
 	mMap = new SDLMappy;
-	if (mMap->LoadMap(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
+	if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
 		printf("Could not load %s\n", map_path);
 	update_map_texture();
 }
@@ -39,17 +39,17 @@ void Map::render() const
 
 void Map::update_map_texture()
 {
-	mMap->MapMoveTo(mOffset_left, mOffset_top);
-	mMap->MapChangeLayer(0);	//Background first
+	mMap->map_move_to(mOffset_left, mOffset_top);
+	mMap->map_change_layer(0);	//Background first
 	auto s = SDL_LoadBMP("resources/background.bmp");
-	if (mMap->MapDrawBG(s) == -1)
+	if (mMap->map_draw_bg(s) == -1)
 		printf("Failed to draw background of Map!\n");
 	
 	for (auto i = 1; i < mLayer_count; i++)
 	{
 		auto s2 = SDL_LoadBMP("resources/background.bmp");
-		mMap->MapChangeLayer(i);
-		if (mMap->MapDrawBGT(s2) == -1)
+		mMap->map_change_layer(i);
+		if (mMap->map_draw_bgt(s2) == -1)
 			printf("Failed to draw layer %i of foreground of Map!\n", mLayer_count);
 		else
 		{

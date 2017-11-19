@@ -22,7 +22,7 @@ Level::Level(std::string level_number)
 	//create all waves in the level and insert them in the vector mWaves
 	for (auto i = 1; i <= mWaves_Count; i++)
 	{
-		std::string wave_number = std::to_string(i);
+		auto wave_number = std::to_string(i);
 		auto new_wave = new Wave(wave_number, this);
 		mWaves.push_back(*new_wave);
 	}
@@ -37,7 +37,7 @@ Level::~Level()
 void Level::update()
 {
 	mWaves.at(0).update();
-	if(mWaves.at(0).isDead())
+	if(mWaves.at(0).is_dead())
 	{
 		mWaves_Count--;
 		mWaves.erase(mWaves.begin());
@@ -54,24 +54,22 @@ void Level::render()
 	mWaves.at(0).render();
 }
 
-bool Level::isDead()
+bool Level::is_dead() const
 {
 	return mWaves.empty();
 }
 
-bool Level::noLives()
+bool Level::no_lives() const
 {
 	return mLives <= 0;
 }
 
-int Level::get_lives()
+int Level::get_lives() const
 {
 	return mLives;
 }
 
-
-
-int Level::get_waves_count()
+int Level::get_waves_count() const
 {
 	return mWaves_Count;
 }
@@ -96,6 +94,3 @@ void Level::set_lives(int lives)
 {
 	mLives = lives;
 }
-
-
-

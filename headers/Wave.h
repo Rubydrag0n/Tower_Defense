@@ -9,9 +9,9 @@ public:
 
 	void update();
 	void render();
-	bool isDead();
+	bool is_dead() const;
 
-	int get_monster_group_count();
+	int get_monster_group_count() const;
 	std::vector<MonsterGroup>* get_monster_groups();
 
 private:

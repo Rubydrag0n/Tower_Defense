@@ -65,7 +65,7 @@ void MonsterGroup::render()
 	}
 }
 
-bool MonsterGroup::isDead()
+bool MonsterGroup::is_dead() const
 {
 	//if every monsters of this group is dead:
 	if (mDead_monsters == mMax_monster_count)
@@ -76,7 +76,7 @@ bool MonsterGroup::isDead()
 	return false;
 }
 
-std::vector<Enemy*> MonsterGroup::get_monsters()
+std::vector<Enemy*> MonsterGroup::get_monsters() const
 {
 	return mMonsters;
 }

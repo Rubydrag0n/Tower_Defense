@@ -29,7 +29,7 @@ SDL_Texture* Textures::get_texture(std::string path)
 
 	//if not yet loaded -> load now
 
-	auto tex = loadTexture(path);	//load texture
+	auto tex = load_texture(path);	//load texture
 	mContent.insert(std::pair<std::string, SDL_Texture*>(path, tex));	//insert key and value in the map
 
 	return tex;

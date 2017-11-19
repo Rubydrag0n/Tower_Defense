@@ -18,7 +18,7 @@ bool HomingShot::follow()
 }
 
 
-Enemy *HomingShot::get_enemy_to_shoot()
+Enemy *HomingShot::get_enemy_to_shoot() const
 {
 	return mEnemy_to_shoot;
 }

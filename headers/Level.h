@@ -12,12 +12,12 @@ public:
 
 	void update();
 	void render();
-	bool isDead();
-	bool noLives();
+	bool is_dead() const;
+	bool no_lives() const;
 
-	int get_waves_count();
+	int get_waves_count() const;
 	std::vector<Wave>* get_waves();
-	int get_lives();
+	int get_lives() const;
 	Ressources* get_ressources();
 
 	void set_ressources(Ressources ressources);

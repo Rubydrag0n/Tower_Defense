@@ -31,8 +31,6 @@
 #define SDLMAPPY_H
 
 #include <stdio.h>
-#include <string.h>
-#include <malloc.h>
 #include <SDL.h>
 
 #define MER_NONE 0			/* All the horrible things that can go wrong */
@@ -158,57 +156,57 @@ private:
 		
 public:
 	~SDLMappy();
-	SDLMappy( void );
+	SDLMappy();
 
-	void		MapFreeMem (void);
+	void		map_free_mem ();
 	
-	int 		MapRelocate(void);
-	int 		LoadMap(/*CDXScreen * Screen ,*/ char * Filename ,
+	int 		map_relocate();
+	int 		load_map(/*CDXScreen * Screen ,*/ char * filename ,
 						int left , int top , int width , int height );
-	int			MapLoad (char * mapname/*, RBDIRECTDRAW lpDD*/);
-	unsigned long int Mapbyteswapl (unsigned long int i);
-	int 		MapDecodeNULL (void);
-	int 		MapDecodeMPHD (void);
-	int		 	MapDecodeBODY (void);
-	int			MapDecodeCMAP (void);
-	int			MapDecodeBKDT (void);
-	int			MapDecodeANDT (void);
-	int			MapDecodeBGFX (void);
-	int			MapDecodeLYR1 (void);
-	int			MapDecodeLYR2 (void);
-	int			MapDecodeLYR3 (void);
-	int			MapDecodeLYR4 (void);
-	int			MapDecodeLYR5 (void);
-	int			MapDecodeLYR6 (void);
-	int			MapDecodeLYR7 (void);
+	int			map_load (char * mapname/*, RBDIRECTDRAW lpDD*/);
+	static unsigned long int mapbyteswapl (unsigned long int i);
+	int 		map_decode_null ();
+	int 		map_decode_mphd ();
+	int		 	map_decode_body ();
+	int			map_decode_cmap ();
+	int			map_decode_bkdt ();
+	int			map_decode_andt ();
+	int			map_decode_bgfx ();
+	int			map_decode_lyr1 ();
+	int			map_decode_lyr2 ();
+	int			map_decode_lyr3 ();
+	int			map_decode_lyr4 ();
+	int			map_decode_lyr5 ();
+	int			map_decode_lyr6 ();
+	int			map_decode_lyr7 ();
 
-	void 		MapCMAPtoPE (unsigned char * mycmappt, SDL_Color * mypept);
+	static void 		map_cma_pto_pe (unsigned char * mycmappt, SDL_Color * mypept);
 	
-	BLKSTR * 	MapGetBlock (int x, int y);
-	void 		MapSetBlock (int x, int y, int strvalue);
-	short int	MapGetTile( int x , int y );
+	BLKSTR * 	map_get_block (int x, int y) const;
+	void 		map_set_block (int x, int y, int strvalue) const;
+	short int	map_get_tile( int x , int y ) const;
 	
-    int			MapGetXPosition( void ) { return XPosition; };
-    int			MapGetYPosition( void ) { return YPosition; };
-	short int	GetMapWidth( void );
-	short int	GetMapHeight( void );
-	short int	GetMapWidthInBlocks( void );
-	short int	GetMapHeightInBlocks( void );
-	short int	GetMapBlockWidth( void );
-	short int	GetMapBlockHeight( void );
-	short int	GetMapBPP( void );
+    int			map_get_x_position() const { return XPosition; };
+    int			map_get_y_position() const { return YPosition; };
+	short int	get_map_width() const;
+	short int	get_map_height() const;
+	short int	get_map_width_in_blocks() const;
+	short int	get_map_height_in_blocks() const;
+	short int	get_map_block_width() const;
+	short int	get_map_block_height() const;
+	short int	get_map_bpp() const;
 		
-	void 		MapMoveTo( int x , int y );
-	int			MapChangeLayer (int newlyr);
-	int 		MapDrawBG (SDL_Surface * lpDDS );
-	int			MapDrawBGT (SDL_Surface * lpDDS );
-	int			MapDrawFG (SDL_Surface * lpDDS );
-	void 		MapInitAnims (void);
-	void 		MapUpdateAnims (void);
+	void 		map_move_to( int x , int y );
+	int			map_change_layer (int newlyr);
+	int 		map_draw_bg (SDL_Surface * lp_dds );
+	int			map_draw_bgt (SDL_Surface * lp_dds );
+	int			map_draw_fg (SDL_Surface * lp_dds );
+	void 		map_update_anims () const;
+	void 		map_init_anims () const;
 	
-    SDL_bool    CreateParallax( char * Filename );
-    int         DrawParallax (SDL_Surface * lpDDS );
-    SDL_bool    RestoreParallax( void );
+    SDL_bool    create_parallax( char * filename );
+    int         draw_parallax (SDL_Surface * lp_dds ) const;
+    SDL_bool    restore_parallax();
 
 };
 

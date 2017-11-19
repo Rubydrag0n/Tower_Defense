@@ -4,8 +4,8 @@
 #include <map>
 
 std::string trim(std::string const& source, char const* delims = " \t\r\n") {
-	std::string result(source);
-	std::string::size_type index = result.find_last_not_of(delims);
+	auto result(source);
+	auto index = result.find_last_not_of(delims);
 	if (index != std::string::npos)
 		result.erase(++index);
 
@@ -23,10 +23,7 @@ ConfigFile::ConfigFile(std::string const& configFile) {
 	std::ifstream file(configFile.c_str());
 
 	std::string line;
-	std::string name;
-	std::string value;
-	std::string inSection;
-	int posEqual;
+	std::string in_section;
 	while (std::getline(file, line)) {
 
 		if (!line.length()) continue;
@@ -35,21 +32,20 @@ ConfigFile::ConfigFile(std::string const& configFile) {
 		if (line[0] == ';') continue;
 
 		if (line[0] == '[') {
-			inSection = trim(line.substr(1, line.find(']') - 1));
+			in_section = trim(line.substr(1, line.find(']') - 1));
 			continue;
 		}
 
-		posEqual = line.find('=');
-		name = trim(line.substr(0, posEqual));
-		value = trim(line.substr(posEqual + 1));
+		int pos_equal = line.find('=');
+		auto name = trim(line.substr(0, pos_equal));
+		auto value = trim(line.substr(pos_equal + 1));
 
-		content_[inSection + '/' + name] = Chameleon(value);
+		content_[in_section + '/' + name] = Chameleon(value);
 	}
 }
 
 Chameleon const& ConfigFile::Value(std::string const& section, std::string const& entry) const {
-
-	std::map<std::string, Chameleon>::const_iterator ci = content_.find(section + '/' + entry);
+	const auto ci = content_.find(section + '/' + entry);
 
 	if (ci == content_.end()) throw "does not exist";
 

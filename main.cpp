@@ -2,13 +2,12 @@
 #include "SDL_setup.h"
 #include "Map.h"
 #include "Game.h"
-#include <SDL_ttf.h>
 #include <stdio.h>
 
 
 int main( int argc, char* args[] )
 {
-	if (!initGraphics())
+	if (!init_graphics())
 	{
 		printf("Failed to initialize Graphics!\n");
 	}

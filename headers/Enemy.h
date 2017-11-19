@@ -14,8 +14,8 @@ public:
 
 	void move();
 	void got_through();
-	Defense get_defense();
-	SDL_Point get_position();
+	Defense get_defense() const;
+	SDL_Point get_position() const;
 	bool take_damage(Damage *dmg);
 	void render();
 

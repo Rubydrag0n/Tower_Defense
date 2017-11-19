@@ -33,8 +33,6 @@ Chameleon::Chameleon(std::string const& value) {
 	value_ = value;
 }
 
-#include <iostream>
-
 Chameleon::Chameleon(const char* c) {
 	value_ = c;
 }

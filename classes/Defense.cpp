@@ -1,6 +1,4 @@
 #include "Defense.h"
-#include <ostream>
-#include <iostream>
 
 Defense::Defense()
 {

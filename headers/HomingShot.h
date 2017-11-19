@@ -7,7 +7,7 @@ class HomingShot :
 public:
 	HomingShot(Tower* tower, Enemy *enemy_to_shoot);
 	~HomingShot();
-	Enemy *get_enemy_to_shoot();
+	Enemy *get_enemy_to_shoot() const;
 	bool follow();
 
 private:

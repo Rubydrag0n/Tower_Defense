@@ -16,34 +16,34 @@ Textures* gTextures = nullptr;
 
 TTF_Font* gFont = nullptr;
 
-SDL_Texture* loadTexture(std::string path)
+SDL_Texture* load_texture(std::string path)
 {
 	//The final texture
-	SDL_Texture* newTexture = nullptr;
+	SDL_Texture* new_texture = nullptr;
 
 	//Load image at specified path
-	auto loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == nullptr)
+	auto loaded_surface = IMG_Load(path.c_str());
+	if (loaded_surface == nullptr)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	}
 	else
 	{
 		//Create texture from surface pixels
-		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-		if (newTexture == nullptr)
+		new_texture = SDL_CreateTextureFromSurface(gRenderer, loaded_surface);
+		if (new_texture == nullptr)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}
 
 		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
+		SDL_FreeSurface(loaded_surface);
 	}
 
-	return newTexture;
+	return new_texture;
 }
 
-bool initGraphics()
+bool init_graphics()
 {
 	//Initialization flag
 	auto success = true;
@@ -69,14 +69,14 @@ bool initGraphics()
 
 		//Create window
 		ConfigFile cf("config/game.cfg");
-		int SCREEN_WIDTH = cf.Value("video", "screen_width");
-		int SCREEN_HEIGHT = cf.Value("video", "screen_height");
+		int screen_width = cf.Value("video", "screen_width");
+		int screen_height = cf.Value("video", "screen_height");
 		std::string windowflags = cf.Value("video", "window_mode");
 		Uint32 flags;
 		if (windowflags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
 		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS;
 		else flags = 0;
-		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
+		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, flags);
 		if (gWindow == nullptr)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
@@ -99,8 +99,8 @@ bool initGraphics()
 				SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);	//so alpha can be used
 
 				//Initialize PNG loading
-				int imgFlags = IMG_INIT_PNG;
-				if (!(IMG_Init(imgFlags) & imgFlags))
+				int img_flags = IMG_INIT_PNG;
+				if (!(IMG_Init(img_flags) & img_flags))
 				{
 					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 					success = false;

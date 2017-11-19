@@ -10,7 +10,7 @@ public:
 	Shot(Tower* tower);
 	~Shot();
 	
-	void render(SDL_Point target);
+	void render(SDL_Point target) const;
 	bool follow(SDL_Point target);
 
 	SDL_Point get_coords() const;

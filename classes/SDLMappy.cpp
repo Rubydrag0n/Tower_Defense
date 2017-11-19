@@ -43,6 +43,7 @@
 //
 
 #include "SDLMappy.h"
+#include <cstring>
 
 // ---------------------------------------------------------------------------------
 // destructor of this class, inits all members
@@ -51,15 +52,16 @@ SDLMappy::~SDLMappy( )
 {
 //    SAFEDELETE( ParallaxFilename );
 //    SAFEDELETE( ParallaxSurface );
-	MapFreeMem( );
+	map_free_mem( );
 }
 
 // ---------------------------------------------------------------------------------
 // constructor of this class, inits all members
 // ---------------------------------------------------------------------------------
-SDLMappy::SDLMappy( void )
+SDLMappy::SDLMappy(): MBSW{0}, MBSH{0}, PARAW{0}, PARAH{0}, ANDTSize{0}, colorkey{0}, ParallaxSurface{nullptr},
+                      ParallaxFilename{nullptr}
 {
-	int		i;
+	int i;
 
 	MMOX = 0;
 	MMOY = 0;
@@ -67,57 +69,57 @@ SDLMappy::SDLMappy( void )
 	MSCRW = 320;
 	MSCRH = 200;
 
-	maperror		= 0;
-	mapwidth		= 0;
-	mapheight		= 0;
-	mapblockwidth	= 0;
-	mapblockheight	= 0;
-	mapdepth		= 0;
+	maperror = 0;
+	mapwidth = 0;
+	mapheight = 0;
+	mapblockwidth = 0;
+	mapblockheight = 0;
+	mapdepth = 0;
 
-	mapblockstrsize	= 0;
-	mapnumblockstr	= 0;
-	mapnumblockgfx	= 0;
+	mapblockstrsize = 0;
+	mapnumblockstr = 0;
+	mapnumblockgfx = 0;
 
-	mapfilept		= NULL;
-	mappt			= NULL;
-//	maparraypt		= NULL;
-	mapcmappt		= NULL;
-	mapblockgfxpt	= NULL;
-	mapblockstrpt	= NULL;
-	mapanimstrpt	= NULL;
-	mapanimstrendpt = NULL;
+	mapfilept = nullptr;
+	mappt = nullptr;
+	//	maparraypt		= nullptr;
+	mapcmappt = nullptr;
+	mapblockgfxpt = nullptr;
+	mapblockstrpt = nullptr;
+	mapanimstrpt = nullptr;
+	mapanimstrendpt = nullptr;
 
-	for( i=0; i<1024; i++ )
-		maplpDDSTiles[ i ] = NULL;
+	for (i = 0; i < 1024; i++)
+		maplpDDSTiles[ i ] = nullptr;
 
-	for( i=0; i<8; i++ )
+	for (i = 0; i < 8; i++)
 	{
-		mapmappt[ i ]      = NULL;
-//		mapmaparraypt[ i ] = NULL;
+		mapmappt[ i ] = nullptr;
+		//		mapmaparraypt[ i ] = nullptr;
 	}
 
 	XPosition = YPosition = 0;
 
-//	ParallaxSurface  = NULL;
-//	ScreenObject     = NULL;
-//	ParallaxFilename = NULL;
+	//	ParallaxSurface  = nullptr;
+	//	ScreenObject     = nullptr;
+	//	ParallaxFilename = nullptr;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-void SDLMappy::MapFreeMem (void)
+void SDLMappy::map_free_mem ()
 {
 int i;
-	for (i=0;i<8;i++) { if (mapmappt[i]!=NULL) { free (mapmappt[i]); mapmappt[i] = NULL; } }
-	mappt = NULL;
-//	for (i=0;i<8;i++) { if (mapmaparraypt[i]!=NULL) { free (mapmaparraypt[i]); mapmaparraypt[i] = NULL; } }
-//	maparraypt = NULL;
-	if (mapcmappt!=NULL) { free (mapcmappt); mapcmappt = NULL; }
-	if (mapblockgfxpt!=NULL) { free (mapblockgfxpt); mapblockgfxpt = NULL; }
-	if (mapblockstrpt!=NULL) { free (mapblockstrpt); mapblockstrpt = NULL; }
-	if (mapanimstrpt!=NULL) { free (mapanimstrpt); mapanimstrpt = NULL; }
+	for (i=0;i<8;i++) { if (mapmappt[i]!= nullptr) { free (mapmappt[i]); mapmappt[i] = nullptr; } }
+	mappt = nullptr;
+//	for (i=0;i<8;i++) { if (mapmaparraypt[i]!=nullptr) { free (mapmaparraypt[i]); mapmaparraypt[i] = nullptr; } }
+//	maparraypt = nullptr;
+	if (mapcmappt!=nullptr) { free (mapcmappt); mapcmappt = nullptr; }
+	if (mapblockgfxpt!=nullptr) { free (mapblockgfxpt); mapblockgfxpt = nullptr; }
+	if (mapblockstrpt!=nullptr) { free (mapblockstrpt); mapblockstrpt = nullptr; }
+	if (mapanimstrpt!=nullptr) { free (mapanimstrpt); mapanimstrpt = nullptr; }
 
-	for (i=0;(maplpDDSTiles[i]!=NULL);i++)
+	for (i=0;(maplpDDSTiles[i]!=nullptr);i++)
 		SDL_FreeSurface(maplpDDSTiles[i]);
 }
 
@@ -125,11 +127,9 @@ int i;
 // loads a map, left and top are by default 0
 // bottom and right are by default -1 which means screen size
 // ---------------------------------------------------------------------------------
-int SDLMappy::LoadMap( /*SDL_Surface * Screen ,*/ char * Filename ,
+int SDLMappy::load_map( /*SDL_Surface * Screen ,*/ char * Filename ,
 					   int left , int top , int width , int height )
 {
-	int result;
-
 	MMOX = left;
 	MMOY = top;
 
@@ -141,7 +141,7 @@ int SDLMappy::LoadMap( /*SDL_Surface * Screen ,*/ char * Filename ,
 //	ScreenObject = Screen;
 
 	// load the map
-	result = MapLoad( Filename /*, Screen->GetDD()*/ );
+	auto result = map_load( Filename /*, Screen->GetDD()*/ );
 
     // if the map loaded ok, proceed, else return error code
 	if( result != -1 )
@@ -175,15 +175,15 @@ int SDLMappy::LoadMap( /*SDL_Surface * Screen ,*/ char * Filename ,
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapRelocate(void)
+int SDLMappy::map_relocate()
 {
 	int i, deplct;
 	
 	for(i=0; i<mapnumblockstr; i++) {
-		((BLKSTR *) mapblockstrpt)[i].bgoff /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
-		((BLKSTR *) mapblockstrpt)[i].fgoff /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
-		((BLKSTR *) mapblockstrpt)[i].fgoff2 /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
-		((BLKSTR *) mapblockstrpt)[i].fgoff3 /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
+		reinterpret_cast<BLKSTR *>(mapblockstrpt)[i].bgoff /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
+		reinterpret_cast<BLKSTR *>(mapblockstrpt)[i].fgoff /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
+		reinterpret_cast<BLKSTR *>(mapblockstrpt)[i].fgoff2 /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
+		reinterpret_cast<BLKSTR *>(mapblockstrpt)[i].fgoff3 /= (mapblockwidth*mapblockheight*((mapdepth+1)/8));
 //		printf ("B%d: %d,%d,%d,%d\n", i, ((BLKSTR *) mapblockstrpt)[i].bgoff,((BLKSTR *) mapblockstrpt)[i].fgoff,((BLKSTR *) mapblockstrpt)[i].fgoff2 ,((BLKSTR *) mapblockstrpt)[i].fgoff3 );
 	}
 
@@ -220,7 +220,6 @@ int SDLMappy::MapRelocate(void)
 			break;
 		default:
 			return -1;
-			break;
 	}
 
 	return 0;
@@ -228,18 +227,15 @@ int SDLMappy::MapRelocate(void)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapLoad (char * mapname/*, RBDIRECTDRAW lpDD*/)
+int SDLMappy::map_load (char * mapname/*, RBDIRECTDRAW lpDD*/)
 {
-	int			i;
-	long int	mapfilesize;
-
-	MapFreeMem ();
+	map_free_mem ();
 	maperror = 0;
 
 	fopen_s(&mapfilept, mapname, "rb");
-	if (mapfilept==NULL) { maperror = MER_NOOPEN; return -1; }
+	if (mapfilept==nullptr) { maperror = MER_NOOPEN; return -1; }
 	fseek (mapfilept, 0, SEEK_END);
-	mapfilesize = ftell (mapfilept);
+	auto mapfilesize = ftell (mapfilept);
 	fseek (mapfilept, 0, SEEK_SET);
 	if (fread (&mapgenheader, 1, sizeof(GENHEAD), mapfilept)!=sizeof(GENHEAD))
 	{ maperror = MER_MAPLOADERROR; fclose (mapfilept); return -1; }
@@ -250,7 +246,7 @@ int SDLMappy::MapLoad (char * mapname/*, RBDIRECTDRAW lpDD*/)
 	if (mapgenheader.id4!='M') maperror = MER_MAPLOADERROR;
 
 	if (mapfilesize==-1) maperror = MER_MAPLOADERROR;
-	if (mapfilesize!=(long int)((Mapbyteswapl(mapgenheader.headsize))+8)) maperror = MER_MAPLOADERROR;
+	if (mapfilesize!=static_cast<long int>(mapbyteswapl(mapgenheader.headsize) + 8)) maperror = MER_MAPLOADERROR;
 
 	if (maperror) { fclose (mapfilept); return -1; }
 
@@ -266,75 +262,73 @@ int SDLMappy::MapLoad (char * mapname/*, RBDIRECTDRAW lpDD*/)
 		if (fread (&mapgenheader, 1, sizeof(GENHEAD),mapfilept)!=sizeof(GENHEAD))
 		{ maperror = MER_MAPLOADERROR; fclose (mapfilept); return -1; }
 
-		i = 0;
+		auto i = 0;
 		
 		if (mapgenheader.id1=='M')  if (mapgenheader.id2=='P')  if (mapgenheader.id3=='H')
 			if (mapgenheader.id4=='D')
-				{MapDecodeMPHD (); i = 1;}
+				{map_decode_mphd (); i = 1;}
 		
 		if (mapgenheader.id1=='C')  if (mapgenheader.id2=='M')  if (mapgenheader.id3=='A')
 			if (mapgenheader.id4=='P')
-				{ MapDecodeCMAP (); i = 1; }
+				{ map_decode_cmap (); i = 1; }
 		
 		if (mapgenheader.id1=='B')  if (mapgenheader.id2=='K')  if (mapgenheader.id3=='D')
 			if (mapgenheader.id4=='T')
-				{ MapDecodeBKDT (); i = 1; }
+				{ map_decode_bkdt (); i = 1; }
 		
 		if (mapgenheader.id1=='A')  if (mapgenheader.id2=='N')  if (mapgenheader.id3=='D')
 			if (mapgenheader.id4=='T')
-				{ MapDecodeANDT (); i = 1; }
+				{ map_decode_andt (); i = 1; }
 		
 		if (mapgenheader.id1=='B')  if (mapgenheader.id2=='G')  if (mapgenheader.id3=='F')
 			if (mapgenheader.id4=='X')
-				{ MapDecodeBGFX (); i = 1; }
+				{ map_decode_bgfx (); i = 1; }
 		
 		if (mapgenheader.id1=='B')  if (mapgenheader.id2=='O')  if (mapgenheader.id3=='D')
 			if (mapgenheader.id4=='Y')
-				{ MapDecodeBODY (); i = 1; }
+				{ map_decode_body (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='1')
-				{ MapDecodeLYR1 (); i = 1; }
+				{ map_decode_lyr1 (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='2')
-				{ MapDecodeLYR2 (); i = 1; }
+				{ map_decode_lyr2 (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='3')
-				{ MapDecodeLYR3 (); i = 1; }
+				{ map_decode_lyr3 (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='4')
-				{ MapDecodeLYR4 (); i = 1; }
+				{ map_decode_lyr4 (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='5')
-				{ MapDecodeLYR5 (); i = 1; }
+				{ map_decode_lyr5 (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='6')
-				{ MapDecodeLYR6 (); i = 1; }
+				{ map_decode_lyr6 (); i = 1; }
 		
 		if (mapgenheader.id1=='L')  if (mapgenheader.id2=='Y')  if (mapgenheader.id3=='R')
 			if (mapgenheader.id4=='7')
-				{ MapDecodeLYR7 (); i = 1; }
+				{ map_decode_lyr7 (); i = 1; }
 		
-		if (!i) MapDecodeNULL ();
+		if (!i) map_decode_null ();
 		if (maperror) { fclose (mapfilept); return -1; }
 	}
 	fclose (mapfilept);
 
-	return (MapRelocate ());
+	return (map_relocate ());
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-unsigned long int SDLMappy::Mapbyteswapl (unsigned long int i)
+unsigned long int SDLMappy::mapbyteswapl (unsigned long int i)
 {
-	unsigned long int j;
-
-	j   = i&0xFF;
+	auto j = i&0xFF;
 	j <<= 8;
 	i >>= 8;
 	j  |= i&0xFF;
@@ -350,13 +344,11 @@ unsigned long int SDLMappy::Mapbyteswapl (unsigned long int i)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeNULL (void)
+int SDLMappy::map_decode_null ()
 {
-	char * mynllpt;
-
-	mynllpt = (char *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mynllpt==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mynllpt, Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	auto mynllpt = static_cast<char *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mynllpt==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mynllpt, mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 	free (mynllpt);
 
 	return 0;
@@ -364,13 +356,11 @@ int SDLMappy::MapDecodeNULL (void)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeMPHD (void)
+int SDLMappy::map_decode_mphd ()
 {
-	MPHD	* hdrmempt;
-
-	hdrmempt = (MPHD *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (hdrmempt==NULL) return 0;
-	fread (hdrmempt, Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	auto hdrmempt = static_cast<MPHD *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (hdrmempt==nullptr) return 0;
+	fread (hdrmempt, mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 	mapwidth=hdrmempt->mapwidth;
 	mapheight=hdrmempt->mapheight;
 	mapblockwidth=hdrmempt->blockwidth;
@@ -386,11 +376,11 @@ int SDLMappy::MapDecodeMPHD (void)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeBODY (void)
+int SDLMappy::map_decode_body ()
 {
-	mappt = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mappt==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mappt, Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mappt = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mappt==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mappt, mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 	mapmappt[0] = mappt;
 
 	return 0;
@@ -398,51 +388,51 @@ int SDLMappy::MapDecodeBODY (void)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeCMAP (void)
+int SDLMappy::map_decode_cmap ()
 {
-	mapcmappt = (unsigned char *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapcmappt==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapcmappt, Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
-	MapCMAPtoPE (mapcmappt, mappept);
+	mapcmappt = static_cast<unsigned char *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapcmappt==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapcmappt, mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	map_cma_pto_pe (mapcmappt, mappept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeBKDT (void)
+int SDLMappy::map_decode_bkdt ()
 {
-	mapblockstrpt = (char *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapblockstrpt==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapblockstrpt, Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapblockstrpt = static_cast<char *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapblockstrpt==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapblockstrpt, mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeANDT (void)
+int SDLMappy::map_decode_andt ()
 {
-	ANDTSize =  Mapbyteswapl(mapgenheader.headsize);
-	mapanimstrpt = (char *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapanimstrpt==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	mapanimstrendpt = (char *) (mapanimstrpt+(Mapbyteswapl(mapgenheader.headsize)));
-	fread (mapanimstrpt, Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	ANDTSize =  mapbyteswapl(mapgenheader.headsize);
+	mapanimstrpt = static_cast<char *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapanimstrpt==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	mapanimstrendpt = static_cast<char *>(mapanimstrpt + (mapbyteswapl(mapgenheader.headsize)));
+	fread (mapanimstrpt, mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeBGFX (void)
+int SDLMappy::map_decode_bgfx ()
 {
-	unsigned long int i, size;
+	unsigned long int i;
 	unsigned long int temp;
-	
-	size=Mapbyteswapl(mapgenheader.headsize);
+
+	auto size = mapbyteswapl(mapgenheader.headsize);
 	if (mapdepth == 8) size *= 3;	//convert 8bit to 24bit
-	mapblockgfxpt = (char *) malloc (size);
-	if (mapblockgfxpt==NULL) { maperror = MER_OUTOFMEM; return -1; }
+	mapblockgfxpt = static_cast<char *>(malloc(size));
+	if (mapblockgfxpt==nullptr) { maperror = MER_OUTOFMEM; return -1; }
 	switch(mapdepth)
 	{
 		case 8:
@@ -492,7 +482,6 @@ int SDLMappy::MapDecodeBGFX (void)
 			break;
 		default:
 			return -1;
-			break;
 	}
 
 	return 0;
@@ -500,92 +489,90 @@ int SDLMappy::MapDecodeBGFX (void)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR1 (void)
+int SDLMappy::map_decode_lyr1 ()
 {
-	mapmappt[1] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[1]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[1], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[1] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[1]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[1], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR2 (void)
+int SDLMappy::map_decode_lyr2 ()
 {
-	mapmappt[2] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[2]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[2], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[2] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[2]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[2], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR3 (void)
+int SDLMappy::map_decode_lyr3 ()
 {
-	mapmappt[3] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[3]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[3], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[3] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[3]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[3], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR4 (void)
+int SDLMappy::map_decode_lyr4 ()
 {
-	mapmappt[4] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[4]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[4], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[4] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[4]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[4], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR5 (void)
+int SDLMappy::map_decode_lyr5 ()
 {
-	mapmappt[5] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[5]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[5], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[5] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[5]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[5], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR6 (void)
+int SDLMappy::map_decode_lyr6 ()
 {
-	mapmappt[6] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[6]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[6], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[6] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[6]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[6], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDecodeLYR7 (void)
+int SDLMappy::map_decode_lyr7 ()
 {
-	mapmappt[7] = (short int *) malloc (Mapbyteswapl(mapgenheader.headsize));
-	if (mapmappt[7]==NULL) { maperror = MER_OUTOFMEM; return -1; }
-	fread (mapmappt[7], Mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
+	mapmappt[7] = static_cast<short int *>(malloc(mapbyteswapl(mapgenheader.headsize)));
+	if (mapmappt[7]==nullptr) { maperror = MER_OUTOFMEM; return -1; }
+	fread (mapmappt[7], mapbyteswapl(mapgenheader.headsize), 1, mapfilept);
 
 	return 0;
 }
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-void SDLMappy::MapCMAPtoPE (unsigned char * mycmappt, SDL_Color * mypept)
+void SDLMappy::map_cma_pto_pe (unsigned char * mycmappt, SDL_Color * mypept)
 {
-	int i;
-
-	for (i=0;i<256;i++)
+	for (auto i = 0;i<256;i++)
 	{
-		mypept[i].r = (char) *mycmappt; mycmappt++;
-		mypept[i].g = (char) *mycmappt; mycmappt++;
-		mypept[i].b = (char) *mycmappt; mycmappt++;
+		mypept[i].r = static_cast<char>(*mycmappt); mycmappt++;
+		mypept[i].g = static_cast<char>(*mycmappt); mycmappt++;
+		mypept[i].b = static_cast<char>(*mycmappt); mycmappt++;
 		//mypept[i].unused = 0;
 	}
 }
@@ -593,31 +580,30 @@ void SDLMappy::MapCMAPtoPE (unsigned char * mycmappt, SDL_Color * mypept)
 // ---------------------------------------------------------------------------------
 // Returns a BLKSTR pointer, useful for collision detection and examining a block structure.
 // ---------------------------------------------------------------------------------
-BLKSTR * SDLMappy::MapGetBlock (int x, int y)
+BLKSTR * SDLMappy::map_get_block (int x, int y) const
 {
 	short int * mymappt;
-	ANISTR * myanpt;
 
-/*	if (maparraypt!= NULL) {
+	/*	if (maparraypt!= nullptr) {
 		mymappt = maparraypt[y]+x;
 	} else */{
 		mymappt = mappt;
 		mymappt += x;
 		mymappt += y*mapwidth;
 	}
-	if (*mymappt>=0) return (BLKSTR*) (((char *)mapblockstrpt) + *mymappt);
-	else { myanpt = (ANISTR *) (mapanimstrendpt + *mymappt);
-		return (BLKSTR *) (((char *)mapblockstrpt) + *((long int *)(myanpt->ancuroff))); }
+	if (*mymappt>=0) return reinterpret_cast<BLKSTR*>(static_cast<char *>(mapblockstrpt) + *mymappt);
+	auto myanpt = reinterpret_cast<ANISTR *>(mapanimstrendpt + *mymappt);
+	return reinterpret_cast<BLKSTR *>(static_cast<char *>(mapblockstrpt) + *reinterpret_cast<long int *>(myanpt->ancuroff));
 }
 
 // ---------------------------------------------------------------------------------
 // The x and y paramaters are the offset from the left and top of the map in BLOCKS, NOT pixels.
 // ---------------------------------------------------------------------------------
-void SDLMappy::MapSetBlock (int x, int y, int strvalue)
+void SDLMappy::map_set_block (int x, int y, int strvalue) const
 {
 	short int * mymappt;
 
-/*	if (maparraypt!= NULL) {
+/*	if (maparraypt!= nullptr) {
 		mymappt = maparraypt[y]+x;
 	} else */{
 		mymappt = mappt;
@@ -635,27 +621,25 @@ void SDLMappy::MapSetBlock (int x, int y, int strvalue)
 // if return is positive then the block is a normal tile
 // if return is negative then the block (-X) is animation (+X)
 // ------------------------------------------------------------
-short int SDLMappy::MapGetTile( int x , int y )
+short int SDLMappy::map_get_tile( int x , int y ) const
 {
-	short int	Content;
+	auto content = mappt[x+(y*mapwidth)];
 
-	Content = mappt[x+(y*mapwidth)];
-
-	if( Content >= 0 )
-		Content /= sizeof(BLKSTR);
+	if( content >= 0 )
+		content /= sizeof(BLKSTR);
 	else
 	{
-		Content = -Content / sizeof(ANISTR) ;
-		Content = -Content + 1;
+		content = -content / sizeof(ANISTR) ;
+		content = -content + 1;
 	}
 
-	return Content;
+	return content;
 }
 
 // ---------------------------------------------------------------------------------
 // returns the width of the map in pixels
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapWidth( void )
+short int SDLMappy::get_map_width() const
 {
 	return mapwidth * mapblockwidth;
 }
@@ -665,7 +649,7 @@ short int SDLMappy::GetMapWidth( void )
 // ---------------------------------------------------------------------------------
 // returns the width of the map in pixels
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapHeight( void )
+short int SDLMappy::get_map_height() const
 {
 	return mapheight * mapblockheight;
 }
@@ -675,7 +659,7 @@ short int SDLMappy::GetMapHeight( void )
 // ---------------------------------------------------------------------------------
 // returns the width of the map in blocks
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapWidthInBlocks( void )
+short int SDLMappy::get_map_width_in_blocks() const
 {
 	return mapwidth;
 }
@@ -685,7 +669,7 @@ short int SDLMappy::GetMapWidthInBlocks( void )
 // ---------------------------------------------------------------------------------
 // returns the width of the map in blocks
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapHeightInBlocks( void )
+short int SDLMappy::get_map_height_in_blocks() const
 {
 	return mapheight;
 }
@@ -695,7 +679,7 @@ short int SDLMappy::GetMapHeightInBlocks( void )
 // ---------------------------------------------------------------------------------
 // returns the width of one map block in pixels
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapBlockWidth( void )
+short int SDLMappy::get_map_block_width() const
 {
 	return mapblockwidth;
 }
@@ -705,7 +689,7 @@ short int SDLMappy::GetMapBlockWidth( void )
 // ---------------------------------------------------------------------------------
 // returns the height of one map block in pixels
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapBlockHeight( void )
+short int SDLMappy::get_map_block_height() const
 {
 	return mapblockheight;
 }
@@ -713,7 +697,7 @@ short int SDLMappy::GetMapBlockHeight( void )
 // ---------------------------------------------------------------------------------
 // returns the color depth of the map
 // ---------------------------------------------------------------------------------
-short int SDLMappy::GetMapBPP( void )
+short int SDLMappy::get_map_bpp() const
 {
     return mapdepth;
 }
@@ -722,25 +706,23 @@ short int SDLMappy::GetMapBPP( void )
 // loads a map, left and top are by default 0
 // bottom and right are by default -1 which means screen size
 // ---------------------------------------------------------------------------------
-void SDLMappy::MapMoveTo( int x , int y )
+void SDLMappy::map_move_to( int x , int y )
 {
-    int Width , Height;
-
-    XPosition = x;
+	XPosition = x;
     YPosition = y;
 
-    Width = GetMapWidth( );
+    int width = get_map_width( );
 
-    if( XPosition > (Width - 1 - MSCRW))
-        XPosition = Width-1-MSCRW;
+    if( XPosition > (width - 1 - MSCRW))
+        XPosition = width-1-MSCRW;
 
     if( XPosition < 0 )
         XPosition = 0;
 
-    Height = GetMapHeight( );
+    int height = get_map_height( );
 
-    if( YPosition > (Height - 1 - MSCRH))
-        YPosition = Height-1-MSCRH;
+    if( YPosition > (height - 1 - MSCRH))
+        YPosition = height-1-MSCRH;
 
     if( YPosition < 0 )
         YPosition = 0;
@@ -749,9 +731,9 @@ void SDLMappy::MapMoveTo( int x , int y )
 // ---------------------------------------------------------------------------------
 // change le numero de la layer (0 à 7) devant etre affichee
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapChangeLayer (int newlyr)
+int SDLMappy::map_change_layer (int newlyr)
 {
-	if (newlyr<0 || newlyr>7 || mapmappt[newlyr] == NULL) return -1;
+	if (newlyr<0 || newlyr>7 || mapmappt[newlyr] == nullptr) return -1;
 	mappt = mapmappt[newlyr]; //maparraypt = mapmaparraypt[newlyr];
 	return newlyr;
 }
@@ -759,45 +741,42 @@ int SDLMappy::MapChangeLayer (int newlyr)
 // ---------------------------------------------------------------------------------
 // draws the background layer without Transparency
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDrawBG (SDL_Surface * lpDDS )
+int SDLMappy::map_draw_bg (SDL_Surface * lp_dds )
 {
-	int			i, j, mapvclip, maphclip;
-    int         mapxo, mapyo;
-    int 		numtile, numanim;
-    ANISTR		* anim;
-	SDL_Rect TileDestRect;
+	int			i;
+	SDL_Rect tile_dest_rect;
 	
 	for(i=0; i<mapnumblockgfx; i++)
 		SDL_SetColorKey(maplpDDSTiles[i], 0, 0);
+
+	auto mapxo = XPosition/mapblockwidth;
+	auto mapyo = YPosition/mapblockheight;
+	auto maphclip = XPosition%mapblockwidth;
+	auto mapvclip = YPosition%mapblockheight;	
 	
-	mapxo=XPosition/mapblockwidth;
-	mapyo=YPosition/mapblockheight;
-	maphclip=XPosition%mapblockwidth;
-	mapvclip=YPosition%mapblockheight;	
-	
-	for(i=0; i<lpDDS->h/mapblockheight+2;i++)
-		for(j=0; j<lpDDS->w/mapblockwidth+2;j++)
+	for(i=0; i<lp_dds->h/mapblockheight+2;i++)
+		for(auto j = 0; j<lp_dds->w/mapblockwidth+2;j++)
 		{	
-			TileDestRect.y	= i*mapblockheight-mapvclip;
-			TileDestRect.x	= j*mapblockwidth-maphclip;
-			TileDestRect.h	= mapblockheight;
-			TileDestRect.w	= mapblockwidth;
+			tile_dest_rect.y	= i*mapblockheight-mapvclip;
+			tile_dest_rect.x	= j*mapblockwidth-maphclip;
+			tile_dest_rect.h	= mapblockheight;
+			tile_dest_rect.w	= mapblockwidth;
 			
-			numtile = mappt[mapxo+j+((mapyo+i)*mapwidth)];
+			int numtile = mappt[mapxo+j+((mapyo+i)*mapwidth)];
 			
 			if (((mapxo+j)<mapwidth) && ((mapyo+i)<mapheight))
 			    if (numtile>=0)
-				SDL_BlitSurface(maplpDDSTiles[((BLKSTR *) (mapblockstrpt+numtile))->bgoff],
-					NULL, lpDDS, &TileDestRect);
+				SDL_BlitSurface(maplpDDSTiles[reinterpret_cast<BLKSTR *>(mapblockstrpt + numtile)->bgoff],
+					nullptr, lp_dds, &tile_dest_rect);
 				else
 				{
-					anim = (ANISTR *) (mapanimstrendpt + numtile);
-					numanim = mapanimstrpt[ANDTSize+anim->ancuroff+1]&0XFF;
+					auto anim = reinterpret_cast<ANISTR *>(mapanimstrendpt + numtile);
+					auto numanim = mapanimstrpt[ANDTSize+anim->ancuroff+1]&0XFF;
 					numanim <<= 8;
 					numanim |= mapanimstrpt[ANDTSize+anim->ancuroff]&0XFF;
 //					numanim >>= 5;
-					SDL_BlitSurface(maplpDDSTiles[((BLKSTR *) (mapblockstrpt+numanim))->bgoff],
-						NULL, lpDDS, &TileDestRect);
+					SDL_BlitSurface(maplpDDSTiles[reinterpret_cast<BLKSTR *>(mapblockstrpt + numanim)->bgoff],
+						nullptr, lp_dds, &tile_dest_rect);
 				}
 		}
 	return 0;
@@ -807,64 +786,61 @@ int SDLMappy::MapDrawBG (SDL_Surface * lpDDS )
 // draws the background layer WITH Transparency (couleur de transparence = celle du
 //			1er block qui doit etre uni)
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDrawBGT (SDL_Surface * lpDDS )
+int SDLMappy::map_draw_bgt (SDL_Surface * lp_dds )
 {
-	int			i, j, mapvclip, maphclip;
-    int         mapxo, mapyo;
-    int 		numtile, numanim;
-    ANISTR		* anim;
-	SDL_Rect TileDestRect;
+	int			i;
+	SDL_Rect tile_dest_rect;
 	
 	switch(mapdepth)
 	{
 		case 8:
 			for(i=0; i<mapnumblockgfx; i++)
 				SDL_SetColorKey(maplpDDSTiles[i], 0,
-						*(Uint8 *)maplpDDSTiles[TRANSPBLOCK]->pixels);
+						*static_cast<Uint8 *>(maplpDDSTiles[TRANSPBLOCK]->pixels));
 			break;
 		case 16:
 			for(i=0; i<mapnumblockgfx; i++)
 				SDL_SetColorKey(maplpDDSTiles[i], 0,
-						*(Uint16 *)maplpDDSTiles[TRANSPBLOCK]->pixels);
+						*static_cast<Uint16 *>(maplpDDSTiles[TRANSPBLOCK]->pixels));
 			break;
 		case 24:
 		case 32:
 			for(i=0; i<mapnumblockgfx; i++)
 				SDL_SetColorKey(maplpDDSTiles[i], 0,
-						*(Uint32 *)maplpDDSTiles[TRANSPBLOCK]->pixels);
+						*static_cast<Uint32 *>(maplpDDSTiles[TRANSPBLOCK]->pixels));
 			break;
 		default:
 			break;
 	}
+
+	auto mapxo = XPosition/mapblockwidth;
+	auto mapyo = YPosition/mapblockheight;
+	auto maphclip = XPosition%mapblockwidth;
+	auto mapvclip = YPosition%mapblockheight;	
 	
-	mapxo=XPosition/mapblockwidth;
-	mapyo=YPosition/mapblockheight;
-	maphclip=XPosition%mapblockwidth;
-	mapvclip=YPosition%mapblockheight;	
-	
-	for(i=0; i<lpDDS->h/mapblockheight+2;i++)
-		for(j=0; j<lpDDS->w/mapblockwidth+2;j++)
+	for(i=0; i<lp_dds->h/mapblockheight+2;i++)
+		for(auto j = 0; j<lp_dds->w/mapblockwidth+2;j++)
 		{	
-			TileDestRect.y	= i*mapblockheight-mapvclip;
-			TileDestRect.x	= j*mapblockwidth-maphclip;
-			TileDestRect.h	= mapblockheight;
-			TileDestRect.w	= mapblockwidth;
+			tile_dest_rect.y	= i*mapblockheight-mapvclip;
+			tile_dest_rect.x	= j*mapblockwidth-maphclip;
+			tile_dest_rect.h	= mapblockheight;
+			tile_dest_rect.w	= mapblockwidth;
 			
-			numtile = mappt[mapxo+j+((mapyo+i)*mapwidth)];
+			int numtile = mappt[mapxo+j+((mapyo+i)*mapwidth)];
 			
 			if (((mapxo+j)<mapwidth) && ((mapyo+i)<mapheight))
 			    if (numtile>=0)
-				SDL_BlitSurface(maplpDDSTiles[((BLKSTR *) (mapblockstrpt+numtile))->bgoff],
-					NULL, lpDDS, &TileDestRect);
+				SDL_BlitSurface(maplpDDSTiles[reinterpret_cast<BLKSTR *>(mapblockstrpt + numtile)->bgoff],
+					nullptr, lp_dds, &tile_dest_rect);
 				else
 				{
-					anim = (ANISTR *) (mapanimstrendpt + numtile);
-					numanim = mapanimstrpt[ANDTSize+anim->ancuroff+1]&0XFF;
+					auto anim = reinterpret_cast<ANISTR *>(mapanimstrendpt + numtile);
+					auto numanim = mapanimstrpt[ANDTSize+anim->ancuroff+1]&0XFF;
 					numanim <<= 8;
 					numanim |= mapanimstrpt[ANDTSize+anim->ancuroff]&0XFF;
 //					numanim >>= 5;
-					SDL_BlitSurface(maplpDDSTiles[((BLKSTR *) (mapblockstrpt+numanim))->bgoff],
-						NULL, lpDDS, &TileDestRect);
+					SDL_BlitSurface(maplpDDSTiles[reinterpret_cast<BLKSTR *>(mapblockstrpt + numanim)->bgoff],
+						nullptr, lp_dds, &tile_dest_rect);
 				}
 		}
 	
@@ -875,64 +851,61 @@ int SDLMappy::MapDrawBGT (SDL_Surface * lpDDS )
 // draws the foreground layer WITH Transparency (couleur de transparence = celle du
 //			1er block qui doit etre uni)
 // ---------------------------------------------------------------------------------
-int SDLMappy::MapDrawFG (SDL_Surface * lpDDS )
+int SDLMappy::map_draw_fg (SDL_Surface * lp_dds )
 {
-	int			i, j, mapvclip, maphclip;
-    int         mapxo, mapyo;
-    int 		numtile, numanim;
-    ANISTR		* anim;
-	SDL_Rect TileDestRect;
+	int			i;
+	SDL_Rect tile_dest_rect;
 	
 	switch(mapdepth)
 	{
 		case 8:
 			for(i=0; i<mapnumblockgfx; i++)
 				SDL_SetColorKey(maplpDDSTiles[i], 0,
-						*(Uint8 *)maplpDDSTiles[TRANSPBLOCK]->pixels);
+						*static_cast<Uint8 *>(maplpDDSTiles[TRANSPBLOCK]->pixels));
 			break;
 		case 16:
 			for(i=0; i<mapnumblockgfx; i++)
 				SDL_SetColorKey(maplpDDSTiles[i], 0,
-						*(Uint16 *)maplpDDSTiles[TRANSPBLOCK]->pixels);
+						*static_cast<Uint16 *>(maplpDDSTiles[TRANSPBLOCK]->pixels));
 			break;
 		case 24:
 		case 32:
 			for(i=0; i<mapnumblockgfx; i++)
 				SDL_SetColorKey(maplpDDSTiles[i], 0,
-						*(Uint32 *)maplpDDSTiles[TRANSPBLOCK]->pixels);
+						*static_cast<Uint32 *>(maplpDDSTiles[TRANSPBLOCK]->pixels));
 			break;
 		default:
 			break;
 	}
+
+	auto mapxo = XPosition/mapblockwidth;
+	auto mapyo = YPosition/mapblockheight;
+	auto maphclip = XPosition%mapblockwidth;
+	auto mapvclip = YPosition%mapblockheight;	
 	
-	mapxo=XPosition/mapblockwidth;
-	mapyo=YPosition/mapblockheight;
-	maphclip=XPosition%mapblockwidth;
-	mapvclip=YPosition%mapblockheight;	
-	
-	for(i=0; i<lpDDS->h/mapblockheight+2;i++)
-		for(j=0; j<lpDDS->w/mapblockwidth+2;j++)
+	for(i=0; i<lp_dds->h/mapblockheight+2;i++)
+		for(auto j = 0; j<lp_dds->w/mapblockwidth+2;j++)
 		{	
-			TileDestRect.y	= i*mapblockheight-mapvclip;
-			TileDestRect.x	= j*mapblockwidth-maphclip;
-			TileDestRect.h	= mapblockheight;
-			TileDestRect.w	= mapblockwidth;
+			tile_dest_rect.y	= i*mapblockheight-mapvclip;
+			tile_dest_rect.x	= j*mapblockwidth-maphclip;
+			tile_dest_rect.h	= mapblockheight;
+			tile_dest_rect.w	= mapblockwidth;
 			
-			numtile = mappt[mapxo+j+((mapyo+i)*mapwidth)];
+			int numtile = mappt[mapxo+j+((mapyo+i)*mapwidth)];
 			
 			if (((mapxo+j)<mapwidth) && ((mapyo+i)<mapheight))
 			    if (numtile>=0)
-				SDL_BlitSurface(maplpDDSTiles[((BLKSTR *) (mapblockstrpt+numtile))->fgoff],
-					NULL, lpDDS, &TileDestRect);
+				SDL_BlitSurface(maplpDDSTiles[reinterpret_cast<BLKSTR *>(mapblockstrpt + numtile)->fgoff],
+					nullptr, lp_dds, &tile_dest_rect);
 				else
 				{
-					anim = (ANISTR *) (mapanimstrendpt + numtile);
-					numanim = mapanimstrpt[ANDTSize+anim->ancuroff+1]&0XFF;
+					auto anim = reinterpret_cast<ANISTR *>(mapanimstrendpt + numtile);
+					auto numanim = mapanimstrpt[ANDTSize+anim->ancuroff+1]&0XFF;
 					numanim <<= 8;
 					numanim |= mapanimstrpt[ANDTSize+anim->ancuroff]&0XFF;
 //					numanim >>= 5;
-					SDL_BlitSurface(maplpDDSTiles[((BLKSTR *) (mapblockstrpt+numanim))->fgoff],
-						NULL, lpDDS, &TileDestRect);
+					SDL_BlitSurface(maplpDDSTiles[reinterpret_cast<BLKSTR *>(mapblockstrpt + numanim)->fgoff],
+						nullptr, lp_dds, &tile_dest_rect);
 				}
 		}
 	
@@ -941,12 +914,10 @@ int SDLMappy::MapDrawFG (SDL_Surface * lpDDS )
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-void SDLMappy::MapInitAnims (void)
+void SDLMappy::map_init_anims () const
 {
-	ANISTR	* myanpt;
-
-	if (mapanimstrpt==NULL) return;
-	myanpt = (ANISTR *) mapanimstrendpt; myanpt--;
+	if (mapanimstrpt==nullptr) return;
+	auto myanpt = reinterpret_cast<ANISTR *>(mapanimstrendpt); myanpt--;
 	while (myanpt->antype!=-1)
 	{
 		if (myanpt->antype==AN_PPFR) myanpt->antype = AN_PPFF;
@@ -966,12 +937,10 @@ void SDLMappy::MapInitAnims (void)
 
 // ---------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
-void SDLMappy::MapUpdateAnims (void)
+void SDLMappy::map_update_anims () const
 {
-	ANISTR	* myanpt;
-
-	if (mapanimstrpt==NULL) return;
-	myanpt = (ANISTR *) mapanimstrendpt; myanpt--;
+	if (mapanimstrpt==nullptr) return;
+	auto myanpt = reinterpret_cast<ANISTR *>(mapanimstrendpt); myanpt--;
 	while (myanpt->antype!=-1)
 	{
 		if (myanpt->antype!=AN_NONE) { myanpt->ancount--; if (myanpt->ancount<0) {
@@ -1035,12 +1004,12 @@ void SDLMappy::MapUpdateAnims (void)
 // errors can be: bitmap not found
 // caution: the parallax surface size must be a multiple of the map block size
 // ---------------------------------------------------------------------------------
-SDL_bool SDLMappy::CreateParallax( char * Filename )
+SDL_bool SDLMappy::create_parallax( char * filename )
 {
     // set the global variable to the filename
-    ParallaxFilename = new char[ strlen(Filename)+1 ];
-    strcpy_s( ParallaxFilename, strlen(Filename), Filename );
-    return RestoreParallax( );
+    ParallaxFilename = new char[ strlen(filename)+1 ];
+    strcpy_s( ParallaxFilename, strlen(filename), filename );
+    return restore_parallax( );
 }
 
 // ---------------------------------------------------------------------------------
@@ -1049,27 +1018,25 @@ SDL_bool SDLMappy::CreateParallax( char * Filename )
 // errors can be: bitmap not found
 // caution: the parallax surface size must be a multiple of the map block size
 // ---------------------------------------------------------------------------------
-SDL_bool SDLMappy::RestoreParallax( void )
+SDL_bool SDLMappy::restore_parallax()
 {
-    SDL_Surface *SourceSurfaceTmp;
-
-    // when no map is loaded, return an error
-    if( GetMapWidth() == 0 )
+	// when no map is loaded, return an error
+    if( get_map_width() == 0 )
         return SDL_FALSE;
 
     // load the bitmap into a surface
-	if(ParallaxFilename == NULL)
+	if(ParallaxFilename == nullptr)
 		return SDL_FALSE;
 	
 	/* Load a BMP sprite into a surface */
-	SourceSurfaceTmp = SDL_LoadBMP(ParallaxFilename);
-	if ( SourceSurfaceTmp == NULL )
+	auto source_surface_tmp = SDL_LoadBMP(ParallaxFilename);
+	if ( source_surface_tmp == nullptr )
 		return SDL_FALSE;
 		
 	/* Convert the sprite to the video format (maps colors) */
 	//ParallaxSurface = SDL_DisplayFormat(SourceSurfaceTmp);
-	SDL_FreeSurface(SourceSurfaceTmp);
-	if ( ParallaxSurface == NULL )
+	SDL_FreeSurface(source_surface_tmp);
+	if ( ParallaxSurface == nullptr )
 		return SDL_FALSE;
 
     PARAW = ParallaxSurface->w;
@@ -1079,29 +1046,24 @@ SDL_bool SDLMappy::RestoreParallax( void )
     return SDL_TRUE;
 }
 
-int SDLMappy::DrawParallax (SDL_Surface * lpDDS )
+int SDLMappy::draw_parallax (SDL_Surface * lp_dds ) const
 {
-	int			i, j, mapvclip, maphclip;
-    int         mapxo, mapyo;
-    int 		indentx, indenty;
-	SDL_Rect TileDestRect;
+	SDL_Rect tile_dest_rect;
+
+	auto mapxo = XPosition;
+	auto mapyo = YPosition;
+	auto indentx = ((mapxo/2)%PARAW);
+	auto indenty = ((mapyo/2)%PARAH);
 	
-	mapxo=XPosition;
-	mapyo=YPosition;
-	maphclip = mapxo%PARAW;	/* Number of pixels to clip from left */
-	mapvclip = mapyo%PARAH;	/* Number of pixels to clip from top */
-	indentx = ((mapxo/2)%PARAW);
-	indenty = ((mapyo/2)%PARAH);
-	
-	for(i=0; i<lpDDS->h/PARAH+2;i++)
-		for(j=0; j<lpDDS->w/PARAW+2;j++)
+	for(auto i = 0; i<lp_dds->h/PARAH+2;i++)
+		for(auto j = 0; j<lp_dds->w/PARAW+2;j++)
 		{	
-			TileDestRect.y	= i*PARAH-indenty;
-			TileDestRect.x	= j*PARAW-indentx;
-			TileDestRect.h	= PARAH;
-			TileDestRect.w	= PARAW;
+			tile_dest_rect.y	= i*PARAH-indenty;
+			tile_dest_rect.x	= j*PARAW-indentx;
+			tile_dest_rect.h	= PARAH;
+			tile_dest_rect.w	= PARAW;
 			
-			SDL_BlitSurface(ParallaxSurface, NULL, lpDDS, &TileDestRect);
+			SDL_BlitSurface(ParallaxSurface, nullptr, lp_dds, &tile_dest_rect);
 		}
 	
 	return 0;

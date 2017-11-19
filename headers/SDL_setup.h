@@ -12,6 +12,6 @@ extern SDL_Renderer* gRenderer;
 extern Textures* gTextures;
 extern TTF_Font* gFont;
 
-SDL_Texture* loadTexture(std::string path);			//loads a image from the specified path
+SDL_Texture* load_texture(std::string path);			//loads a image from the specified path
 
-bool initGraphics();								//initializes the Graphics, generates the window etc.
+bool init_graphics();								//initializes the Graphics, generates the window etc.

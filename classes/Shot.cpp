@@ -1,9 +1,7 @@
 #include "Shot.h"
-#include "Enemy.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "Tower.h"
-#include <iostream>
 #include <math.h>
 
 
@@ -28,7 +26,7 @@ Shot::~Shot()
 }
 
 
-void Shot::render(SDL_Point target)
+void Shot::render(SDL_Point target) const
 {
 	double angle_in_rad;
 	double x_d = target.x - mCoords.x;
