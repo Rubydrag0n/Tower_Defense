@@ -30,7 +30,7 @@ void AoeTower::update(std::vector<Enemy*> all_enemies)
 	{
 		while (!all_enemies.empty() && mElapsed_ticks == 0)
 		{
-			if (enemy_in_range(all_enemies.at(0), mRange))
+			if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
 			{
 				auto shot = new AoeShot(this, all_enemies.at(0)->get_position());
 				mShots.push_back(shot);
@@ -56,7 +56,7 @@ void AoeTower::shoot(std::vector<Enemy*> all_enemies)
 		{
 			while (!all_enemies.empty())
 			{
-				if (enemy_in_range(all_enemies.at(0), mExplosiveRadius))
+				if (enemy_in_range(all_enemies.at(0), mExplosiveRadius, mShots[i]->get_coords()))
 				{
 					all_enemies.at(0)->take_damage(&mDamage);
 				}
