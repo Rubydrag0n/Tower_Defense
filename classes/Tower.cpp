@@ -1,7 +1,6 @@
 #include "Tower.h"
 #include "ConfigFile.h"
 #include "Enemy.h"
-#include "Shot.h"
 #include <SDL.h>
 
 
