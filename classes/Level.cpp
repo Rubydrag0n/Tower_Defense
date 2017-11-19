@@ -8,7 +8,7 @@ Level::Level(std::string level_number)
 
 	mLevel_number = level_number;
 	mLives = cf.Value("level" + mLevel_number, "lives");
-	mWaves_Count = cf.Value("level" + mLevel_number, "waves_count");
+	mWaves_count = cf.Value("level" + mLevel_number, "waves_count");
 
 	//set the start-ressources in this level
 	mRessources.set_ressources(cf.Value("level" + mLevel_number, "gold"),
@@ -20,7 +20,7 @@ Level::Level(std::string level_number)
 		cf.Value("level" + mLevel_number, "food"));
 
 	//create all waves in the level and insert them in the vector mWaves
-	for (auto i = 1; i <= mWaves_Count; i++)
+	for (auto i = 1; i <= mWaves_count; i++)
 	{
 		auto wave_number = std::to_string(i);
 		auto new_wave = new Wave(wave_number, this);
@@ -39,7 +39,7 @@ void Level::update()
 	mWaves.at(0).update();
 	if(mWaves.at(0).is_dead())
 	{
-		mWaves_Count--;
+		mWaves_count--;
 		mWaves.erase(mWaves.begin());
 	}
 }
@@ -71,7 +71,7 @@ int Level::get_lives() const
 
 int Level::get_waves_count() const
 {
-	return mWaves_Count;
+	return mWaves_count;
 }
 
 std::vector<Wave>* Level::get_waves()
@@ -82,6 +82,11 @@ std::vector<Wave>* Level::get_waves()
 Ressources* Level::get_ressources()
 {
 	return &mRessources;
+}
+
+std::string Level::get_level_number() const
+{
+	return this->mLevel_number;
 }
 
 

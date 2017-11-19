@@ -7,7 +7,7 @@ Wave::Wave(std::string wave_number, Level* level)
 {
 	ConfigFile cf("config/game.cfg");
 	mLevel = level;
-	mMonster_group_count = cf.Value("wave" + mLevel->mLevel_number + wave_number, "monster_group_count");//number of monstergroups in the wave
+	mMonster_group_count = cf.Value("wave" + mLevel->get_level_number() + wave_number, "monster_group_count");//number of monstergroups in the wave
 
 	//create all monstergroups in this wave and insert them in the vector mMonster_groups
 	for(auto i = 1; i <= mMonster_group_count; i++)

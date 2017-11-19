@@ -23,6 +23,7 @@ Shot::Shot(Tower* tower)
 
 Shot::~Shot()
 {
+	//don't destroy texture, handled by Textures class
 }
 
 

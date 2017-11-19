@@ -1,7 +1,7 @@
 #pragma once
 #include "Wave.h"
 #include <vector>
-#include "Ressources.h"
+#include "Resources.h"
 
 
 class Level
@@ -19,18 +19,18 @@ public:
 	std::vector<Wave>* get_waves();
 	int get_lives() const;
 	Ressources* get_ressources();
+	std::string get_level_number() const;
 
 	void set_ressources(Ressources ressources);
 	void set_lives(int lives);
+	
+private:
 
 	std::string mLevel_number;
-	
 
-
-private:
 	std::vector<Wave> mWaves;
 	int mLives;
 	Ressources mRessources;
-	int mWaves_Count;
+	int mWaves_count;
 };
 

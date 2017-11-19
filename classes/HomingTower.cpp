@@ -62,4 +62,3 @@ void HomingTower::shoot()
 		}
 	}
 }
-
