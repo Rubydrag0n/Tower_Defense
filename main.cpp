@@ -29,7 +29,5 @@ int main( int argc, char* args[] )
 	
 	SDL_Delay(1000);
 
-	
-
 	return 0;
 }

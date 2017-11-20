@@ -156,6 +156,9 @@
     <ClCompile Include="classes\Window.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="classes\LayerHandler.cpp">
+      <Filter>Source Files\Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -248,6 +251,9 @@
     <ClInclude Include="headers\Map.h">
       <Filter>Header Files\Level and Monster</Filter>
     </ClInclude>
+    <ClInclude Include="headers\LayerHandler.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="config\game.cfg">
@@ -267,5 +273,28 @@
     <Image Include="resources\LinkMonster.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\archer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\arrow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\arrow_ori.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\bomb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\cannon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Lumberjack.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\lazy.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

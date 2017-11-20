@@ -163,6 +163,7 @@
     <ClCompile Include="classes\HomingShot.cpp" />
     <ClCompile Include="classes\HomingTower.cpp" />
     <ClCompile Include="classes\IndustrialBuilding.cpp" />
+    <ClCompile Include="classes\LayerHandler.cpp" />
     <ClCompile Include="classes\Level.cpp" />
     <ClCompile Include="classes\LTexture.cpp" />
     <ClCompile Include="classes\Map.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="headers\HomingShot.h" />
     <ClInclude Include="headers\HomingTower.h" />
     <ClInclude Include="headers\IndustrialBuilding.h" />
+    <ClInclude Include="headers\LayerHandler.h" />
     <ClInclude Include="headers\Level.h" />
     <ClInclude Include="headers\LTexture.h" />
     <ClInclude Include="headers\Map.h" />
@@ -221,8 +223,17 @@
     <None Include="resources\LinkMonster.cfg" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\archer.png" />
+    <Image Include="resources\arrow.png" />
+    <Image Include="resources\arrow_ori.png" />
     <Image Include="resources\background.bmp" />
+    <Image Include="resources\bomb.png" />
+    <Image Include="resources\cannon.png" />
     <Image Include="resources\LinkMonster.png" />
+    <Image Include="resources\Lumberjack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\lazy.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
