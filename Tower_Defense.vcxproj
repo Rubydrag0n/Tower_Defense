@@ -216,8 +216,6 @@
     <ClInclude Include="headers\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="config\game.cfg" />
     <None Include="level\Level1.FMP" />
     <None Include="resources\LinkMonster.cfg" />
