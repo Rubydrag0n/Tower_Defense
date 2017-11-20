@@ -21,7 +21,7 @@ int main( int argc, char* args[] )
 	else
 	{
 		auto game = new Game();
-
+		game->init_game();
 		game->start_game();
 		
 		delete game;

@@ -15,19 +15,19 @@ Button::~Button()
 {
 }
 
-void Button::setPosition(int x, int y)
+void Button::set_position(int x, int y)
 {
 	mPosition.x = x;
 	mPosition.y = y;
 }
 
-void Button::setDimension(int w, int h)
+void Button::set_dimension(int w, int h)
 {
 	mWidth = w;
 	mHeight = h;
 }
 
-void Button::setSpriteClips(SDL_Rect * clips)
+void Button::set_sprite_clips(SDL_Rect * clips)
 {
 	for (auto i = 0; i < LButtonSprite::BUTTON_SPRITE_TOTAL; i++)
 	{
@@ -35,7 +35,7 @@ void Button::setSpriteClips(SDL_Rect * clips)
 	}
 }
 
-void Button::handleEvent(SDL_Event* e)
+void Button::handle_event(SDL_Event* e)
 {
 	//If mouse event happened
 	if (e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP)

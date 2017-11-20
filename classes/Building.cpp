@@ -9,8 +9,11 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
 	ConfigFile cf("config/game.cfg");
 
+	mName = building_name;
+	mSprite_path = std::string(cf.Value(mName + "/sprite", "path"));
+
 	//load texture and the size of the image from the config file
-	mSprite = gTextures->get_texture(cf.Value(building_name + "/sprite", "path"));
+	mSprite = gTextures->get_texture(mSprite_path);
 	mSprite_dimensions.w = cf.Value(building_name + "/sprite", "image_width");
 	mSprite_dimensions.h = cf.Value(building_name + "/sprite", "image_height");
 	mSprite_dimensions.x = 0;
@@ -36,6 +39,13 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 
 	mLevel = level;
 	mCoords = coords;
+
+	SDL_Rect clickable;
+	clickable.x = coords.x - mSprite_dimensions.w/2;
+	clickable.y = coords.y - mSprite_dimensions.h/2;
+	clickable.w = mSprite_dimensions.w;
+	clickable.h = mSprite_dimensions.h;
+	this->set_clickable_space(clickable);
 }
 
 Building::~Building()
@@ -60,11 +70,6 @@ void Building::update()
 	mLevel->get_ressources()->sub(&mMaintenance);
 }
 
-void Building::select()
-{
-	
-}
-
 void Building::place()
 {
 	mLevel->get_ressources()->sub(&mConstruction_costs);
@@ -75,6 +80,26 @@ void Building::place()
 void Building::set_maintenance(Ressources new_maintenance)
 {
 	mMaintenance = new_maintenance;
+}
+
+void Building::on_click()
+{
+	printf("Building clicked: %s\n", this->mName.c_str());
+}
+
+void Building::on_mouse_over()
+{
+	printf("Building mouse over: %s\n", this->mName.c_str());
+}
+
+void Building::on_right_click()
+{
+	printf("Building right click: %s\n", this->mName.c_str());
+}
+
+void Building::on_middle_click()
+{
+	printf("Building middle click: %s\n", this->mName.c_str());
 }
 
 void Building::set_coords(SDL_Point coords)

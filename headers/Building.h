@@ -2,26 +2,30 @@
 #include <SDL.h>
 #include "Resources.h"
 #include <string>
+#include "Clickable.h"
 
 class Level;
 
-class Building
+class Building : public Clickable
 {
 public:
 	Building(std::string building_name, SDL_Point coords, Level *level);
 	~Building();
 
-	void render() const;
-	void select();
+	virtual void render() const;
 	void place();
-	void update();
+	virtual void update();
 
 	SDL_Point get_coords() const;
 	Ressources get_construction_costs() const;
 	Ressources get_maintenance() const;
 	void set_coords(SDL_Point coords);
 	void set_maintenance(Ressources maintenance);
-	
+
+	void on_click() override;
+	void on_mouse_over() override;
+	void on_right_click() override;
+	void on_middle_click() override;
 
 protected:
 	SDL_Point mCoords;
@@ -30,6 +34,9 @@ protected:
 	SDL_Texture *mSprite;
 	SDL_Rect mSprite_dimensions;
 	Level *mLevel;
+
+	std::string mName;
+	std::string mSprite_path;
 };
 
 

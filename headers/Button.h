@@ -18,16 +18,16 @@ public:
 	~Button();
 
 	//Sets top left position
-	void setPosition(int x, int y);
+	void set_position(int x, int y);
 
 	//Sets width and height
-	void setDimension(int w, int h);
+	void set_dimension(int w, int h);
 
 	//Sets the Clips
-	void setSpriteClips(SDL_Rect *clips);
+	void set_sprite_clips(SDL_Rect *clips);
 
 	//Handles mouse event
-	void handleEvent(SDL_Event* e);
+	void handle_event(SDL_Event* e);
 
 	//Shows button sprite
 	void render();
