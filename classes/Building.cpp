@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include <SDL.h>
 #include "Level.h"
+#include "Menu.h"
 
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
