@@ -60,10 +60,6 @@ void Game::start_game()
 
 	for (auto i = 0; i < 300000; i++)
 	{
-		SDL_Event e;
-		while (SDL_PollEvent(&e)) {
-			gMouse_handler->handle_event(&e);
-		}
 
 		//SDL_Delay(100);
 		mAll_enemies.clear();
@@ -87,6 +83,14 @@ void Game::start_game()
 		test_menu->render();
 		test_button->render();
 		test_industrial_building->render();
+
+		//also renders the hover window
+		SDL_Event e;
+		while (SDL_PollEvent(&e)) {
+			gMouse_handler->handle_event(&e);
+		}
+		gMouse_handler->update();
+
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0)
 		{

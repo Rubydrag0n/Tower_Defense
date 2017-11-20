@@ -22,10 +22,10 @@ public:
 	void set_coords(SDL_Point coords);
 	void set_maintenance(Ressources maintenance);
 
-	void on_click() override;
-	void on_mouse_over() override;
-	void on_right_click() override;
-	void on_middle_click() override;
+	void on_click(int mouse_x, int mouse_y) override;
+	void on_mouse_over(int mouse_x, int mouse_y) override;
+	void on_right_click(int mouse_x, int mouse_y) override;
+	void on_middle_click(int mouse_x, int mouse_y) override;
 
 protected:
 	SDL_Point mCoords;

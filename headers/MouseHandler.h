@@ -11,6 +11,10 @@ public:
 	void add_clickable(Clickable* c);
 	void del_clickable(Clickable* c);
 
+	//handles the mouse_over events
+	void update();
+
+	//handles all click related events
 	void handle_event(SDL_Event* e);
 
 private:
