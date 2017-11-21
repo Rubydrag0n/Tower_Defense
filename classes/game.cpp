@@ -55,13 +55,13 @@ void Game::start_game()
 		mAll_enemies.clear();
 		test_level->update();
 		//add all enemies: for every wave every monstergroup in the level
-		/*for(auto n = 0; n < test_level->get_waves_count(); n++)
+		for(auto n = 0; n < test_level->get_waves_count(); n++)
 		{
 			for(auto m = 0; m < test_level->get_waves()->at(n).get_monster_group_count(); m++)
 			{
 				add_enemies(test_level->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
 			}
-		}*/
+		}
 		test_aoe_tower1->update(mAll_enemies);
 		test_homing_tower->update(mAll_enemies);
 		
