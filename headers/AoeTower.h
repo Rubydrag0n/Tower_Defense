@@ -10,8 +10,8 @@ public:
 	~AoeTower();
 
 	void render_shot(Shot* shot) const override;
-	void update(std::vector<Enemy*> all_enemies);
-	void shoot(std::vector<Enemy*> all_enemies);
+	Shot* create_shot(Enemy* enemy) override;
+	bool update_shot(Shot* shot, std::vector<Enemy*> all_enemies) override;
 
 
 private:

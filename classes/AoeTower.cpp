@@ -21,50 +21,28 @@ void AoeTower::render_shot(Shot* shot) const
 	s->render(s->get_location_to_shoot());
 }
 
-//checks if the tower can shoot at an enemy
-void AoeTower::update(std::vector<Enemy*> all_enemies)
+Shot* AoeTower::create_shot(Enemy* enemy)
 {
-	if (mElapsed_ticks == 0)
+	return new AoeShot(this, enemy->get_position());
+}
+
+
+bool AoeTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
+{
+	auto aoe_shot = static_cast<AoeShot*>(shot);
+	if (aoe_shot->follow())
 	{
-		while (!all_enemies.empty() && mElapsed_ticks == 0)
+		while (!all_enemies.empty())
 		{
-			if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
+			if (enemy_in_range(all_enemies.at(0), mExplosive_radius, aoe_shot->get_coords()))
 			{
-				auto shot = new AoeShot(this, all_enemies.at(0)->get_position());
-				mShots.push_back(shot);
-				mElapsed_ticks = mAttack_cooldown;
+				all_enemies.at(0)->take_damage(&mDamage);
 			}
 			all_enemies.erase(all_enemies.begin());
 		}
+		delete aoe_shot;
+		return true;
 	}
-	else
-	{
-		mElapsed_ticks--;
-	}
-	this->shoot(all_enemies);
-}
-
-//all projectiles, that are fired from this tower are updated
-void AoeTower::shoot(std::vector<Enemy*> all_enemies)
-{
-	const auto copy = all_enemies;
-	for (auto i = 0; i<mShots.size(); i++)
-	{
-		auto s = static_cast<AoeShot*>(mShots.at(i));
-		if (s->follow())
-		{
-			while (!all_enemies.empty())
-			{
-				if (enemy_in_range(all_enemies.at(0), mExplosive_radius, mShots[i]->get_coords()))
-				{
-					all_enemies.at(0)->take_damage(&mDamage);
-				}
-				all_enemies.erase(all_enemies.begin());
-			}
-			delete mShots[i];
-			mShots.erase(mShots.begin() + i);
-		}
-		all_enemies = copy;
-	}
+	return false;
 }
 

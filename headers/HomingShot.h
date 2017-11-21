@@ -1,6 +1,8 @@
 #pragma once
 #include "Shot.h"
 
+
+
 class HomingShot : 
 	public Shot
 {
