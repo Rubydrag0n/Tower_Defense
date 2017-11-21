@@ -14,13 +14,11 @@ AoeTower::~AoeTower()
 {
 }
 
-void AoeTower::render()
+void AoeTower::render_shot(Shot* shot) const
 {
-	Tower::render();
-	for (auto i = 0; i<mShots.size(); i++)
-	{
-		mShots.at(i)->render(mShots.at(i)->get_location_to_shoot());
-	}
+	//shot here will always be AoeShot
+	auto s = static_cast<AoeShot*>(shot);
+	s->render(s->get_location_to_shoot());
 }
 
 //checks if the tower can shoot at an enemy
@@ -52,7 +50,8 @@ void AoeTower::shoot(std::vector<Enemy*> all_enemies)
 	const auto copy = all_enemies;
 	for (auto i = 0; i<mShots.size(); i++)
 	{
-		if (mShots[i]->follow())
+		auto s = static_cast<AoeShot*>(mShots.at(i));
+		if (s->follow())
 		{
 			while (!all_enemies.empty())
 			{

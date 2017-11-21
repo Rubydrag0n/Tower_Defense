@@ -5,7 +5,6 @@
 #include "Level.h"
 #include "Window.h"
 
-
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
 	ConfigFile cf("config/game.cfg");
@@ -75,8 +74,6 @@ void Building::place()
 {
 	mLevel->get_ressources()->sub(&mConstruction_costs);
 }
-
-
 
 void Building::set_maintenance(Ressources new_maintenance)
 {

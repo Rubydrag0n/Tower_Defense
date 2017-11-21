@@ -18,49 +18,49 @@ LTexture::~LTexture()
 	free();
 }
 
-bool LTexture::loadFromFile(std::string path)
+bool LTexture::load_from_file(std::string path)
 {
 	//Get rid of preexisting texture
 	free();
 
 	//The final texture
-	SDL_Texture* newTexture = nullptr;
+	SDL_Texture* new_texture = nullptr;
 
 	//Load image at specified path
-	auto loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == nullptr)
+	auto loaded_surface = IMG_Load(path.c_str());
+	if (loaded_surface == nullptr)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	}
 	else
 	{
 		//Color key image
-		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
+		SDL_SetColorKey(loaded_surface, SDL_TRUE, SDL_MapRGB(loaded_surface->format, 0, 0xFF, 0xFF));
 
 		//Create texture from surface pixels
-		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-		if (newTexture == nullptr)
+		new_texture = SDL_CreateTextureFromSurface(gRenderer, loaded_surface);
+		if (new_texture == nullptr)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}
 		else
 		{
 			//Get image dimensions
-			mWidth = loadedSurface->w;
-			mHeight = loadedSurface->h;
+			mWidth = loaded_surface->w;
+			mHeight = loaded_surface->h;
 		}
 
 		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
+		SDL_FreeSurface(loaded_surface);
 	}
 
 	//Return success
-	mTexture = newTexture;
+	mTexture = new_texture;
 	return mTexture != nullptr;
 }
 
 #ifdef _SDL_TTF_H
-bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor)
+bool LTexture::load_from_rendered_text(std::string textureText, SDL_Color textColor)
 {
 	//Get rid of preexisting texture
 	free();
@@ -110,19 +110,19 @@ void LTexture::free()
 	}
 }
 
-void LTexture::setColor(Uint8 red, Uint8 green, Uint8 blue) const
+void LTexture::set_color(Uint8 red, Uint8 green, Uint8 blue) const
 {
 	//Modulate texture rgb
 	SDL_SetTextureColorMod(mTexture, red, green, blue);
 }
 
-void LTexture::setBlendMode(SDL_BlendMode blending) const
+void LTexture::set_blend_mode(SDL_BlendMode blending) const
 {
 	//Set blending function
 	SDL_SetTextureBlendMode(mTexture, blending);
 }
 
-void LTexture::setAlpha(Uint8 alpha) const
+void LTexture::set_alpha(Uint8 alpha) const
 {
 	//Modulate texture alpha
 	SDL_SetTextureAlphaMod(mTexture, alpha);
@@ -131,25 +131,25 @@ void LTexture::setAlpha(Uint8 alpha) const
 void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) const
 {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
+	SDL_Rect render_quad = { x, y, mWidth, mHeight };
 
 	//Set clip rendering dimensions
 	if (clip != nullptr)
 	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
+		render_quad.w = clip->w;
+		render_quad.h = clip->h;
 	}
 
 	//Render to screen
-	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopyEx(gRenderer, mTexture, clip, &render_quad, angle, center, flip);
 }
 
-int LTexture::getWidth() const
+int LTexture::get_width() const
 {
 	return mWidth;
 }
 
-int LTexture::getHeight() const
+int LTexture::get_height() const
 {
 	return mHeight;
 }

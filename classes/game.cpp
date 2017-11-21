@@ -46,17 +46,14 @@ void Game::start_game()
 	test_button->set_dimension(300, 100);
 	auto test_level = new Level("1");
 	auto test_aoe_tower1 = new AoeTower("cannon", coords, test_level);
-	gMouse_handler->add_clickable(test_aoe_tower1);
 	coords.x = 200;
 	coords.y = 200;
 	auto test_homing_tower = new HomingTower("archer", coords, test_level);
-	gMouse_handler->add_clickable(test_homing_tower);
 	auto test_menu = new Menu(test_level);
 
 	coords.x = 100;
 	coords.y = 100;
 	auto test_industrial_building = new IndustrialBuilding("lumberjack", coords, test_level);
-	gMouse_handler->add_clickable(test_industrial_building);
 
 	for (auto i = 0; i < 300000; i++)
 	{
@@ -129,7 +126,7 @@ void Game::add_enemies(std::vector<Enemy*> enemies)
 	}
 }
 
-void Game::add_tower(Tower tower)
+void Game::add_tower(Tower* tower)
 {
 	mAll_towers.push_back(tower);
 }
