@@ -20,6 +20,7 @@ IndustrialBuilding::~IndustrialBuilding()
 {
 }
 
+
 void IndustrialBuilding::render() const
 {
 	Building::render();
