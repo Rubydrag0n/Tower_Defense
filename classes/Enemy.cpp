@@ -10,7 +10,7 @@ Enemy::Enemy(std::string monster_name, int way, Level* Level) : Unit(monster_nam
 	mLevel = Level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	auto s_way = std::to_string(way);
-	printf("reading checkpointnumber...\n");
+	//printf("reading checkpointnumber...\n");
 	int checkpoint_number = cf.Value("level" + mLevel->get_level_number(), "way" + s_way + "number_of_checkpoints");
 
 	for (auto i = 0; i < checkpoint_number; i++)
@@ -19,7 +19,7 @@ Enemy::Enemy(std::string monster_name, int way, Level* Level) : Unit(monster_nam
 		auto number = std::to_string(i);
 		SDL_Point p;
 
-		printf("reading checkpoint %i\n", i);
+		//printf("reading checkpoint %i\n", i);
 		p.x = cf.Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "x");
 		p.y = cf.Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "y");
 		//sorting the checkpoints into the array (they have to be in the right order)

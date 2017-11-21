@@ -9,6 +9,7 @@ public:
 	Game();
 	~Game();
 
+	void init_game();
 	void start_game();
 
 	void add_enemies(std::vector<Enemy*> enemies);

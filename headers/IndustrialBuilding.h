@@ -6,10 +6,10 @@ class IndustrialBuilding :
 	public Building
 {
 public:
-	IndustrialBuilding(std::string industrialBuilding_name, SDL_Point coords, Level* level);
+	IndustrialBuilding(std::string industrial_building_name, SDL_Point coords, Level* level);
 	~IndustrialBuilding();
-	void update();
-	void render() const;
+	void update() override;
+	void render() const override;
 
 
 private:

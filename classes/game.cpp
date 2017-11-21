@@ -12,7 +12,8 @@
 #include "IndustrialBuilding.h"
 #include "HomingTower.h"
 #include "AoeTower.h"
-
+#include "MouseHandler.h"
+#include "Clickable.h"
 
 Game::Game()
 {
@@ -20,6 +21,11 @@ Game::Game()
 
 Game::~Game()
 {
+}
+
+void Game::init_game()
+{
+	gMouse_handler = new MouseHandler();
 }
 
 void Game::start_game()
@@ -36,21 +42,25 @@ void Game::start_game()
 	coords.y = 600;
 	
 	auto test_button = new Button();
-	test_button->setPosition(500, 500);
-	test_button->setDimension(300, 100);
+	test_button->set_position(500, 500);
+	test_button->set_dimension(300, 100);
 	auto test_level = new Level("1");
 	auto test_aoe_tower1 = new AoeTower("cannon", coords, test_level);
+	gMouse_handler->add_clickable(test_aoe_tower1);
 	coords.x = 200;
 	coords.y = 200;
 	auto test_homing_tower = new HomingTower("archer", coords, test_level);
+	gMouse_handler->add_clickable(test_homing_tower);
 	auto test_menu = new Menu(test_level);
 
 	coords.x = 100;
 	coords.y = 100;
 	auto test_industrial_building = new IndustrialBuilding("lumberjack", coords, test_level);
+	gMouse_handler->add_clickable(test_industrial_building);
 
 	for (auto i = 0; i < 300000; i++)
 	{
+
 		//SDL_Delay(100);
 		mAll_enemies.clear();
 		test_level->update();
@@ -73,22 +83,30 @@ void Game::start_game()
 		test_menu->render();
 		test_button->render();
 		test_industrial_building->render();
+
+		//also renders the hover window
+		SDL_Event e;
+		while (SDL_PollEvent(&e)) {
+			gMouse_handler->handle_event(&e);
+		}
+		gMouse_handler->update();
+
 		SDL_RenderPresent(gRenderer);
 		if (i % 60 == 0)
 		{
-			printf("Second...\n");
+			//printf("Second...\n");
 			test_industrial_building->update();
 		}
 		if (test_level->is_dead())
 		{
-			std::cout << "all enemies dead" << std::endl;
+			//std::cout << "all enemies dead" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
 
 		if (test_level->no_lives()) 
 		{
-			std::cout << "no lives" << std::endl;
+			//std::cout << "no lives" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
