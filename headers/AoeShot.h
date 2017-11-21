@@ -8,6 +8,7 @@ public:
 	AoeShot(Tower* tower, SDL_Point location_to_shoot);
 	~AoeShot();
 
+	//make the shot follow  target(a location)
 	bool follow();
 	SDL_Point get_location_to_shoot() const;
 
