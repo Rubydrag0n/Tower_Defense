@@ -30,8 +30,11 @@ Tower::~Tower()
 void Tower::render() const
 {
 	Building::render();
+	for (auto i = 0; i < mShots.size(); i++)
+	{
+		this->render_shot(mShots.at(i));
+	}
 }
-
 
 //checks if an enemy is in range of the tower
 bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const

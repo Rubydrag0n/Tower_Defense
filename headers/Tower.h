@@ -14,7 +14,8 @@ public:
 	~Tower();
 
 	bool enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const;
-	void render() const;
+	virtual void render_shot(Shot* shot) const = 0;
+	void render() const override;
 
 	std::string get_projectile_name() const;
 	double get_projectile_speed() const;
@@ -28,6 +29,6 @@ protected:
 	Damage mDamage;
 	std::string mProjectile_name;
 	std::string mTower_name;
-
+	std::vector<Shot*> mShots;
 };
 

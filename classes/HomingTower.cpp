@@ -11,13 +11,11 @@ HomingTower::~HomingTower()
 {
 }
 
-void HomingTower::render()
+void HomingTower::render_shot(Shot* shot) const
 {
-	Tower::render();
-	for (auto i = 0; i<mShots.size(); i++)
-	{
-		mShots.at(i)->render(mShots.at(i)->get_enemy_to_shoot()->get_position());
-	}
+	//shot in here will be a HomingShot
+	auto s = static_cast<HomingShot*>(shot);
+	s->render(s->get_enemy_to_shoot()->get_position());
 }
 
 //checks if the tower can shoot at an enemy
@@ -48,15 +46,16 @@ void HomingTower::shoot()
 {
 	for (auto i = 0; i<mShots.size(); i++)
 	{
-		if (mShots[i]->get_enemy_to_shoot()->isDead())
+		auto s = static_cast<HomingShot*>(mShots.at(i));
+		if (s->get_enemy_to_shoot()->isDead())
 		{
 			delete mShots[i];
 			mShots.erase(mShots.begin() + i);
 			continue;
 		}
-		if (mShots[i]->follow())
+		if (s->follow())
 		{
-			mShots[i]->get_enemy_to_shoot()->take_damage(&mDamage);
+			s->get_enemy_to_shoot()->take_damage(&mDamage);
 			delete mShots[i];
 			mShots.erase(mShots.begin() + i);
 		}

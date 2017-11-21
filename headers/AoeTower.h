@@ -9,13 +9,12 @@ public:
 	AoeTower(std::string tower_name, SDL_Point coords, Level* level);
 	~AoeTower();
 
-	void render();
+	void render_shot(Shot* shot) const override;
 	void update(std::vector<Enemy*> all_enemies);
 	void shoot(std::vector<Enemy*> all_enemies);
 
 
 private:
 	double mExplosive_radius;
-	std::vector<AoeShot*> mShots;
 };
 

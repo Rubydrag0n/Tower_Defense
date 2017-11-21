@@ -126,7 +126,7 @@ void Game::add_enemies(std::vector<Enemy*> enemies)
 	}
 }
 
-void Game::add_tower(Tower tower)
+void Game::add_tower(Tower* tower)
 {
 	mAll_towers.push_back(tower);
 }
