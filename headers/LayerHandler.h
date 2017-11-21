@@ -14,10 +14,19 @@ enum LAYERS
 	COUNT
 };
 
-struct 
+struct RenderTexture
 {
-public:
+	RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* dst_rect);
+	RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* dst_rect, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
+	LTexture* texture;
+	SDL_Rect* src_rect;
+	SDL_Rect* dst_rect;
+
+	bool ex;
+	double angle;
+	SDL_Point* center;
+	SDL_RendererFlip flip;
 };
 
 class LayerHandler
@@ -27,10 +36,11 @@ public:
 	~LayerHandler();
 
 	//renders everything currently in mPairs in the right order to the screen
-	void render_everything();
+	void present();
 
 	//adds a texture to be shown on a specified layer in the next frame
-	void render_to_layer(LTexture* tex, LAYERS layer);
+	void render_to_layer(LTexture* texture, LAYERS layer, SDL_Rect* src_rect, SDL_Rect* dst_rect);
+	void renderex_to_layer(LTexture* texture, LAYERS layer, SDL_Rect* src_rect, SDL_Rect* dst_rect, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
 private:
 
@@ -38,7 +48,7 @@ private:
 	void init_mpairs();
 
 	//holds the textures that are going to be shown on different layers
-	std::map<LAYERS, std::vector<LTexture*>*> mPairs;
+	std::map<LAYERS, std::vector<RenderTexture*>*> mPairs;
 
 };  
           
