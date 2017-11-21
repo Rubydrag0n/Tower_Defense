@@ -11,6 +11,7 @@ HomingTower::~HomingTower()
 {
 }
 
+
 void HomingTower::render()
 {
 	Tower::render();

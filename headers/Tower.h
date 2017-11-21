@@ -28,6 +28,5 @@ protected:
 	Damage mDamage;
 	std::string mProjectile_name;
 	std::string mTower_name;
-
 };
 
