@@ -65,7 +65,7 @@ bool LTexture::load_from_rendered_text(std::string textureText, SDL_Color textCo
 	//Get rid of preexisting texture
 	free();
 	//Render text surface
-	if (!gFont)
+	if (gFont == nullptr)
 	{
 		throw std::errc::bad_file_descriptor;
 	}

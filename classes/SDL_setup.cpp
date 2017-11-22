@@ -38,7 +38,6 @@ SDL_Texture* load_texture(std::string path)
 
 		//Get rid of old loaded surface
 		SDL_FreeSurface(loaded_surface);
-		gFont = TTF_OpenFont("resources/lazy.ttf", 28);
 	}
 
 	return new_texture;
@@ -51,8 +50,6 @@ bool init_graphics()
 
 	//Initalize randomness
 	srand(time(nullptr));
-
-	gFont = TTF_OpenFont("16_true_type_fonts/lazy.ttf", 28);
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -113,6 +110,9 @@ bool init_graphics()
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 					success = false;
 				}
+
+				gFont = TTF_OpenFont("resources/lazy.ttf", 28);
+
 			}
 		}
 	}

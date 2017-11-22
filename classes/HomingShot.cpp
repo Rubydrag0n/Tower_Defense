@@ -1,5 +1,5 @@
 #include "HomingShot.h"
-
+#include "Enemy.h"
 
 
 HomingShot::HomingShot(Tower* tower, Enemy *enemy_to_shoot) : Shot(tower)

@@ -3,6 +3,7 @@
 #include "Resources.h"
 #include <string>
 #include "Clickable.h"
+#include "LTexture.h"
 
 class Level;
 
@@ -31,7 +32,7 @@ protected:
 	SDL_Point mCoords;
 	Ressources mConstruction_costs;
 	Ressources mMaintenance;
-	SDL_Texture *mSprite;
+	LTexture *mSprite;
 	SDL_Rect mSprite_dimensions;
 	Level *mLevel;
 

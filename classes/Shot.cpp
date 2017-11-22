@@ -60,7 +60,8 @@ void Shot::render(SDL_Point target) const
 	dest.y = mCoords.y - center.y / 2;
 	dest.w = mSprite_dimensions.w;
 	dest.h = mSprite_dimensions.h;
-	SDL_RenderCopyEx(gRenderer, mSprite, &mSprite_dimensions, &dest, angle_in_deg, &center, flip);
+
+	mSprite->render(dest.x, dest.y, nullptr, angle_in_deg, &center, flip);
 }
 
 //follows the enemy and returns true when it hits

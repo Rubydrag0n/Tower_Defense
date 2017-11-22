@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include <SDL.h>
+#include "LTexture.h"
 
 
 //A class to handle all the textures so they don't get loadet more than once
@@ -12,13 +12,13 @@ public:
 
 	//retrieving a texture
 	//will load the texture if it's not yet saved
-	SDL_Texture* get_texture(std::string path);
+	LTexture* get_texture(std::string path);
 
 	//deletes a loaded texture with a given name
 	bool del_texture(std::string path);
 
 private:
 	//stores the unit name strings and the associated sprite
-	std::map<std::string, SDL_Texture*> mContent;
+	std::map<std::string, LTexture*> mContent;
 };
 

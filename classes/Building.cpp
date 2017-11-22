@@ -56,13 +56,10 @@ Building::~Building()
 //render the picture of the building
 void Building::render() const
 {
-	SDL_Rect dest;
-	dest.x = mCoords.x - mSprite_dimensions.w / 2;
-	dest.y = mCoords.y - mSprite_dimensions.h / 2;
-	dest.w = mSprite_dimensions.w;
-	dest.h = mSprite_dimensions.h;
-
-	SDL_RenderCopy(gRenderer, mSprite, &mSprite_dimensions, &dest);
+	auto x = mCoords.x - mSprite_dimensions.w / 2;
+	auto y = mCoords.y - mSprite_dimensions.h / 2;
+	
+	mSprite->render(x, y);
 }
 
 void Building::update()

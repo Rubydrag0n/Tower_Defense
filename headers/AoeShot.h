@@ -1,5 +1,6 @@
 #pragma once
 #include "Shot.h"
+#include <vector>
 
 class AoeShot : 
 	public Shot

@@ -32,6 +32,7 @@ Window::~Window()
 
 void Window::render() const
 {
+	//draw the inner color of the window (background of the window)
 	SDL_Rect dest;
 	dest.w = mDim.w;
 	dest.h = mDim.h;
@@ -42,21 +43,14 @@ void Window::render() const
 	SDL_SetRenderDrawColor(gRenderer, mR, mG, mB, 255);
 	SDL_RenderFillRect(gRenderer, &dest);
 
-
-	dest.w = mCorner_width;
-	dest.h = mCorner_height;
-
-	dest.x = mDim.x;
-	dest.y = mDim.y;
-
 	//draw the four corners
-	SDL_RenderCopy(gRenderer, mTlcorner, nullptr, &dest);
+	mTlcorner->render(dest.x, dest.y);
 	dest.x = mDim.x + mDim.w - mCorner_width;
-	SDL_RenderCopy(gRenderer, mTrcorner, nullptr, &dest);
+	mTrcorner->render(dest.x, dest.y);
 	dest.y = mDim.y + mDim.h - mCorner_height;
-	SDL_RenderCopy(gRenderer, mBrcorner, nullptr, &dest);
+	mBrcorner->render(dest.x, dest.y);
 	dest.x = mDim.x;
-	SDL_RenderCopy(gRenderer, mBlcorner, nullptr, &dest);
+	mBlcorner->render(dest.x, dest.y);
 
 	//draw the borders
 	//horizontal top:
@@ -65,13 +59,13 @@ void Window::render() const
 	dest.h = mBorder_thickness;
 	for (dest.x = mDim.x + mCorner_width; dest.x < mDim.x + mDim.w - mCorner_width; dest.x++)
 	{
-		SDL_RenderCopy(gRenderer, mHorizontalborder, nullptr, &dest);
+		mHorizontalborder->render(dest.x, dest.y);
 	}
 	//horizontal bottom:
 	dest.y = mDim.y + mDim.h - mBorder_thickness;
 	for (dest.x = mDim.x + mCorner_width; dest.x < mDim.x + mDim.w - mCorner_width; dest.x++)
 	{
-		SDL_RenderCopy(gRenderer, mHorizontalborder, nullptr, &dest);
+		mHorizontalborder->render(dest.x, dest.y);
 	}
 	//vertical left:
 	dest.x = mDim.x;
@@ -79,13 +73,13 @@ void Window::render() const
 	dest.h = 1;
 	for (dest.y = mDim.y + mCorner_height; dest.y < mDim.y + mDim.h - mCorner_height; dest.y++)
 	{
-		SDL_RenderCopy(gRenderer, mVerticalborder, nullptr, &dest);
+		mVerticalborder->render(dest.x, dest.y);
 	}
 	//vertical right
 	dest.x = mDim.x + mDim.w - mBorder_thickness;
 	for (dest.y = mDim.y + mCorner_height; dest.y < mDim.y + mDim.h - mCorner_height; dest.y++)
 	{
-		SDL_RenderCopy(gRenderer, mVerticalborder, nullptr, &dest);
+		mVerticalborder->render(dest.x, dest.y);
 	}
 }
 

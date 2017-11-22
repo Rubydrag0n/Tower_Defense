@@ -1,5 +1,6 @@
 #pragma once
-#include"Textures.h"
+#include "Textures.h"
+#include "LTexture.h"
 
 enum STYLE
 {
@@ -25,12 +26,12 @@ private:
 	STYLE mStyle;
 
 	//pointers to all the textures used
-	SDL_Texture *mBlcorner;
-	SDL_Texture *mBrcorner;
-	SDL_Texture *mTlcorner;
-	SDL_Texture *mTrcorner;
-	SDL_Texture *mHorizontalborder;
-	SDL_Texture *mVerticalborder;
+	LTexture *mBlcorner;
+	LTexture *mBrcorner;
+	LTexture *mTlcorner;
+	LTexture *mTrcorner;
+	LTexture *mHorizontalborder;
+	LTexture *mVerticalborder;
 
 	int mCorner_width;
 	int mCorner_height;

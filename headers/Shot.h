@@ -1,5 +1,5 @@
 #pragma once
-#include "Enemy.h"
+#include "LTexture.h"
 #include "CoordinatesInDouble.h"
 
 class Tower;
@@ -23,7 +23,7 @@ protected:
 	double mProjectile_speed;
 
 private:
-	SDL_Texture *mSprite;
+	LTexture *mSprite;
 	SDL_Rect mSprite_dimensions;	
 };
 

@@ -54,7 +54,7 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 							bool(int(cf.Value(unit_name + "/stats", "waterimm"))),
 							bool(int(cf.Value(unit_name + "/stats", "elecimm"))));
 	//setting up the blending
-	SDL_SetTextureBlendMode(mSprite, SDL_BLENDMODE_BLEND);
+	mSprite->set_blend_mode(SDL_BLENDMODE_BLEND);
 
 	update_animation_clip();
 }
@@ -68,13 +68,10 @@ void Unit::render()
 {
 	update_animation_clip();
 
-	SDL_Rect dest;
-	dest.x = mPosition.x - mCurrent_clip.w / 2;
-	dest.y = mPosition.y - mCurrent_clip.h / 2;
-	dest.w = mCurrent_clip.w;
-	dest.h = mCurrent_clip.h;
+	auto x = mPosition.x - mCurrent_clip.w / 2;
+	auto y = mPosition.y - mCurrent_clip.h / 2;
 
-	SDL_RenderCopy(gRenderer, mSprite, &mCurrent_clip, &dest);
+	mSprite->render(x, y, &mCurrent_clip);
 }
 
 void Unit::update_animation_clip()

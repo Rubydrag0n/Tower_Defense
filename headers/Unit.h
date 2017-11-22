@@ -2,6 +2,7 @@
 #include "Defense.h"
 #include <SDL.h>
 #include <vector>
+#include "LTexture.h"
 
 //The numbers are the rowpositions of the rotations in the sprite image
 enum DIRECTION
@@ -38,7 +39,7 @@ protected:
 	int mAnimation_tick;
 	int mAnimation_tick_count;
 	int mTickcount_per_clip;
-	SDL_Texture *mSprite;
+	LTexture *mSprite;
 	std::vector<SDL_Rect> mClips;
 	SDL_Rect mCurrent_clip;
 	SDL_Rect mSprite_dimensions;
