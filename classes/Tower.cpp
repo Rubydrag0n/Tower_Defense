@@ -36,6 +36,41 @@ void Tower::render() const
 	}
 }
 
+void Tower::update(std::vector<Enemy*> all_enemies)
+{
+	if (mElapsed_ticks == 0)
+	{
+		while (!all_enemies.empty() && mElapsed_ticks == 0)
+		{
+			if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
+			{
+				mShots.push_back(this->create_shot(all_enemies.at(0)));
+				mElapsed_ticks = mAttack_cooldown;
+			}
+			all_enemies.erase(all_enemies.begin());
+		}
+	}
+	else
+	{
+		mElapsed_ticks--;
+	}
+	this->shoot(all_enemies);
+}
+
+//all projectiles, that are fired from this tower are updated
+void Tower::shoot(std::vector<Enemy*> all_enemies)
+{
+	for (auto i = 0; i<mShots.size(); i++)
+	{
+		if(this->update_shot(mShots.at(i), all_enemies))
+		{
+			mShots.erase(mShots.begin() + i);
+		}
+	}
+}
+
+
+
 //checks if an enemy is in range of the tower
 bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const
 {

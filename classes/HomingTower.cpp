@@ -14,50 +14,29 @@ HomingTower::~HomingTower()
 void HomingTower::render_shot(Shot* shot) const
 {
 	//shot in here will be a HomingShot
-	auto s = static_cast<HomingShot*>(shot);
-	s->render(s->get_enemy_to_shoot()->get_position());
+	auto homing_shot = static_cast<HomingShot*>(shot);
+	homing_shot->render(homing_shot->get_enemy_to_shoot()->get_position());
 }
 
-//checks if the tower can shoot at an enemy
-void HomingTower::update(std::vector<Enemy*> all_enemies)
+Shot* HomingTower::create_shot(Enemy* enemy) 
 {
-	if (mElapsed_ticks == 0)
-	{
-		while (!all_enemies.empty() && mElapsed_ticks == 0)
-		{
-			if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
-			{
-				auto shot = new HomingShot(this, all_enemies.at(0));
-				mShots.push_back(shot);
-				mElapsed_ticks = mAttack_cooldown;
-			}
-			all_enemies.erase(all_enemies.begin());
-		}
-	}
-	else
-	{
-		mElapsed_ticks--;
-	}
-	this->shoot();
+	return new HomingShot(this, enemy);
 }
 
-//all projectiles, that are fired from this tower are updated
-void HomingTower::shoot()
+bool HomingTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
 {
-	for (auto i = 0; i<mShots.size(); i++)
+	auto homing_shot = static_cast<HomingShot*>(shot);
+	if (homing_shot->get_enemy_to_shoot()->isDead() || homing_shot->follow())
 	{
-		auto s = static_cast<HomingShot*>(mShots.at(i));
-		if (s->get_enemy_to_shoot()->isDead())
+		if (homing_shot->follow())
 		{
-			delete mShots[i];
-			mShots.erase(mShots.begin() + i);
-			continue;
+			homing_shot->get_enemy_to_shoot()->take_damage(&mDamage);
 		}
-		if (s->follow())
-		{
-			s->get_enemy_to_shoot()->take_damage(&mDamage);
-			delete mShots[i];
-			mShots.erase(mShots.begin() + i);
-		}
+		delete homing_shot;
+		return true;
 	}
+	return false;
 }
+
+
+

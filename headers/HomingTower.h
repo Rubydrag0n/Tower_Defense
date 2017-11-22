@@ -1,6 +1,6 @@
 #pragma once
 #include "Tower.h"
-#include "HomingShot.h"
+
 
 class HomingTower :
 	public Tower
@@ -10,7 +10,7 @@ public:
 	~HomingTower();
 
 	void render_shot(Shot* shot) const override;
-	void update(std::vector<Enemy*> all_enemies);
-	void shoot();
+	bool update_shot(Shot* shot, std::vector<Enemy*> all_enemies) override;
+	Shot* create_shot(Enemy* enemy) override;
 };
 
