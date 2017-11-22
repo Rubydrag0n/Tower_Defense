@@ -7,7 +7,7 @@ public:
 	Menu(Level *level);
 	~Menu();
 
-	void render() const;
+	void render() const; //shows lives and ressources
 
 private:
 	Level *mLevel;

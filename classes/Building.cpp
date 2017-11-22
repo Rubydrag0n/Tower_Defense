@@ -1,7 +1,6 @@
 #include "Building.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
-#include <SDL.h>
 #include "Level.h"
 #include "Window.h"
 
@@ -53,12 +52,12 @@ Building::~Building()
 	//don't destroy texture, handled by texture class
 }
 
-//render the picture of the building
+
 void Building::render() const
 {
 	auto x = mCoords.x - mSprite_dimensions.w / 2;
 	auto y = mCoords.y - mSprite_dimensions.h / 2;
-	
+
 	mSprite->render(x, y);
 }
 

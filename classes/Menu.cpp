@@ -20,7 +20,6 @@ void Menu::render() const
 {
 	SDL_Color text_color = { 0, 0, 255 };
 
-	//shows lives and ressources
 	auto *menu_resources = new LTexture();
 	
 	menu_resources->load_from_rendered_text("lives: " + std::to_string(mLevel->get_lives()) + "   gold: " + std::to_string(mLevel->get_ressources()->get_gold()) +

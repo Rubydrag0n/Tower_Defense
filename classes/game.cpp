@@ -28,6 +28,11 @@ void Game::init_game()
 	gMouse_handler = new MouseHandler();
 }
 
+void Game::render_all()
+{
+	
+}
+
 void Game::start_game()
 {
 	auto test_map = new Map("level/Level1.FMP");
@@ -69,8 +74,8 @@ void Game::start_game()
 				add_enemies(test_level->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
 			}
 		}
-		test_aoe_tower1->update(mAll_enemies);
-		test_homing_tower->update(mAll_enemies);
+		test_aoe_tower1->shoot(mAll_enemies);
+		test_homing_tower->shoot(mAll_enemies);
 		
 		SDL_RenderClear(gRenderer);
 		test_map->render();
@@ -126,8 +131,12 @@ void Game::add_enemies(std::vector<Enemy*> enemies)
 	}
 }
 
-void Game::add_tower(Tower* tower)
+void Game::add_towers(std::vector<Tower*> towers)
 {
-	mAll_towers.push_back(tower);
+	while (!towers.empty())
+	{
+		mAll_towers.push_back(towers.at(0));
+		towers.erase(towers.begin());
+	}
 }
 
