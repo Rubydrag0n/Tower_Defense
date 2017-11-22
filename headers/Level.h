@@ -10,8 +10,11 @@ public:
 	Level(std::string level_number);
 	~Level();
 
+	//at the moment: update the first wave in the vector, if this wave is dead spawn the next wave
 	void update();
-	void render();
+
+
+	void render(); //Level::update deletes mWaves.at(0), if the wave is dead, so the next wave will be rendered
 	bool is_dead() const;
 	bool no_lives() const;
 

@@ -17,109 +17,124 @@
 
 Game::Game()
 {
+	gMouse_handler = new MouseHandler();
+	mLevel = new Level("1");
+
+	SDL_Point coords;
+	coords.x = 600;
+	coords.y = 600;
+	auto archer_tower = new HomingTower("archer", coords, mLevel);
+	add_tower(archer_tower);
+	coords.x = 200;
+	coords.y = 200;
+	auto cannon_tower = new AoeTower("cannon", coords, mLevel);
+	add_tower(cannon_tower);
+	coords.x = 100;
+	coords.y = 100;
+	auto lumberjack = new IndustrialBuilding("lumberjack", coords, mLevel);
+	add_industrial_building(lumberjack);
+
+	mMenu = new Menu(mLevel);
+	mMap = new Map("level/Level1.FMP");
 }
 
 Game::~Game()
 {
+	delete mMenu;
+	delete mLevel;
+	delete mMap;
+	for (auto i = 0; i<mAll_towers.size(); i++)
+	{
+		delete mAll_towers.at(i);
+	}
+	for (auto i = 0; i<mAll_enemies.size(); i++)
+	{
+		delete mAll_enemies.at(i);
+	}
+	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
+	{
+		delete mAll_industrial_buildings.at(i);
+	}
 }
 
-void Game::init_game()
-{
-	gMouse_handler = new MouseHandler();
-}
 
 void Game::render_all()
 {
+	mMap->render();
+	mMenu->render();
+	mLevel->render();
+	for (auto i = 0; i<mAll_towers.size(); i++)
+	{
+		mAll_towers.at(i)->render();
+	}
+	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
+	{
+		mAll_industrial_buildings.at(i)->render();
+	}
+}
+
+void Game::update_all()
+{
+	mAll_enemies.clear();
+	mLevel->update();
+	//add all enemies: for every wave every monstergroup in the level
+	for (auto n = 0; n < mLevel->get_waves_count(); n++)
+	{
+		for (auto m = 0; m < mLevel->get_waves()->at(n).get_monster_group_count(); m++)
+		{
+			add_enemies(mLevel->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
+		}
+	}
+
+	for (auto i = 0; i<mAll_towers.size(); i++)
+	{
+		mAll_towers.at(i)->shoot(mAll_enemies);
+	}
 	
+	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
+	{
+		if (i % 60 == 0)
+		{
+			mAll_industrial_buildings.at(i)->update();
+		}
+	}
+
 }
 
 void Game::start_game()
 {
-	auto test_map = new Map("level/Level1.FMP");
 
 	SDL_RenderClear(gRenderer);
 
-	test_map->render();
-
 	SDL_RenderPresent(gRenderer);
-	SDL_Point coords;
-	coords.x = 600;
-	coords.y = 600;
 	
-	auto test_button = new Button();
-	test_button->set_position(500, 500);
-	test_button->set_dimension(300, 100);
-	auto test_level = new Level("1");
-	auto test_aoe_tower1 = new AoeTower("cannon", coords, test_level);
-	coords.x = 200;
-	coords.y = 200;
-	auto test_homing_tower = new HomingTower("archer", coords, test_level);
-	auto test_menu = new Menu(test_level);
-
-	coords.x = 100;
-	coords.y = 100;
-	auto test_industrial_building = new IndustrialBuilding("lumberjack", coords, test_level);
-
 	for (auto i = 0; i < 300000; i++)
 	{
-
 		//SDL_Delay(100);
-		mAll_enemies.clear();
-		test_level->update();
-		//add all enemies: for every wave every monstergroup in the level
-		for(auto n = 0; n < test_level->get_waves_count(); n++)
-		{
-			for(auto m = 0; m < test_level->get_waves()->at(n).get_monster_group_count(); m++)
-			{
-				add_enemies(test_level->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
-			}
-		}
-		test_aoe_tower1->shoot(mAll_enemies);
-		test_homing_tower->shoot(mAll_enemies);
-		
 		SDL_RenderClear(gRenderer);
-		test_map->render();
-		test_level->render();
-		test_aoe_tower1->render();
-		test_homing_tower->render();
-		test_menu->render();
-		test_button->render();
-		test_industrial_building->render();
-
+		render_all();
+		update_all();
 		//also renders the hover window
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			gMouse_handler->handle_event(&e);
 		}
 		gMouse_handler->update();
-
 		SDL_RenderPresent(gRenderer);
-		if (i % 60 == 0)
-		{
-			//printf("Second...\n");
-			test_industrial_building->update();
-		}
-		if (test_level->is_dead())
+		if (mLevel->is_dead())
 		{
 			//std::cout << "all enemies dead" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
 
-		if (test_level->no_lives()) 
+		if (mLevel->no_lives())
 		{
 			//std::cout << "no lives" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
 	}
-	delete test_aoe_tower1;
-	delete test_homing_tower;
-	delete test_menu;
-	delete test_level;
-	delete test_map;
-	delete test_button;
-	delete test_industrial_building;
 }
 
 void Game::add_enemies(std::vector<Enemy*> enemies)
@@ -131,12 +146,13 @@ void Game::add_enemies(std::vector<Enemy*> enemies)
 	}
 }
 
-void Game::add_towers(std::vector<Tower*> towers)
+void Game::add_tower(Tower* tower)
 {
-	while (!towers.empty())
-	{
-		mAll_towers.push_back(towers.at(0));
-		towers.erase(towers.begin());
-	}
+	mAll_towers.push_back(tower);
+}
+
+void Game::add_industrial_building(IndustrialBuilding* industrial_building)
+{
+	mAll_industrial_buildings.push_back(industrial_building);
 }
 

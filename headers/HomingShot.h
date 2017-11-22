@@ -14,6 +14,6 @@ public:
 	bool follow(); //shot follows an enemy
 
 private:
-	Enemy *mEnemy_to_shoot;
+	Enemy* mEnemy_to_shoot;
 };
 

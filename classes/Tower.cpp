@@ -25,6 +25,11 @@ Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(
 
 Tower::~Tower()
 {
+	for (auto i = 0; i<mShots.size(); i++)
+	{
+		delete mShots.at(i);
+	}
+	mShots.clear();
 }
 
 void Tower::render() const

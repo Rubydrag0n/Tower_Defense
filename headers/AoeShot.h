@@ -17,6 +17,5 @@ public:
 
 private:
 	SDL_Point mLocation_to_shoot;
-	std::vector<AoeShot*> mShots;
 };
 

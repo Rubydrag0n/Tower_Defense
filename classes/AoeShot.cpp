@@ -10,6 +10,7 @@ AoeShot::AoeShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 
 AoeShot::~AoeShot()
 {
+
 }
 
 bool AoeShot::follow()
