@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include "Tower.h"
 #include <math.h>
+#include "LayerHandler.h"
 
 
 Shot::Shot(Tower* tower)
@@ -61,7 +62,7 @@ void Shot::render(SDL_Point target) const
 	dest.w = mSprite_dimensions.w;
 	dest.h = mSprite_dimensions.h;
 
-	mSprite->render(dest.x, dest.y, nullptr, angle_in_deg, &center, flip);
+	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::SHOTS, nullptr, &dest, angle_in_deg, &center, flip);
 }
 
 //follows the enemy and returns true when it hits

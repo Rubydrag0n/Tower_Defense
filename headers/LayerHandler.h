@@ -4,7 +4,7 @@
 #include <map>
 #include "LTexture.h"
 
-enum LAYERS
+enum class LAYERS
 {
 	BACKGROUND,
 	BUILDINGS,
@@ -14,21 +14,23 @@ enum LAYERS
 	COUNT
 };
 
+//this class holds all the attributes needed to render a texture right
 struct RenderTexture
 {
 	RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* dst_rect);
 	RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* dst_rect, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
 	LTexture* texture;
-	SDL_Rect* src_rect;
-	SDL_Rect* dst_rect;
+	SDL_Rect src_rect;
+	SDL_Rect dst_rect;
 
 	bool ex;
 	double angle;
-	SDL_Point* center;
+	SDL_Point center;
 	SDL_RendererFlip flip;
 };
 
+//the LayerHandler manages textures that are to be rendered.
 class LayerHandler
 {
 public:
@@ -51,4 +53,6 @@ private:
 	std::map<LAYERS, std::vector<RenderTexture*>*> mPairs;
 
 };  
+
+extern LayerHandler* gLayer_handler;
           

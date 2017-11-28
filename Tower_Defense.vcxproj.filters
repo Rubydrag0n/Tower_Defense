@@ -96,9 +96,6 @@
     <ClCompile Include="classes\Damage.cpp">
       <Filter>Source Files\Data structures</Filter>
     </ClCompile>
-    <ClCompile Include="classes\Enemy.cpp">
-      <Filter>Source Files\Data structures</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Defense.cpp">
       <Filter>Source Files\Data structures</Filter>
     </ClCompile>
@@ -158,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="classes\LayerHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Enemy.cpp">
+      <Filter>Source Files\Level and Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include "Textures.h"
 #include "LTexture.h"
 
-enum STYLE
+enum class STYLE
 {
 	STANDARD,
 	COUNT

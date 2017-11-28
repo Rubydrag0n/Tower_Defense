@@ -7,8 +7,9 @@ public:
 	Menu(Level *level);
 	~Menu();
 
-	void render() const;
+	void render();
 
 private:
-	Level *mLevel;
+	Level* mLevel;
+	LTexture* mMenu_texture;
 };

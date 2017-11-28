@@ -1,8 +1,9 @@
 #include "Map.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
+#include "LayerHandler.h"
 
-Map::Map(char *map_path) : mMap_texture()
+Map::Map(char *map_path)
 {
 	ConfigFile cf("config/game.cfg");
 	mOffset_left = cf.Value("map", "offset_left");
@@ -13,13 +14,14 @@ Map::Map(char *map_path) : mMap_texture()
 	mMap = new SDLMappy;
 	if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
 		printf("Could not load %s\n", map_path);
+	mMap_texture = new LTexture();
 	update_map_texture();
 }
 
 Map::~Map()
 {
 	delete mMap;
-	SDL_DestroyTexture(mMap_texture);
+	mMap_texture->free();
 }
 
 int Map::get_height() const
@@ -34,7 +36,7 @@ int Map::get_width() const
 
 void Map::render() const
 {
-	SDL_RenderCopy(gRenderer, mMap_texture, nullptr, nullptr);
+	gLayer_handler->render_to_layer(mMap_texture, LAYERS::BACKGROUND, nullptr, nullptr);
 }
 
 void Map::update_map_texture()
@@ -59,7 +61,7 @@ void Map::update_map_texture()
 			SDL_FreeSurface(s2);
 		}
 	}
-	mMap_texture = SDL_CreateTextureFromSurface(gRenderer, s);
-	SDL_SetTextureBlendMode(mMap_texture, SDL_BLENDMODE_BLEND);
+	mMap_texture->load_from_surface(s);
+	mMap_texture->set_blend_mode(SDL_BLENDMODE_BLEND);
 	SDL_FreeSurface(s);
 }

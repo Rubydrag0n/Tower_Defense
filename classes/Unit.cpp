@@ -2,6 +2,7 @@
 #include "Textures.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
+#include "LayerHandler.h"
 
 
 Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
@@ -68,10 +69,14 @@ void Unit::render()
 {
 	update_animation_clip();
 
-	auto x = mPosition.x - mCurrent_clip.w / 2;
-	auto y = mPosition.y - mCurrent_clip.h / 2;
+	SDL_Rect dest;
 
-	mSprite->render(x, y, &mCurrent_clip);
+	dest.x = mPosition.x - mCurrent_clip.w / 2;
+	dest.y = mPosition.y - mCurrent_clip.h / 2;
+	dest.w = mCurrent_clip.w;
+	dest.h = mCurrent_clip.h;
+
+	gLayer_handler->render_to_layer(this->mSprite, LAYERS::ENEMIES, &this->mCurrent_clip, &dest);
 }
 
 void Unit::update_animation_clip()

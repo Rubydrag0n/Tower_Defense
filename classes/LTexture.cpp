@@ -98,6 +98,19 @@ bool LTexture::load_from_rendered_text(std::string textureText, SDL_Color textCo
 }
 #endif
 
+bool LTexture::load_from_surface(SDL_Surface* surface)
+{
+	//get rid of old texture
+	free();
+
+	this->mTexture = SDL_CreateTextureFromSurface(gRenderer, surface);
+
+	this->mWidth = surface->w;
+	this->mHeight = surface->h;
+
+	return mTexture != nullptr;
+}
+
 void LTexture::free()
 {
 	//Free texture if it exists

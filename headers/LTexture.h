@@ -21,6 +21,9 @@ public:
 	bool load_from_rendered_text(std::string textureText, SDL_Color textColor);
 #endif
 
+	//Creates image from SDL_Surface. The surface is not gonna be destroyed at the end
+	bool load_from_surface(SDL_Surface* surface);
+
 	//Deallocates texture
 	void free();
 

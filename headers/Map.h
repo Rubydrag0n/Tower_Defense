@@ -1,6 +1,7 @@
 #pragma once
 #include "SDLMappy.h"
 #include <SDL.h>
+#include "LTexture.h"
 
 class Map
 {
@@ -16,7 +17,7 @@ public:
 private:
 	void update_map_texture();
 
-	SDL_Texture *mMap_texture;
+	LTexture *mMap_texture;
 
 	SDLMappy *mMap;
 	int mOffset_left;
@@ -25,4 +26,3 @@ private:
 	int mHeight;
 	int mLayer_count;
 };
-

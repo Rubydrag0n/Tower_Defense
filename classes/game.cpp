@@ -14,6 +14,7 @@
 #include "AoeTower.h"
 #include "MouseHandler.h"
 #include "Clickable.h"
+#include "LayerHandler.h"
 
 Game::Game()
 {
@@ -26,6 +27,7 @@ Game::~Game()
 void Game::init_game()
 {
 	gMouse_handler = new MouseHandler();
+	gLayer_handler = new LayerHandler();
 }
 
 void Game::start_game()
@@ -34,9 +36,6 @@ void Game::start_game()
 
 	SDL_RenderClear(gRenderer);
 
-	test_map->render();
-
-	SDL_RenderPresent(gRenderer);
 	SDL_Point coords;
 	coords.x = 600;
 	coords.y = 600;
@@ -72,7 +71,6 @@ void Game::start_game()
 		test_aoe_tower1->update(mAll_enemies);
 		test_homing_tower->update(mAll_enemies);
 		
-		SDL_RenderClear(gRenderer);
 		test_map->render();
 		test_level->render();
 		test_aoe_tower1->render();
@@ -88,7 +86,8 @@ void Game::start_game()
 		}
 		gMouse_handler->update();
 
-		SDL_RenderPresent(gRenderer);
+		gLayer_handler->present();
+
 		if (i % 60 == 0)
 		{
 			//printf("Second...\n");

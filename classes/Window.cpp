@@ -8,7 +8,7 @@ Window::Window(SDL_Rect dim, STYLE style)
 	mDim = dim;
 	mStyle = style;
 
-	std::string category = "frames/" + std::to_string(style);
+	std::string category = "frames/" + std::to_string(int(style));
 	mBlcorner = gTextures->get_texture(cf.Value(category, "blcpath"));
 	mBrcorner = gTextures->get_texture(cf.Value(category, "brcpath"));
 	mTlcorner = gTextures->get_texture(cf.Value(category, "tlcpath"));
@@ -32,6 +32,7 @@ Window::~Window()
 
 void Window::render() const
 {
+	//TODO: do this with LayerHandler...
 	//draw the inner color of the window (background of the window)
 	SDL_Rect dest;
 	dest.w = mDim.w;

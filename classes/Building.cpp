@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "Level.h"
 #include "Window.h"
+#include "LayerHandler.h"
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
@@ -56,10 +57,14 @@ Building::~Building()
 //render the picture of the building
 void Building::render() const
 {
-	auto x = mCoords.x - mSprite_dimensions.w / 2;
-	auto y = mCoords.y - mSprite_dimensions.h / 2;
+	SDL_Rect dest;
+
+	dest.x = mCoords.x - mSprite_dimensions.w / 2;
+	dest.y = mCoords.y - mSprite_dimensions.h / 2;
+	dest.w = mSprite_dimensions.w;
+	dest.h = mSprite_dimensions.h;
 	
-	mSprite->render(x, y);
+	gLayer_handler->render_to_layer(mSprite, LAYERS::BUILDINGS, nullptr, &dest);
 }
 
 void Building::update()

@@ -32,9 +32,6 @@ Enemy::Enemy(std::string monster_name, int way, Level* Level) : Unit(monster_nam
 	mDead = false;
 }
 
-
-
-
 Enemy::~Enemy()
 {
 }
@@ -138,6 +135,7 @@ bool Enemy::take_damage(Damage *dmg)
 void Enemy::render()
 {
 	Unit::render();
+
 	SDL_Rect full_health;
 	full_health.x = mPosition.x - mCurrent_clip.w / 2;
 	full_health.y = mPosition.y - mCurrent_clip.h / 2;
@@ -147,9 +145,9 @@ void Enemy::render()
 	auto current_health = full_health;
 	current_health.w = mCurrent_clip.w * (this->get_defense().get_health()/this->get_defense().get_full_health());
 	
+	//TODO: Do this with textures and stuff so it's compatible with the LayerHandler
 	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
 	SDL_RenderFillRect(gRenderer, &full_health);
 	SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
 	SDL_RenderFillRect(gRenderer, &current_health);
 }
-
