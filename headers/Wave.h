@@ -7,7 +7,10 @@ public:
 	Wave(std::string wave_number, Level* level);
 	~Wave();
 
+	//at the moment: update the first monstergroup in the vector, if it is dead spawn the next wave
 	void update();
+
+	//Wave::update deletes mMonstergroup.at(0), if the monstergroup is dead, so the next monstergroup will be rendered
 	void render();
 	bool is_dead() const;
 

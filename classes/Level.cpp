@@ -33,7 +33,7 @@ Level::~Level()
 {
 }
 
-//at the moment: update the first wave in the vector, if this wave is dead spawn the next wave
+
 void Level::update()
 {
 	mWaves.at(0).update();

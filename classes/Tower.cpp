@@ -25,6 +25,11 @@ Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(
 
 Tower::~Tower()
 {
+	for (auto i = 0; i<mShots.size(); i++)
+	{
+		delete mShots.at(i);
+	}
+	mShots.clear();
 }
 
 void Tower::render() const
@@ -36,7 +41,7 @@ void Tower::render() const
 	}
 }
 
-void Tower::update(std::vector<Enemy*> all_enemies)
+void Tower::shoot(std::vector<Enemy*> all_enemies)
 {
 	if (mElapsed_ticks == 0)
 	{
@@ -54,11 +59,11 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 	{
 		mElapsed_ticks--;
 	}
-	this->shoot(all_enemies);
+	this->update(all_enemies);
 }
 
-//all projectiles, that are fired from this tower are updated
-void Tower::shoot(std::vector<Enemy*> all_enemies)
+
+void Tower::update(std::vector<Enemy*> all_enemies)
 {
 	for (auto i = 0; i<mShots.size(); i++)
 	{
@@ -71,7 +76,7 @@ void Tower::shoot(std::vector<Enemy*> all_enemies)
 
 
 
-//checks if an enemy is in range of the tower
+
 bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const
 {
 	auto x_div = center.x - enemy->get_position().x;

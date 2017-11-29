@@ -10,8 +10,10 @@ public:
 	Shot(Tower* tower);
 	~Shot();
 	
-	void render(SDL_Point target) const;
-	bool follow(SDL_Point target);
+	
+	void render(SDL_Point target); //renders the shot
+	void points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle, SDL_Point target);
+	bool follow(SDL_Point target); //follows the enemy and returns true when it hits
 
 	SDL_Point get_coords() const;
 	void set_coords(SDL_Point coords);
@@ -23,7 +25,7 @@ protected:
 	double mProjectile_speed;
 
 private:
-	LTexture *mSprite;
-	SDL_Rect mSprite_dimensions;	
+	LTexture *mSprite; //Texture
+	SDL_Rect mSprite_dimensions; //size of texture	
 };
 

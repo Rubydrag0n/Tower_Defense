@@ -13,9 +13,9 @@ public:
 	Building(std::string building_name, SDL_Point coords, Level *level);
 	~Building();
 
-	virtual void render() const;
-	void place();
-	virtual void update();
+	virtual void render() const; //render the picture of the building
+	void place(); //take ressources for construction cost
+	virtual void update(); //takes ressources for maintenance
 
 	SDL_Point get_coords() const;
 	Ressources get_construction_costs() const;
@@ -32,8 +32,8 @@ protected:
 	SDL_Point mCoords;
 	Ressources mConstruction_costs;
 	Ressources mMaintenance;
-	LTexture *mSprite;
-	SDL_Rect mSprite_dimensions;
+	LTexture *mSprite; //texture
+	SDL_Rect mSprite_dimensions; //size of the texture
 	Level *mLevel;
 
 	std::string mName;

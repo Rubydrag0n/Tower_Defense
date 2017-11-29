@@ -23,7 +23,15 @@ Wave::~Wave()
 {
 }
 
-//at the moment: update the first monstergroup in the vector, if it is dead spawn the next wave
+void Wave::render()
+{
+	if (mMonster_groups.empty())
+	{
+		return;
+	}
+	mMonster_groups.at(0).render();
+}
+
 void Wave::update()
 {
 	mMonster_groups.at(0).update();
@@ -39,14 +47,6 @@ bool Wave::is_dead() const
 	return mMonster_groups.empty();
 }
 
-void Wave::render()
-{
-	if(mMonster_groups.empty())
-	{
-		return;
-	}
-	mMonster_groups.at(0).render();
-}
 
 int Wave::get_monster_group_count() const
 {

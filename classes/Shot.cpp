@@ -28,14 +28,27 @@ Shot::~Shot()
 }
 
 
-void Shot::render(SDL_Point target) const
+void Shot::render(SDL_Point target)
+{
+	SDL_Rect dest;
+	SDL_Point center;
+	double angle_in_deg = 0;
+	auto flip = SDL_FLIP_NONE;
+	this->points_projectile_to_target(&dest, &center, &angle_in_deg, target);
+
+
+
+	mSprite->render(dest.x, dest.y, nullptr, angle_in_deg, &center, flip);
+}
+
+void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle, SDL_Point target)
 {
 	double angle_in_rad;
 	double x_d = target.x - mCoords.x;
 	double y_d = target.y - mCoords.y;
 	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
 
-	if(x_d < 0)
+	if (x_d < 0)
 	{
 		angle_in_rad = asin(-(y_d / dist_to_enemy));
 	}
@@ -50,7 +63,7 @@ void Shot::render(SDL_Point target) const
 			angle_in_rad = asin(-(x_d / dist_to_enemy)) - (M_PI / 2);
 		}
 	}
-	auto angle_in_deg = angle_in_rad / M_PI * 180;
+	*angle = (angle_in_rad / M_PI * 180);
 
 	SDL_Rect dest;
 	SDL_Point center;
@@ -65,7 +78,8 @@ void Shot::render(SDL_Point target) const
 	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::SHOTS, nullptr, &dest, angle_in_deg, &center, flip);
 }
 
-//follows the enemy and returns true when it hits
+
+
 bool Shot::follow(SDL_Point target)
 {
 	auto travel_dist = mProjectile_speed / 60.0;

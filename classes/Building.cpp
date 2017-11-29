@@ -1,7 +1,6 @@
 #include "Building.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
-#include <SDL.h>
 #include "Level.h"
 #include "Window.h"
 #include "LayerHandler.h"
@@ -54,7 +53,7 @@ Building::~Building()
 	//don't destroy texture, handled by texture class
 }
 
-//render the picture of the building
+
 void Building::render() const
 {
 	SDL_Rect dest;

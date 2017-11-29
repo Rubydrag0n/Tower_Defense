@@ -36,9 +36,7 @@ Enemy::~Enemy()
 {
 }
 
-//moves the enemy along it's assigned path
-//if it hits the last checkpoint it calls got_through()
-//and sets itself to dead
+
 void Enemy::move()
 {
 	if (!mDead)
@@ -131,7 +129,7 @@ bool Enemy::take_damage(Damage *dmg)
 	return false;
 }
 
-//calls Unit::render() and shows the health bar with two rectangles
+
 void Enemy::render()
 {
 	Unit::render();
