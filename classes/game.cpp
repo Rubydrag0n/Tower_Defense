@@ -37,6 +37,9 @@ Game::Game()
 
 	mMenu = new Menu(mLevel);
 	mMap = new Map("level/Level1.FMP");
+
+	gMouse_handler = new MouseHandler();
+	gLayer_handler = new LayerHandler();
 }
 
 Game::~Game()
@@ -57,18 +60,6 @@ Game::~Game()
 		delete mAll_industrial_buildings.at(i);
 	}
 }
-}
-
-void Game::init_game()
-{
-	gMouse_handler = new MouseHandler();
-	gLayer_handler = new LayerHandler();
-}
-
-void Game::start_game()
-{
-	auto test_map = new Map("level/Level1.FMP");
-
 
 void Game::render_all()
 {
@@ -105,6 +96,7 @@ void Game::update_all()
 	
 	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
 	{
+		//TODO: Olli! das ist totaler bullshit
 		if (i % 60 == 0)
 		{
 			mAll_industrial_buildings.at(i)->update();
@@ -138,9 +130,8 @@ void Game::start_game()
 		if (i % 60 == 0)
 		{
 			//printf("Second...\n");
-			test_industrial_building->update();
 		}
-		if (test_level->is_dead())
+		if (mLevel->is_dead())
 		{
 			//std::cout << "all enemies dead" << std::endl;
 			SDL_Delay(10000);

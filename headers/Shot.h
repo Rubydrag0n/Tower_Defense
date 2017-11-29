@@ -11,8 +11,8 @@ public:
 	~Shot();
 	
 	
-	void render(SDL_Point target); //renders the shot
-	void points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle, SDL_Point target);
+	void render(SDL_Point target) const; //renders the shot
+	void points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle, SDL_Point target) const;
 	bool follow(SDL_Point target); //follows the enemy and returns true when it hits
 
 	SDL_Point get_coords() const;
