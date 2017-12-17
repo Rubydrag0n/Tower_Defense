@@ -38,7 +38,6 @@ Game::Game()
 	mMenu = new Menu(mLevel);
 	mMap = new Map("level/Level1.FMP");
 
-	gMouse_handler = new MouseHandler();
 	gLayer_handler = new LayerHandler();
 }
 
@@ -102,7 +101,6 @@ void Game::update_all()
 			mAll_industrial_buildings.at(i)->update();
 		}
 	}
-
 }
 
 void Game::start_game()

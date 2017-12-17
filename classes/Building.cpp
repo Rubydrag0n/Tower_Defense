@@ -94,9 +94,11 @@ void Building::on_mouse_over(int mouse_x, int mouse_y)
 	rect.y = mouse_y;
 	rect.w = 200;
 	rect.h = 200;
-	auto w = new Window(rect);
+
+	//TODO: make this faster so we can uncomment it
+	/*auto w = new Window(rect);
 	w->render();
-	delete w;
+	delete w; */
 }
 
 void Building::on_right_click(int mouse_x, int mouse_y)
