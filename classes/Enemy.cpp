@@ -2,12 +2,13 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "Level.h"
+#include "LayerHandler.h"
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(std::string monster_name, int way, Level* Level) : Unit(monster_name)
+Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_name)
 {
 	ConfigFile cf("config/game.cfg");
-	mLevel = Level;
+	mLevel = level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	auto s_way = std::to_string(way);
 	//printf("reading checkpointnumber...\n");
@@ -30,6 +31,15 @@ Enemy::Enemy(std::string monster_name, int way, Level* Level) : Unit(monster_nam
 	//delete first element from vector
 	mCheckpoints.erase(mCheckpoints.begin());
 	mDead = false;
+
+	//initialize health bar things
+	std::string health_bar_name = cf.Value(monster_name + "/sprite", "health_bar");
+	mEmpty_health_bar = gTextures->get_texture(cf.Value(health_bar_name + "/sprite", "empty_path"));
+	mFull_health_bar = gTextures->get_texture(cf.Value(health_bar_name + "/sprite", "full_path"));
+	mHealth_bar_dimensions.x = 0;
+	mHealth_bar_dimensions.y = 0;
+	mHealth_bar_dimensions.w = cf.Value(health_bar_name + "/sprite", "image_width");
+	mHealth_bar_dimensions.h = cf.Value(health_bar_name + "/sprite", "image_height");
 }
 
 Enemy::~Enemy()
@@ -104,7 +114,7 @@ void Enemy::got_through()
 	mDead = true;
 }
 
-bool Enemy::isDead() const
+bool Enemy::is_dead() const
 {
 	return mDead;
 }
@@ -132,20 +142,22 @@ bool Enemy::take_damage(Damage *dmg)
 
 void Enemy::render()
 {
+	//rendering the unit
 	Unit::render();
 
+	//now rendering the health bar
 	SDL_Rect full_health;
-	full_health.x = mPosition.x - mCurrent_clip.w / 2;
-	full_health.y = mPosition.y - mCurrent_clip.h / 2;
-	full_health.w = mCurrent_clip.w;
-	full_health.h = 20;
+	full_health.x = mPosition.x - mHealth_bar_dimensions.w / 2;
+	full_health.y = mPosition.y - mCurrent_clip.h / 2 - mHealth_bar_dimensions.h / 2;
+	full_health.w = mHealth_bar_dimensions.w;
+	full_health.h = mHealth_bar_dimensions.h;
 
 	auto current_health = full_health;
-	current_health.w = mCurrent_clip.w * (this->get_defense().get_health()/this->get_defense().get_full_health());
-	
-	//TODO: Do this with textures and stuff so it's compatible with the LayerHandler
-	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-	SDL_RenderFillRect(gRenderer, &full_health);
-	SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
-	SDL_RenderFillRect(gRenderer, &current_health);
+	current_health.w = mHealth_bar_dimensions.w * (this->get_defense().get_health()/this->get_defense().get_full_health());
+	auto src_current_health = current_health;
+	src_current_health.x = 0;
+	src_current_health.y = 0;
+
+	gLayer_handler->render_to_layer(mEmpty_health_bar, LAYERS::OVERLAY, &mHealth_bar_dimensions, &full_health);
+	gLayer_handler->render_to_layer(mFull_health_bar, LAYERS::OVERLAY, &src_current_health, &current_health);
 }

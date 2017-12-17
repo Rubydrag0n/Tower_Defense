@@ -229,6 +229,8 @@
     <Image Include="resources\background.bmp" />
     <Image Include="resources\bomb.png" />
     <Image Include="resources\cannon.png" />
+    <Image Include="resources\health_bar_empty.png" />
+    <Image Include="resources\health_bar_full.png" />
     <Image Include="resources\LinkMonster.png" />
     <Image Include="resources\Lumberjack.png" />
   </ItemGroup>
