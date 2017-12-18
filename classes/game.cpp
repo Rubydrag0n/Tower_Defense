@@ -7,13 +7,11 @@
 #include "Tower.h"
 #include <iostream>
 #include "Level.h"
-#include "Button.h"
 #include "Menu.h"
 #include "IndustrialBuilding.h"
 #include "HomingTower.h"
 #include "AoeTower.h"
 #include "MouseHandler.h"
-#include "Clickable.h"
 #include "LayerHandler.h"
 
 Game::Game()

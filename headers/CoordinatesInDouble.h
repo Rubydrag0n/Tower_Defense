@@ -8,4 +8,6 @@ public:
 	
 	double x;
 	double y;
+
+	CoordinatesInDouble operator+(CoordinatesInDouble) const;
 };

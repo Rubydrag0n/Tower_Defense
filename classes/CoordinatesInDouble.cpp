@@ -11,4 +11,12 @@ CoordinatesInDouble::~CoordinatesInDouble()
 	
 }
 
+CoordinatesInDouble CoordinatesInDouble::operator+(CoordinatesInDouble summand) const
+{
+	CoordinatesInDouble result;
+	result.x = this->x + summand.x;
+	result.y = this->y + summand.y;
+	return result;
+}
+
 
