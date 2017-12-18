@@ -32,12 +32,9 @@ private:
 	LTexture *mTrcorner;
 	LTexture *mHorizontalborder;
 	LTexture *mVerticalborder;
+	LTexture *mBackground;
 
 	int mCorner_width;
 	int mCorner_height;
 	int mBorder_thickness;
-
-	int mR;
-	int mG;
-	int mB;
 };

@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "SDL_setup.h"
 #include "ConfigFile.h"
+#include "LayerHandler.h"
 
 Window::Window(SDL_Rect dim, STYLE style)
 {
@@ -8,21 +9,18 @@ Window::Window(SDL_Rect dim, STYLE style)
 	mDim = dim;
 	mStyle = style;
 
-	std::string category = "frames/" + std::to_string(int(style));
+	auto category = "frames/" + std::to_string(int(style));
 	mBlcorner = gTextures->get_texture(cf.Value(category, "blcpath"));
 	mBrcorner = gTextures->get_texture(cf.Value(category, "brcpath"));
 	mTlcorner = gTextures->get_texture(cf.Value(category, "tlcpath"));
 	mTrcorner = gTextures->get_texture(cf.Value(category, "trcpath"));
 	mHorizontalborder = gTextures->get_texture(cf.Value(category, "hbpath"));
 	mVerticalborder = gTextures->get_texture(cf.Value(category, "vbpath"));
+	mBackground = gTextures->get_texture(cf.Value(category, "bgcolorpath"));
 
 	mCorner_height = cf.Value(category, "corner_height");
 	mCorner_width = cf.Value(category, "corner_width");
 	mBorder_thickness = cf.Value(category, "border_thickness");
-
-	mR = cf.Value(category, "backgroundcolorred");
-	mG = cf.Value(category, "backgroundcolorgreen");
-	mB = cf.Value(category, "backgroundcolorblue");
 }
 
 Window::~Window()
@@ -32,7 +30,6 @@ Window::~Window()
 
 void Window::render() const
 {
-	//TODO: do this with LayerHandler...
 	//draw the inner color of the window (background of the window)
 	SDL_Rect dest;
 	dest.w = mDim.w;
@@ -41,17 +38,16 @@ void Window::render() const
 	dest.x = mDim.x;
 	dest.y = mDim.y;
 
-	SDL_SetRenderDrawColor(gRenderer, mR, mG, mB, 255);
-	SDL_RenderFillRect(gRenderer, &dest);
+	gLayer_handler->render_to_layer(mBackground, LAYERS::OVERLAY, nullptr, &dest);
 
 	//draw the four corners
-	mTlcorner->render(dest.x, dest.y);
+	gLayer_handler->render_to_layer(mTlcorner, LAYERS::OVERLAY, nullptr, &dest);
 	dest.x = mDim.x + mDim.w - mCorner_width;
-	mTrcorner->render(dest.x, dest.y);
+	gLayer_handler->render_to_layer(mTrcorner, LAYERS::OVERLAY, nullptr, &dest);
 	dest.y = mDim.y + mDim.h - mCorner_height;
-	mBrcorner->render(dest.x, dest.y);
+	gLayer_handler->render_to_layer(mBrcorner, LAYERS::OVERLAY, nullptr, &dest);
 	dest.x = mDim.x;
-	mBlcorner->render(dest.x, dest.y);
+	gLayer_handler->render_to_layer(mBlcorner, LAYERS::OVERLAY, nullptr, &dest);
 
 	//draw the borders
 	//horizontal top:
@@ -60,13 +56,13 @@ void Window::render() const
 	dest.h = mBorder_thickness;
 	for (dest.x = mDim.x + mCorner_width; dest.x < mDim.x + mDim.w - mCorner_width; dest.x++)
 	{
-		mHorizontalborder->render(dest.x, dest.y);
+		gLayer_handler->render_to_layer(mHorizontalborder, LAYERS::OVERLAY, nullptr, &dest);
 	}
 	//horizontal bottom:
 	dest.y = mDim.y + mDim.h - mBorder_thickness;
 	for (dest.x = mDim.x + mCorner_width; dest.x < mDim.x + mDim.w - mCorner_width; dest.x++)
 	{
-		mHorizontalborder->render(dest.x, dest.y);
+		gLayer_handler->render_to_layer(mHorizontalborder, LAYERS::OVERLAY, nullptr, &dest);
 	}
 	//vertical left:
 	dest.x = mDim.x;
@@ -74,13 +70,13 @@ void Window::render() const
 	dest.h = 1;
 	for (dest.y = mDim.y + mCorner_height; dest.y < mDim.y + mDim.h - mCorner_height; dest.y++)
 	{
-		mVerticalborder->render(dest.x, dest.y);
+		gLayer_handler->render_to_layer(mVerticalborder, LAYERS::OVERLAY, nullptr, &dest);
 	}
 	//vertical right
 	dest.x = mDim.x + mDim.w - mBorder_thickness;
 	for (dest.y = mDim.y + mCorner_height; dest.y < mDim.y + mDim.h - mCorner_height; dest.y++)
 	{
-		mVerticalborder->render(dest.x, dest.y);
+		gLayer_handler->render_to_layer(mVerticalborder, LAYERS::OVERLAY, nullptr, &dest);
 	}
 }
 

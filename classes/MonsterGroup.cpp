@@ -39,7 +39,7 @@ void MonsterGroup::update()
 
 	for (auto i = 0; i < mMonsters.size(); i++)
 	{
-		if (mMonsters.at(i)->isDead())
+		if (mMonsters.at(i)->is_dead())
 		{
 			//the monster died -> delete from the vector
 			delete mMonsters.at(i);

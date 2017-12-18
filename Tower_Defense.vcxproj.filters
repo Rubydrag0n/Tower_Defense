@@ -291,6 +291,12 @@
     <Image Include="resources\Lumberjack.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\health_bar_empty.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\health_bar_full.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\lazy.ttf">
