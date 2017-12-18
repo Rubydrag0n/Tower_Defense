@@ -10,6 +10,7 @@ public:
 	~Menu();
 
 	void render(); //shows lives and ressources
+	void add_menu_item(MenuItem* menu_item);
 
 private:
 	Level* mLevel;

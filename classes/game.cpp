@@ -36,6 +36,8 @@ Game::Game()
 	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
+	MenuItem* testItem = new MenuItem("archer/sprite");
+	mMenu->add_menu_item(testItem);
 	mMap = new Map("level/Level1.FMP");
 
 	gLayer_handler = new LayerHandler();
