@@ -159,6 +159,9 @@
     <ClCompile Include="classes\Enemy.cpp">
       <Filter>Source Files\Level and Monster</Filter>
     </ClCompile>
+    <ClCompile Include="classes\Particles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="headers\LayerHandler.h">
       <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Particles.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
