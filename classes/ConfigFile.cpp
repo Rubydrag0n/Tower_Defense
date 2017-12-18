@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+ConfigFile* gConfig_file = nullptr;
+
 std::string trim(std::string const& source, char const* delims = " \t\r\n") {
 	auto result(source);
 	auto index = result.find_last_not_of(delims);

@@ -7,12 +7,11 @@
 //needs the level name for getting the movement checkpoints from the config file
 Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_name)
 {
-	ConfigFile cf("config/game.cfg");
 	mLevel = level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	auto s_way = std::to_string(way);
 	//printf("reading checkpointnumber...\n");
-	int checkpoint_number = cf.Value("level" + mLevel->get_level_number(), "way" + s_way + "number_of_checkpoints");
+	int checkpoint_number = gConfig_file->Value("level" + mLevel->get_level_number(), "way" + s_way + "number_of_checkpoints");
 
 	for (auto i = 0; i < checkpoint_number; i++)
 	{
@@ -21,8 +20,8 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 		SDL_Point p;
 
 		//printf("reading checkpoint %i\n", i);
-		p.x = cf.Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "x");
-		p.y = cf.Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "y");
+		p.x = gConfig_file->Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "x");
+		p.y = gConfig_file->Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "y");
 		//sorting the checkpoints into the array (they have to be in the right order)
 		mCheckpoints.push_back(p);
 	}
@@ -33,13 +32,13 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	mDead = false;
 
 	//initialize health bar things
-	std::string health_bar_name = cf.Value(monster_name + "/sprite", "health_bar");
-	mEmpty_health_bar = gTextures->get_texture(cf.Value(health_bar_name + "/sprite", "empty_path"));
-	mFull_health_bar = gTextures->get_texture(cf.Value(health_bar_name + "/sprite", "full_path"));
+	std::string health_bar_name = gConfig_file->Value(monster_name + "/sprite", "health_bar");
+	mEmpty_health_bar = gTextures->get_texture(gConfig_file->Value(health_bar_name + "/sprite", "empty_path"));
+	mFull_health_bar = gTextures->get_texture(gConfig_file->Value(health_bar_name + "/sprite", "full_path"));
 	mHealth_bar_dimensions.x = 0;
 	mHealth_bar_dimensions.y = 0;
-	mHealth_bar_dimensions.w = cf.Value(health_bar_name + "/sprite", "image_width");
-	mHealth_bar_dimensions.h = cf.Value(health_bar_name + "/sprite", "image_height");
+	mHealth_bar_dimensions.w = gConfig_file->Value(health_bar_name + "/sprite", "image_width");
+	mHealth_bar_dimensions.h = gConfig_file->Value(health_bar_name + "/sprite", "image_height");
 }
 
 Enemy::~Enemy()

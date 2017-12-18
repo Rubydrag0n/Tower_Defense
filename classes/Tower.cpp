@@ -6,19 +6,18 @@
 
 Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(tower_name, coords, level)
 {
-	ConfigFile cf("config/game.cfg");
 	mTower_name = tower_name;
 
-	mDamage.set_damages(cf.Value(mTower_name + "/stats", "phys"),
-		cf.Value(mTower_name + "/stats", "magic"),
-		cf.Value(mTower_name + "/stats", "fire"),
-		cf.Value(mTower_name + "/stats", "water"),
-		cf.Value(mTower_name + "/stats", "elec"));
+	mDamage.set_damages(gConfig_file->Value(mTower_name + "/stats", "phys"),
+		gConfig_file->Value(mTower_name + "/stats", "magic"),
+		gConfig_file->Value(mTower_name + "/stats", "fire"),
+		gConfig_file->Value(mTower_name + "/stats", "water"),
+		gConfig_file->Value(mTower_name + "/stats", "elec"));
 
-	mRange = cf.Value(mTower_name + "/stats", "range");
-	mAttack_speed = cf.Value(mTower_name + "/stats", "attackspeed");
-	mProjectile_speed = cf.Value(mTower_name + "/stats", "projectilespeed");
-	mProjectile_name.assign(cf.Value(mTower_name + "/stats", "projectile_name"));
+	mRange = gConfig_file->Value(mTower_name + "/stats", "range");
+	mAttack_speed = gConfig_file->Value(mTower_name + "/stats", "attackspeed");
+	mProjectile_speed = gConfig_file->Value(mTower_name + "/stats", "projectilespeed");
+	mProjectile_name.assign(gConfig_file->Value(mTower_name + "/stats", "projectile_name"));
 	mAttack_cooldown = 60 / mAttack_speed;
 	mElapsed_ticks = 0;
 }

@@ -14,7 +14,7 @@ public:
 
 	void start_game();
 	void render_all();
-	void update_all();
+	void update_all(int gameTick);
 
 	void add_enemies(std::vector<Enemy*> enemies);
 	void add_tower(Tower* tower);

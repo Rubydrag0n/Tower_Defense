@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Clickable.h"
+#include <SDL.h>
 
 class MouseHandler
 {

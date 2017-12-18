@@ -4,20 +4,18 @@
 
 Level::Level(std::string level_number)
 {
-	ConfigFile cf("config/game.cfg");
-
 	mLevel_number = level_number;
-	mLives = cf.Value("level" + mLevel_number, "lives");
-	mWaves_count = cf.Value("level" + mLevel_number, "waves_count");
+	mLives = gConfig_file->Value("level" + mLevel_number, "lives");
+	mWaves_count = gConfig_file->Value("level" + mLevel_number, "waves_count");
 
 	//set the start-ressources in this level
-	mRessources.set_ressources(cf.Value("level" + mLevel_number, "gold"),
-		cf.Value("level" + mLevel_number, "wood"),
-		cf.Value("level" + mLevel_number, "stone"),
-		cf.Value("level" + mLevel_number, "iron"),
-		cf.Value("level" + mLevel_number, "energy"),
-		cf.Value("level" + mLevel_number, "water"), 
-		cf.Value("level" + mLevel_number, "food"));
+	mRessources.set_ressources(gConfig_file->Value("level" + mLevel_number, "gold"),
+		gConfig_file->Value("level" + mLevel_number, "wood"),
+		gConfig_file->Value("level" + mLevel_number, "stone"),
+		gConfig_file->Value("level" + mLevel_number, "iron"),
+		gConfig_file->Value("level" + mLevel_number, "energy"),
+		gConfig_file->Value("level" + mLevel_number, "water"), 
+		gConfig_file->Value("level" + mLevel_number, "food"));
 
 	//create all waves in the level and insert them in the vector mWaves
 	for (auto i = 1; i <= mWaves_count; i++)

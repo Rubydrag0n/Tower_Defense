@@ -159,6 +159,9 @@
     <ClCompile Include="classes\Enemy.cpp">
       <Filter>Source Files\Level and Monster</Filter>
     </ClCompile>
+    <ClCompile Include="classes\MenuItem.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
     <ClCompile Include="classes\Particles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="headers\LayerHandler.h">
       <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MenuItem.h">
+      <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="headers\Particles.h">
       <Filter>Header Files</Filter>

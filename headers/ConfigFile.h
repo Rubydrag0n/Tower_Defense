@@ -15,3 +15,5 @@ public:
 	Chameleon const& Value(std::string const& section, std::string const& entry, double value);
 	Chameleon const& Value(std::string const& section, std::string const& entry, std::string const& value);
 };
+
+extern ConfigFile* gConfig_file;

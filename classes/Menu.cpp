@@ -39,5 +39,10 @@ void Menu::render()
 	dest.h = this->mMenu_texture->get_height();
 
 	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::OVERLAY, nullptr, &dest);
+
+	for(auto i = 0; i<mMenu_items.size(); i++)
+	{
+
+	}
 }
 

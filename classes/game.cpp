@@ -73,7 +73,7 @@ void Game::render_all()
 	}
 }
 
-void Game::update_all()
+void Game::update_all(int gameTick)
 {
 	mAll_enemies.clear();
 	mLevel->update();
@@ -93,8 +93,7 @@ void Game::update_all()
 	
 	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
 	{
-		//TODO: Olli! das ist totaler bullshit
-		if (i % 60 == 0)
+		if (gameTick % 60 == 0)
 		{
 			mAll_industrial_buildings.at(i)->update();
 		}
@@ -108,12 +107,12 @@ void Game::start_game()
 
 	SDL_RenderPresent(gRenderer);
 	
-	for (auto i = 0; i < 300000; i++)
+	for (auto gameTick = 0; gameTick < 300000; gameTick++)
 	{
 		//SDL_Delay(100);
 		SDL_RenderClear(gRenderer);
 		render_all();
-		update_all();
+		update_all(gameTick);
 		//also renders the hover window
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
@@ -123,7 +122,7 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
-		if (i % 60 == 0)
+		if (gameTick % 60 == 0)
 		{
 			//printf("Second...\n");
 		}

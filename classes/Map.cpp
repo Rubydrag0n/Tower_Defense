@@ -5,12 +5,11 @@
 
 Map::Map(char *map_path)
 {
-	ConfigFile cf("config/game.cfg");
-	mOffset_left = cf.Value("map", "offset_left");
-	mOffset_top = cf.Value("map", "offset_top");
-	mWidth = cf.Value("map", "width");
-	mHeight = cf.Value("map", "height");
-	mLayer_count = cf.Value("map", "layer_count");
+	mOffset_left = gConfig_file->Value("map", "offset_left");
+	mOffset_top = gConfig_file->Value("map", "offset_top");
+	mWidth = gConfig_file->Value("map", "width");
+	mHeight = gConfig_file->Value("map", "height");
+	mLayer_count = gConfig_file->Value("map", "layer_count");
 	mMap = new SDLMappy;
 	if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
 		printf("Could not load %s\n", map_path);

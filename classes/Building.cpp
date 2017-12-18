@@ -7,35 +7,33 @@
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
-	ConfigFile cf("config/game.cfg");
-
 	mName = building_name;
-	mSprite_path = std::string(cf.Value(mName + "/sprite", "path"));
+	mSprite_path = std::string(gConfig_file->Value(mName + "/sprite", "path"));
 
 	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(mSprite_path);
-	mSprite_dimensions.w = cf.Value(building_name + "/sprite", "image_width");
-	mSprite_dimensions.h = cf.Value(building_name + "/sprite", "image_height");
+	mSprite_dimensions.w = gConfig_file->Value(building_name + "/sprite", "image_width");
+	mSprite_dimensions.h = gConfig_file->Value(building_name + "/sprite", "image_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 
 	//set the construction costs of the building
-	mConstruction_costs.set_ressources(cf.Value(building_name + "/stats", "goldcosts"),
-									   cf.Value(building_name + "/stats", "woodcosts"),
-									   cf.Value(building_name + "/stats", "stonecosts"),
-									   cf.Value(building_name + "/stats", "ironcosts"),
-									   cf.Value(building_name + "/stats", "energycosts"),
-									   cf.Value(building_name + "/stats", "watercosts"),
-									   cf.Value(building_name + "/stats", "foodcosts"));
+	mConstruction_costs.set_ressources(gConfig_file->Value(building_name + "/stats", "goldcosts"),
+									   gConfig_file->Value(building_name + "/stats", "woodcosts"),
+									   gConfig_file->Value(building_name + "/stats", "stonecosts"),
+									   gConfig_file->Value(building_name + "/stats", "ironcosts"),
+									   gConfig_file->Value(building_name + "/stats", "energycosts"),
+									   gConfig_file->Value(building_name + "/stats", "watercosts"),
+									   gConfig_file->Value(building_name + "/stats", "foodcosts"));
 
 	//set the maintenance costs of the building
-	mMaintenance.set_ressources(cf.Value(building_name + "/stats", "goldMain"),
-		cf.Value(building_name + "/stats", "woodMain"),
-		cf.Value(building_name + "/stats", "stoneMain"),
-		cf.Value(building_name + "/stats", "ironMain"),
-		cf.Value(building_name + "/stats", "energyMain"),
-		cf.Value(building_name + "/stats", "waterMain"),
-		cf.Value(building_name + "/stats", "foodMain"));
+	mMaintenance.set_ressources(gConfig_file->Value(building_name + "/stats", "goldMain"),
+		gConfig_file->Value(building_name + "/stats", "woodMain"),
+		gConfig_file->Value(building_name + "/stats", "stoneMain"),
+		gConfig_file->Value(building_name + "/stats", "ironMain"),
+		gConfig_file->Value(building_name + "/stats", "energyMain"),
+		gConfig_file->Value(building_name + "/stats", "waterMain"),
+		gConfig_file->Value(building_name + "/stats", "foodMain"));
 
 	mLevel = level;
 	mCoords = coords;
