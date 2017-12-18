@@ -9,11 +9,12 @@
 #include "Map.h"
 #include "Game.h"
 #include <stdio.h>
-
+#include "ConfigFile.h"
 
 
 int main( int argc, char* args[] )
 {
+	gConfig_file = new ConfigFile("config/game.cfg");
 	if (!init_graphics())
 	{
 		printf("Failed to initialize Graphics!\n");

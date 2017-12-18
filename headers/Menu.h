@@ -1,5 +1,7 @@
 #pragma once
 #include "Level.h"
+#include "MenuItem.h"
+
 
 class Menu
 {
@@ -12,4 +14,5 @@ public:
 private:
 	Level* mLevel;
 	LTexture* mMenu_texture;
+	std::vector<MenuItem*> mMenu_items;
 };

@@ -8,16 +8,14 @@
 
 Shot::Shot(Tower* tower)
 {
-	ConfigFile cf("config/game.cfg");
-
 	mCoords = tower->get_coords();
 	mProjectile_speed = tower->get_projectile_speed();
 	mCoords_in_double.x = mCoords.x;
 	mCoords_in_double.y = mCoords.y;
 
-	mSprite = gTextures->get_texture(cf.Value(tower->get_projectile_name() + "/sprite", "path"));
-	mSprite_dimensions.w = cf.Value(tower->get_projectile_name() + "/sprite", "image_width");
-	mSprite_dimensions.h = cf.Value(tower->get_projectile_name() + "/sprite", "image_height");
+	mSprite = gTextures->get_texture(gConfig_file->Value(tower->get_projectile_name() + "/sprite", "path"));
+	mSprite_dimensions.w = gConfig_file->Value(tower->get_projectile_name() + "/sprite", "image_width");
+	mSprite_dimensions.h = gConfig_file->Value(tower->get_projectile_name() + "/sprite", "image_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 }

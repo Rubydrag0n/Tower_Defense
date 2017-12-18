@@ -5,22 +5,21 @@
 
 Window::Window(SDL_Rect dim, STYLE style)
 {
-	ConfigFile cf("config/game.cfg");
 	mDim = dim;
 	mStyle = style;
 
 	auto category = "frames/" + std::to_string(int(style));
-	mBlcorner = gTextures->get_texture(cf.Value(category, "blcpath"));
-	mBrcorner = gTextures->get_texture(cf.Value(category, "brcpath"));
-	mTlcorner = gTextures->get_texture(cf.Value(category, "tlcpath"));
-	mTrcorner = gTextures->get_texture(cf.Value(category, "trcpath"));
-	mHorizontalborder = gTextures->get_texture(cf.Value(category, "hbpath"));
-	mVerticalborder = gTextures->get_texture(cf.Value(category, "vbpath"));
-	mBackground = gTextures->get_texture(cf.Value(category, "bgcolorpath"));
+	mBlcorner = gTextures->get_texture(gConfig_file->Value(category, "blcpath"));
+	mBrcorner = gTextures->get_texture(gConfig_file->Value(category, "brcpath"));
+	mTlcorner = gTextures->get_texture(gConfig_file->Value(category, "tlcpath"));
+	mTrcorner = gTextures->get_texture(gConfig_file->Value(category, "trcpath"));
+	mHorizontalborder = gTextures->get_texture(gConfig_file->Value(category, "hbpath"));
+	mVerticalborder = gTextures->get_texture(gConfig_file->Value(category, "vbpath"));
+	mBackground = gTextures->get_texture(gConfig_file->Value(category, "bgcolorpath"));
 
-	mCorner_height = cf.Value(category, "corner_height");
-	mCorner_width = cf.Value(category, "corner_width");
-	mBorder_thickness = cf.Value(category, "border_thickness");
+	mCorner_height = gConfig_file->Value(category, "corner_height");
+	mCorner_width = gConfig_file->Value(category, "corner_width");
+	mBorder_thickness = gConfig_file->Value(category, "border_thickness");
 }
 
 Window::~Window()

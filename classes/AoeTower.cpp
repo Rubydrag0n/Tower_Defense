@@ -5,8 +5,8 @@
 
 AoeTower::AoeTower(std::string tower_name, SDL_Point coords, Level* level) : Tower(tower_name, coords, level)
 {
-	ConfigFile cf("config/game.cfg");
-	mExplosive_radius = cf.Value(mTower_name + "/stats", "explosiveradius");
+
+	mExplosive_radius = gConfig_file->Value(mTower_name + "/stats", "explosiveradius");
 }
 
 

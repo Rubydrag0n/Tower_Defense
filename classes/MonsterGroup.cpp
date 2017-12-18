@@ -5,16 +5,15 @@
 
 MonsterGroup::MonsterGroup(std::string wave_number, std::string monster_group_number, Level* Level) : mMonsters()
 {
-	ConfigFile cf("config/game.cfg");
 	mLevel = Level;
 	mElapsed_ticks = 0;
 	mCurrent_monster_count = 0;
 	mDead_monsters = 0;
 
-	mMonster_name.assign(cf.Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "monstername"));
-	mDelay_ticks = cf.Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "delay_ticks");
-	mMax_monster_count = cf.Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "monster_count");
-	mWay = cf.Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "way");
+	mMonster_name.assign(gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "monstername"));
+	mDelay_ticks = gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "delay_ticks");
+	mMax_monster_count = gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "monster_count");
+	mWay = gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "way");
 }
 
 MonsterGroup::~MonsterGroup()
