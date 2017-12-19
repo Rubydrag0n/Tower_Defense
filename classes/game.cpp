@@ -13,10 +13,12 @@
 #include "AoeTower.h"
 #include "MouseHandler.h"
 #include "LayerHandler.h"
+#include "UpdateHandlerh.h"
 
 Game::Game()
 {
 	gMouse_handler = new MouseHandler();
+	gUpdate_handler = new UpdateHandler();
 	mLevel = new Level("1");
 
 	SDL_Point coords;
@@ -34,10 +36,9 @@ Game::Game()
 	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
-	MenuItem* test_item = new MenuItem("archer/sprite");
-	mMenu->add_menu_item(test_item);
+	MenuItem* testItem = new MenuItem("archer", mLevel);
+	mMenu->add_menu_item(testItem);
 	mMap = new Map("level/Level1.FMP");
-
 	gLayer_handler = new LayerHandler();
 }
 
@@ -63,7 +64,7 @@ Game::~Game()
 void Game::render_all()
 {
 	mMap->render();
-	mMenu->render();
+	mMenu->render(mMouse_position);
 	mLevel->render();
 	for (auto i = 0; i<mAll_towers.size(); i++)
 	{
@@ -110,6 +111,7 @@ void Game::start_game()
 	
 	for (auto game_tick = 0; game_tick < 300000; game_tick++)
 	{
+		SDL_GetMouseState(&mMouse_position.x, &mMouse_position.y);
 		//SDL_Delay(100);
 		SDL_RenderClear(gRenderer);
 		render_all();

@@ -1,6 +1,7 @@
 #pragma once
 #include "Level.h"
 #include "MenuItem.h"
+#include "CoordinatesInDouble.h"
 
 
 class Menu
@@ -9,7 +10,7 @@ public:
 	Menu(Level *level);
 	~Menu();
 
-	void render(); //shows lives and ressources
+	void render(SDL_Point mouse_position); //shows lives and ressources
 	void add_menu_item(MenuItem* menu_item);
 
 private:
