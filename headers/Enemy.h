@@ -9,7 +9,7 @@ class Enemy :
 	public Unit
 {
 public:
-	Enemy(std::string monster_name, int way, Level* Level);
+	Enemy(std::string monster_name, int way, Level* level);
 	~Enemy();
 
 	//moves the enemy along it's assigned path

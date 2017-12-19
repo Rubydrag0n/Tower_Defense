@@ -5,11 +5,11 @@
 class Particles
 {
 public:
-	Particles::Particles(std::string particle_name);
+	Particles::Particles(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot);
 	Particles::~Particles();
 
 	void update();
-
+	bool delete_me();
 
 private:
 	LTexture* mTexture;
