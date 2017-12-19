@@ -2,15 +2,17 @@
 #include "Clickable.h"
 #include "Building.h"
 
-class MenuItem :
-	public Clickable
+class MenuItem 
 {
 public:
-	MenuItem();
+	MenuItem(std::string path_of_texture);
 	~MenuItem();
+
+	LTexture* get_sprite();
+	SDL_Point get_coords();
 
 
 private:
 	SDL_Point mCoords; //coordinates, where the item is placed in the menu
-	std::string mPath_of_texture;
+	LTexture* mSprite;
 };
