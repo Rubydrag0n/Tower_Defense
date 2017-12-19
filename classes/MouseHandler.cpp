@@ -69,7 +69,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 				printf("Pressed button is: %hhu\n", e->button.button);
 				*/
 
-				if (e->button.type == 1) {
+				if (e->button.type == 1025) {
 					(*it)->on_click(x, y);
 				}
 				else if (e->button.type == 2)

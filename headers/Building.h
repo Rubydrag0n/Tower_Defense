@@ -4,10 +4,11 @@
 #include <string>
 #include "Clickable.h"
 #include "LTexture.h"
+#include "Updateable.h"
 
 class Level;
 
-class Building : public Clickable
+class Building : public Clickable, public Updateable
 {
 public:
 	Building(std::string building_name, SDL_Point coords, Level *level);

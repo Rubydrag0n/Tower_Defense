@@ -23,6 +23,5 @@ public:
 	void set_clickable_space(SDL_Rect clickable_space);
 
 private:
-
 	SDL_Rect mClickable_space;
 };

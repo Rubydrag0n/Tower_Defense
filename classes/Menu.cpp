@@ -8,14 +8,13 @@ Menu::Menu(Level *level)
 {
 	mLevel = level;
 	mMenu_texture = nullptr;
-
 }
 
 Menu::~Menu()
 {
 }
 
-void Menu::render()
+void Menu::render(SDL_Point mouse_position)
 {
 	SDL_Color text_color = { 0, 0, 255 };
 
@@ -43,12 +42,7 @@ void Menu::render()
 
 	for(auto i = 0; i<mMenu_items.size(); i++)
 	{
-		LTexture t;
-		dest.x = mMenu_items.at(i)->get_coords().x;
-		dest.y = mMenu_items.at(i)->get_coords().y;
-		dest.w = mMenu_items.at(i)->get_sprite()->get_width();
-		dest.h = mMenu_items.at(i)->get_sprite()->get_height();
-		gLayer_handler->render_to_layer(mMenu_items.at(i)->get_sprite(), LAYERS::BACKGROUND, nullptr, &dest);
+		mMenu_items.at(i)->render(mouse_position);
 	}
 }
 
@@ -56,5 +50,6 @@ void Menu::add_menu_item(MenuItem* menu_item)
 {
 	mMenu_items.push_back(menu_item);
 }
+
 
 

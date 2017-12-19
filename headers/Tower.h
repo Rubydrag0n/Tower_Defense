@@ -22,7 +22,7 @@ public:
 	//looks if an enemy is in range, if true: creates shots
 	void shoot(std::vector<Enemy*> all_enemies);
 	//all projectiles, that are fired from this tower are updated
-	void update(std::vector<Enemy*> all_enemies);
+	void update(std::vector<Enemy*> all_enemies) override;
 	//checks if an enemy is in range of the tower
 	bool enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const;
 

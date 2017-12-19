@@ -27,4 +27,5 @@ private:
 	Menu* mMenu;
 	Level* mLevel;
 	Map* mMap;
+	SDL_Point mMouse_position;
 };
