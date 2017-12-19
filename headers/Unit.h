@@ -12,7 +12,6 @@ enum DIRECTION
 	UP = 6,
 	RIGHT = 7
 };
-
 /*
  * A Unit
  * Can walk over the screen (with animation?)

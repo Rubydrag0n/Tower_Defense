@@ -7,16 +7,18 @@
 
 Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 {
+	auto sprite_section = unit_name + "/sprite";
+	auto stats_section = unit_name + "/stats";
 	//load path of the sprite
-	std::string path = gConfig_file->Value(unit_name + "/sprite", "path");
+	std::string path = gConfig_file->Value(sprite_section, "path");
 	mSprite = gTextures->get_texture(path);	//set the pointer to the sprite
 
-	mSprite_dimensions.w = gConfig_file->Value(unit_name + "/sprite", "image_width");
-	mSprite_dimensions.h = gConfig_file->Value(unit_name + "/sprite", "image_height");
+	mSprite_dimensions.w = mSprite->get_width();
+	mSprite_dimensions.h = mSprite->get_height();
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
-	int clip_width = gConfig_file->Value(unit_name + "/sprite", "clip_width");
-	int clip_height = gConfig_file->Value(unit_name + "/sprite", "clip_height");
+	int clip_width = gConfig_file->Value(sprite_section, "clip_width");
+	int clip_height = gConfig_file->Value(sprite_section, "clip_height");
 	for (auto i = 0; i < mSprite_dimensions.h; i += clip_height)
 	{
 		for (auto j = 0; j < mSprite_dimensions.w; j += clip_width)
@@ -30,7 +32,7 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 		}
 	}
 	mAnimation_tick = 0;
-	mTickcount_per_clip = gConfig_file->Value(unit_name + "/sprite", "tickcount_per_clip");
+	mTickcount_per_clip = gConfig_file->Value(sprite_section, "tickcount_per_clip");
 	
 	// animation tick count is how many ticks it takes for one cycle of the animation to run through.
 	// each clip gets shown for tickcount_per_clip ticks
@@ -41,18 +43,18 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	mPosition.y = 0;
 	mDirection = DIRECTION::DOWN;
 
-	mMoveSpeed = gConfig_file->Value(unit_name + "/stats", "movementspeed");
-	mDefense.set_defenses(double(int(gConfig_file->Value(unit_name + "/stats", "health"))),
-						  double(int(gConfig_file->Value(unit_name + "/stats", "armor"))),
-						  double(int(gConfig_file->Value(unit_name + "/stats", "magicres"))),
-						  double(int(gConfig_file->Value(unit_name + "/stats", "fireres"))),
-						  double(int(gConfig_file->Value(unit_name + "/stats", "waterres"))),
-						  double(int(gConfig_file->Value(unit_name + "/stats", "elecres"))));
-	mDefense.set_immunities(bool(int(gConfig_file->Value(unit_name + "/stats", "physimm"))),
-							bool(int(gConfig_file->Value(unit_name + "/stats", "magicimm"))),
-							bool(int(gConfig_file->Value(unit_name + "/stats", "fireimm"))),
-							bool(int(gConfig_file->Value(unit_name + "/stats", "waterimm"))),
-							bool(int(gConfig_file->Value(unit_name + "/stats", "elecimm"))));
+	mMoveSpeed = gConfig_file->Value(stats_section, "movementspeed");
+	mDefense.set_defenses(double(int(gConfig_file->Value(stats_section, "health"))),
+						  double(int(gConfig_file->Value(stats_section, "armor"))),
+						  double(int(gConfig_file->Value(stats_section, "magicres"))),
+						  double(int(gConfig_file->Value(stats_section, "fireres"))),
+						  double(int(gConfig_file->Value(stats_section, "waterres"))),
+						  double(int(gConfig_file->Value(stats_section, "elecres"))));
+	mDefense.set_immunities(bool(int(gConfig_file->Value(stats_section, "physimm"))),
+							bool(int(gConfig_file->Value(stats_section, "magicimm"))),
+							bool(int(gConfig_file->Value(stats_section, "fireimm"))),
+							bool(int(gConfig_file->Value(stats_section, "waterimm"))),
+							bool(int(gConfig_file->Value(stats_section, "elecimm"))));
 	//setting up the blending
 	mSprite->set_blend_mode(SDL_BLENDMODE_BLEND);
 

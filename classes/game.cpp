@@ -34,8 +34,8 @@ Game::Game()
 	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
-	MenuItem* testItem = new MenuItem("archer/sprite");
-	mMenu->add_menu_item(testItem);
+	MenuItem* test_item = new MenuItem("archer/sprite");
+	mMenu->add_menu_item(test_item);
 	mMap = new Map("level/Level1.FMP");
 
 	gLayer_handler = new LayerHandler();
@@ -75,7 +75,7 @@ void Game::render_all()
 	}
 }
 
-void Game::update_all(int gameTick)
+void Game::update_all(int game_tick)
 {
 	mAll_enemies.clear();
 	mLevel->update();
@@ -95,7 +95,7 @@ void Game::update_all(int gameTick)
 	
 	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
 	{
-		if (gameTick % 60 == 0)
+		if (game_tick % 60 == 0)
 		{
 			mAll_industrial_buildings.at(i)->update();
 		}
@@ -104,17 +104,16 @@ void Game::update_all(int gameTick)
 
 void Game::start_game()
 {
-
 	SDL_RenderClear(gRenderer);
 
 	SDL_RenderPresent(gRenderer);
 	
-	for (auto gameTick = 0; gameTick < 300000; gameTick++)
+	for (auto game_tick = 0; game_tick < 300000; game_tick++)
 	{
 		//SDL_Delay(100);
 		SDL_RenderClear(gRenderer);
 		render_all();
-		update_all(gameTick);
+		update_all(game_tick);
 		//also renders the hover window
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
@@ -124,7 +123,7 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
-		if (gameTick % 60 == 0)
+		if (game_tick % 60 == 0)
 		{
 			//printf("Second...\n");
 		}

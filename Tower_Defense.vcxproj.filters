@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Shots">
       <UniqueIdentifier>{82b7b82f-e562-4831-992c-07225776abfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Animations">
+      <UniqueIdentifier>{c5c51064-6b3c-4e50-bc46-dafb428d4821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animations">
+      <UniqueIdentifier>{5e23f5d6-37fd-4ff0-ab86-f5fc66806098}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classes\Game.cpp">
@@ -163,7 +169,7 @@
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
     <ClCompile Include="classes\Particles.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +270,7 @@
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="headers\Particles.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
