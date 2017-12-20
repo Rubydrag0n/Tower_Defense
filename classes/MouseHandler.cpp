@@ -55,8 +55,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 	auto end = this->mClickables.end();
 	auto x = e->button.x;
 	auto y = e->button.y;
-	int i = 0;
-	//for (auto it = this->mClickables.begin(); it != end; ++it, i++)
+	//for (auto it = this->mClickables.begin(); it != end; ++it)
 	for(auto i = 0; i<mClickables.size(); i++)
 	{
 		Clickable* it = mClickables.at(i);
