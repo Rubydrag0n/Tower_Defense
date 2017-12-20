@@ -182,8 +182,10 @@
     <ClCompile Include="classes\Textures.cpp" />
     <ClCompile Include="classes\Tower.cpp" />
     <ClCompile Include="classes\Unit.cpp" />
-    <ClCompile Include="classes\Updateable.cpp" />
-    <ClCompile Include="classes\UpdateHandler.cpp" />
+    <ClCompile Include="classes\Entity.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="classes\EntityHandler.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -220,8 +222,10 @@
     <ClInclude Include="headers\Textures.h" />
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\Unit.h" />
-    <ClInclude Include="headers\Updateable.h" />
-    <ClInclude Include="headers\UpdateHandlerh.h" />
+    <ClInclude Include="headers\Entity.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="headers\EntityHandler.h" />
     <ClInclude Include="headers\Wave.h" />
     <ClInclude Include="headers\Window.h" />
   </ItemGroup>

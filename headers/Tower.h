@@ -15,14 +15,15 @@ public:
 
 	virtual void render_shot(Shot* shot) const = 0;
 	virtual Shot* create_shot(Enemy* enemy) = 0;
-	bool virtual update_shot(Shot* shot, std::vector<Enemy*> all_enemies) = 0;
+	virtual bool update_shot(Shot* shot, std::vector<Enemy*> all_enemies) = 0;
+	ENTITYTYPE get_type() override;
 
 	//calls Building::render and renders all shots from the tower
-	void render() const override;
-	//looks if an enemy is in range, if true: creates shots
-	void shoot(std::vector<Enemy*> all_enemies);
-	//all projectiles, that are fired from this tower are updated
-	void update(std::vector<Enemy*> all_enemies) override;
+	void render() override;
+	
+	//all projectiles, that are fired from this tower are updated, shots are fired
+	void on_tick() override;
+	
 	//checks if an enemy is in range of the tower
 	bool enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const;
 

@@ -2,6 +2,7 @@
 #include "ConfigFile.h"
 #include "Enemy.h"
 #include <SDL.h>
+#include "EntityHandler.h"
 
 
 Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(tower_name, coords, level)
@@ -31,7 +32,12 @@ Tower::~Tower()
 	mShots.clear();
 }
 
-void Tower::render() const
+ENTITYTYPE Tower::get_type()
+{
+	return ENTITYTYPE::TOWER;
+}
+
+void Tower::render()
 {
 	Building::render();
 	for (auto i = 0; i < mShots.size(); i++)
@@ -40,8 +46,10 @@ void Tower::render() const
 	}
 }
 
-void Tower::shoot(std::vector<Enemy*> all_enemies)
+void Tower::on_tick()
 {
+	// try to shoot
+	auto all_enemies = gEntity_handler->get_enemies();
 	if (mElapsed_ticks == 0)
 	{
 		while (!all_enemies.empty() && mElapsed_ticks == 0)
@@ -58,12 +66,8 @@ void Tower::shoot(std::vector<Enemy*> all_enemies)
 	{
 		mElapsed_ticks--;
 	}
-	this->update(all_enemies);
-}
 
-
-void Tower::update(std::vector<Enemy*> all_enemies)
-{
+	all_enemies = gEntity_handler->get_enemies();
 	for (auto i = 0; i<mShots.size(); i++)
 	{
 		if(this->update_shot(mShots.at(i), all_enemies))
@@ -72,9 +76,6 @@ void Tower::update(std::vector<Enemy*> all_enemies)
 		}
 	}
 }
-
-
-
 
 bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const
 {

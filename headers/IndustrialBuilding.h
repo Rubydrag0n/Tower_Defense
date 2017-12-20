@@ -10,10 +10,10 @@ public:
 	~IndustrialBuilding();
 
 	//calls Building::update and adds ressources
-	void update() override;
+	void on_tick() override;
 
 	//calls Buildung::render
-	void render() const override;
+	void render() override;
 
 
 private:

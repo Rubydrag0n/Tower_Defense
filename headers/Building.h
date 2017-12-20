@@ -4,19 +4,19 @@
 #include <string>
 #include "Clickable.h"
 #include "LTexture.h"
-#include "Updateable.h"
+#include "Entity.h"
 
 class Level;
 
-class Building : public Clickable, public Updateable
+class Building : public Clickable, public Entity
 {
 public:
 	Building(std::string building_name, SDL_Point coords, Level *level);
 	~Building();
 
-	virtual void render() const; //render the picture of the building
+	void render() override; //render the picture of the building
 	void place(); //take ressources for construction cost
-	virtual void update(); //takes ressources for maintenance
+	void on_tick() override; //takes ressources for maintenance
 
 	SDL_Point get_coords() const;
 	Ressources get_construction_costs() const;

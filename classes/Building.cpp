@@ -52,7 +52,7 @@ Building::~Building()
 }
 
 
-void Building::render() const
+void Building::render()
 {
 	SDL_Rect dest;
 
@@ -64,7 +64,7 @@ void Building::render() const
 	gLayer_handler->render_to_layer(mSprite, LAYERS::BUILDINGS, nullptr, &dest);
 }
 
-void Building::update()
+void Building::on_tick()
 {
 	mLevel->get_ressources()->sub(&mMaintenance);
 }

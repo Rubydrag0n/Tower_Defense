@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <vector>
 #include "LTexture.h"
+#include "Entity.h"
 
 //The numbers are the rowpositions of the rotations in the sprite image
 enum DIRECTION
@@ -17,7 +18,7 @@ enum DIRECTION
  * Can walk over the screen (with animation?)
  * Has defensive stats and movement speed
  */
-class Unit
+class Unit : public Entity
 {
 public:
 	Unit(std::string unit_name);

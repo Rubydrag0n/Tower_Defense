@@ -11,7 +11,6 @@ public:
 	void update();
 
 	//Wave::update deletes mMonstergroup.at(0), if the monstergroup is dead, so the next monstergroup will be rendered
-	void render();
 	bool is_dead() const;
 
 	int get_monster_group_count() const;

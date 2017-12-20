@@ -45,6 +45,10 @@ Enemy::~Enemy()
 {
 }
 
+void Enemy::on_tick()
+{
+
+}
 
 void Enemy::move()
 {
@@ -159,4 +163,9 @@ void Enemy::render()
 
 	gLayer_handler->render_to_layer(mEmpty_health_bar, LAYERS::OVERLAY, &mHealth_bar_dimensions, &full_health);
 	gLayer_handler->render_to_layer(mFull_health_bar, LAYERS::OVERLAY, &src_current_health, &current_health);
+}
+
+ENTITYTYPE Enemy::get_type()
+{
+	return ENTITYTYPE::ENEMY;
 }

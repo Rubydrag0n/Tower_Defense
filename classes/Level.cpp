@@ -32,7 +32,7 @@ Level::~Level()
 }
 
 
-void Level::update()
+void Level::on_tick()
 {
 	mWaves.at(0).update();
 	if(mWaves.at(0).is_dead())
@@ -40,16 +40,6 @@ void Level::update()
 		mWaves_count--;
 		mWaves.erase(mWaves.begin());
 	}
-}
-
-
-void Level::render()
-{
-	if(mWaves.empty())
-	{
-		return;
-	}
-	mWaves.at(0).render();
 }
 
 bool Level::is_dead() const

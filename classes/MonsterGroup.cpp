@@ -56,14 +56,6 @@ void MonsterGroup::update()
 	else mElapsed_ticks = 0;
 }
 
-void MonsterGroup::render()
-{
-	for (auto i = 0; i < mMonsters.size(); i++)
-	{
-		mMonsters.at(i)->render();
-	}
-}
-
 bool MonsterGroup::is_dead() const
 {
 	//if every monsters of this group is dead:

@@ -22,15 +22,6 @@ Wave::~Wave()
 {
 }
 
-void Wave::render()
-{
-	if (mMonster_groups.empty())
-	{
-		return;
-	}
-	mMonster_groups.at(0).render();
-}
-
 void Wave::update()
 {
 	mMonster_groups.at(0).update();

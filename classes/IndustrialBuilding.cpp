@@ -21,13 +21,13 @@ IndustrialBuilding::~IndustrialBuilding()
 }
 
 
-void IndustrialBuilding::render() const
+void IndustrialBuilding::render()
 {
 	Building::render();
 }
 
-void IndustrialBuilding::update()
+void IndustrialBuilding::on_tick()
 {
-	Building::update();
+	Building::on_tick();
 	mLevel->get_ressources()->add(&mRessources_produced_per_second);
 }

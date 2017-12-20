@@ -13,12 +13,12 @@
 #include "AoeTower.h"
 #include "MouseHandler.h"
 #include "LayerHandler.h"
-#include "UpdateHandlerh.h"
+#include "EntityHandler.h"
 
 Game::Game()
 {
 	gMouse_handler = new MouseHandler();
-	gUpdate_handler = new UpdateHandler();
+	gEntity_handler = new EntityHandler();
 	mLevel = new Level("1");
 
 	SDL_Point coords;
@@ -51,10 +51,6 @@ Game::~Game()
 	{
 		delete mAll_towers.at(i);
 	}
-	for (auto i = 0; i<mAll_enemies.size(); i++)
-	{
-		delete mAll_enemies.at(i);
-	}
 	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
 	{
 		delete mAll_industrial_buildings.at(i);
@@ -65,42 +61,6 @@ void Game::render_all()
 {
 	mMap->render();
 	mMenu->render(mMouse_position);
-	mLevel->render();
-	for (auto i = 0; i<mAll_towers.size(); i++)
-	{
-		mAll_towers.at(i)->render();
-	}
-	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
-	{
-		mAll_industrial_buildings.at(i)->render();
-	}
-}
-
-void Game::update_all(int game_tick)
-{
-	mAll_enemies.clear();
-	mLevel->update();
-	//add all enemies: for every wave every monstergroup in the level
-	for (auto n = 0; n < mLevel->get_waves_count(); n++)
-	{
-		for (auto m = 0; m < mLevel->get_waves()->at(n).get_monster_group_count(); m++)
-		{
-			add_enemies(mLevel->get_waves()->at(n).get_monster_groups()->at(m).get_monsters());
-		}
-	}
-
-	for (auto i = 0; i<mAll_towers.size(); i++)
-	{
-		mAll_towers.at(i)->shoot(mAll_enemies);
-	}
-	
-	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
-	{
-		if (game_tick % 60 == 0)
-		{
-			mAll_industrial_buildings.at(i)->update();
-		}
-	}
 }
 
 void Game::start_game()
@@ -113,15 +73,17 @@ void Game::start_game()
 	{
 		SDL_GetMouseState(&mMouse_position.x, &mMouse_position.y);
 		//SDL_Delay(100);
-		SDL_RenderClear(gRenderer);
-		render_all();
-		update_all(game_tick);
 		//also renders the hover window
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			gMouse_handler->handle_event(&e);
 		}
 		gMouse_handler->update();
+
+		gEntity_handler->update();
+		mLevel->on_tick();
+		gEntity_handler->render();
+		render_all();
 
 		gLayer_handler->present();
 
@@ -142,15 +104,6 @@ void Game::start_game()
 			SDL_Delay(10000);
 			break;
 		}
-	}
-}
-
-void Game::add_enemies(std::vector<Enemy*> enemies)
-{
-	while(!enemies.empty())
-	{
-		mAll_enemies.push_back(enemies.at(0));
-		enemies.erase(enemies.begin());
 	}
 }
 

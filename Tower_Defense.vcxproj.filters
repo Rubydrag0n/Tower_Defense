@@ -171,10 +171,10 @@
     <ClCompile Include="classes\Particles.cpp">
       <Filter>Source Files\Animations</Filter>
     </ClCompile>
-    <ClCompile Include="classes\UpdateHandler.cpp">
+    <ClCompile Include="classes\Entity.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\Updateable.cpp">
+    <ClCompile Include="classes\EntityHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -278,10 +278,10 @@
     <ClInclude Include="headers\Particles.h">
       <Filter>Header Files\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Updateable.h">
+    <ClInclude Include="headers\EntityHandler.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="headers\UpdateHandlerh.h">
+    <ClInclude Include="headers\Entity.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
   </ItemGroup>

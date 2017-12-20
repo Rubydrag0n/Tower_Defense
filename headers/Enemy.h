@@ -12,6 +12,8 @@ public:
 	Enemy(std::string monster_name, int way, Level* level);
 	~Enemy();
 
+	void on_tick() override;
+	
 	//moves the enemy along it's assigned path
 	//if it hits the last checkpoint it calls got_through()
 	//and sets itself to dead
@@ -23,6 +25,7 @@ public:
 	void render(); //calls Unit::render() and shows the health bar with two rectangles
 
 	bool is_dead() const;
+	ENTITYTYPE get_type() override;
 
 private:
 	std::vector<SDL_Point> mCheckpoints;
