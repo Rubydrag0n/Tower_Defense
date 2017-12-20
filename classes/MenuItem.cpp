@@ -2,9 +2,13 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "LayerHandler.h"
+#include "EntityHandler.h"
+#include "Tower.h"
+#include "HomingTower.h"
 
 MenuItem::MenuItem(std::string name_of_object, Level *level) 
 {
+	mName_of_object = name_of_object;
 	mSprite = gTextures->get_texture(gConfig_file->Value(name_of_object + "/sprite", "path"));
 	mCoords.x = 1400;
 	mCoords.y = 100;
@@ -42,7 +46,31 @@ void MenuItem::render(SDL_Point mouse_position)
 
 void MenuItem::on_click(int mouse_x, int mouse_y)
 {
-	mClickstate = CLICKSTATE::LEFTCLICKED;
+	SDL_Rect clickable;
+	if(mClickstate == CLICKSTATE::LEFTCLICKED)
+	{
+		SDL_Point p;
+		p.x = mouse_x;
+		p.y = mouse_y;
+		new HomingTower(this->mName_of_object, p, this->mLevel);
+		mClickstate = CLICKSTATE::UNCLICKED;
+
+		clickable.x = mCoords.x - mSprite->get_width() / 2;
+		clickable.y = mCoords.y - mSprite->get_height() / 2;
+		clickable.w = mSprite->get_width();
+		clickable.h = mSprite->get_height();
+		this->set_clickable_space(clickable);
+	}
+	else if(mClickstate == CLICKSTATE::UNCLICKED)
+	{
+		mClickstate = CLICKSTATE::LEFTCLICKED;
+		clickable.x = 0;
+		clickable.y = 0;
+		clickable.w = 1250;
+		clickable.h = 1050;
+		this->set_clickable_space(clickable);
+	}
+
 }
 
 void MenuItem::on_middle_click(int mouse_x, int mouse_y)

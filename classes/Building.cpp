@@ -25,7 +25,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 									   gConfig_file->Value(building_name + "/stats", "energycosts"),
 									   gConfig_file->Value(building_name + "/stats", "watercosts"),
 									   gConfig_file->Value(building_name + "/stats", "foodcosts"));
-
+	level->get_ressources()->sub(&mConstruction_costs);
 	//set the maintenance costs of the building
 	mMaintenance.set_ressources(gConfig_file->Value(building_name + "/stats", "goldMain"),
 		gConfig_file->Value(building_name + "/stats", "woodMain"),
@@ -34,6 +34,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->Value(building_name + "/stats", "energyMain"),
 		gConfig_file->Value(building_name + "/stats", "waterMain"),
 		gConfig_file->Value(building_name + "/stats", "foodMain"));
+
+	mElapsed_ticks = 0;
 
 	mLevel = level;
 	mCoords = coords;
@@ -44,6 +46,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	clickable.w = mSprite_dimensions.w;
 	clickable.h = mSprite_dimensions.h;
 	this->set_clickable_space(clickable);
+	idle = false;
 }
 
 Building::~Building()
@@ -66,13 +69,13 @@ void Building::render()
 
 void Building::on_tick()
 {
-	mLevel->get_ressources()->sub(&mMaintenance);
+	if(mElapsed_ticks % 60 == 0)
+	{
+		idle = !mLevel->get_ressources()->sub(&mMaintenance);
+	}
+	mElapsed_ticks++;
 }
 
-void Building::place()
-{
-	mLevel->get_ressources()->sub(&mConstruction_costs);
-}
 
 void Building::set_maintenance(Ressources new_maintenance)
 {

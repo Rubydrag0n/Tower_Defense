@@ -20,7 +20,7 @@ Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(
 	mProjectile_speed = gConfig_file->Value(mTower_name + "/stats", "projectilespeed");
 	mProjectile_name.assign(gConfig_file->Value(mTower_name + "/stats", "projectile_name"));
 	mAttack_cooldown = 60 / mAttack_speed;
-	mElapsed_ticks = 0;
+
 }
 
 Tower::~Tower()
@@ -48,24 +48,25 @@ void Tower::render()
 
 void Tower::on_tick()
 {
+	Building::on_tick();
 	// try to shoot
 	auto all_enemies = gEntity_handler->get_enemies();
-	if (mElapsed_ticks == 0)
+	if (mElapsed_ticks % mAttack_cooldown == 0)
 	{
-		while (!all_enemies.empty() && mElapsed_ticks == 0)
+		if(!this->idle)
 		{
-			if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
+			while (!all_enemies.empty() && mElapsed_ticks % 60 == 0)
 			{
-				mShots.push_back(this->create_shot(all_enemies.at(0)));
-				mElapsed_ticks = mAttack_cooldown;
+				if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
+				{
+					mShots.push_back(this->create_shot(all_enemies.at(0)));
+					break;
+				}
+				all_enemies.erase(all_enemies.begin());
 			}
-			all_enemies.erase(all_enemies.begin());
 		}
 	}
-	else
-	{
-		mElapsed_ticks--;
-	}
+	
 
 	all_enemies = gEntity_handler->get_enemies();
 	for (auto i = 0; i<mShots.size(); i++)

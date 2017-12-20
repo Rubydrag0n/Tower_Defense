@@ -15,7 +15,6 @@ public:
 	~Building();
 
 	void render() override; //render the picture of the building
-	void place(); //take ressources for construction cost
 	void on_tick() override; //takes ressources for maintenance
 
 	SDL_Point get_coords() const;
@@ -37,6 +36,8 @@ protected:
 	SDL_Rect mSprite_dimensions; //size of the texture
 	Level *mLevel;
 
+	bool idle; // if the player doesnt have enough res to maintain the building the building doesnt do anything
+	int mElapsed_ticks;
 	std::string mName;
 	std::string mSprite_path;
 };

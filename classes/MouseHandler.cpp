@@ -21,11 +21,11 @@ void MouseHandler::add_clickable(Clickable* c)
 
 void MouseHandler::del_clickable(Clickable* c)
 {
-	for (auto it = mClickables.begin(); it != mClickables.end(); ++it)
+	for (auto it = mClickables.begin(); it != mClickables.end(); )
 	{
 		if (*it == c)
 		{
-			mClickables.erase(it);
+			it = mClickables.erase(it);
 			break;
 		}
 	}
@@ -55,10 +55,12 @@ void MouseHandler::handle_event(SDL_Event *e)
 	auto end = this->mClickables.end();
 	auto x = e->button.x;
 	auto y = e->button.y;
-	
-	for (auto it = this->mClickables.begin(); it != end; ++it)
+	int i = 0;
+	//for (auto it = this->mClickables.begin(); it != end; ++it, i++)
+	for(auto i = 0; i<mClickables.size(); i++)
 	{
-		auto rect = (*it)->get_clickable_space();
+		Clickable* it = mClickables.at(i);
+		auto rect = (it)->get_clickable_space();
 		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h)
 		{
 			switch (e->type)
@@ -70,15 +72,15 @@ void MouseHandler::handle_event(SDL_Event *e)
 				*/
 
 				if (e->button.type == 1025) {
-					(*it)->on_click(x, y);
+					(it)->on_click(x, y);
 				}
 				else if (e->button.type == 2)
 				{
-					(*it)->on_middle_click(x, y);
+					(it)->on_middle_click(x, y);
 				}
 				else if (e->button.type == 3)
 				{
-					(*it)->on_right_click(x, y);
+					(it)->on_right_click(x, y);
 				}
 				break;
 			case SDL_MOUSEMOTION:

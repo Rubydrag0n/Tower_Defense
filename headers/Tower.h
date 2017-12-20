@@ -31,7 +31,6 @@ public:
 	double get_projectile_speed() const;
 
 protected:
-	int mElapsed_ticks; //counts the ticks
 	int mAttack_cooldown; //60 / mAttackspeed
 	double mRange;
 	double mAttack_speed; //Attacks per second
