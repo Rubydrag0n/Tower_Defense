@@ -66,9 +66,9 @@ void MouseHandler::handle_event(SDL_Event *e)
 			{
 			case SDL_MOUSEBUTTONDOWN:
 				/*printf("We got a Button-Down event.\n");
-				printf("Current mouse position is: (%d, %d)\n", x, y);
+				printf("Current mouse position is: (%d, %d)\n", x, y);*/
 				printf("Pressed button is: %hhu\n", e->button.button);
-				*/
+				
 
 				if (e->button.type == 1025) {
 					(it)->on_click(x, y);

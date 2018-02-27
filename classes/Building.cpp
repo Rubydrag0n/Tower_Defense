@@ -17,15 +17,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 
-	//set the construction costs of the building
-	mConstruction_costs.set_ressources(gConfig_file->Value(building_name + "/stats", "goldcosts"),
-									   gConfig_file->Value(building_name + "/stats", "woodcosts"),
-									   gConfig_file->Value(building_name + "/stats", "stonecosts"),
-									   gConfig_file->Value(building_name + "/stats", "ironcosts"),
-									   gConfig_file->Value(building_name + "/stats", "energycosts"),
-									   gConfig_file->Value(building_name + "/stats", "watercosts"),
-									   gConfig_file->Value(building_name + "/stats", "foodcosts"));
-	level->get_ressources()->sub(&mConstruction_costs);
 	//set the maintenance costs of the building
 	mMaintenance.set_ressources(gConfig_file->Value(building_name + "/stats", "goldMain"),
 		gConfig_file->Value(building_name + "/stats", "woodMain"),
@@ -120,11 +111,6 @@ void Building::set_coords(SDL_Point coords)
 SDL_Point Building::get_coords() const
 {
 	return mCoords;
-}
-
-Ressources Building::get_construction_costs() const
-{
-	return mConstruction_costs;
 }
 
 Ressources Building::get_maintenance() const

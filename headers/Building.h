@@ -18,7 +18,6 @@ public:
 	void on_tick() override; //takes ressources for maintenance
 
 	SDL_Point get_coords() const;
-	Ressources get_construction_costs() const;
 	Ressources get_maintenance() const;
 	void set_coords(SDL_Point coords);
 	void set_maintenance(Ressources maintenance);
@@ -30,7 +29,6 @@ public:
 
 protected:
 	SDL_Point mCoords;
-	Ressources mConstruction_costs;
 	Ressources mMaintenance;
 	LTexture *mSprite; //texture
 	SDL_Rect mSprite_dimensions; //size of the texture

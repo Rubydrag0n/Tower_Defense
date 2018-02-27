@@ -14,6 +14,7 @@
 #include "MouseHandler.h"
 #include "LayerHandler.h"
 #include "EntityHandler.h"
+#include "ConfigFile.h"
 
 Game::Game()
 {
@@ -36,8 +37,17 @@ Game::Game()
 	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
-	MenuItem* testItem = new MenuItem("archer", mLevel);
-	mMenu->add_menu_item(testItem);
+	for(int i = 0; ; i++)
+	{
+		std::string name_of_object;
+		name_of_object.assign(gConfig_file->Value("allMenuItems", std::to_string(i)));
+		if(name_of_object == "end")
+		{
+			break;
+		}
+		MenuItem* newItem = new MenuItem(name_of_object, mLevel);
+		mMenu->add_menu_item(newItem);
+	}
 	mMap = new Map("level/Level1.FMP");
 	gLayer_handler = new LayerHandler();
 }
