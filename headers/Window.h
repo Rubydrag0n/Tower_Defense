@@ -1,5 +1,6 @@
 #pragma once
 #include"Textures.h"
+#include <SDL.h>
 
 enum STYLE
 {

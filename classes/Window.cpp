@@ -2,6 +2,7 @@
 #include "SDL_setup.h"
 #include "ConfigFile.h"
 
+
 Window::Window(SDL_Rect dim, STYLE style)
 {
 	ConfigFile cf("config/game.cfg");
