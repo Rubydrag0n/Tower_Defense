@@ -70,20 +70,20 @@ void MouseHandler::handle_event(SDL_Event *e)
 				printf("Pressed button is: %hhu\n", e->button.button);
 				
 
-				if (e->button.type == 1025) {
+				if (e->button.button == 1) {
 					(it)->on_click(x, y);
 				}
-				else if (e->button.type == 2)
+				else if (e->button.button == 2)
 				{
 					(it)->on_middle_click(x, y);
 				}
-				else if (e->button.type == 3)
+				else if (e->button.button == 3)
 				{
 					(it)->on_right_click(x, y);
 				}
 				break;
 			case SDL_MOUSEMOTION:
-				/*
+				
 				printf("We got a Mouse-Move event.\n");
 				printf("Current mouse position is: (%d, %d)\n", x, y);
 				for (auto it = this->mClickables.begin(); it != end; ++it)
@@ -93,7 +93,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 					{
 						(*it)->on_mouse_over(x, y);
 					}
-				} */
+				} 
 				break;
 			default:
 				//printf("Unhandled Event!\n");

@@ -7,6 +7,7 @@
 #include "HomingTower.h"
 #include "AoeTower.h"
 #include "IndustrialBuilding.h"
+#include "Window.h"
 
 MenuItem::MenuItem(std::string name_of_object, Level *level) 
 {
@@ -103,7 +104,7 @@ void MenuItem::on_mouse_over(int mouse_x, int mouse_y)
 
 void MenuItem::on_right_click(int mouse_x, int mouse_y)
 {
-	/*if(mClickstate == CLICKSTATE::LEFTCLICKED)
+	if(mClickstate == CLICKSTATE::LEFTCLICKED)
 	{
 		SDL_Rect clickable;
 		clickable.x = mCoords.x - mSprite->get_width() / 2;
@@ -111,7 +112,8 @@ void MenuItem::on_right_click(int mouse_x, int mouse_y)
 		clickable.w = mSprite->get_width();
 		clickable.h = mSprite->get_height();
 		this->set_clickable_space(clickable);
-	}*/
+		this->mClickstate = CLICKSTATE::UNCLICKED;
+	}
 }
 
 
