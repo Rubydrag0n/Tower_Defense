@@ -21,13 +21,13 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BA372483-5172-4022-B2F9-27F8710B6FB3}</ProjectGuid>
     <RootNamespace>Tower_Defense</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -69,12 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;E:\Anwendungen\Tower_Defense\Tower_Defense\headers;C:\vs_dev_lib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\classes;C:\vs_dev_lib\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;C:\Users\Anton\Source\Repos\Tower_Defense\headers;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\classes;C:\vs_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\vs_dev_lib\SDL2-2.0.8\lib\x86;C:\vs_dev_lib\SDL_Config-1.2\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2_image-2.0.1\include;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2_image-2.0.1\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2-2.0.8\include;C:\Users\Anton\Source\Repos\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\lib;C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\vs_dev_lib\SDL2-2.0.8\lib\x86;C:\vs_dev_lib\SDL2_ttf-2.0.14\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>F:\Programmieren\SDL2\SDL2-2.0.5\include;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2_image-2.0.1\include;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
