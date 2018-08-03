@@ -1,8 +1,8 @@
 #pragma once
-#include "Textures.h"
-#include "LTexture.h"
+#include"Textures.h"
+#include <SDL.h>
 
-enum class STYLE
+enum STYLE
 {
 	STANDARD,
 	COUNT
@@ -26,15 +26,18 @@ private:
 	STYLE mStyle;
 
 	//pointers to all the textures used
-	LTexture *mBlcorner;
-	LTexture *mBrcorner;
-	LTexture *mTlcorner;
-	LTexture *mTrcorner;
-	LTexture *mHorizontalborder;
-	LTexture *mVerticalborder;
-	LTexture *mBackground;
+	SDL_Texture *mBlcorner;
+	SDL_Texture *mBrcorner;
+	SDL_Texture *mTlcorner;
+	SDL_Texture *mTrcorner;
+	SDL_Texture *mHorizontalborder;
+	SDL_Texture *mVerticalborder;
 
 	int mCorner_width;
 	int mCorner_height;
 	int mBorder_thickness;
+
+	int mR;
+	int mG;
+	int mB;
 };

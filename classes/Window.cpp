@@ -3,6 +3,7 @@
 #include "ConfigFile.h"
 #include "LayerHandler.h"
 
+
 Window::Window(SDL_Rect dim, STYLE style)
 {
 	mDim = dim;
