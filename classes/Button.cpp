@@ -8,7 +8,6 @@ Button::Button() : mSpriteClips{}, mButtonSpriteSheetTexture()
 	mHeight = 0;
 
 	mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
-
 }
 
 Button::~Button()
