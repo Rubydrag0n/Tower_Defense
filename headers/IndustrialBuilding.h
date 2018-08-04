@@ -17,6 +17,6 @@ public:
 
 
 private:
-	Ressources mRessources_produced_per_second;
+	Resources mRessources_produced_per_second;
 };
 

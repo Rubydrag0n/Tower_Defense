@@ -67,7 +67,7 @@ std::vector<Wave>* Level::get_waves()
 	return &mWaves;
 }
 
-Ressources* Level::get_ressources()
+Resources* Level::get_ressources()
 {
 	return &mRessources;
 }
@@ -78,7 +78,7 @@ std::string Level::get_level_number() const
 }
 
 
-void Level::set_ressources(Ressources ressources)
+void Level::set_ressources(Resources ressources)
 {
 	mRessources = ressources;
 }

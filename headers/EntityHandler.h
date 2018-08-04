@@ -12,7 +12,6 @@ public:
 	void del_entity(Entity* u);
 
 	void update();
-	void render();
 
 	std::vector<Enemy*> get_enemies();
 

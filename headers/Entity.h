@@ -1,4 +1,5 @@
 #pragma once
+#include "Renderable.h"
 
 enum class ENTITYTYPE
 {
@@ -7,14 +8,14 @@ enum class ENTITYTYPE
 	ENEMY
 };
 
-class Entity
+class Entity :
+	public Renderable
 {
 public:
 	Entity();
 	virtual ~Entity();
 
-	virtual void on_tick();
-	virtual void render();
+	virtual void on_tick() = 0;
 
 	virtual ENTITYTYPE get_type();
 };

@@ -172,6 +172,8 @@
     <ClCompile Include="classes\MonsterGroup.cpp" />
     <ClCompile Include="classes\MouseHandler.cpp" />
     <ClCompile Include="classes\Particles.cpp" />
+    <ClCompile Include="classes\Renderable.cpp" />
+    <ClCompile Include="classes\RenderableHandler.cpp" />
     <ClCompile Include="classes\Ressources.cpp" />
     <ClCompile Include="classes\SDLMappy.cpp" />
     <ClCompile Include="classes\SDL_setup.cpp">
@@ -215,6 +217,8 @@
     <ClInclude Include="headers\MonsterGroup.h" />
     <ClInclude Include="headers\MouseHandler.h" />
     <ClInclude Include="headers\Particles.h" />
+    <ClInclude Include="headers\Renderable.h" />
+    <ClInclude Include="headers\RenderableHandler.h" />
     <ClInclude Include="headers\Resources.h" />
     <ClInclude Include="headers\SDLMappy.h" />
     <ClInclude Include="headers\SDL_setup.h" />
@@ -230,6 +234,7 @@
     <ClInclude Include="headers\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="config\game.cfg" />
     <None Include="level\Level1.FMP" />
     <None Include="resources\LinkMonster.cfg" />
@@ -245,6 +250,7 @@
     <Image Include="resources\health_bar_full.png" />
     <Image Include="resources\LinkMonster.png" />
     <Image Include="resources\Lumberjack.png" />
+    <Image Include="resources\testbutton.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\lazy.ttf" />

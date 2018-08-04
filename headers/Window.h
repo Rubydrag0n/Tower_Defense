@@ -8,6 +8,9 @@ enum STYLE
 	COUNT
 };
 
+/*
+ * This class implements a window of given dimensions
+ */
 class Window
 {
 public:

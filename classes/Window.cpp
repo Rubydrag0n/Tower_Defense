@@ -82,5 +82,5 @@ void Window::render() const
 
 void Window::set_dim(SDL_Rect dim)
 {
-	this->mDim = dim;
+	mDim = dim;
 }

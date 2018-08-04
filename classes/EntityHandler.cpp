@@ -3,14 +3,14 @@
 
 EntityHandler* gEntity_handler = nullptr;
 
-EntityHandler::EntityHandler()
+EntityHandler::EntityHandler() : mEntities()
 {
-	
+
 }
 
 EntityHandler::~EntityHandler()
 {
-	
+	mEntities.empty();
 }
 
 void EntityHandler::add_entity(Entity* u)
@@ -35,14 +35,6 @@ void EntityHandler::update()
 	for(auto it = this->mEntities.begin(); it != mEntities.end(); it++)
 	{
 		(*it)->on_tick();
-	}
-}
-
-void EntityHandler::render()
-{
-	for (auto it = this->mEntities.begin(); it != mEntities.end(); it++)
-	{
-		(*it)->render();
 	}
 }
 

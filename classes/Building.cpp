@@ -32,16 +32,25 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mCoords = coords;
 
 	SDL_Rect clickable;
-	clickable.x = coords.x - mSprite_dimensions.w/2;
-	clickable.y = coords.y - mSprite_dimensions.h/2;
+	clickable.x = coords.x;
+	clickable.y = coords.y;
 	clickable.w = mSprite_dimensions.w;
 	clickable.h = mSprite_dimensions.h;
 	this->set_clickable_space(clickable);
 	idle = false;
+
+	//set the mouse over window up with initial values
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = 0;
+	rect.w = 200;
+	rect.h = 200;
+	mWindow = new Window(rect);
 }
 
 Building::~Building()
 {
+	delete(mWindow);
 	//don't destroy texture, handled by texture class
 }
 
@@ -50,8 +59,8 @@ void Building::render()
 {
 	SDL_Rect dest;
 
-	dest.x = mCoords.x - mSprite_dimensions.w / 2;
-	dest.y = mCoords.y - mSprite_dimensions.h / 2;
+	dest.x = mCoords.x;
+	dest.y = mCoords.y;
 	dest.w = mSprite_dimensions.w;
 	dest.h = mSprite_dimensions.h;
 	
@@ -68,7 +77,7 @@ void Building::on_tick()
 }
 
 
-void Building::set_maintenance(Ressources new_maintenance)
+void Building::set_maintenance(Resources new_maintenance)
 {
 	mMaintenance = new_maintenance;
 }
@@ -87,10 +96,8 @@ void Building::on_mouse_over(int mouse_x, int mouse_y)
 	rect.w = 200;
 	rect.h = 200;
 
-	//TODO: make this faster so we can uncomment it
-	/*auto w = new Window(rect);
-	w->render();
-	delete w; */
+	mWindow->set_dim(rect);
+	mWindow->render();
 }
 
 void Building::on_right_click(int mouse_x, int mouse_y)
@@ -113,7 +120,7 @@ SDL_Point Building::get_coords() const
 	return mCoords;
 }
 
-Ressources Building::get_maintenance() const
+Resources Building::get_maintenance() const
 {
 	return mMaintenance;
 }

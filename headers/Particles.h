@@ -1,15 +1,17 @@
 #pragma once
+#include <vector>
 #include "LTexture.h"
 #include "CoordinatesInDouble.h"
-#include <vector>
+#include "Renderable.h"
 
-class Particles
+class Particles :
+	public Renderable
 {
 public:
 	Particles::Particles(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot);
 	Particles::~Particles();
 
-	void render();
+	void render() override;
 	bool delete_me() const;
 
 private:

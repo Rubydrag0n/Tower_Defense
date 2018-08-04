@@ -5,7 +5,6 @@
 
 AoeTower::AoeTower(std::string tower_name, SDL_Point coords, Level* level) : Tower(tower_name, coords, level)
 {
-
 	mExplosive_radius = gConfig_file->Value(mTower_name + "/stats", "explosiveradius");
 }
 
@@ -25,7 +24,6 @@ Shot* AoeTower::create_shot(Enemy* enemy)
 {
 	return new AoeShot(this, enemy->get_position());
 }
-
 
 bool AoeTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
 {

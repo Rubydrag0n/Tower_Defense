@@ -1,6 +1,17 @@
 #pragma once
 #include <SDL.h>
 
+enum LClickableState
+{
+	MOUSE_OUT = 0,			//while the mouse is not over the clickable
+	MOUSE_OVER = 1,			//while the mouse hovers over the clickable
+	MOUSE_DOWN_LEFT = 2,	//while left mouse button is pressed
+	MOUSE_DOWN_RIGHT = 3,	//while right mouse button is pressed
+	MOUSE_DOWN_MIDDLE = 4,	//while middle mouse button is pressed
+	MOUSE_UP = 5,			//one tick after a mouseclick
+	STATES_TOTAL = 6
+};
+
 class Clickable
 {
 public:
@@ -22,6 +33,13 @@ public:
 	SDL_Rect get_clickable_space() const;
 	void set_clickable_space(SDL_Rect clickable_space);
 
+	LClickableState get_state() const;
+	void set_state(LClickableState state);
+
 private:
+	//the space that can be clicked on to trigger an event
 	SDL_Rect mClickable_space;
+
+	//the state that the clickable is in right now. Is handled by the MouseHandler
+	LClickableState mState;
 };
