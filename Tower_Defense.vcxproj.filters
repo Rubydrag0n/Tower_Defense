@@ -132,9 +132,6 @@
     <ClCompile Include="classes\MouseHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\Ressources.cpp">
-      <Filter>Source Files\Data structures</Filter>
-    </ClCompile>
     <ClCompile Include="classes\SDL_setup.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
@@ -182,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="classes\RenderableHandler.cpp">
       <Filter>Header Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Resources.cpp">
+      <Filter>Source Files\Data structures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

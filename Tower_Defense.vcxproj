@@ -174,7 +174,7 @@
     <ClCompile Include="classes\Particles.cpp" />
     <ClCompile Include="classes\Renderable.cpp" />
     <ClCompile Include="classes\RenderableHandler.cpp" />
-    <ClCompile Include="classes\Ressources.cpp" />
+    <ClCompile Include="classes\Resources.cpp" />
     <ClCompile Include="classes\SDLMappy.cpp" />
     <ClCompile Include="classes\SDL_setup.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
