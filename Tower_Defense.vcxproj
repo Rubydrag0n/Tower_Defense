@@ -166,6 +166,7 @@
     <ClCompile Include="classes\LayerHandler.cpp" />
     <ClCompile Include="classes\Level.cpp" />
     <ClCompile Include="classes\LTexture.cpp" />
+    <ClCompile Include="classes\MainMenu.cpp" />
     <ClCompile Include="classes\Map.cpp" />
     <ClCompile Include="classes\Menu.cpp" />
     <ClCompile Include="classes\MenuItem.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="classes\EntityHandler.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
+    <ClCompile Include="headers\MenuItemWindow.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +211,11 @@
     <ClInclude Include="headers\LayerHandler.h" />
     <ClInclude Include="headers\Level.h" />
     <ClInclude Include="headers\LTexture.h" />
+    <ClInclude Include="headers\MainMenu.h" />
     <ClInclude Include="headers\Map.h" />
     <ClInclude Include="headers\Menu.h" />
     <ClInclude Include="headers\MenuItem.h" />
+    <ClInclude Include="headers\MenuItemWindow.h" />
     <ClInclude Include="headers\MonsterGroup.h" />
     <ClInclude Include="headers\MouseHandler.h" />
     <ClInclude Include="headers\Particles.h" />

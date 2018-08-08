@@ -1,6 +1,7 @@
 #pragma once
 #include "Clickable.h"
 #include "Building.h"
+#include "MenuItemWindow.h"
 
 
 enum class CLICKSTATE
@@ -37,4 +38,5 @@ private:
 	std::string mKind_of_object; // for example a "HomingTower"
 	Level *mLevel;
 	CLICKSTATE mClickstate;
+	MenuItemWindow* mWindow; //the window that is shown on mouse over
 };

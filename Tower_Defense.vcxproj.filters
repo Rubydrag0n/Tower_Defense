@@ -177,6 +177,12 @@
     <ClCompile Include="classes\EntityHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="headers\MenuItemWindow.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\MainMenu.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -283,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="headers\Entity.h">
       <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MenuItemWindow.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MainMenu.h">
+      <Filter>Header Files\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
