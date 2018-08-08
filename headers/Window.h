@@ -1,13 +1,16 @@
 #pragma once
-#include "Textures.h"
-#include "LTexture.h"
+#include"Textures.h"
+#include <SDL.h>
 
-enum class STYLE
+enum STYLE
 {
 	STANDARD,
 	COUNT
 };
 
+/*
+ * This class implements a window of given dimensions
+ */
 class Window
 {
 public:
@@ -37,4 +40,8 @@ private:
 	int mCorner_width;
 	int mCorner_height;
 	int mBorder_thickness;
+
+	int mR;
+	int mG;
+	int mB;
 };

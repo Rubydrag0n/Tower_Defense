@@ -3,6 +3,7 @@
 #include "ConfigFile.h"
 #include "LayerHandler.h"
 
+
 Window::Window(SDL_Rect dim, STYLE style)
 {
 	mDim = dim;
@@ -90,5 +91,5 @@ void Window::render() const
 
 void Window::set_dim(SDL_Rect dim)
 {
-	this->mDim = dim;
+	mDim = dim;
 }

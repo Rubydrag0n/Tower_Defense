@@ -14,14 +14,21 @@
 #include "MouseHandler.h"
 #include "LayerHandler.h"
 #include "EntityHandler.h"
+#include "RenderableHandler.h"
 #include "ConfigFile.h"
 #include "MainMenu.h"
 #include "Button.h"
+
+void foo() {
+	printf("foo got called!\n");
+	return;
+}
 
 Game::Game()
 {
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
+	gRenderables_handler = new RenderableHandler();
 	mLevel = new Level("1");
 
 	SDL_Point coords;
@@ -51,6 +58,13 @@ Game::Game()
 		mMenu->add_menu_item(newItem);
 	}
 	mMap = new Map("level/Level1.FMP");
+
+	SDL_Rect dim;
+	dim.x = 500;
+	dim.y = 500;
+	dim.w = 26;
+	dim.h = 26;
+	auto testbutton = new Button("testbutton", dim, &foo);
 	gLayer_handler = new LayerHandler();
 }
 
@@ -71,6 +85,7 @@ Game::~Game()
 
 void Game::render_all()
 {
+	gRenderables_handler->render();
 	mMap->render();
 	mMenu->render(mMouse_position);
 }
@@ -92,24 +107,16 @@ void Game::start_game()
 		SDL_GetMouseState(&mMouse_position.x, &mMouse_position.y);
 		//SDL_Delay(100);
 		//also renders the hover window
+		//mouse handler update needs to happen first
+		gMouse_handler->update();
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			gMouse_handler->handle_event(&e);
 		}
 
-		auto main_menu = new MainMenu();
-		main_menu->render();
-		int i = 0;
-		while (i < 100000000000000)
-		{
-			i++;
-		}
-		gMouse_handler->update();
-
 		gEntity_handler->update();
 		mLevel->on_tick();
-		gEntity_handler->render();
-		render_all();
+		this->render_all();
 
 		gLayer_handler->present();
 

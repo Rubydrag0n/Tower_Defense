@@ -132,7 +132,7 @@ CLICKSTATE MenuItem::getClickstate()
 	return this->mClickstate;
 }
 
-Ressources MenuItem::get_construction_costs() const
+Resources MenuItem::get_construction_costs() const
 {
 	return mConstruction_costs;
 }

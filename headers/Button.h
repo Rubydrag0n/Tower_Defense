@@ -1,51 +1,49 @@
 #pragma once
 #include <SDL.h>
 #include "LTexture.h"
+#include "Clickable.h"
+#include "Renderable.h"
 
-enum LButtonSprite
-{
-	BUTTON_SPRITE_MOUSE_OUT = 0,
-	BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
-	BUTTON_SPRITE_MOUSE_DOWN = 2,
-	BUTTON_SPRITE_MOUSE_UP = 3,
-	BUTTON_SPRITE_TOTAL = 4
-};
-
-class Button
+class Button 
+	: public Clickable
+	, public Renderable
 {
 public:
-	Button();
+	//creates a button with dimensions (and position) dim and a function onclick that gets called when the button is clicked on
+	Button(std::string button_name, SDL_Rect dim, void(*on_click)());
 	~Button();
 
-	//Sets top left position
-	void set_position(int x, int y);
-
-	//Sets width and height
-	void set_dimension(int w, int h);
+	//Sets dimension of the button on the screen
+	void set_dimension(SDL_Rect dim);
 
 	//Sets the Clips
 	void set_sprite_clips(SDL_Rect *clips);
 
-	//Handles mouse event
-	void handle_event(SDL_Event* e);
-
 	//Shows button sprite
-	void render();
+	void render() override;
+
+	void on_click(int mouse_x, int mouse_y) override;
+	void on_mouse_over(int mouse_x, int mouse_y) override;
+	void on_right_click(int mouse_x, int mouse_y) override;
+	void on_middle_click(int mouse_x, int mouse_y) override;
+
+	void set_on_click_function(void(*on_click)());
+	void set_on_mouse_over_function(void(*on_mouse_over)());
+	void set_on_right_click_function(void(*on_right_click)());
+	void set_on_middle_click_function(void(*on_middle_click)());
 
 private:
-	//Top left position
-	SDL_Point mPosition;
-
-	//Width and height
-	int mWidth;
-	int mHeight;
+	//Dimensions of the Button
+	SDL_Rect mButton_dimensions;
 
 	//The Position of the Clips
-	SDL_Rect mSpriteClips[BUTTON_SPRITE_TOTAL];
+	SDL_Rect mClips[STATES_TOTAL];
 
 	//Texture of the Button
-	LTexture mButtonSpriteSheetTexture;
+	LTexture* mButtonSprite;
 
-	//Currently used global sprite
-	LButtonSprite mCurrentSprite;
+	void(*mOn_click)();
+	void(*mOn_mouse_over)();
+	void(*mOn_right_click)();
+	void(*mOn_middle_click)();
 };

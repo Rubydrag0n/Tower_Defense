@@ -1,9 +1,9 @@
 #pragma once
-class Ressources
+class Resources
 {
 public:
-	Ressources();
-	Ressources(int gold, int wood, int stone, int iron, int energy, int water, int food);
+	Resources();
+	Resources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 
 	//set and get all the different values
 	void set_ressources(int gold, int wood, int stone, int iron, int energy, int water, int food);
@@ -22,8 +22,8 @@ public:
 	void set_food(int food);
 	int get_food() const;
 	
-	bool sub(Ressources *cost);
-	void add(Ressources *income);
+	bool sub(Resources *cost);
+	void add(Resources *income);
 
 private:
 	int mGold;

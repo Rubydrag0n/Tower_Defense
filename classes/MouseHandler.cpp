@@ -31,6 +31,7 @@ void MouseHandler::del_clickable(Clickable* c)
 	}
 }
 
+//handles the mouse_over events, since they are not (always) an SDL_Event
 void MouseHandler::update()
 {
 	int mouse_x, mouse_y;
@@ -46,6 +47,11 @@ void MouseHandler::update()
 			mouse_y > rect.y && mouse_y < rect.y + rect.h)
 		{
 			(*it)->on_mouse_over(mouse_x, mouse_y);
+			(*it)->set_state(LClickableState::MOUSE_OVER);
+		} 
+		else 
+		{
+			(*it)->set_state(LClickableState::MOUSE_OUT);
 		}
 	}
 }
@@ -55,50 +61,42 @@ void MouseHandler::handle_event(SDL_Event *e)
 	auto end = this->mClickables.end();
 	auto x = e->button.x;
 	auto y = e->button.y;
-	//for (auto it = this->mClickables.begin(); it != end; ++it)
 	for(auto i = 0; i<mClickables.size(); i++)
 	{
 		Clickable* it = mClickables.at(i);
-		auto rect = (it)->get_clickable_space();
+		auto rect = it->get_clickable_space();
 		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h)
 		{
 			switch (e->type)
 			{
 			case SDL_MOUSEBUTTONDOWN:
-				/*printf("We got a Button-Down event.\n");
-				printf("Current mouse position is: (%d, %d)\n", x, y);*/
-				printf("Pressed button is: %hhu\n", e->button.button);
-				
-
 				if (e->button.button == 1) {
-					(it)->on_click(x, y);
+					it->set_state(LClickableState::MOUSE_DOWN_LEFT);
+					it->on_click(x, y);
 				}
 				else if (e->button.button == 2)
 				{
-					(it)->on_middle_click(x, y);
+					it->set_state(LClickableState::MOUSE_DOWN_MIDDLE);
+					it->on_middle_click(x, y);
 				}
 				else if (e->button.button == 3)
 				{
-					(it)->on_right_click(x, y);
+					it->set_state(LClickableState::MOUSE_DOWN_RIGHT);
+					it->on_right_click(x, y);
 				}
 				break;
 			case SDL_MOUSEMOTION:
-				
-				printf("We got a Mouse-Move event.\n");
-				printf("Current mouse position is: (%d, %d)\n", x, y);
-				for (auto it = this->mClickables.begin(); it != end; ++it)
-				{
-					auto rect = (*it)->get_clickable_space();
-					if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h)
-					{
-						(*it)->on_mouse_over(x, y);
-					}
-				} 
+				it->set_state(LClickableState::MOUSE_OVER);
+				it->on_mouse_over(x, y);
 				break;
 			default:
 				//printf("Unhandled Event!\n");
 				break;
 			}
+		}
+		else 
+		{
+			it->set_state(LClickableState::MOUSE_OUT);
 		}
 	}
 }

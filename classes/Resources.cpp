@@ -2,7 +2,7 @@
 
 
 
-Ressources::Ressources()
+Resources::Resources()
 {
 	mGold = 0;
 	mWood = 0;
@@ -13,7 +13,7 @@ Ressources::Ressources()
 	mFood = 0;
 }
 
-Ressources::Ressources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+Resources::Resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
 	mGold = gold;
 	mWood = wood;
@@ -24,7 +24,7 @@ Ressources::Ressources(int gold, int wood, int stone, int iron, int energy, int 
 	mFood = food;
 }
 
-void Ressources::set_ressources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+void Resources::set_ressources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
 	mGold = gold;
 	mWood = wood;
@@ -35,77 +35,77 @@ void Ressources::set_ressources(int gold, int wood, int stone, int iron, int ene
 	mFood = food;
 }
 
-void Ressources::set_gold(int gold)
+void Resources::set_gold(int gold)
 {
 	mGold = gold;
 }
 
-int Ressources::get_gold() const
+int Resources::get_gold() const
 {
 	return mGold;
 }
 
-void Ressources::set_wood(int wood)
+void Resources::set_wood(int wood)
 {
 	mWood = wood;
 }
 
-int Ressources::get_wood() const
+int Resources::get_wood() const
 {
 	return mWood;
 }
 
-void Ressources::set_stone(int stone)
+void Resources::set_stone(int stone)
 {
 	mStone = stone;
 }
 
-int Ressources::get_stone() const
+int Resources::get_stone() const
 {
 	return mStone;
 }
 
-void Ressources::set_iron(int iron)
+void Resources::set_iron(int iron)
 {
 	mIron = iron;
 }
 
-int Ressources::get_iron() const
+int Resources::get_iron() const
 {
 	return mIron;
 }
 
-void Ressources::set_energy(int energy)
+void Resources::set_energy(int energy)
 {
 	mEnergy = energy;
 }
 
-int Ressources::get_energy() const
+int Resources::get_energy() const
 {
 	return mEnergy;
 }
 
-void Ressources::set_water(int water)
+void Resources::set_water(int water)
 {
 	mWater = water;
 }
 
-int Ressources::get_water() const
+int Resources::get_water() const
 {
 	return mWater;
 }
 
-void Ressources::set_food(int food)
+void Resources::set_food(int food)
 {
 	mFood = food;
 }
 
-int Ressources::get_food() const
+int Resources::get_food() const
 {
 	return mFood;
 }
 
-bool Ressources::sub(Ressources *cost)
+bool Resources::sub(Resources *cost)
 {
 	//Returns true if the subtracting succeeded, false if there wasn't enough ressources
 	if (mGold - cost->get_gold() > 0 &&
@@ -131,7 +131,7 @@ bool Ressources::sub(Ressources *cost)
 	}
 }
 
-void Ressources::add(Ressources *income)
+void Resources::add(Resources *income)
 {
 	mGold += income->get_gold();
 	mWood += income->get_wood();
