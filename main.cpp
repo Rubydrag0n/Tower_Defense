@@ -10,6 +10,10 @@
 #include "Game.h"
 #include <stdio.h>
 #include "ConfigFile.h"
+#include "EntityHandler.h"
+#include "MouseHandler.h"
+#include "MainMenu.h"
+#include <iostream>
 
 
 int main( int argc, char* args[] )
@@ -21,6 +25,7 @@ int main( int argc, char* args[] )
 	}
 	else
 	{
+
 		auto game = new Game();
 		game->start_game();
 		
@@ -28,6 +33,5 @@ int main( int argc, char* args[] )
 	}
 	
 	SDL_Delay(1000);
-
 	return 0;
 }

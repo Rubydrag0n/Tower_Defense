@@ -16,6 +16,7 @@
 #include "EntityHandler.h"
 #include "RenderableHandler.h"
 #include "ConfigFile.h"
+#include "MainMenu.h"
 #include "Button.h"
 #include "PlacementHandler.h"
 
@@ -47,7 +48,7 @@ Game::Game()
 	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
-	for(int i = 0; ; i++)
+	for(auto i = 0; ; i++)
 	{
 		std::string name_of_object;
 		name_of_object.assign(gConfig_file->Value("allMenuItems", std::to_string(i)));
@@ -96,7 +97,13 @@ void Game::start_game()
 	SDL_RenderClear(gRenderer);
 
 	SDL_RenderPresent(gRenderer);
-	
+
+
+/*	auto testButton = new Button();
+	std::string path = std::string(gConfig_file->Value("StartButton/sprite", "path"));
+	testButton->mButtonSpriteSheetTexture = gTextures->get_texture(path);*/
+
+
 	for (auto game_tick = 0; game_tick < 300000; game_tick++)
 	{
 		SDL_GetMouseState(&mMouse_position.x, &mMouse_position.y);

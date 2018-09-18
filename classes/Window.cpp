@@ -78,6 +78,15 @@ void Window::render() const
 	{
 		gLayer_handler->render_to_layer(mVerticalborder, LAYERS::OVERLAY, nullptr, &dest);
 	}
+	SDL_Color text_color = { 0, 255, 255 };
+
+	LTexture* text = new LTexture();
+	text->load_from_rendered_text("b,iae,amiuembiumbei", text_color);
+	
+
+
+	gLayer_handler->render_to_layer(text, LAYERS::OVERLAY, nullptr, &dest);
+
 }
 
 void Window::set_dim(SDL_Rect dim)

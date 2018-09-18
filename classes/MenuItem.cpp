@@ -62,16 +62,34 @@ void MenuItem::on_click(int mouse_x, int mouse_y)
 	SDL_Rect clickable;
 	if(mClickstate == CLICKSTATE::LEFTCLICKED)
 	{
+		SDL_Point p;
+		p.x = mouse_x;
+		p.y = mouse_y;
 
+		if (mLevel->get_ressources()->sub(&mConstruction_costs))
+		{
+			if (this->mKind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
+			if (this->mKind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }
+			if (this->mKind_of_object == "industrialbuilding") { new IndustrialBuilding(this->mName_of_object, p, mLevel); }
+			mClickstate = CLICKSTATE::UNCLICKED;
+		}
+		
+		clickable.x = mCoords.x - mSprite->get_width() / 2;
+		clickable.y = mCoords.y - mSprite->get_height() / 2;
+		clickable.w = mSprite->get_width();
+		clickable.h = mSprite->get_height();
+		this->set_clickable_space(clickable);
 	}
 	else if(mClickstate == CLICKSTATE::UNCLICKED)
 	{
+
 		mClickstate = CLICKSTATE::LEFTCLICKED;
 		clickable.x = 0;
 		clickable.y = 0;
 		clickable.w = 1250;
 		clickable.h = 1050;
 		this->set_clickable_space(clickable);
+
 	}
 }
 
@@ -89,6 +107,7 @@ void MenuItem::on_right_click(int mouse_x, int mouse_y)
 {
 	if(mClickstate == CLICKSTATE::LEFTCLICKED)
 	{
+		mLevel->get_ressources()->add(&mConstruction_costs);
 		SDL_Rect clickable;
 		clickable.x = mCoords.x;
 		clickable.y = mCoords.y;
