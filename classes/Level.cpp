@@ -9,7 +9,7 @@ Level::Level(std::string level_number)
 	mWaves_count = gConfig_file->Value("level" + mLevel_number, "waves_count");
 
 	//set the start-ressources in this level
-	mRessources.set_ressources(gConfig_file->Value("level" + mLevel_number, "gold"),
+	mRessources.set_resources(gConfig_file->Value("level" + mLevel_number, "gold"),
 		gConfig_file->Value("level" + mLevel_number, "wood"),
 		gConfig_file->Value("level" + mLevel_number, "stone"),
 		gConfig_file->Value("level" + mLevel_number, "iron"),

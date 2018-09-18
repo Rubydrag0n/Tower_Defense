@@ -18,7 +18,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mSprite_dimensions.y = 0;
 
 	//set the maintenance costs of the building
-	mMaintenance.set_ressources(gConfig_file->Value(building_name + "/stats", "goldMain"),
+	mMaintenance.set_resources(gConfig_file->Value(building_name + "/stats", "goldMain"),
 		gConfig_file->Value(building_name + "/stats", "woodMain"),
 		gConfig_file->Value(building_name + "/stats", "stoneMain"),
 		gConfig_file->Value(building_name + "/stats", "ironMain"),

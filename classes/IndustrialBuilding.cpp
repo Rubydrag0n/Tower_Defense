@@ -5,7 +5,7 @@
 IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL_Point coords, Level *level) : Building(industrial_building_name, coords, level)
 {
 	//set the ressources that are produced per second
-	mRessources_produced_per_second.set_ressources(gConfig_file->Value(industrial_building_name + "/stats", "goldproduction"),
+	mRessources_produced_per_second.set_resources(gConfig_file->Value(industrial_building_name + "/stats", "goldproduction"),
 		gConfig_file->Value(industrial_building_name + "/stats", "woodproduction"),
 		gConfig_file->Value(industrial_building_name + "/stats", "stoneproduction"),
 		gConfig_file->Value(industrial_building_name + "/stats", "ironproduction"),

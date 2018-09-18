@@ -171,6 +171,7 @@
     <ClCompile Include="classes\MenuItem.cpp" />
     <ClCompile Include="classes\MonsterGroup.cpp" />
     <ClCompile Include="classes\MouseHandler.cpp" />
+    <ClCompile Include="classes\PlacementHandler.cpp" />
     <ClCompile Include="classes\Particles.cpp" />
     <ClCompile Include="classes\Renderable.cpp" />
     <ClCompile Include="classes\RenderableHandler.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="headers\MenuItem.h" />
     <ClInclude Include="headers\MonsterGroup.h" />
     <ClInclude Include="headers\MouseHandler.h" />
+    <ClInclude Include="headers\PlacementHandler.h" />
     <ClInclude Include="headers\Particles.h" />
     <ClInclude Include="headers\Renderable.h" />
     <ClInclude Include="headers\RenderableHandler.h" />

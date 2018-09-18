@@ -1,7 +1,5 @@
 #include "Resources.h"
 
-
-
 Resources::Resources()
 {
 	mGold = 0;
@@ -24,7 +22,7 @@ Resources::Resources(int gold, int wood, int stone, int iron, int energy, int wa
 	mFood = food;
 }
 
-void Resources::set_ressources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+void Resources::set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
 	mGold = gold;
 	mWood = wood;

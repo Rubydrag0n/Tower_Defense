@@ -177,11 +177,14 @@
     <ClCompile Include="classes\Renderable.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\RenderableHandler.cpp">
-      <Filter>Header Files\Handlers</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Resources.cpp">
       <Filter>Source Files\Data structures</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\RenderableHandler.cpp">
+      <Filter>Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\PlacementHandler.cpp">
+      <Filter>Source Files\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -294,7 +297,10 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\RenderableHandler.h">
-      <Filter>Source Files\Handlers</Filter>
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\PlacementHandler.h">
+      <Filter>Header Files\Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
