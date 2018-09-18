@@ -1,11 +1,12 @@
 //Here comes the definiton of the game class
+#include <stdio.h>
+#include <iostream>
+
 #include "Game.h"
 #include "SDL_setup.h"
 #include "MonsterGroup.h"
 #include "Map.h"
-#include <stdio.h>
 #include "Tower.h"
-#include <iostream>
 #include "Level.h"
 #include "Menu.h"
 #include "IndustrialBuilding.h"
@@ -18,7 +19,6 @@
 #include "ConfigFile.h"
 #include "MainMenu.h"
 #include "Button.h"
-#include "PlacementHandler.h"
 
 void foo() {
 	printf("foo got called!\n");
@@ -30,7 +30,6 @@ Game::Game()
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
 	gRenderables_handler = new RenderableHandler();
-	gPlacement_handler = new PlacementHandler();
 	mLevel = new Level("1");
 
 	SDL_Point coords;

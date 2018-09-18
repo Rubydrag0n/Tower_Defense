@@ -32,9 +32,9 @@ void EntityHandler::del_entity(Entity* u)
 
 void EntityHandler::update()
 {
-	for(auto it = this->mEntities.begin(); it != mEntities.end(); it++)
-	{
-		(*it)->on_tick();
+	//can't use an iterator here because the particles will sometimes suicide and invalidate the iterator
+	for (int i = this->mEntities.size() - 1; i >= 0; --i) {
+		mEntities.at(i)->on_tick();
 	}
 }
 

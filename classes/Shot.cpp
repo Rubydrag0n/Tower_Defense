@@ -1,10 +1,11 @@
+#include <cstdlib>
+#include <math.h>
 #include "Shot.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "Tower.h"
-#include <math.h>
 #include "LayerHandler.h"
-
+#include "Particles.h"
 
 Shot::Shot(Tower* tower)
 {
@@ -82,6 +83,7 @@ bool Shot::follow(SDL_Point target)
 	{
 		mCoords.x = target.x;
 		mCoords.y = target.y;
+
 		return true;
 	}
 	mCoords_in_double.x += travel_dist * (x_d / (x_d_abs + y_d_abs));

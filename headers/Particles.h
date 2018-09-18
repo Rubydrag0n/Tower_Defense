@@ -3,19 +3,20 @@
 #include "LTexture.h"
 #include "CoordinatesInDouble.h"
 #include "Renderable.h"
+#include "Entity.h"
 
-class Particles :
-	public Renderable
+class Particle :
+	public Entity
 {
 public:
-	Particles::Particles(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot);
-	Particles::~Particles();
+	Particle::Particle(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot, float rot_speed);
+	Particle::~Particle();
 
 	void render() override;
-	bool delete_me() const;
+	void on_tick() override;
 
 private:
-	void update_animation_clip();
+	void update_animation();
 
 	LTexture* mTexture;
 	//stores all the rectangles of the different clips
@@ -28,9 +29,14 @@ private:
 	int mLife_ticks;
 	//how many ticks each clip is shown
 	int mTickcount_per_clip;
+	//current rotation of the particle
+	float mCurrent_rotation;
 	//how fast the particle is rotating in deg/tick
 	float mRotation_speed;
+	//current position of the particle (may change in its lifetime)
 	CoordinatesInDouble mPosition;
+	//speed and direction of the particle
 	CoordinatesInDouble mSpeed_and_direction;
+	//if the particle is flipped (horizontal or vertical) or not
 	SDL_RendererFlip mFlip;
 };

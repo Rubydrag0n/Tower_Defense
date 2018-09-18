@@ -8,7 +8,6 @@
 #include "AoeTower.h"
 #include "IndustrialBuilding.h"
 #include "Window.h"
-#include "PlacementHandler.h"
 
 MenuItem::MenuItem(std::string name_of_object, Level *level) 
 {
