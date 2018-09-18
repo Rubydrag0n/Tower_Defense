@@ -1,7 +1,7 @@
 #include "MenuItemWindow.h"
 
 
-MenuItemWindow::MenuItemWindow(SDL_Rect dim, Ressources res) : Window(dim)
+MenuItemWindow::MenuItemWindow(SDL_Rect dim, Resources res) : Window(dim)
 {
 	this->mConstruction_costs = res;
 }

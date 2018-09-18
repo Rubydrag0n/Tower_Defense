@@ -7,13 +7,13 @@ class MenuItemWindow :
 	public Window
 {
 public:
-	MenuItemWindow(SDL_Rect dim, Ressources res);
+	MenuItemWindow(SDL_Rect dim, Resources res);
 	~MenuItemWindow();
 
 	void render();
 
 private:
-	Ressources mConstruction_costs;
+	Resources mConstruction_costs;
 
 
 };

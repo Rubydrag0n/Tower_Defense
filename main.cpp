@@ -13,6 +13,7 @@
 #include "EntityHandler.h"
 #include "MouseHandler.h"
 #include "MainMenu.h"
+#include <iostream>
 
 
 int main( int argc, char* args[] )
@@ -32,6 +33,5 @@ int main( int argc, char* args[] )
 	}
 	
 	SDL_Delay(1000);
-
 	return 0;
 }
