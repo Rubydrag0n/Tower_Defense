@@ -37,6 +37,3 @@ bool HomingTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
 	}
 	return false;
 }
-
-
-

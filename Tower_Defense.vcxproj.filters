@@ -157,125 +157,47 @@
     <ClCompile Include="classes\RenderableHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\PlacementHandler.cpp">
-      <Filter>Source Files\Handlers</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\AoeTower.h">
-      <Filter>Header Files\Buildings\Towers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\HomingTower.h">
-      <Filter>Header Files\Buildings\Towers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Tower.h">
-      <Filter>Header Files\Buildings\Towers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\AoeShot.h">
-      <Filter>Header Files\Shots</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Shot.h">
-      <Filter>Header Files\Shots</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\HomingShot.h">
-      <Filter>Header Files\Shots</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Building.h">
-      <Filter>Header Files\Buildings</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\IndustrialBuilding.h">
-      <Filter>Header Files\Buildings\Resource buildings</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Defense.h">
-      <Filter>Header Files\Data structures</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Damage.h">
-      <Filter>Header Files\Data structures</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Enemy.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\MonsterGroup.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Unit.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Wave.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Level.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Resources.h">
-      <Filter>Header Files\Data structures</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\MouseHandler.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\SDL_setup.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\SDLMappy.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Textures.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\LTexture.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Clickable.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\ConfigFile.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\CoordinatesInDouble.h">
-      <Filter>Header Files\Data structures</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Window.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Menu.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Button.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Chameleon.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Map.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\LayerHandler.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\MenuItem.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Particles.h">
-      <Filter>Header Files\Animations</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\EntityHandler.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Entity.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Renderable.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\RenderableHandler.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\PlacementHandler.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
+    <ClInclude Include="headers\AoeShot.h" />
+    <ClInclude Include="headers\AoeTower.h" />
+    <ClInclude Include="headers\Building.h" />
+    <ClInclude Include="headers\Button.h" />
+    <ClInclude Include="headers\Chameleon.h" />
+    <ClInclude Include="headers\Clickable.h" />
+    <ClInclude Include="headers\ConfigFile.h" />
+    <ClInclude Include="headers\CoordinatesInDouble.h" />
+    <ClInclude Include="headers\Damage.h" />
+    <ClInclude Include="headers\Defense.h" />
+    <ClInclude Include="headers\Enemy.h" />
+    <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\HomingShot.h" />
+    <ClInclude Include="headers\HomingTower.h" />
+    <ClInclude Include="headers\IndustrialBuilding.h" />
+    <ClInclude Include="headers\LayerHandler.h" />
+    <ClInclude Include="headers\Level.h" />
+    <ClInclude Include="headers\LTexture.h" />
+    <ClInclude Include="headers\MainMenu.h" />
+    <ClInclude Include="headers\Map.h" />
+    <ClInclude Include="headers\Menu.h" />
+    <ClInclude Include="headers\MenuItem.h" />
+    <ClInclude Include="headers\MenuItemWindow.h" />
+    <ClInclude Include="headers\MonsterGroup.h" />
+    <ClInclude Include="headers\MouseHandler.h" />
+    <ClInclude Include="headers\Particles.h" />
+    <ClInclude Include="headers\Renderable.h" />
+    <ClInclude Include="headers\RenderableHandler.h" />
+    <ClInclude Include="headers\Resources.h" />
+    <ClInclude Include="headers\SDLMappy.h" />
+    <ClInclude Include="headers\SDL_setup.h" />
+    <ClInclude Include="headers\Shot.h" />
+    <ClInclude Include="headers\Textures.h" />
+    <ClInclude Include="headers\Tower.h" />
+    <ClInclude Include="headers\Unit.h" />
+    <ClInclude Include="headers\Entity.h" />
+    <ClInclude Include="headers\EntityHandler.h" />
+    <ClInclude Include="headers\Wave.h" />
+    <ClInclude Include="headers\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\archer.png" />

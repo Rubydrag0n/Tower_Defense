@@ -130,11 +130,3 @@ Resources MenuItem::get_construction_costs() const
 {
 	return mConstruction_costs;
 }
-
-
-
-
-
-
-
-

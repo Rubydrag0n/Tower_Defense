@@ -101,4 +101,3 @@ void Shot::set_coords(SDL_Point coords)
 {
 	mCoords = coords;
 }
-
