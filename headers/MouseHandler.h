@@ -3,6 +3,8 @@
 #include "Clickable.h"
 #include <SDL.h>
 
+class LTexture;
+
 class MouseHandler
 {
 public:
@@ -17,6 +19,9 @@ public:
 	
 	//handles all click related events
 	void handle_event(SDL_Event* e);
+
+	//renders what the mouse holds
+	void render(SDL_Rect dest, SDL_Point mouse_position, LTexture* sprite);
 
 private:
 	std::vector<Clickable*> mClickables;

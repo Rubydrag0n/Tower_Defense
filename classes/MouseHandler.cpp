@@ -1,6 +1,8 @@
 #include <MouseHandler.h>
 #include <SDL.h>
 #include <vector>
+#include "LTexture.h"
+#include "LayerHandler.h"
 
 MouseHandler* gMouse_handler = nullptr;
 
@@ -100,3 +102,11 @@ void MouseHandler::handle_event(SDL_Event *e)
 		}
 	}
 }
+
+void MouseHandler::render(SDL_Rect dest, SDL_Point mouse_position, LTexture* sprite)
+{
+	dest.x = mouse_position.x;
+	dest.y = mouse_position.y;
+	gLayer_handler->render_to_layer(sprite, LAYERS::OVERLAY, nullptr, &dest);
+}
+

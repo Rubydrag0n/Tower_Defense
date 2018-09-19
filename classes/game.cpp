@@ -18,7 +18,6 @@
 #include "ConfigFile.h"
 #include "MainMenu.h"
 #include "Button.h"
-#include "PlacementHandler.h"
 
 void foo() {
 	printf("foo got called!\n");
@@ -30,7 +29,6 @@ Game::Game()
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
 	gRenderables_handler = new RenderableHandler();
-	gPlacement_handler = new PlacementHandler();
 	mLevel = new Level("1");
 
 	SDL_Point coords;

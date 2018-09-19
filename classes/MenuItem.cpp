@@ -8,7 +8,7 @@
 #include "AoeTower.h"
 #include "IndustrialBuilding.h"
 #include "Window.h"
-#include "PlacementHandler.h"
+#include "MouseHandler.h"
 
 MenuItem::MenuItem(std::string name_of_object, Level *level) 
 {
@@ -51,6 +51,7 @@ void MenuItem::render(SDL_Point mouse_position)
 	gLayer_handler->render_to_layer(this->get_sprite(), LAYERS::BACKGROUND, nullptr, &dest);
 	if (this->getClickstate() == CLICKSTATE::LEFTCLICKED)
 	{
+		//gMouse_handler->render(dest, mouse_position, this->get_sprite());
 		dest.x = mouse_position.x;
 		dest.y = mouse_position.y;
 		gLayer_handler->render_to_layer(this->get_sprite(), LAYERS::OVERLAY, nullptr, &dest);
