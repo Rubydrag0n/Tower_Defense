@@ -117,9 +117,5 @@ Clickable* MouseHandler::get_item_on_mouse()
 
 void MouseHandler::set_item_on_mouse(Clickable* item)
 {
-	if(item != nullptr)
-	{
-		item->set_state(LClickableState::MOUSE_OUT);
-	}
 	this->mItem_on_mouse = item;
 }
