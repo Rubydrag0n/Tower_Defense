@@ -109,7 +109,6 @@ void MouseHandler::render(SDL_Rect dest, SDL_Point mouse_position, LTexture* spr
 	dest.y = mouse_position.y - sprite->get_height() / 2;
 	gLayer_handler->render_to_layer(sprite, LAYERS::OVERLAY, nullptr, &dest);
 }
-<<<<<<< HEAD
 
 Clickable* MouseHandler::get_item_on_mouse()
 {
@@ -120,12 +119,7 @@ void MouseHandler::set_item_on_mouse(Clickable* item)
 {
 	if(item != nullptr)
 	{
-		item->set_state(MOUSE_OUT);
+		item->set_state(LClickableState::MOUSE_OUT);
 	}
 	this->mItem_on_mouse = item;
 }
-
-
-
-=======
->>>>>>> f6e2745cf2f6de1479f8fb1bbecd57b07ec75a50
