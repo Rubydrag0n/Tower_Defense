@@ -23,8 +23,12 @@ public:
 	//renders what the mouse holds
 	void render(SDL_Rect dest, SDL_Point mouse_position, LTexture* sprite);
 
+	Clickable* get_item_on_mouse();
+	void set_item_on_mouse(Clickable* item);
+
 private:
 	std::vector<Clickable*> mClickables;
+	Clickable* mItem_on_mouse;
 };
 
 //holds pointers to all clickable objects

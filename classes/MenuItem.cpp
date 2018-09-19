@@ -24,7 +24,7 @@ MenuItem::MenuItem(std::string name_of_object, Level *level)
 	clickable.w = mSprite->get_width();
 	clickable.h = mSprite->get_height();
 	this->set_clickable_space(clickable);
-	mClickstate = CLICKSTATE::UNCLICKED;
+	this->set_state(MOUSE_OUT);
 
 	//set the construction costs of the building
 	mConstruction_costs.set_resources(gConfig_file->Value(name_of_object + "/stats", "goldcosts"),
@@ -49,48 +49,45 @@ void MenuItem::render(SDL_Point mouse_position)
 	dest.w = this->get_sprite()->get_width();
 	dest.h = this->get_sprite()->get_height();
 	gLayer_handler->render_to_layer(this->get_sprite(), LAYERS::BACKGROUND, nullptr, &dest);
-	if (this->getClickstate() == CLICKSTATE::LEFTCLICKED)
+	if (this->get_state() == LClickableState::MOUSE_DOWN_LEFT && this == gMouse_handler->get_item_on_mouse())
 	{
-		//gMouse_handler->render(dest, mouse_position, this->get_sprite());
-		dest.x = mouse_position.x;
-		dest.y = mouse_position.y;
-		gLayer_handler->render_to_layer(this->get_sprite(), LAYERS::OVERLAY, nullptr, &dest);
+		gMouse_handler->render(dest, mouse_position, this->get_sprite());
 	}
 }
 
 void MenuItem::on_click(int mouse_x, int mouse_y)
 {
 	SDL_Rect clickable;
-	if(mClickstate == CLICKSTATE::LEFTCLICKED)
+	if(this->get_state() == LClickableState::MOUSE_DOWN_LEFT && this == gMouse_handler->get_item_on_mouse())
 	{
 		SDL_Point p;
-		p.x = mouse_x;
-		p.y = mouse_y;
+		p.x = mouse_x - get_sprite()->get_width() / 2;
+		p.y = mouse_y - get_sprite()->get_height() / 2;
 
 		if (mLevel->get_ressources()->sub(&mConstruction_costs))
 		{
 			if (this->mKind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
 			if (this->mKind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }
 			if (this->mKind_of_object == "industrialbuilding") { new IndustrialBuilding(this->mName_of_object, p, mLevel); }
-			mClickstate = CLICKSTATE::UNCLICKED;
+			clickable.x = mCoords.x;
+			clickable.y = mCoords.y;
+			clickable.w = mSprite->get_width();
+			clickable.h = mSprite->get_height();
+			this->set_clickable_space(clickable);
+			this->set_state(MOUSE_OUT);
 		}
 		
-		clickable.x = mCoords.x - mSprite->get_width() / 2;
-		clickable.y = mCoords.y - mSprite->get_height() / 2;
-		clickable.w = mSprite->get_width();
-		clickable.h = mSprite->get_height();
-		this->set_clickable_space(clickable);
-	}
-	else if(mClickstate == CLICKSTATE::UNCLICKED)
-	{
 
-		mClickstate = CLICKSTATE::LEFTCLICKED;
+	}
+	else if(this->get_state() == LClickableState::MOUSE_OUT)
+	{
+		gMouse_handler->set_item_on_mouse(this);		
+		this->set_state(MOUSE_DOWN_LEFT);
 		clickable.x = 0;
 		clickable.y = 0;
 		clickable.w = 1250;
 		clickable.h = 1050;
 		this->set_clickable_space(clickable);
-
 	}
 }
 
@@ -106,16 +103,15 @@ void MenuItem::on_mouse_over(int mouse_x, int mouse_y)
 
 void MenuItem::on_right_click(int mouse_x, int mouse_y)
 {
-	if(mClickstate == CLICKSTATE::LEFTCLICKED)
+	if(this->get_state() == LClickableState::MOUSE_DOWN_LEFT)
 	{
-		mLevel->get_ressources()->add(&mConstruction_costs);
 		SDL_Rect clickable;
 		clickable.x = mCoords.x;
 		clickable.y = mCoords.y;
 		clickable.w = mSprite->get_width();
 		clickable.h = mSprite->get_height();
 		this->set_clickable_space(clickable);
-		this->mClickstate = CLICKSTATE::UNCLICKED;
+		this->set_state(MOUSE_OUT);
 	}
 }
 
@@ -128,11 +124,6 @@ LTexture* MenuItem::get_sprite()
 SDL_Point MenuItem::get_coords()
 {
 	return this->mCoords;
-}
-
-CLICKSTATE MenuItem::getClickstate()
-{
-	return this->mClickstate;
 }
 
 Resources MenuItem::get_construction_costs() const
