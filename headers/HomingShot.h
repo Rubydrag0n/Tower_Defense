@@ -16,4 +16,3 @@ public:
 private:
 	Enemy* mEnemy_to_shoot;
 };
-

@@ -109,4 +109,3 @@ void MouseHandler::render(SDL_Rect dest, SDL_Point mouse_position, LTexture* spr
 	dest.y = mouse_position.y;
 	gLayer_handler->render_to_layer(sprite, LAYERS::OVERLAY, nullptr, &dest);
 }
-
