@@ -1,6 +1,7 @@
 #include "AoeShot.h"
 #include <SDL.h>
 
+
 AoeShot::AoeShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 {
 	mLocation_to_shoot = location_to_shoot;
