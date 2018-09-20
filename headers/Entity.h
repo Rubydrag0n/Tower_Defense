@@ -5,7 +5,8 @@ enum class ENTITYTYPE
 {
 	UNDEFINED,
 	TOWER,
-	ENEMY
+	ENEMY,
+	PARTICLE
 };
 
 class Entity :

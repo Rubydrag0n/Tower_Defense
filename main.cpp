@@ -3,18 +3,18 @@
 #include <stdlib.h>  
 #include <crtdbg.h>  
 */
+#include <cstdlib>
+#include <stdio.h>
+#include <iostream>
+#include <time.h>
 
-//Using SDL and standard IO
 #include "SDL_setup.h"
 #include "Map.h"
 #include "Game.h"
-#include <stdio.h>
 #include "ConfigFile.h"
 #include "EntityHandler.h"
 #include "MouseHandler.h"
 #include "MainMenu.h"
-#include <iostream>
-
 
 int main( int argc, char* args[] )
 {
@@ -25,6 +25,8 @@ int main( int argc, char* args[] )
 	}
 	else
 	{
+		//initialize randomness
+		srand(time(NULL));
 
 		auto game = new Game();
 		game->start_game();

@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -172,7 +172,6 @@
     <ClCompile Include="classes\MenuItem.cpp" />
     <ClCompile Include="classes\MonsterGroup.cpp" />
     <ClCompile Include="classes\MouseHandler.cpp" />
-    <ClCompile Include="classes\MouseItem.cpp" />
     <ClCompile Include="classes\Particles.cpp" />
     <ClCompile Include="classes\Renderable.cpp" />
     <ClCompile Include="classes\RenderableHandler.cpp" />
@@ -221,7 +220,6 @@
     <ClInclude Include="headers\MenuItemWindow.h" />
     <ClInclude Include="headers\MonsterGroup.h" />
     <ClInclude Include="headers\MouseHandler.h" />
-    <ClInclude Include="headers\MouseItem.h" />
     <ClInclude Include="headers\Particles.h" />
     <ClInclude Include="headers\Renderable.h" />
     <ClInclude Include="headers\RenderableHandler.h" />

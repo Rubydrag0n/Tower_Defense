@@ -1,10 +1,11 @@
 //Here comes the definiton of the game class
+#include <stdio.h>
+#include <iostream>
+
 #include "Game.h"
 #include "SDL_setup.h"
 #include "Map.h"
-#include <stdio.h>
 #include "Tower.h"
-#include <iostream>
 #include "Level.h"
 #include "Menu.h"
 #include "IndustrialBuilding.h"

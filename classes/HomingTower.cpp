@@ -26,9 +26,10 @@ Shot* HomingTower::create_shot(Enemy* enemy)
 bool HomingTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
 {
 	auto homing_shot = static_cast<HomingShot*>(shot);
-	if (homing_shot->get_enemy_to_shoot()->is_dead() || homing_shot->follow())
+	bool enemy_hit = homing_shot->follow();
+	if (homing_shot->get_enemy_to_shoot()->is_dead() || enemy_hit)
 	{
-		if (homing_shot->follow())
+		if (enemy_hit)
 		{
 			homing_shot->get_enemy_to_shoot()->take_damage(&mDamage);
 		}

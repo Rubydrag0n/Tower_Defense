@@ -3,7 +3,8 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 
-Particles::Particles(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot) : mClips{}, mRotation_speed{rot}, mPosition{pos}, mSpeed_and_direction{dir}
+Particle::Particle(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot, float rot_speed)
+	: mClips{}, mRotation_speed{ rot_speed }, mCurrent_rotation{ rot }, mPosition { pos }, mSpeed_and_direction{ dir }
 {
 	auto section = "animation/" + particle_name;
 
@@ -35,14 +36,14 @@ Particles::Particles(std::string particle_name, CoordinatesInDouble pos, Coordin
 	mLife_ticks = mTickcount_per_clip * mClips.size();
 }
 
-Particles::~Particles()
+Particle::~Particle()
 {
 	mClips.clear();
 }
 
-void Particles::render()
+void Particle::render()
 {
-	update_animation_clip();
+	update_animation();
 
 	SDL_Rect dest;
 
@@ -51,25 +52,36 @@ void Particles::render()
 	dest.w = mCurrent_clip.w;
 	dest.h = mCurrent_clip.h;
 
-	gLayer_handler->render_to_layer(this->mTexture, LAYERS::ENEMIES, &this->mCurrent_clip, &dest);
+	SDL_Point center;
+	center.x = mCurrent_clip.w / 2;
+	center.y = mCurrent_clip.h / 2;
+	gLayer_handler->renderex_to_layer(this->mTexture, LAYERS::PARTICLES, &this->mCurrent_clip, &dest, this->mCurrent_rotation, &center, this->mFlip);
 }
 
-bool Particles::delete_me() const
+void Particle::on_tick()
 {
-	if (mTick >= mLife_ticks)
+	//if lifetime is over -> suicide
+	if (mTick >= mLife_ticks - 1)
 	{
-		return true;
+		delete this;
 	}
-	return false;
 }
 
-void Particles::update_animation_clip()
+void Particle::update_animation()
 {
-	mTick++;
-	if (mTick > mLife_ticks)
+	//rotate
+	this->mCurrent_rotation += this->mRotation_speed;
+	if (this->mCurrent_rotation >= 360.0) this->mCurrent_rotation -= 360;
+	if (this->mCurrent_rotation < 0.0) this->mCurrent_rotation += 360;
+
+	//move
+	this->mPosition = this->mSpeed_and_direction + this->mPosition;
+
+	this->mTick++;
+	if (this->mTick >= this->mLife_ticks)
 	{
-		mTick--;
+		this->mTick--;
 	}
-	auto index = mTick / mTickcount_per_clip;
-	mCurrent_clip = mClips.at(index);
+	auto index = this->mTick / this->mTickcount_per_clip;
+	this->mCurrent_clip = this->mClips.at(index);
 }

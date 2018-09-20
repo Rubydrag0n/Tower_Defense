@@ -1,47 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="classes\AoeShot.cpp" />
-    <ClCompile Include="classes\AoeTower.cpp" />
-    <ClCompile Include="classes\Building.cpp" />
-    <ClCompile Include="classes\Button.cpp" />
-    <ClCompile Include="classes\Chameleon.cpp" />
-    <ClCompile Include="classes\Clickable.cpp" />
-    <ClCompile Include="classes\ConfigFile.cpp" />
-    <ClCompile Include="classes\CoordinatesInDouble.cpp" />
-    <ClCompile Include="classes\Damage.cpp" />
-    <ClCompile Include="classes\Defense.cpp" />
-    <ClCompile Include="classes\Enemy.cpp" />
-    <ClCompile Include="classes\Game.cpp" />
-    <ClCompile Include="classes\HomingShot.cpp" />
-    <ClCompile Include="classes\HomingTower.cpp" />
-    <ClCompile Include="classes\IndustrialBuilding.cpp" />
-    <ClCompile Include="classes\LayerHandler.cpp" />
-    <ClCompile Include="classes\Level.cpp" />
-    <ClCompile Include="classes\LTexture.cpp" />
-    <ClCompile Include="classes\MainMenu.cpp" />
-    <ClCompile Include="classes\Map.cpp" />
-    <ClCompile Include="classes\Menu.cpp" />
-    <ClCompile Include="classes\MenuItem.cpp" />
-    <ClCompile Include="classes\MonsterGroup.cpp" />
-    <ClCompile Include="classes\MouseHandler.cpp" />
-    <ClCompile Include="classes\Particles.cpp" />
-    <ClCompile Include="classes\Renderable.cpp" />
-    <ClCompile Include="classes\RenderableHandler.cpp" />
-    <ClCompile Include="classes\Resources.cpp" />
-    <ClCompile Include="classes\SDLMappy.cpp" />
-    <ClCompile Include="classes\SDL_setup.cpp" />
-    <ClCompile Include="classes\Shot.cpp" />
-    <ClCompile Include="classes\Textures.cpp" />
-    <ClCompile Include="classes\Tower.cpp" />
-    <ClCompile Include="classes\Unit.cpp" />
-    <ClCompile Include="classes\Entity.cpp" />
-    <ClCompile Include="classes\EntityHandler.cpp" />
-    <ClCompile Include="classes\Wave.cpp" />
-    <ClCompile Include="classes\Window.cpp" />
-    <ClCompile Include="headers\MenuItemWindow.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="classes\MouseItem.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Shots">
+      <UniqueIdentifier>{e75c3426-649b-4769-b8a8-6572e65a81db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Buildings">
+      <UniqueIdentifier>{c3828c87-544f-4af2-a145-670b6289470e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Buildings\Towers">
+      <UniqueIdentifier>{1fbcbf3f-9b60-4857-8c57-06aa810e9f39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Buildings\Resource buildings">
+      <UniqueIdentifier>{7199d973-b676-49e4-ab78-9ac2bf6c7e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data structures">
+      <UniqueIdentifier>{adb84e76-93f9-490c-8567-74bacc1962ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level and Monster">
+      <UniqueIdentifier>{7cf2ada0-d8b4-4613-8d42-1b22405daa24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handlers">
+      <UniqueIdentifier>{ffd5cb9f-2c9d-4a2c-a11b-6c271453f0db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menus">
+      <UniqueIdentifier>{f90b39a1-8035-4c46-917a-94e6b7bdd79f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buildings">
+      <UniqueIdentifier>{13f8ff9a-cf90-48f8-b1ac-a5eefd45464f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buildings\Towers">
+      <UniqueIdentifier>{ea3c6196-69db-49cd-8488-0e7fe8e8b463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buildings\Resource buildings">
+      <UniqueIdentifier>{b3dd38ed-5cfb-4c0f-a98c-a9cd668769a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data structures">
+      <UniqueIdentifier>{783370fc-cd45-4cd7-8d83-d0c38dcac01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level and Monster">
+      <UniqueIdentifier>{7dbe55f6-c31c-4766-a004-75b2fb794bf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handlers">
+      <UniqueIdentifier>{8a223eda-b8c7-4288-aaac-94424531c3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menus">
+      <UniqueIdentifier>{9f6db08c-1ca9-4caa-8c89-91983ab7ecb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shots">
+      <UniqueIdentifier>{82b7b82f-e562-4831-992c-07225776abfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animations">
+      <UniqueIdentifier>{c5c51064-6b3c-4e50-bc46-dafb428d4821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animations">
+      <UniqueIdentifier>{5e23f5d6-37fd-4ff0-ab86-f5fc66806098}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classes\Game.cpp">
@@ -158,69 +183,182 @@
     <ClCompile Include="classes\RenderableHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="classes\MainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="headers\MenuItemWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\AoeShot.h" />
-    <ClInclude Include="headers\AoeTower.h" />
-    <ClInclude Include="headers\Building.h" />
-    <ClInclude Include="headers\Button.h" />
-    <ClInclude Include="headers\Chameleon.h" />
-    <ClInclude Include="headers\Clickable.h" />
-    <ClInclude Include="headers\ConfigFile.h" />
-    <ClInclude Include="headers\CoordinatesInDouble.h" />
-    <ClInclude Include="headers\Damage.h" />
-    <ClInclude Include="headers\Defense.h" />
-    <ClInclude Include="headers\Enemy.h" />
-    <ClInclude Include="headers\Game.h" />
-    <ClInclude Include="headers\HomingShot.h" />
-    <ClInclude Include="headers\HomingTower.h" />
-    <ClInclude Include="headers\IndustrialBuilding.h" />
-    <ClInclude Include="headers\LayerHandler.h" />
-    <ClInclude Include="headers\Level.h" />
-    <ClInclude Include="headers\LTexture.h" />
-    <ClInclude Include="headers\MainMenu.h" />
-    <ClInclude Include="headers\Map.h" />
-    <ClInclude Include="headers\Menu.h" />
-    <ClInclude Include="headers\MenuItem.h" />
-    <ClInclude Include="headers\MenuItemWindow.h" />
-    <ClInclude Include="headers\MonsterGroup.h" />
-    <ClInclude Include="headers\MouseHandler.h" />
-    <ClInclude Include="headers\Particles.h" />
-    <ClInclude Include="headers\Renderable.h" />
-    <ClInclude Include="headers\RenderableHandler.h" />
-    <ClInclude Include="headers\Resources.h" />
-    <ClInclude Include="headers\SDLMappy.h" />
-    <ClInclude Include="headers\SDL_setup.h" />
-    <ClInclude Include="headers\Shot.h" />
-    <ClInclude Include="headers\Textures.h" />
-    <ClInclude Include="headers\Tower.h" />
-    <ClInclude Include="headers\Unit.h" />
-    <ClInclude Include="headers\Entity.h" />
-    <ClInclude Include="headers\EntityHandler.h" />
-    <ClInclude Include="headers\Wave.h" />
-    <ClInclude Include="headers\Window.h" />
-    <ClInclude Include="headers\MouseItem.h" />
+    <ClInclude Include="headers\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\AoeTower.h">
+      <Filter>Header Files\Buildings\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\HomingTower.h">
+      <Filter>Header Files\Buildings\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Tower.h">
+      <Filter>Header Files\Buildings\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\AoeShot.h">
+      <Filter>Header Files\Shots</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Shot.h">
+      <Filter>Header Files\Shots</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\HomingShot.h">
+      <Filter>Header Files\Shots</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Building.h">
+      <Filter>Header Files\Buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\IndustrialBuilding.h">
+      <Filter>Header Files\Buildings\Resource buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Defense.h">
+      <Filter>Header Files\Data structures</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Damage.h">
+      <Filter>Header Files\Data structures</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Enemy.h">
+      <Filter>Header Files\Level and Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MonsterGroup.h">
+      <Filter>Header Files\Level and Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Unit.h">
+      <Filter>Header Files\Level and Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Wave.h">
+      <Filter>Header Files\Level and Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Level.h">
+      <Filter>Header Files\Level and Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Resources.h">
+      <Filter>Header Files\Data structures</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MouseHandler.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\SDL_setup.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\SDLMappy.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Textures.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\LTexture.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Clickable.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ConfigFile.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\CoordinatesInDouble.h">
+      <Filter>Header Files\Data structures</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Window.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Menu.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Button.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Chameleon.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Map.h">
+      <Filter>Header Files\Level and Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\LayerHandler.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MenuItem.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Particles.h">
+      <Filter>Header Files\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\EntityHandler.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Entity.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Renderable.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\RenderableHandler.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MenuItemWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\archer.png" />
-    <Image Include="resources\arrow.png" />
-    <Image Include="resources\arrow_ori.png" />
-    <Image Include="resources\background.bmp" />
-    <Image Include="resources\bomb.png" />
-    <Image Include="resources\cannon.png" />
-    <Image Include="resources\health_bar_empty.png" />
-    <Image Include="resources\health_bar_full.png" />
-    <Image Include="resources\LinkMonster.png" />
-    <Image Include="resources\Lumberjack.png" />
-    <Image Include="resources\testbutton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="resources\lazy.ttf" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="config\game.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="level\Level1.FMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\LinkMonster.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="ClassDiagram.cd" />
-    <None Include="config\game.cfg" />
-    <None Include="level\Level1.FMP" />
-    <None Include="resources\LinkMonster.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\background.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\LinkMonster.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\archer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\arrow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\arrow_ori.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\bomb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\cannon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Lumberjack.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\health_bar_empty.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\health_bar_full.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\testbutton.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\lazy.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

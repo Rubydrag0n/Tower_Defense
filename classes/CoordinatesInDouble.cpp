@@ -1,4 +1,5 @@
 #include "CoordinatesInDouble.h"
+#include <SDL.h>
 
 CoordinatesInDouble::CoordinatesInDouble()
 {
@@ -19,4 +20,10 @@ CoordinatesInDouble CoordinatesInDouble::operator+(CoordinatesInDouble summand) 
 	return result;
 }
 
-
+CoordinatesInDouble::operator SDL_Point()
+{
+	SDL_Point p;
+	p.x = int(this->x);
+	p.y = int(this->y);
+	return p;
+}
