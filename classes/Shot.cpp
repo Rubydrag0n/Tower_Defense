@@ -9,16 +9,21 @@
 
 Shot::Shot(Tower* tower)
 {
-	mCoords = tower->get_coords();
-	mProjectile_speed = tower->get_projectile_speed();
-	mCoords_in_double.x = mCoords.x;
-	mCoords_in_double.y = mCoords.y;
-
 	mSprite = gTextures->get_texture(gConfig_file->Value(tower->get_projectile_name() + "/sprite", "path"));
 	mSprite_dimensions.w = gConfig_file->Value(tower->get_projectile_name() + "/sprite", "image_width");
 	mSprite_dimensions.h = gConfig_file->Value(tower->get_projectile_name() + "/sprite", "image_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
+
+	//setting up coordinates
+	mCoords = tower->get_coords();
+	mProjectile_speed = tower->get_projectile_speed();
+
+	//middle of a shot is it's center, not top left (makes the most sense for shots)
+	mCoords.x = mCoords.x + tower->get_dimensions().w / 2;
+	mCoords.y = mCoords.y + tower->get_dimensions().h / 2;
+	mCoords_in_double.x = mCoords.x;
+	mCoords_in_double.y = mCoords.y;
 }
 
 Shot::~Shot()
@@ -64,8 +69,8 @@ void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double
 
 	center->x = mSprite_dimensions.w / 2;
 	center->y = mSprite_dimensions.h / 2;
-	dest->x = mCoords.x - center->x / 2;
-	dest->y = mCoords.y - center->y / 2;
+	dest->x = mCoords.x - mSprite_dimensions.w / 2;
+	dest->y = mCoords.y - mSprite_dimensions.h / 2;
 }
 
 

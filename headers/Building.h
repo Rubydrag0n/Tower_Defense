@@ -19,6 +19,7 @@ public:
 	void on_tick() override; //takes ressources for maintenance
 
 	SDL_Point get_coords() const;
+	SDL_Rect get_dimensions() const;
 	Resources get_maintenance() const;
 	void set_coords(SDL_Point coords);
 	void set_maintenance(Resources maintenance);
