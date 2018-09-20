@@ -33,7 +33,7 @@ void MouseItem::render(SDL_Point mouse_position)
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
 	
-	gLayer_handler->render_to_layer(this->mSprite, LAYERS::BACKGROUND, nullptr, &dest);
+	gLayer_handler->render_to_layer(this->mSprite, LAYERS::OVERLAY, nullptr, &dest);
 }
 
 std::string MouseItem::get_name_of_object()
