@@ -37,7 +37,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	clickable.w = mSprite_dimensions.w;
 	clickable.h = mSprite_dimensions.h;
 	this->set_clickable_space(clickable);
-	idle = false;
+	mIdle = false;
 
 	//set the mouse over window up with initial values
 	SDL_Rect rect;
@@ -71,7 +71,7 @@ void Building::on_tick()
 {
 	if(mElapsed_ticks % 60 == 0)
 	{
-		idle = !mLevel->get_ressources()->sub(&mMaintenance);
+		mIdle = !mLevel->get_ressources()->sub(&mMaintenance);
 	}
 	mElapsed_ticks++;
 }
@@ -123,6 +123,16 @@ SDL_Point Building::get_coords() const
 Resources Building::get_maintenance() const
 {
 	return mMaintenance;
+}
+
+bool Building::get_idle()
+{
+	return this->mIdle;
+}
+
+void Building::set_idle(bool value)
+{
+	this->mIdle = value;
 }
 
 

@@ -1,7 +1,6 @@
 //Here comes the definiton of the game class
 #include "Game.h"
 #include "SDL_setup.h"
-#include "MonsterGroup.h"
 #include "Map.h"
 #include <stdio.h>
 #include "Tower.h"
@@ -16,7 +15,6 @@
 #include "EntityHandler.h"
 #include "RenderableHandler.h"
 #include "ConfigFile.h"
-#include "MainMenu.h"
 #include "Button.h"
 
 void foo() {

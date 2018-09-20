@@ -1,8 +1,6 @@
 #include <MouseHandler.h>
 #include <SDL.h>
 #include <vector>
-#include "LTexture.h"
-#include "LayerHandler.h"
 
 MouseHandler* gMouse_handler = nullptr;
 
@@ -23,7 +21,7 @@ void MouseHandler::add_clickable(Clickable* c)
 
 void MouseHandler::del_clickable(Clickable* c)
 {
-	for (auto it = mClickables.begin(); it != mClickables.end(); )
+	for (auto it = mClickables.begin(); it != mClickables.end(); ++it)
 	{
 		if (*it == c)
 		{
@@ -103,29 +101,16 @@ void MouseHandler::handle_event(SDL_Event *e)
 	}
 }
 
-void MouseHandler::render(SDL_Rect dest, SDL_Point mouse_position, LTexture* sprite)
+MouseItem* MouseHandler::get_item_on_mouse()
 {
-	dest.x = mouse_position.x - sprite->get_width() / 2;
-	dest.y = mouse_position.y - sprite->get_height() / 2;
-	gLayer_handler->render_to_layer(sprite, LAYERS::OVERLAY, nullptr, &dest);
-}
-<<<<<<< HEAD
-
-Clickable* MouseHandler::get_item_on_mouse()
-{
-	return this->mItem_on_mouse;
+	return mItem_on_mouse;
 }
 
-void MouseHandler::set_item_on_mouse(Clickable* item)
+void MouseHandler::set_item_on_mouse(MouseItem* item)
 {
-	if(item != nullptr)
-	{
-		item->set_state(MOUSE_OUT);
-	}
-	this->mItem_on_mouse = item;
+	delete mItem_on_mouse;
+	mItem_on_mouse = item;
 }
 
 
 
-=======
->>>>>>> f6e2745cf2f6de1479f8fb1bbecd57b07ec75a50

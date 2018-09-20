@@ -42,4 +42,6 @@ private:
 
 	//the state that the clickable is in right now. Is handled by the MouseHandler
 	LClickableState mState;
+
+
 };

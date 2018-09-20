@@ -53,7 +53,7 @@ void Tower::on_tick()
 	auto all_enemies = gEntity_handler->get_enemies();
 	if (mElapsed_ticks % mAttack_cooldown == 0)
 	{
-		if(!this->idle)
+		if(!this->mIdle)
 		{
 			while (!all_enemies.empty() && mElapsed_ticks % 60 == 0)
 			{

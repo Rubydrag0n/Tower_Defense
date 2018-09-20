@@ -22,6 +22,8 @@ public:
 	Resources get_maintenance() const;
 	void set_coords(SDL_Point coords);
 	void set_maintenance(Resources maintenance);
+	void set_idle(bool value);
+	bool get_idle();
 
 	void on_click(int mouse_x, int mouse_y) override;
 	void on_mouse_over(int mouse_x, int mouse_y) override;
@@ -35,7 +37,7 @@ protected:
 	SDL_Rect mSprite_dimensions; //size of the texture
 	Level *mLevel;
 
-	bool idle; // if the player doesnt have enough res to maintain the building the building doesnt do anything
+	bool mIdle; // if the player doesnt have enough res to maintain the building the building doesnt do anything
 	int mElapsed_ticks;
 	std::string mName;
 	std::string mSprite_path;

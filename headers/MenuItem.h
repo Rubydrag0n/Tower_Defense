@@ -28,7 +28,6 @@ private:
 	LTexture* mSprite;
 	Resources mConstruction_costs;
 	std::string mName_of_object; // for example the tower name
-	std::string mKind_of_object; // for example a "HomingTower"
 	Level *mLevel;
 	MenuItemWindow* mWindow; //the window that is shown on mouse over
 };

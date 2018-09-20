@@ -2,6 +2,7 @@
 #include <vector>
 #include "Clickable.h"
 #include <SDL.h>
+#include "MouseItem.h"
 
 class LTexture;
 
@@ -20,20 +21,17 @@ public:
 	//handles all click related events
 	void handle_event(SDL_Event* e);
 
-	//renders what the mouse holds
-	void render(SDL_Rect dest, SDL_Point mouse_position, LTexture* sprite);
-
-	Clickable* get_item_on_mouse();
-	void set_item_on_mouse(Clickable* item);
+	MouseItem* get_item_on_mouse();
+	void set_item_on_mouse(MouseItem* item);
 
 private:
 	std::vector<Clickable*> mClickables;
-<<<<<<< HEAD
-	Clickable* mItem_on_mouse;
-=======
+
+	MouseItem* mItem_on_mouse;
 
 
->>>>>>> f6e2745cf2f6de1479f8fb1bbecd57b07ec75a50
+
+
 };
 
 //holds pointers to all clickable objects

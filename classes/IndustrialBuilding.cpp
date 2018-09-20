@@ -29,7 +29,7 @@ void IndustrialBuilding::on_tick()
 	Building::on_tick();
 	if (mElapsed_ticks % 60 == 0)
 	{
-		if(!this->idle)
+		if(!this->mIdle)
 		{
 			mLevel->get_ressources()->add(&mRessources_produced_per_second);
 		}

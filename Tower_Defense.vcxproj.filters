@@ -41,6 +41,7 @@
     <ClCompile Include="classes\Window.cpp" />
     <ClCompile Include="headers\MenuItemWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="classes\MouseItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classes\Game.cpp">
@@ -198,6 +199,7 @@
     <ClInclude Include="headers\EntityHandler.h" />
     <ClInclude Include="headers\Wave.h" />
     <ClInclude Include="headers\Window.h" />
+    <ClInclude Include="headers\MouseItem.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\archer.png" />
