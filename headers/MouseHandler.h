@@ -26,12 +26,7 @@ public:
 
 private:
 	std::vector<Clickable*> mClickables;
-
 	MouseItem* mItem_on_mouse;
-
-
-
-
 };
 
 //holds pointers to all clickable objects

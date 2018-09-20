@@ -111,6 +111,3 @@ void MouseHandler::set_item_on_mouse(MouseItem* item)
 	delete mItem_on_mouse;
 	mItem_on_mouse = item;
 }
-
-
-
