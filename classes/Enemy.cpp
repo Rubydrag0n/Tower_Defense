@@ -47,7 +47,6 @@ Enemy::~Enemy()
 
 void Enemy::on_tick()
 {
-
 }
 
 void Enemy::move()

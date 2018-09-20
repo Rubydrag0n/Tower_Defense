@@ -64,7 +64,7 @@ void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double
 
 	center->x = mSprite_dimensions.w / 2;
 	center->y = mSprite_dimensions.h / 2;
-	dest->x = mCoords.x - center->x;
+	dest->x = mCoords.x - center->x / 2;
 	dest->y = mCoords.y - center->y / 2;
 }
 
