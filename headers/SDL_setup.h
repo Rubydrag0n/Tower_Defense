@@ -4,8 +4,10 @@
 #include "Textures.h"
 #include <SDL_ttf.h>
 
-extern const int SCREEN_WIDTH;
-extern const int SCREEN_HEIGHT;
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
+const int TILE_HEIGHT = 64;
+const int TILE_WIDTH = 64;
 
 extern SDL_Window* gWindow;
 extern SDL_Renderer* gRenderer;

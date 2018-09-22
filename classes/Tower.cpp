@@ -55,7 +55,7 @@ void Tower::on_tick()
 	{
 		if(!this->mIdle)
 		{
-			while (!all_enemies.empty() && mElapsed_ticks % 60 == 0)
+			while (!all_enemies.empty())
 			{
 				if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
 				{
