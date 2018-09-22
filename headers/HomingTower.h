@@ -12,7 +12,7 @@ public:
 	void render_shot(Shot* shot) const override;
 	Shot* create_shot(Enemy* enemy) override;
 
-	//looks if the shot is at the enemy or the enemy is dead, if true shot is deleted and enemy gets dmg
+	//updates the shot, returns true if the shot is at the enemy or the enemy is dead
 	bool update_shot(Shot* shot, std::vector<Enemy*> all_enemies) override;
 };
 

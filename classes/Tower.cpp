@@ -74,6 +74,7 @@ void Tower::on_tick()
 		if(this->update_shot(mShots.at(i), all_enemies))
 		{
 			mShots.erase(mShots.begin() + i);
+			--i;
 		}
 	}
 }

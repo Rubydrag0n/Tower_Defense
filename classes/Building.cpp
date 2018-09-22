@@ -120,6 +120,11 @@ SDL_Point Building::get_coords() const
 	return mCoords;
 }
 
+SDL_Rect Building::get_dimensions() const
+{
+	return mSprite_dimensions;
+}
+
 Resources Building::get_maintenance() const
 {
 	return mMaintenance;
