@@ -1,18 +1,95 @@
 #include "Menu.h"
-#include "SDL_setup.h"
 #include <SDL.h>
 #include "LTexture.h"
 #include "LayerHandler.h"
+#include "ConfigFile.h"
+#include <functional>
+
+MENUTAB gOpen_tab;
+
+void show_tower()
+{
+	gOpen_tab = TOWER_TAB;
+}
+
+
+void show_industrial_buildings()
+{
+	gOpen_tab = INDUSTRIAL_BUILDING_TAB;
+}
+
 
 Menu::Menu(Level *level)
 {
 	mLevel = level;
 	mMenu_texture = nullptr;
+	gOpen_tab = TOWER_TAB;
+	SDL_Rect dim;
+	dim.x = 1300;
+	dim.y = 0;
+	dim.w = 100;
+	dim.h = 26;
+	mTab_tower = new Button("testbutton", dim, &show_tower);
+	dim.x = 1400;
+	mTab_industrial_buildings = new Button("testbutton", dim, &show_industrial_buildings);
+
+	this->sort_items_into_menu();
+
 }
+
+
 
 Menu::~Menu()
 {
 }
+
+void Menu::sort_items_into_menu()
+{
+	SDL_Point coords;
+	std::string name_of_object;
+	auto all_tower_sorted = false;
+	auto all_industrial_buildings_sorted = false;
+	for (auto i = 0, y = 0; !(all_tower_sorted && all_industrial_buildings_sorted) ; i++)
+	{
+		if (i % 5 == 0)
+		{
+			y++;
+		}
+		coords.x = 1300 + (i % 5) * 64;
+		coords.y = 0 + y * 64;
+
+
+		if(!all_tower_sorted)
+		{
+			name_of_object.assign(gConfig_file->Value("tower", std::to_string(i)));
+			if (name_of_object == "end")
+			{
+				all_tower_sorted = true;
+			}
+			if(!all_tower_sorted)
+			{
+				auto new_item = new MenuItem(name_of_object, mLevel, coords);
+				this->add_menu_item_tower(new_item);
+			}
+		}
+
+		if(!all_industrial_buildings_sorted)
+		{
+			name_of_object.assign(gConfig_file->Value("industrialbuildings", std::to_string(i)));
+			if (name_of_object == "end")
+			{
+				all_industrial_buildings_sorted = true;
+			}
+			if(!all_industrial_buildings_sorted)
+			{
+				auto new_item = new MenuItem(name_of_object, mLevel, coords);
+				this->add_menu_item_industrialbuilding(new_item);
+			}
+		}
+	}
+
+}
+
 
 void Menu::render(SDL_Point mouse_position)
 {
@@ -40,16 +117,45 @@ void Menu::render(SDL_Point mouse_position)
 
 	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::OVERLAY, nullptr, &dest);
 
-	for(auto i = 0; i<mMenu_items.size(); i++)
+	if(gOpen_tab == TOWER_TAB)
 	{
-		mMenu_items.at(i)->render(mouse_position);
+		for (auto i = 0; i < mMenu_items_tower.size(); i++)
+		{
+			mMenu_items_tower.at(i)->render(mouse_position);
+		}
 	}
+	else
+	{
+		for (auto i = 0; i < mMenu_items_tower.size(); i++)
+		{
+			mMenu_items_tower.at(i)->delete_clickable_space();
+		}
+	}
+	if (gOpen_tab == INDUSTRIAL_BUILDING_TAB)
+	{
+		for (auto i = 0; i < mMenu_items_industrial_buildings.size(); i++)
+		{
+			mMenu_items_industrial_buildings.at(i)->render(mouse_position);
+		}
+	}
+	else
+	{
+		for (auto i = 0; i < mMenu_items_industrial_buildings.size(); i++)
+		{
+			mMenu_items_industrial_buildings.at(i)->delete_clickable_space();
+		}
+	}
+
 }
 
-void Menu::add_menu_item(MenuItem* menu_item)
+void Menu::add_menu_item_tower(MenuItem* menu_item)
 {
-	mMenu_items.push_back(menu_item);
+	mMenu_items_tower.push_back(menu_item);
 }
 
 
+void Menu::add_menu_item_industrialbuilding(MenuItem* menu_item)
+{
+	mMenu_items_industrial_buildings.push_back(menu_item);
+}
 

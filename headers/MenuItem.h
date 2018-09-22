@@ -8,19 +8,21 @@ class MenuItem :
 	public Clickable
 {
 public:
-	MenuItem(std::string name_of_object, Level *level);
+	MenuItem(std::string name_of_object, Level *level, SDL_Point coords);
 	~MenuItem();
 
 	void render(SDL_Point mouse_position);
-	Resources get_construction_costs() const;
+	void delete_clickable_space();
 
 	void on_click(int mouse_x, int mouse_y) override;
 	void on_mouse_over(int mouse_x, int mouse_y) override;
 	void on_right_click(int mouse_x, int mouse_y) override;
 	void on_middle_click(int mouse_x, int mouse_y) override;
 
+
 	LTexture* get_sprite();
 	SDL_Point get_coords();
+	Resources get_construction_costs() const;
 
 
 private:

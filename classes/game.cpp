@@ -28,6 +28,7 @@ Game::Game()
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
 	gRenderables_handler = new RenderableHandler();
+	gOpen_tab = MENUTAB();
 	mLevel = new Level("1");
 
 	SDL_Point coords;
@@ -45,23 +46,13 @@ Game::Game()
 	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
-	for(auto i = 0; ; i++)
-	{
-		std::string name_of_object;
-		name_of_object.assign(gConfig_file->Value("allMenuItems", std::to_string(i)));
-		if(name_of_object == "end")
-		{
-			break;
-		}
-		MenuItem* newItem = new MenuItem(name_of_object, mLevel);
-		mMenu->add_menu_item(newItem);
-	}
+
 	mMap = new Map("level/Level1.FMP");
 
 	SDL_Rect dim;
 	dim.x = 500;
 	dim.y = 500;
-	dim.w = 26;
+	dim.w = 100;
 	dim.h = 26;
 	auto testbutton = new Button("testbutton", dim, &foo);
 	gLayer_handler = new LayerHandler();
