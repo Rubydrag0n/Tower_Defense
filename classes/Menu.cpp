@@ -4,6 +4,7 @@
 #include "LayerHandler.h"
 #include "ConfigFile.h"
 #include <functional>
+#include "SDL_setup.h"
 
 MENUTAB gOpen_tab;
 
@@ -48,16 +49,12 @@ void Menu::sort_items_into_menu()
 	SDL_Point coords;
 	std::string name_of_object;
 	auto all_tower_sorted = false;
+	int const number_of_items_in_one_row = 5;
 	auto all_industrial_buildings_sorted = false;
-	for (auto i = 0, y = 0; !(all_tower_sorted && all_industrial_buildings_sorted) ; i++)
+	for (auto i = 0; !(all_tower_sorted && all_industrial_buildings_sorted); i++)
 	{
-		if (i % 5 == 0)
-		{
-			y++;
-		}
-		coords.x = 1300 + (i % 5) * 64;
-		coords.y = 0 + y * 64;
-
+		coords.x = 1300 + (i % number_of_items_in_one_row) * TILE_WIDTH;
+		coords.y = 64 + (i / number_of_items_in_one_row) * TILE_HEIGHT;
 
 		if(!all_tower_sorted)
 		{

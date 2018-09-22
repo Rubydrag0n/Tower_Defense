@@ -31,8 +31,8 @@ MouseItem::~MouseItem()
 void MouseItem::render(SDL_Point mouse_position)
 {
 	SDL_Rect dest;
-	auto grid_offset_x = (mouse_position.x ) % 64;
-	auto grid_offset_y = (mouse_position.y) % 64;
+	auto grid_offset_x = (mouse_position.x ) % TILE_WIDTH;
+	auto grid_offset_y = (mouse_position.y) % TILE_HEIGHT;
 	dest.x = mouse_position.x - grid_offset_x;
 	dest.y = mouse_position.y - grid_offset_y;
 	dest.w = mSprite->get_width();
@@ -63,8 +63,8 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 	if(mouse_x < 1250)
 	{
 		SDL_Point p;
-		auto grid_offset_x = (mouse_x) % 64;
-		auto grid_offset_y = (mouse_y) % 64;
+		auto grid_offset_x = (mouse_x) % TILE_WIDTH;
+		auto grid_offset_y = (mouse_y) % TILE_HEIGHT;
 		p.x = mouse_x - grid_offset_x;
 		p.y = mouse_y - grid_offset_y;
 		std::string kind_of_object = gConfig_file->Value(mName_of_object + "/menuitem", "kind_of_object");
