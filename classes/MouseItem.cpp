@@ -5,6 +5,7 @@
 #include "AoeTower.h"
 #include "HomingTower.h"
 #include "MouseHandler.h"
+#include "SDL_setup.h"
 
 MouseItem::MouseItem(std::string name_of_object, LTexture* sprite, Level* level, Resources construction_costs)
 {
@@ -18,6 +19,8 @@ MouseItem::MouseItem(std::string name_of_object, LTexture* sprite, Level* level,
 	mSprite = sprite;
 	mLevel = level;
 	mConstruction_costs = construction_costs;
+	mGrid_sprite_path = std::string(gConfig_file->Value("grid", "path"));
+	mGrid_sprite = gTextures->get_texture(mGrid_sprite_path);
 }
 
 MouseItem::~MouseItem()
@@ -28,13 +31,22 @@ MouseItem::~MouseItem()
 void MouseItem::render(SDL_Point mouse_position)
 {
 	SDL_Rect dest;
-	dest.x = mouse_position.x - mSprite->get_width() / 2;
-	dest.y = mouse_position.y - mSprite->get_height() / 2;
+	auto grid_offset_x = (mouse_position.x ) % 64;
+	auto grid_offset_y = (mouse_position.y) % 64;
+	dest.x = mouse_position.x - grid_offset_x;
+	dest.y = mouse_position.y - grid_offset_y;
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
-	
+
 	gLayer_handler->render_to_layer(this->mSprite, LAYERS::OVERLAY, nullptr, &dest);
+	
+	dest.x = 0;
+	dest.y = 0;
+	dest.w = 1280;
+	dest.h = 1024;
+	gLayer_handler->render_to_layer(this->mGrid_sprite, LAYERS::BACKGROUND, nullptr, &dest);
 }
+
 
 std::string MouseItem::get_name_of_object()
 {
@@ -51,8 +63,10 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 	if(mouse_x < 1250)
 	{
 		SDL_Point p;
-		p.x = mouse_x - mSprite->get_width() / 2;
-		p.y = mouse_y - mSprite->get_height() / 2;
+		auto grid_offset_x = (mouse_x) % 64;
+		auto grid_offset_y = (mouse_y) % 64;
+		p.x = mouse_x - grid_offset_x;
+		p.y = mouse_y - grid_offset_y;
 		std::string kind_of_object = gConfig_file->Value(mName_of_object + "/menuitem", "kind_of_object");
 		if (mLevel->get_ressources()->sub(&mConstruction_costs))
 		{

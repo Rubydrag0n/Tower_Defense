@@ -28,4 +28,6 @@ private:
 	LTexture* mSprite;
 	Level* mLevel;
 	Resources mConstruction_costs;
+	std::string mGrid_sprite_path;
+	LTexture* mGrid_sprite;
 };
