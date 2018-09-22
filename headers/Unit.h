@@ -4,6 +4,7 @@
 #include <vector>
 #include "LTexture.h"
 #include "Entity.h"
+#include "CoordinatesInDouble.h"
 
 //The numbers are the rowpositions of the rotations in the sprite image
 enum DIRECTION
@@ -32,7 +33,7 @@ protected:
 	Defense mDefense;
 	double mMoveSpeed;
 	
-	SDL_Point mPosition;
+	CoordinatesInDouble mPosition;
 	//Only up, right, down or left for the choosing of the right sprite
 	DIRECTION mDirection;
 

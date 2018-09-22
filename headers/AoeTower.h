@@ -13,7 +13,7 @@ public:
 	Shot* create_shot(Enemy* enemy) override;
 
 	// looks if the shot is at his location, if true everything in the radius takes dmg and the shot is deleted
-	bool update_shot(Shot* shot, std::vector<Enemy*> all_enemies) override;
+	bool update_shot(Shot* shot) override;
 
 
 private:

@@ -1,7 +1,7 @@
 #include "AoeTower.h"
 #include "AoeShot.h"
 #include "ConfigFile.h"
-
+#include "EntityHandler.h"
 
 AoeTower::AoeTower(std::string tower_name, SDL_Point coords, Level* level) : Tower(tower_name, coords, level)
 {
@@ -25,18 +25,19 @@ Shot* AoeTower::create_shot(Enemy* enemy)
 	return new AoeShot(this, enemy->get_position());
 }
 
-bool AoeTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
+bool AoeTower::update_shot(Shot* shot)
 {
 	auto aoe_shot = static_cast<AoeShot*>(shot);
 	if (aoe_shot->follow())
 	{
-		while (!all_enemies.empty())
+		auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
+		auto end = all_enemies->end();
+		for (auto it = all_enemies->begin(); it != end; ++it)
 		{
-			if (enemy_in_range(all_enemies.at(0), mExplosive_radius, aoe_shot->get_coords()))
+			if (enemy_in_range(dynamic_cast<Enemy*>(*it), mExplosive_radius, aoe_shot->get_coords()))
 			{
-				all_enemies.at(0)->take_damage(&mDamage);
+				dynamic_cast<Enemy*>(*it)->take_damage(&mDamage);
 			}
-			all_enemies.erase(all_enemies.begin());
 		}
 		delete aoe_shot;
 		return true;
