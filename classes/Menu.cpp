@@ -49,14 +49,11 @@ void Menu::sort_items_into_menu()
 	std::string name_of_object;
 	auto all_tower_sorted = false;
 	auto all_industrial_buildings_sorted = false;
-	for (auto i = 0, y = 0; !(all_tower_sorted && all_industrial_buildings_sorted) ; i++)
+	for (auto i = 0; !(all_tower_sorted && all_industrial_buildings_sorted) ; i++)
 	{
-		if (i % 5 == 0)
-		{
-			y++;
-		}
+		//TODO: Use constants here
 		coords.x = 1300 + (i % 5) * 64;
-		coords.y = 0 + y * 64;
+		coords.y = 64 + i/5 * 64;
 
 
 		if(!all_tower_sorted)
