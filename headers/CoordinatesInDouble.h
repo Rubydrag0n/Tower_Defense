@@ -5,6 +5,7 @@ class CoordinatesInDouble
 {
 public:
 	CoordinatesInDouble();
+	explicit CoordinatesInDouble(SDL_Point p);
 	~CoordinatesInDouble();
 	
 	double x;

@@ -5,8 +5,7 @@
 #include "Renderable.h"
 
 class Button 
-	: public Clickable
-	, public Renderable
+	: public Clickable, public Renderable
 {
 public:
 	//creates a button with dimensions (and position) dim and a function onclick that gets called when the button is clicked on

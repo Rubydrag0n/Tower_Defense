@@ -50,28 +50,26 @@ void Tower::on_tick()
 {
 	Building::on_tick();
 	// try to shoot
-	auto all_enemies = gEntity_handler->get_enemies();
+	auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
 	if (mElapsed_ticks % mAttack_cooldown == 0)
 	{
 		if(!this->mIdle)
 		{
-			while (!all_enemies.empty())
+			auto end = all_enemies->end();
+			for (auto it = all_enemies->begin(); it != end; ++it)
 			{
-				if (enemy_in_range(all_enemies.at(0), mRange, mCoords))
+				if (enemy_in_range(dynamic_cast<Enemy*>(*it), mRange, mCoords))
 				{
-					mShots.push_back(this->create_shot(all_enemies.at(0)));
+					mShots.push_back(this->create_shot(dynamic_cast<Enemy*>(*it)));
 					break;
 				}
-				all_enemies.erase(all_enemies.begin());
 			}
 		}
 	}
 	
-
-	all_enemies = gEntity_handler->get_enemies();
 	for (auto i = 0; i<mShots.size(); i++)
 	{
-		if(this->update_shot(mShots.at(i), all_enemies))
+		if(this->update_shot(mShots.at(i)))
 		{
 			mShots.erase(mShots.begin() + i);
 			--i;

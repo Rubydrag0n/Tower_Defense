@@ -26,7 +26,7 @@ Shot* HomingTower::create_shot(Enemy* enemy)
 	return new HomingShot(this, enemy);
 }
 
-bool HomingTower::update_shot(Shot* shot, std::vector<Enemy*> all_enemies)
+bool HomingTower::update_shot(Shot* shot)
 {
 	auto homing_shot = static_cast<HomingShot*>(shot);
 	bool enemy_hit = homing_shot->follow();

@@ -15,7 +15,7 @@ public:
 
 	virtual void render_shot(Shot* shot) const = 0;
 	virtual Shot* create_shot(Enemy* enemy) = 0;
-	virtual bool update_shot(Shot* shot, std::vector<Enemy*> all_enemies) = 0;
+	virtual bool update_shot(Shot* shot) = 0;
 	ENTITYTYPE get_type() override;
 
 	//calls Building::render and renders all shots from the tower

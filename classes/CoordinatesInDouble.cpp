@@ -7,6 +7,12 @@ CoordinatesInDouble::CoordinatesInDouble()
 	y = 0;
 }
 
+CoordinatesInDouble::CoordinatesInDouble(SDL_Point p)
+{
+	this->x = p.x;
+	this->y = p.y;
+}
+
 CoordinatesInDouble::~CoordinatesInDouble()
 {
 	

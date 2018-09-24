@@ -1,11 +1,12 @@
-#include "../headers/Enemy.h"
+#include "Enemy.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "Level.h"
 #include "LayerHandler.h"
+#include "CoordinatesInDouble.h"
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_name)
+Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_name), mDead(false)
 {
 	mLevel = level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
@@ -26,10 +27,9 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 		mCheckpoints.push_back(p);
 	}
 	//starting position is the first checkpoint
-	mPosition = mCheckpoints.at(0);
+	mPosition = static_cast<CoordinatesInDouble>(mCheckpoints.at(0));
 	//delete first element from vector
 	mCheckpoints.erase(mCheckpoints.begin());
-	mDead = false;
 
 	//initialize health bar things
 	std::string health_bar_name = gConfig_file->Value(monster_name + "/sprite", "health_bar");
@@ -128,7 +128,7 @@ Defense Enemy::get_defense() const
 
 SDL_Point Enemy::get_position() const
 {
-	return mPosition;
+	return static_cast<SDL_Point>(*const_cast<CoordinatesInDouble*>(&mPosition));
 }
 
 bool Enemy::take_damage(Damage *dmg)
