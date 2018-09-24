@@ -29,10 +29,10 @@ Menu::Menu(Level *level)
 	dim.x = 1300;
 	dim.y = 0;
 	dim.w = 100;
-	dim.h = 26;
-	mTab_tower = new Button("testbutton", dim, &show_tower);
+	dim.h = 40;
+	mTab_tower = new Button("TowerButton", dim, &show_tower);
 	dim.x = 1400;
-	mTab_industrial_buildings = new Button("testbutton", dim, &show_industrial_buildings);
+	mTab_industrial_buildings = new Button("TowerButton", dim, &show_industrial_buildings);
 
 	this->sort_items_into_menu();
 
