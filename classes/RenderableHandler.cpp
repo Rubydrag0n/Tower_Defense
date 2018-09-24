@@ -32,8 +32,9 @@ void RenderableHandler::del_renderable(Renderable* r)
 
 void RenderableHandler::render()
 {
-	for (auto it = this->mRenderables.begin(); it != mRenderables.end(); it++)
-	{
-		(*it)->render();
+	for (auto it = this->mRenderables.begin(); it != mRenderables.end(); it++) {
+		if ((*it)->is_rendering_enabled()) {
+			(*it)->render();
+		}
 	}
 }
