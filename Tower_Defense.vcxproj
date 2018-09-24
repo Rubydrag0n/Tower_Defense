@@ -151,6 +151,7 @@
     <ClCompile Include="classes\AoeShot.cpp" />
     <ClCompile Include="classes\AoeTower.cpp" />
     <ClCompile Include="classes\Building.cpp" />
+    <ClCompile Include="classes\BuildingWindow.cpp" />
     <ClCompile Include="classes\Button.cpp" />
     <ClCompile Include="classes\Chameleon.cpp" />
     <ClCompile Include="classes\Clickable.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="headers\AoeShot.h" />
     <ClInclude Include="headers\AoeTower.h" />
     <ClInclude Include="headers\Building.h" />
+    <ClInclude Include="headers\BuildingWindow.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\Chameleon.h" />
     <ClInclude Include="headers\Clickable.h" />

@@ -23,5 +23,5 @@ void MainMenu::render()
 	dest.y = 0;
 	dest.w = 1920;
 	dest.h = 1080;
-	gLayer_handler->render_to_layer(mSprite, LAYERS::OVERLAY, nullptr, &dest);
+	gLayer_handler->render_to_layer(mSprite, LAYERS::WINDOWS, nullptr, &dest);
 }

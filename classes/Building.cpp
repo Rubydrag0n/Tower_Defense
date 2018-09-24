@@ -9,7 +9,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
 	mName = building_name;
 	mSprite_path = std::string(gConfig_file->Value(mName + "/sprite", "path"));
-
 	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(mSprite_path);
 	mSprite_dimensions.w = gConfig_file->Value(building_name + "/sprite", "image_width");
@@ -41,11 +40,11 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 
 	//set the mouse over window up with initial values
 	SDL_Rect rect;
-	rect.x = 0;
-	rect.y = 0;
+	rect.x = mCoords.x;
+	rect.y = mCoords.y - 200;
 	rect.w = 200;
 	rect.h = 200;
-	mWindow = new Window(rect);
+	mWindow = new BuildingWindow(rect, this);
 }
 
 Building::~Building()
@@ -65,6 +64,21 @@ void Building::render()
 	dest.h = mSprite_dimensions.h;
 	
 	gLayer_handler->render_to_layer(mSprite, LAYERS::BUILDINGS, nullptr, &dest);
+
+	if(this->get_clicked())
+	{
+		SDL_Rect rect;
+		rect.x = mCoords.x;
+		rect.y = mCoords.y - 200;
+		rect.w = 200;
+		rect.h = 200;
+		mWindow->set_dim(rect);
+		mWindow->render();
+	}
+	/*else
+	{
+		mWindow->delete_button();
+	}*/
 }
 
 void Building::on_tick()
@@ -85,19 +99,12 @@ void Building::set_maintenance(Resources new_maintenance)
 void Building::on_click(int mouse_x, int mouse_y)
 {
 	printf("Building clicked: %s\n", this->mName.c_str());
+	this->set_clicked(true);
 }
 
 void Building::on_mouse_over(int mouse_x, int mouse_y)
 {
 	printf("Building mouse over: %s\n", this->mName.c_str());
-	SDL_Rect rect;
-	rect.x = mouse_x;
-	rect.y = mouse_y;
-	rect.w = 200;
-	rect.h = 200;
-
-	mWindow->set_dim(rect);
-	mWindow->render();
 }
 
 void Building::on_right_click(int mouse_x, int mouse_y)

@@ -160,8 +160,8 @@ void Enemy::render()
 	src_current_health.x = 0;
 	src_current_health.y = 0;
 
-	gLayer_handler->render_to_layer(mEmpty_health_bar, LAYERS::OVERLAY, &mHealth_bar_dimensions, &full_health);
-	gLayer_handler->render_to_layer(mFull_health_bar, LAYERS::OVERLAY, &src_current_health, &current_health);
+	gLayer_handler->render_to_layer(mEmpty_health_bar, LAYERS::WINDOWS, &mHealth_bar_dimensions, &full_health);
+	gLayer_handler->render_to_layer(mFull_health_bar, LAYERS::WINDOWS, &src_current_health, &current_health);
 }
 
 ENTITYTYPE Enemy::get_type()

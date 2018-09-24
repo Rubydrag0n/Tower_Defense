@@ -48,7 +48,7 @@ void Button::set_sprite_clips(SDL_Rect * clips)
 void Button::render()
 {
 	//Show current button sprite
-	gLayer_handler->render_to_layer(mButtonSprite, LAYERS::BUILDINGS, &mClips[this->get_state()], &mButton_dimensions);
+	gLayer_handler->render_to_layer(mButtonSprite, LAYERS::OVERLAY, &mClips[this->get_state()], &mButton_dimensions);
 }
 
 void Button::on_click(int mouse_x, int mouse_y)

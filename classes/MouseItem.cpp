@@ -38,7 +38,7 @@ void MouseItem::render(SDL_Point mouse_position)
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
 
-	gLayer_handler->render_to_layer(this->mSprite, LAYERS::OVERLAY, nullptr, &dest);
+	gLayer_handler->render_to_layer(this->mSprite, LAYERS::WINDOWS, nullptr, &dest);
 	
 	dest.x = 0;
 	dest.y = 0;
@@ -60,7 +60,7 @@ void MouseItem::set_name_of_object(std::string name)
 
 void MouseItem::on_click(int mouse_x, int mouse_y)
 {
-	if(mouse_x < 1250)
+	if(mouse_x < 1280)
 	{
 		SDL_Point p;
 		auto grid_offset_x = (mouse_x) % TILE_WIDTH;

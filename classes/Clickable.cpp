@@ -7,6 +7,7 @@ Clickable::Clickable() : mClickable_space{}
 	//add this object to the list of clickable objects
 	gMouse_handler->add_clickable(this);
 	this->mState = LClickableState::MOUSE_OUT;
+	mClicked = false;
 }
 
 Clickable::~Clickable()
@@ -34,3 +35,14 @@ void Clickable::set_state(LClickableState state)
 {
 	this->mState = state;
 }
+
+bool Clickable::get_clicked()
+{
+	return mClicked;
+}
+
+void Clickable::set_clicked(bool value)
+{
+	mClicked = value;
+}
+

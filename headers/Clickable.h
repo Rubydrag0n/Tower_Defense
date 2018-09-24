@@ -36,12 +36,17 @@ public:
 	LClickableState get_state() const;
 	void set_state(LClickableState state);
 
+	bool get_clicked();
+	void set_clicked(bool value);
+
 private:
 	//the space that can be clicked on to trigger an event
 	SDL_Rect mClickable_space;
 
 	//the state that the clickable is in right now. Is handled by the MouseHandler
 	LClickableState mState;
+
+	bool mClicked; // true, if clickable was clicked and shows additional information
 
 
 };

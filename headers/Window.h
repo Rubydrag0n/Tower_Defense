@@ -1,6 +1,7 @@
 #pragma once
 #include"Textures.h"
 #include <SDL.h>
+#include "Clickable.h"
 
 enum STYLE
 {
@@ -11,15 +12,21 @@ enum STYLE
 /*
  * This class implements a window of given dimensions
  */
-class Window
+class Window : public Clickable
 {
 public:
 	Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);
 	~Window();
 
-	void render() const;
+	virtual void render();
 
 	void set_dim(SDL_Rect dim);
+	SDL_Rect get_dim();
+
+	void on_click(int mouse_x, int mouse_y) override;
+	void on_mouse_over(int mouse_x, int mouse_y) override;
+	void on_right_click(int mouse_x, int mouse_y) override;
+	void on_middle_click(int mouse_x, int mouse_y) override;
 
 private:
 	//the dimensions of the window

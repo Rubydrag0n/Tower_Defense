@@ -31,19 +31,6 @@ Game::Game()
 	gOpen_tab = MENUTAB();
 	mLevel = new Level("1");
 
-	SDL_Point coords;
-	coords.x = 600;
-	coords.y = 600;
-	auto archer_tower = new HomingTower("archer", coords, mLevel);
-	add_tower(archer_tower);
-	coords.x = 200;
-	coords.y = 200;
-	auto cannon_tower = new AoeTower("cannon", coords, mLevel);
-	add_tower(cannon_tower);
-	coords.x = 100;
-	coords.y = 100;
-	auto lumberjack = new IndustrialBuilding("lumberjack", coords, mLevel);
-	add_industrial_building(lumberjack);
 
 	mMenu = new Menu(mLevel);
 

@@ -6,6 +6,7 @@
 #include "LTexture.h"
 #include "Entity.h"
 #include "Window.h"
+#include "BuildingWindow.h"
 
 class Level;
 
@@ -43,7 +44,8 @@ protected:
 	std::string mName;
 	std::string mSprite_path;
 
-	Window *mWindow;	//the window in which the stats and stuff of the tower can be displayed
+
+	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 };
 
 

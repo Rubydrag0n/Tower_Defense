@@ -48,43 +48,37 @@ void Menu::sort_items_into_menu()
 {
 	SDL_Point coords;
 	std::string name_of_object;
-	auto all_tower_sorted = false;
-	int const number_of_items_in_one_row = 5;
+	auto const number_of_items_in_one_row = 5;
 	auto all_industrial_buildings_sorted = false;
-	for (auto i = 0; !(all_tower_sorted && all_industrial_buildings_sorted); i++)
+	auto all_tower_sorted = false;
+
+	for (auto i = 0; !all_tower_sorted; i++)
 	{
 		coords.x = 1300 + (i % number_of_items_in_one_row) * TILE_WIDTH;
 		coords.y = 64 + (i / number_of_items_in_one_row) * TILE_HEIGHT;
 
-		if(!all_tower_sorted)
+		name_of_object.assign(gConfig_file->Value("tower", std::to_string(i)));
+		if (name_of_object == "end")
 		{
-			name_of_object.assign(gConfig_file->Value("tower", std::to_string(i)));
-			if (name_of_object == "end")
-			{
-				all_tower_sorted = true;
-			}
-			if(!all_tower_sorted)
-			{
-				auto new_item = new MenuItem(name_of_object, mLevel, coords);
-				this->add_menu_item_tower(new_item);
-			}
+			break;
 		}
-
-		if(!all_industrial_buildings_sorted)
-		{
-			name_of_object.assign(gConfig_file->Value("industrialbuildings", std::to_string(i)));
-			if (name_of_object == "end")
-			{
-				all_industrial_buildings_sorted = true;
-			}
-			if(!all_industrial_buildings_sorted)
-			{
-				auto new_item = new MenuItem(name_of_object, mLevel, coords);
-				this->add_menu_item_industrialbuilding(new_item);
-			}
-		}
+		auto new_item = new MenuItem(name_of_object, mLevel, coords);
+		this->add_menu_item_tower(new_item);
 	}
 
+	for (auto i = 0; ; i++)
+	{
+		coords.x = 1300 + (i % number_of_items_in_one_row) * TILE_WIDTH;
+		coords.y = 64 + (i / number_of_items_in_one_row) * TILE_HEIGHT;
+
+		name_of_object.assign(gConfig_file->Value("industrialbuildings", std::to_string(i)));
+		if (name_of_object == "end")
+		{
+			break;
+		}
+		auto new_item = new MenuItem(name_of_object, mLevel, coords);
+		this->add_menu_item_industrialbuilding(new_item);
+	}
 }
 
 
@@ -112,7 +106,7 @@ void Menu::render(SDL_Point mouse_position)
 	dest.w = this->mMenu_texture->get_width();
 	dest.h = this->mMenu_texture->get_height();
 
-	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::OVERLAY, nullptr, &dest);
+	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::WINDOWS, nullptr, &dest);
 
 	if(gOpen_tab == TOWER_TAB)
 	{
