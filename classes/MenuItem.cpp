@@ -44,7 +44,7 @@ void MenuItem::render()
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
 	this->set_clickable_space(dest);
-	gLayer_handler->render_to_layer(mSprite, LAYERS::BACKGROUND, nullptr, &dest);
+	gLayer_handler->render_to_layer(mSprite, LAYERS::OVERLAY, nullptr, &dest);
 	if(gMouse_handler->get_item_on_mouse() != nullptr)
 	{
 		if (this->mName_of_object == gMouse_handler->get_item_on_mouse()->get_name_of_object())

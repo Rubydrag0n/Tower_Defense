@@ -2,6 +2,7 @@
 #include"Textures.h"
 #include <SDL.h>
 #include "Clickable.h"
+#include "Renderable.h"
 
 enum STYLE
 {
@@ -12,7 +13,7 @@ enum STYLE
 /*
  * This class implements a window of given dimensions
  */
-class Window : public Clickable
+class Window : public Clickable, public Renderable
 {
 public:
 	Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);

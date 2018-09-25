@@ -33,7 +33,6 @@ Menu::Menu(Level *level)
 	mTab_industrial_buildings = new Button("TowerButton", dim, &show_industrial_buildings);
 
 	this->sort_items_into_menu();
-
 }
 
 
@@ -47,10 +46,8 @@ void Menu::sort_items_into_menu()
 	SDL_Point coords;
 	std::string name_of_object;
 	auto const number_of_items_in_one_row = 5;
-	auto all_industrial_buildings_sorted = false;
-	auto all_tower_sorted = false;
 
-	for (auto i = 0; !all_tower_sorted; i++)
+	for (auto i = 0; ; i++)
 	{
 		coords.x = 1300 + (i % number_of_items_in_one_row) * TILE_WIDTH;
 		coords.y = 64 + (i / number_of_items_in_one_row) * TILE_HEIGHT;
@@ -110,7 +107,7 @@ void Menu::render()
 	{
 		for (auto i = 0; i < mMenu_items_tower.size(); i++)
 		{
-			mMenu_items_tower.at(i)->render();
+			mMenu_items_tower.at(i)->set_rendering_enabled(true);
 		}
 	}
 	else
@@ -118,13 +115,14 @@ void Menu::render()
 		for (auto i = 0; i < mMenu_items_tower.size(); i++)
 		{
 			mMenu_items_tower.at(i)->delete_clickable_space();
+			mMenu_items_tower.at(i)->set_rendering_enabled(false);
 		}
 	}
 	if (gOpen_tab == INDUSTRIAL_BUILDING_TAB)
 	{
 		for (auto i = 0; i < mMenu_items_industrial_buildings.size(); i++)
 		{
-			mMenu_items_industrial_buildings.at(i)->render();
+			mMenu_items_industrial_buildings.at(i)->set_rendering_enabled(true);
 		}
 	}
 	else
@@ -132,6 +130,7 @@ void Menu::render()
 		for (auto i = 0; i < mMenu_items_industrial_buildings.size(); i++)
 		{
 			mMenu_items_industrial_buildings.at(i)->delete_clickable_space();
+			mMenu_items_industrial_buildings.at(i)->set_rendering_enabled(false);
 		}
 	}
 

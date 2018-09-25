@@ -11,7 +11,7 @@ public:
 	~BuildingWindow();
 
 	void render() override;
-	void delete_button();
+	Button* get_demolish_button();
 private:
 	Button* mDemolish_button;
 };
