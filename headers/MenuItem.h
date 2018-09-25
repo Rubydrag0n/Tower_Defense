@@ -5,7 +5,7 @@
 
 
 class MenuItem :
-	public Clickable
+	public Clickable, public Renderable
 {
 public:
 	MenuItem(std::string name_of_object, Level *level, SDL_Point coords);

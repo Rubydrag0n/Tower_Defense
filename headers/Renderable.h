@@ -4,7 +4,7 @@ class Renderable
 {
 public:
 	Renderable();
-	~Renderable();
+	virtual ~Renderable();
 
 	virtual void render() = 0;
 

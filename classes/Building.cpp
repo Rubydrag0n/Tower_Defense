@@ -56,7 +56,7 @@ Building::~Building()
 
 void Building::render()
 {
-	SDL_Rect dest;
+	SDL_Rect dest, window_rect, button_rect;
 
 	dest.x = mCoords.x;
 	dest.y = mCoords.y;
@@ -67,18 +67,29 @@ void Building::render()
 
 	if(this->get_clicked())
 	{
-		SDL_Rect rect;
-		rect.x = mCoords.x;
-		rect.y = mCoords.y - 200;
-		rect.w = 200;
-		rect.h = 200;
-		mWindow->set_dim(rect);
-		mWindow->render();
+		window_rect.x = mCoords.x;
+		window_rect.y = mCoords.y - 200;
+		window_rect.w = 200;
+		window_rect.h = 200;
+		button_rect.x = window_rect.x;
+		button_rect.y = window_rect.y;
+		button_rect.w = 100;
+		button_rect.h = 26;
+		mWindow->set_dim(window_rect);
+		mWindow->set_rendering_enabled(true);
+		mWindow->get_demolish_button()->set_rendering_enabled(true);
+		mWindow->get_demolish_button()->set_dimension(button_rect);
 	}
-	/*else
+	else
 	{
-		mWindow->delete_button();
-	}*/
+		button_rect.x = 0;
+		button_rect.y = 0;
+		button_rect.h = 0;
+		button_rect.w = 0;
+		mWindow->set_rendering_enabled(false);
+		mWindow->get_demolish_button()->set_rendering_enabled(false);
+		mWindow->get_demolish_button()->set_dimension(button_rect);
+	}
 }
 
 void Building::on_tick()
@@ -98,23 +109,19 @@ void Building::set_maintenance(Resources new_maintenance)
 
 void Building::on_click(int mouse_x, int mouse_y)
 {
-	printf("Building clicked: %s\n", this->mName.c_str());
 	this->set_clicked(true);
 }
 
 void Building::on_mouse_over(int mouse_x, int mouse_y)
 {
-	printf("Building mouse over: %s\n", this->mName.c_str());
 }
 
 void Building::on_right_click(int mouse_x, int mouse_y)
-{
-	printf("Building right click: %s\n", this->mName.c_str());
+{	
 }
 
 void Building::on_middle_click(int mouse_x, int mouse_y)
 {
-	printf("Building middle click: %s\n", this->mName.c_str());
 }
 
 void Building::set_coords(SDL_Point coords)
