@@ -139,3 +139,12 @@ void Resources::add(Resources *income)
 	mWater += income->get_water();
 	mFood += income->get_food();
 }
+
+
+Resources Resources::operator/(const int &d)
+{
+	Resources r;
+	r.set_resources(this->get_gold() / 2, this->get_wood() / 2, this->get_stone() / 2,
+		this->get_iron() / 2, this->get_energy() / 2, this->get_water() / 2, this->get_food() / 2);
+	return r;
+}

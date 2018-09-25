@@ -1,4 +1,4 @@
-#include "..\headers\ButtonObject.h"
+#include "ButtonObject.h"
 
 ButtonObject::ButtonObject()
 {

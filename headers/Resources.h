@@ -24,6 +24,7 @@ public:
 	
 	bool sub(Resources *cost);
 	void add(Resources *income);
+	Resources operator/(const int &d);
 
 private:
 	int mGold;

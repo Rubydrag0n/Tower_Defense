@@ -24,6 +24,15 @@ Level::Level(std::string level_number)
 		auto new_wave = new Wave(wave_number, this);
 		mWaves.push_back(*new_wave);
 	}
+
+	//create Level-Matrix
+	for (auto i0 = 0; i0 < 20; i0++)
+	{
+		for (auto i1 = 0; i1 < 16; i1++)
+		{
+			
+		}
+	}
 }
 
 

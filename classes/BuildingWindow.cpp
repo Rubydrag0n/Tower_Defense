@@ -4,7 +4,8 @@
 
 void BuildingWindow::demolish_building()
 {
-	
+	mBuilding->demolish();
+	delete mBuilding;
 }
 
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
@@ -14,13 +15,13 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 	button_dim.y = dim.y;
 	button_dim.w = 100;
 	button_dim.h = 26;
-	
+	mBuilding = building;
 	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
 }
 
 BuildingWindow::~BuildingWindow()
 {
-	
+	delete mDemolish_button;
 }
 
 void BuildingWindow::render()

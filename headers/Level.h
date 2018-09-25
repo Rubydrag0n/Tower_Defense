@@ -3,6 +3,15 @@
 #include <vector>
 #include "Resources.h"
 
+enum class TILETYPS
+{
+	EMPTY,
+	BUILDING,
+	WOOD,
+	PATH,
+	STREET,
+	COUNT
+};
 
 class Level
 {
@@ -33,5 +42,6 @@ private:
 	int mLives;
 	Resources mRessources;
 	int mWaves_count;
+	TILETYPS mMap_matrix[20][16];
 };
 

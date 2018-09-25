@@ -25,6 +25,14 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->Value(building_name + "/stats", "waterMain"),
 		gConfig_file->Value(building_name + "/stats", "foodMain"));
 
+	mConstruction_costs.set_resources(gConfig_file->Value(mName + "/stats", "goldcosts"),
+		gConfig_file->Value(mName + "/stats", "woodcosts"),
+		gConfig_file->Value(mName + "/stats", "stonecosts"),
+		gConfig_file->Value(mName + "/stats", "ironcosts"),
+		gConfig_file->Value(mName + "/stats", "energycosts"),
+		gConfig_file->Value(mName + "/stats", "watercosts"),
+		gConfig_file->Value(mName + "/stats", "foodcosts"));
+
 	mElapsed_ticks = 0;
 
 	mLevel = level;
@@ -52,6 +60,12 @@ Building::~Building()
 	delete(mWindow);
 	//don't destroy texture, handled by texture class
 }
+
+void Building::demolish()
+{
+	mLevel->get_ressources()->add(&(mConstruction_costs/2));
+}
+
 
 
 void Building::render()

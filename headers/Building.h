@@ -18,6 +18,7 @@ public:
 
 	void render() override; //render the picture of the building
 	void on_tick() override; //takes ressources for maintenance
+	void demolish();
 
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
@@ -43,7 +44,7 @@ protected:
 	int mElapsed_ticks;
 	std::string mName;
 	std::string mSprite_path;
-
+	Resources mConstruction_costs;
 
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 };

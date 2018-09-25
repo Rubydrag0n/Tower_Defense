@@ -25,4 +25,5 @@ public:
 
 private:
 	Button* mDemolish_button;
+	Building* mBuilding;
 };
