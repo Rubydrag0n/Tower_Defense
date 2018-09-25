@@ -14,13 +14,13 @@ enum MENUTAB
 
 
 
-class Menu
+class Menu : public Renderable
 {
 public:
 	Menu(Level *level);
 	~Menu();
 
-	void render(SDL_Point mouse_position); //shows lives and ressources
+	void render() override; //shows lives and ressources
 	void add_menu_item_tower(MenuItem* menu_item);
 	void Menu::add_menu_item_industrialbuilding(MenuItem* menu_item);
 	void sort_items_into_menu();

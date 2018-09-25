@@ -82,7 +82,7 @@ void Menu::sort_items_into_menu()
 }
 
 
-void Menu::render(SDL_Point mouse_position)
+void Menu::render()
 {
 	SDL_Color text_color = { 0, 0, 255 };
 
@@ -112,7 +112,7 @@ void Menu::render(SDL_Point mouse_position)
 	{
 		for (auto i = 0; i < mMenu_items_tower.size(); i++)
 		{
-			mMenu_items_tower.at(i)->render(mouse_position);
+			mMenu_items_tower.at(i)->render();
 		}
 	}
 	else
@@ -126,7 +126,7 @@ void Menu::render(SDL_Point mouse_position)
 	{
 		for (auto i = 0; i < mMenu_items_industrial_buildings.size(); i++)
 		{
-			mMenu_items_industrial_buildings.at(i)->render(mouse_position);
+			mMenu_items_industrial_buildings.at(i)->render();
 		}
 	}
 	else
