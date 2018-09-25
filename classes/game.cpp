@@ -58,7 +58,7 @@ void Game::render_all()
 {
 	gRenderables_handler->render();
 	mMap->render();
-	mMenu->render(mMouse_position);
+	//mMenu->render(mMouse_position);
 }
 
 void Game::start_game()

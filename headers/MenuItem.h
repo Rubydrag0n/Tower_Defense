@@ -11,7 +11,7 @@ public:
 	MenuItem(std::string name_of_object, Level *level, SDL_Point coords);
 	~MenuItem();
 
-	void render(SDL_Point mouse_position);
+	void render();
 	void delete_clickable_space();
 
 	void on_click(int mouse_x, int mouse_y) override;

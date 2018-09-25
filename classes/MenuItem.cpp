@@ -36,7 +36,7 @@ MenuItem::~MenuItem()
 	
 }
 
-void MenuItem::render(SDL_Point mouse_position)
+void MenuItem::render()
 {
 	SDL_Rect dest;
 	dest.x = mCoords.x;
@@ -49,7 +49,7 @@ void MenuItem::render(SDL_Point mouse_position)
 	{
 		if (this->mName_of_object == gMouse_handler->get_item_on_mouse()->get_name_of_object())
 		{
-			gMouse_handler->get_item_on_mouse()->render(mouse_position);
+			gMouse_handler->get_item_on_mouse()->render();
 		}
 	}
 }

@@ -28,13 +28,16 @@ MouseItem::~MouseItem()
 	
 }
 
-void MouseItem::render(SDL_Point mouse_position)
+void MouseItem::render()
 {
 	SDL_Rect dest;
-	auto grid_offset_x = (mouse_position.x ) % TILE_WIDTH;
-	auto grid_offset_y = (mouse_position.y) % TILE_HEIGHT;
-	dest.x = mouse_position.x - grid_offset_x;
-	dest.y = mouse_position.y - grid_offset_y;
+	int mouse_x, mouse_y;
+	//get coordinates
+	SDL_GetMouseState(&mouse_x, &mouse_y);
+	auto grid_offset_x = (mouse_x ) % TILE_WIDTH;
+	auto grid_offset_y = (mouse_y) % TILE_HEIGHT;
+	dest.x = mouse_x - grid_offset_x;
+	dest.y = mouse_y - grid_offset_y;
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
 

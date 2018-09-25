@@ -20,7 +20,7 @@ public:
 	void on_right_click(int mouse_x, int mouse_y) override;
 	void on_middle_click(int mouse_x, int mouse_y) override;
 
-	void render(SDL_Point mouse_position);
+	void render();
 
 
 private:
