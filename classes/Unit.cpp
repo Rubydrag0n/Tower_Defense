@@ -33,10 +33,13 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	}
 	mAnimation_tick = 0;
 	mTickcount_per_clip = gConfig_file->Value(sprite_section, "tickcount_per_clip");
+
+	this->mCenter.x = gConfig_file->Value(sprite_section, "rotation_center_x");
+	this->mCenter.y = gConfig_file->Value(sprite_section, "rotation_center_y");
 	
 	// animation tick count is how many ticks it takes for one cycle of the animation to run through.
 	// each clip gets shown for tickcount_per_clip ticks
-	mAnimation_tick_count = mSprite_dimensions.w / clip_width * mTickcount_per_clip;
+	mAnimation_tick_count = mSprite_dimensions.w / clip_width * mSprite_dimensions.h / clip_height * mTickcount_per_clip;
 
 	//gets initialized in the derived classes
 	mPosition.x = 0;
@@ -72,12 +75,27 @@ void Unit::render()
 
 	SDL_Rect dest;
 
-	dest.x = mPosition.x - mCurrent_clip.w / 2;
-	dest.y = mPosition.y - mCurrent_clip.h / 2;
+	dest.x = mPosition.x - mCenter.x;
+	dest.y = mPosition.y - mCenter.y;
 	dest.w = mCurrent_clip.w;
 	dest.h = mCurrent_clip.h;
+	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::ENEMIES, &this->mCurrent_clip, &dest, this->get_rotation_angle(), &this->mCenter, SDL_FLIP_NONE);
+}
 
-	gLayer_handler->render_to_layer(this->mSprite, LAYERS::ENEMIES, &this->mCurrent_clip, &dest);
+double Unit::get_rotation_angle()
+{
+	switch (this->mDirection) {
+	case DIRECTION::RIGHT:
+		return 0.0;
+	case DIRECTION::DOWN:
+		return 90.0;
+	case DIRECTION::LEFT:
+		return 180.0;
+	case DIRECTION::UP:
+		return 270.0;
+	default:
+		return 0.0;
+	}
 }
 
 void Unit::update_animation_clip()
@@ -88,6 +106,10 @@ void Unit::update_animation_clip()
 		mAnimation_tick = 0;
 	}
 	auto index = mAnimation_tick / mTickcount_per_clip;
+
+	/* if not top down:
 	index += mAnimation_tick_count / mTickcount_per_clip * mDirection;
+	*/
+
 	mCurrent_clip = mClips.at(index);
 }

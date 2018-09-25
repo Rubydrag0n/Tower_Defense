@@ -367,6 +367,9 @@
     <Image Include="resources\testbutton.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\Zombie.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\lazy.ttf">

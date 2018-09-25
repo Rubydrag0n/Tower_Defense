@@ -29,6 +29,7 @@ public:
 
 protected:
 	void update_animation_clip();
+	double get_rotation_angle();
 
 	Defense mDefense;
 	double mMoveSpeed;
@@ -37,6 +38,7 @@ protected:
 	//Only up, right, down or left for the choosing of the right sprite
 	DIRECTION mDirection;
 
+	SDL_Point mCenter;
 	int mAnimation_tick;
 	int mAnimation_tick_count;
 	int mTickcount_per_clip;

@@ -60,7 +60,7 @@ void Enemy::move()
 {
 	if (!mDead)
 	{
-		auto travel_dist = mMoveSpeed / 60.0;
+		auto travel_dist = mMoveSpeed / 60.0;	//60.0 is framerate
 
 		auto dist_to_next_checkpoint = (mPosition.x - mCheckpoints.at(0).x) * (mPosition.x - mCheckpoints.at(0).x) +
 			(mPosition.y - mCheckpoints.at(0).y) * (mPosition.y - mCheckpoints.at(0).y);

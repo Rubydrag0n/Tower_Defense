@@ -259,6 +259,7 @@
     <Image Include="resources\LinkMonster.png" />
     <Image Include="resources\Lumberjack.png" />
     <Image Include="resources\testbutton.png" />
+    <Image Include="resources\Zombie.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\lazy.ttf" />
