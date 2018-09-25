@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "LayerHandler.h"
 #include "CoordinatesInDouble.h"
+#include "Particles.h"
 
 //needs the level name for getting the movement checkpoints from the config file
 Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_name), mDead(false)
@@ -60,7 +61,7 @@ void Enemy::move()
 {
 	if (!mDead)
 	{
-		auto travel_dist = mMoveSpeed / 60.0;	//60.0 is framerate
+		auto travel_dist = mMove_speed / 60.0;	//60.0 is framerate
 
 		auto dist_to_next_checkpoint = (mPosition.x - mCheckpoints.at(0).x) * (mPosition.x - mCheckpoints.at(0).x) +
 			(mPosition.y - mCheckpoints.at(0).y) * (mPosition.y - mCheckpoints.at(0).y);
@@ -142,11 +143,16 @@ bool Enemy::take_damage(Damage *dmg)
 	if(mDefense.take_damage(dmg))
 	{
 		mDead = true;
+		this->on_death();
 		return true;
 	}
 	return false;
 }
 
+void Enemy::on_death()
+{
+	new Particle("zombie_death", mPosition, CoordinatesInDouble(), this->get_rotation_angle(), 0.0);
+}
 
 void Enemy::render()
 {

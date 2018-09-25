@@ -32,7 +32,7 @@ protected:
 	double get_rotation_angle();
 
 	Defense mDefense;
-	double mMoveSpeed;
+	double mMove_speed;
 	
 	CoordinatesInDouble mPosition;
 	//Only up, right, down or left for the choosing of the right sprite

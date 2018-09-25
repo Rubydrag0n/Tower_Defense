@@ -4,15 +4,12 @@
 #include "CoordinatesInDouble.h"
 #include "Button.h"
 
-
 enum MENUTAB
 {
 	TOWER_TAB = 0,
 	INDUSTRIAL_BUILDING_TAB = 1,
 	TABS_TOTAL = 2
 };
-
-
 
 class Menu : public Renderable
 {

@@ -22,6 +22,8 @@ public:
 	Defense get_defense() const;
 	SDL_Point get_position() const;
 	bool take_damage(Damage *dmg);
+	//is called once on death
+	void on_death();
 	void render(); //calls Unit::render() and shows the health bar with two rectangles
 
 	bool is_dead() const;

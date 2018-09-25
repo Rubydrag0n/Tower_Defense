@@ -46,7 +46,7 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	mPosition.y = 0;
 	mDirection = DIRECTION::DOWN;
 
-	mMoveSpeed = gConfig_file->Value(stats_section, "movementspeed");
+	mMove_speed = gConfig_file->Value(stats_section, "movementspeed");
 	mDefense.set_defenses(double(int(gConfig_file->Value(stats_section, "health"))),
 						  double(int(gConfig_file->Value(stats_section, "armor"))),
 						  double(int(gConfig_file->Value(stats_section, "magicres"))),

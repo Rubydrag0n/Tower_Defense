@@ -13,12 +13,10 @@ void show_tower()
 	gOpen_tab = TOWER_TAB;
 }
 
-
 void show_industrial_buildings()
 {
 	gOpen_tab = INDUSTRIAL_BUILDING_TAB;
 }
-
 
 Menu::Menu(Level *level)
 {
