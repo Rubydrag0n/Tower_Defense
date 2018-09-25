@@ -2,7 +2,7 @@
 #include "LayerHandler.h"
 #include "Building.h"
 
-void demolish_building()
+void BuildingWindow::demolish_building()
 {
 	
 }
@@ -15,7 +15,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 	button_dim.w = 100;
 	button_dim.h = 26;
 	
-	mDemolish_button = new Button("testbutton", button_dim, &demolish_building);
+	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
 }
 
 BuildingWindow::~BuildingWindow()
@@ -26,6 +26,13 @@ BuildingWindow::~BuildingWindow()
 void BuildingWindow::render()
 {
 	Window::render();	
+}
+
+void BuildingWindow::on_button_press(int button_id)
+{
+	if (button_id == DEMOLISH_BUTTON) {
+		this->demolish_building();
+	}
 }
 
 Button* BuildingWindow::get_demolish_button()

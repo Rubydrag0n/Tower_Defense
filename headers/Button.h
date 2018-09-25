@@ -3,13 +3,14 @@
 #include "LTexture.h"
 #include "Clickable.h"
 #include "Renderable.h"
+#include "ButtonObject.h"
 
 class Button 
 	: public Clickable, public Renderable
 {
 public:
 	//creates a button with dimensions (and position) dim and a function onclick that gets called when the button is clicked on
-	Button(std::string button_name, SDL_Rect dim, void(*on_click)());
+	Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id = 0);
 	~Button();
 
 	//Sets dimension of the button on the screen
@@ -22,14 +23,6 @@ public:
 	void render() override;
 
 	void on_click(int mouse_x, int mouse_y) override;
-	void on_mouse_over(int mouse_x, int mouse_y) override;
-	void on_right_click(int mouse_x, int mouse_y) override;
-	void on_middle_click(int mouse_x, int mouse_y) override;
-
-	void set_on_click_function(void(*on_click)());
-	void set_on_mouse_over_function(void(*on_mouse_over)());
-	void set_on_right_click_function(void(*on_right_click)());
-	void set_on_middle_click_function(void(*on_middle_click)());
 
 private:
 	//Dimensions of the Button
@@ -41,8 +34,9 @@ private:
 	//Texture of the Button
 	LTexture* mButtonSprite;
 
-	void(*mOn_click)();
-	void(*mOn_mouse_over)();
-	void(*mOn_right_click)();
-	void(*mOn_middle_click)();
+	//Object that wants to be notified of click on the button
+	ButtonObject* mObject_to_notify;
+
+	//button id is transfered in case more than one button can call the function on object_to_notify
+	int mButton_id;
 };

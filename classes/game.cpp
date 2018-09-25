@@ -23,7 +23,6 @@ Game::Game()
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
 	gRenderables_handler = new RenderableHandler();
-	gOpen_tab = MENUTAB();
 	mLevel = new Level("1");
 
 

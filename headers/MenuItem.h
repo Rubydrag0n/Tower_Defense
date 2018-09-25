@@ -1,7 +1,6 @@
 #pragma once
 #include "Clickable.h"
 #include "Building.h"
-#include "MenuItemWindow.h"
 
 
 class MenuItem :
@@ -31,5 +30,4 @@ private:
 	Resources mConstruction_costs;
 	std::string mName_of_object; // for example the tower name
 	Level *mLevel;
-	MenuItemWindow* mWindow; //the window that is shown on mouse over
 };

@@ -2,8 +2,9 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "LayerHandler.h"
+#include "ButtonObject.h"
 
-Button::Button(std::string button_name, SDL_Rect dim, void (*on_click)()) : mClips{}, mButtonSprite()
+Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id) : mClips{}, mButtonSprite{}, mButton_id{ button_id }
 {
 	auto section = "button/" + button_name;
 
@@ -22,10 +23,8 @@ Button::Button(std::string button_name, SDL_Rect dim, void (*on_click)()) : mCli
 
 	this->set_clickable_space(dim);
 	this->set_dimension(dim);
-	this->set_on_click_function(on_click);
-	this->set_on_mouse_over_function(nullptr);
-	this->set_on_right_click_function(nullptr);
-	this->set_on_middle_click_function(nullptr);
+
+	this->mObject_to_notify = obj;
 }
 
 Button::~Button()
@@ -53,40 +52,5 @@ void Button::render()
 
 void Button::on_click(int mouse_x, int mouse_y)
 {
-	if (mOn_click != nullptr) mOn_click();
-}
-
-void Button::on_mouse_over(int mouse_x, int mouse_y)
-{
-	if (mOn_mouse_over != nullptr) mOn_mouse_over();
-}
-
-void Button::on_right_click(int mouse_x, int mouse_y)
-{
-	if (mOn_right_click != nullptr) mOn_right_click();
-}
-
-void Button::on_middle_click(int mouse_x, int mouse_y)
-{
-	if (mOn_middle_click != nullptr) mOn_middle_click();
-}
-
-void Button::set_on_click_function(void(*on_click)())
-{
-	this->mOn_click = on_click;
-}
-
-void Button::set_on_mouse_over_function(void(*on_mouse_over)())
-{
-	this->mOn_mouse_over = on_mouse_over;
-}
-
-void Button::set_on_right_click_function(void(*on_right_click)())
-{
-	this->mOn_right_click = on_right_click;
-}
-
-void Button::set_on_middle_click_function(void(*on_middle_click)())
-{
-	this->mOn_middle_click = on_middle_click;
+	this->mObject_to_notify->on_button_press(this->mButton_id);
 }

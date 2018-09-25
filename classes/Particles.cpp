@@ -19,6 +19,10 @@ Particle::Particle(std::string particle_name, CoordinatesInDouble pos, Coordinat
 	//initialize the clips
 	int clip_width = gConfig_file->Value(section, "clip_width");
 	int clip_height = gConfig_file->Value(section, "clip_height");
+	int frames_total = gConfig_file->Value(section, "frames_total");
+	int frames_horizontal = mTexture->get_width() / clip_width;
+	int frames_vertical = mTexture->get_height() / clip_height;
+
 	for (auto i = 0; i < mTexture->get_height(); i += clip_height)
 	{
 		for (auto j = 0; j < mTexture->get_width(); j += clip_width)
@@ -29,6 +33,10 @@ Particle::Particle(std::string particle_name, CoordinatesInDouble pos, Coordinat
 			clip.w = clip_width;
 			clip.h = clip_height;
 			mClips.push_back(clip);
+			// break if 
+			if (frames_total - 1 >= i*frames_vertical + j) {
+				break;
+			}
 		}
 	}
 	mTick = 0;

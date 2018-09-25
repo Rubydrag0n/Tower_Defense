@@ -19,16 +19,16 @@ public:
 	virtual ~Clickable();
 
 	//gets called when the object is clicked
-	virtual void on_click(int mouse_x, int mouse_y) = 0;
+	virtual void on_click(int mouse_x, int mouse_y) {};
 
 	//gets called when the mouse hovers over the object. It gets called every tick this happens
-	virtual void on_mouse_over(int mouse_x, int mouse_y) = 0;
+	virtual void on_mouse_over(int mouse_x, int mouse_y) {};
 	
 	//gets called when the object is clicked with the right mouse button
-	virtual void on_right_click(int mouse_x, int mouse_y) = 0;
+	virtual void on_right_click(int mouse_x, int mouse_y) {};
 
 	//gets called when the object is clicked with the middle mouse button
-	virtual void on_middle_click(int mouse_x, int mouse_y) = 0;
+	virtual void on_middle_click(int mouse_x, int mouse_y) {};
 
 	SDL_Rect get_clickable_space() const;
 	void set_clickable_space(SDL_Rect clickable_space);

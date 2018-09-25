@@ -6,36 +6,42 @@
 #include <functional>
 #include "SDL_setup.h"
 
-MENUTAB gOpen_tab;
-
-void show_tower()
+void Menu::show_towers()
 {
-	gOpen_tab = TOWER_TAB;
+	this->mOpen_tab = TOWER_TAB;
 }
 
-void show_industrial_buildings()
+void Menu::show_industrial_buildings()
 {
-	gOpen_tab = INDUSTRIAL_BUILDING_TAB;
+	this->mOpen_tab = INDUSTRIAL_BUILDING_TAB;
+}
+
+void Menu::on_button_press(int button_id)
+{
+	if (button_id == BUTTONIDS::TOWERS_BUTTON) {
+		this->show_towers();
+	}
+	else if (button_id == BUTTONIDS::INDUSTRIAL_BUILDINGS_BUTTON) {
+		this->show_industrial_buildings();
+	}
 }
 
 Menu::Menu(Level *level)
 {
-	mLevel = level;
-	mMenu_texture = nullptr;
-	gOpen_tab = TOWER_TAB;
+	this->mLevel = level;
+	this->mMenu_texture = nullptr;
+	this->mOpen_tab = TOWER_TAB;
 	SDL_Rect dim;
 	dim.x = 1300;
 	dim.y = 0;
 	dim.w = 100;
 	dim.h = 40;
-	mTab_tower = new Button("TowerButton", dim, &show_tower);
+	mTab_tower_button = new Button("TowerButton", dim, this, BUTTONIDS::TOWERS_BUTTON);
 	dim.x = 1400;
-	mTab_industrial_buildings = new Button("TowerButton", dim, &show_industrial_buildings);
+	mTab_industrial_buildings_button = new Button("TowerButton", dim, this, BUTTONIDS::INDUSTRIAL_BUILDINGS_BUTTON);
 
 	this->sort_items_into_menu();
 }
-
-
 
 Menu::~Menu()
 {
@@ -103,7 +109,7 @@ void Menu::render()
 
 	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::WINDOWS, nullptr, &dest);
 
-	if(gOpen_tab == TOWER_TAB)
+	if(this->mOpen_tab == TOWER_TAB)
 	{
 		for (auto i = 0; i < mMenu_items_tower.size(); i++)
 		{
@@ -118,7 +124,7 @@ void Menu::render()
 			mMenu_items_tower.at(i)->set_rendering_enabled(false);
 		}
 	}
-	if (gOpen_tab == INDUSTRIAL_BUILDING_TAB)
+	if (this->mOpen_tab == INDUSTRIAL_BUILDING_TAB)
 	{
 		for (auto i = 0; i < mMenu_items_industrial_buildings.size(); i++)
 		{

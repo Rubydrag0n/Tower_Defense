@@ -153,6 +153,7 @@
     <ClCompile Include="classes\Building.cpp" />
     <ClCompile Include="classes\BuildingWindow.cpp" />
     <ClCompile Include="classes\Button.cpp" />
+    <ClCompile Include="classes\ButtonObject.cpp" />
     <ClCompile Include="classes\Chameleon.cpp" />
     <ClCompile Include="classes\Clickable.cpp" />
     <ClCompile Include="classes\ConfigFile.cpp" />
@@ -193,7 +194,6 @@
     <ClCompile Include="classes\EntityHandler.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
-    <ClCompile Include="headers\MenuItemWindow.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +202,7 @@
     <ClInclude Include="headers\Building.h" />
     <ClInclude Include="headers\BuildingWindow.h" />
     <ClInclude Include="headers\Button.h" />
+    <ClInclude Include="headers\ButtonObject.h" />
     <ClInclude Include="headers\Chameleon.h" />
     <ClInclude Include="headers\Clickable.h" />
     <ClInclude Include="headers\ConfigFile.h" />
@@ -220,7 +221,6 @@
     <ClInclude Include="headers\Map.h" />
     <ClInclude Include="headers\Menu.h" />
     <ClInclude Include="headers\MenuItem.h" />
-    <ClInclude Include="headers\MenuItemWindow.h" />
     <ClInclude Include="headers\MonsterGroup.h" />
     <ClInclude Include="headers\MouseHandler.h" />
     <ClInclude Include="headers\MouseItem.h" />
