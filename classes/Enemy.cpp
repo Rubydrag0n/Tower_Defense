@@ -11,8 +11,13 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	mLevel = level;
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	auto s_way = std::to_string(way);
-	//printf("reading checkpointnumber...\n");
-	int checkpoint_number = gConfig_file->Value("level" + mLevel->get_level_number(), "way" + s_way + "number_of_checkpoints");
+
+	auto level_section = "level" + mLevel->get_level_number();
+	auto monster_sprite_section = monster_name + "/sprite";
+	auto monster_stats_section = monster_name + "/stats";
+
+	this->mLife_cost = gConfig_file->Value(monster_stats_section, "lifecost");
+	int checkpoint_number = gConfig_file->Value(level_section, "way" + s_way + "number_of_checkpoints");
 
 	for (auto i = 0; i < checkpoint_number; i++)
 	{
@@ -21,8 +26,8 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 		SDL_Point p;
 
 		//printf("reading checkpoint %i\n", i);
-		p.x = gConfig_file->Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "x");
-		p.y = gConfig_file->Value("level" + mLevel->get_level_number(), "way" + s_way + "checkpoint" + number + "y");
+		p.x = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "x");
+		p.y = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "y");
 		//sorting the checkpoints into the array (they have to be in the right order)
 		mCheckpoints.push_back(p);
 	}
@@ -32,13 +37,15 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	mCheckpoints.erase(mCheckpoints.begin());
 
 	//initialize health bar things
-	std::string health_bar_name = gConfig_file->Value(monster_name + "/sprite", "health_bar");
-	mEmpty_health_bar = gTextures->get_texture(gConfig_file->Value(health_bar_name + "/sprite", "empty_path"));
-	mFull_health_bar = gTextures->get_texture(gConfig_file->Value(health_bar_name + "/sprite", "full_path"));
+	std::string health_bar_name = gConfig_file->Value(monster_sprite_section, "health_bar");
+
+	auto healthbar_sprite_section = health_bar_name + "/sprite";
+	mEmpty_health_bar = gTextures->get_texture(gConfig_file->Value(healthbar_sprite_section, "empty_path"));
+	mFull_health_bar = gTextures->get_texture(gConfig_file->Value(healthbar_sprite_section, "full_path"));
 	mHealth_bar_dimensions.x = 0;
 	mHealth_bar_dimensions.y = 0;
-	mHealth_bar_dimensions.w = gConfig_file->Value(health_bar_name + "/sprite", "image_width");
-	mHealth_bar_dimensions.h = gConfig_file->Value(health_bar_name + "/sprite", "image_height");
+	mHealth_bar_dimensions.w = gConfig_file->Value(healthbar_sprite_section, "image_width");
+	mHealth_bar_dimensions.h = gConfig_file->Value(healthbar_sprite_section, "image_height");
 }
 
 Enemy::~Enemy()
@@ -110,9 +117,8 @@ void Enemy::move()
 
 void Enemy::got_through()
 {
-	//TODO: Remove Life or something
 	//kill the unit
-	mLevel->set_lives(mLevel->get_lives() - 1);
+	mLevel->set_lives(mLevel->get_lives() - this->mLife_cost);
 	mDead = true;
 }
 

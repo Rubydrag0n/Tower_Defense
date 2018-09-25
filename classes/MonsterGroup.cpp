@@ -10,10 +10,12 @@ MonsterGroup::MonsterGroup(std::string wave_number, std::string monster_group_nu
 	mCurrent_monster_count = 0;
 	mDead_monsters = 0;
 
-	mMonster_name.assign(gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "monstername"));
-	mDelay_ticks = gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "delay_ticks");
-	mMax_monster_count = gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "monster_count");
-	mWay = gConfig_file->Value("monstergroup" + mLevel->get_level_number() + wave_number + monster_group_number, "way");
+	auto section = "monstergroup" + mLevel->get_level_number() + "_" + wave_number + "_" + monster_group_number;
+
+	mMonster_name.assign(gConfig_file->Value(section, "monstername"));
+	mDelay_ticks = gConfig_file->Value(section, "delay_ticks");
+	mMax_monster_count = gConfig_file->Value(section, "monster_count");
+	mWay = gConfig_file->Value(section, "way");
 }
 
 MonsterGroup::~MonsterGroup()

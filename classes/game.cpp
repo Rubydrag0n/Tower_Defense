@@ -18,11 +18,6 @@
 #include "ConfigFile.h"
 #include "Button.h"
 
-void foo() {
-	printf("foo got called!\n");
-	return;
-}
-
 Game::Game()
 {
 	gMouse_handler = new MouseHandler();
@@ -41,7 +36,6 @@ Game::Game()
 	dim.y = 500;
 	dim.w = 100;
 	dim.h = 26;
-	auto testbutton = new Button("testbutton", dim, &foo);
 	gLayer_handler = new LayerHandler();
 }
 

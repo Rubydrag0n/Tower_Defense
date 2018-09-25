@@ -6,7 +6,10 @@
 Wave::Wave(std::string wave_number, Level* level)
 {
 	mLevel = level;
-	mMonster_group_count = gConfig_file->Value("wave" + mLevel->get_level_number() + wave_number, "monster_group_count");//number of monstergroups in the wave
+
+	auto section = "wave" + mLevel->get_level_number() + "_" + wave_number;
+
+	mMonster_group_count = gConfig_file->Value(section, "monster_group_count");//number of monstergroups in the wave
 
 	//create all monstergroups in this wave and insert them in the vector mMonster_groups
 	for(auto i = 1; i <= mMonster_group_count; i++)

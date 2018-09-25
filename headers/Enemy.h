@@ -31,10 +31,11 @@ private:
 	std::vector<SDL_Point> mCheckpoints;
 	bool mDead;
 	Level* mLevel;
+	//how much life will be lost when the enemy gets through
+	int mLife_cost;
 	
 	//TODO: make healthbar it's own class? not sure
 	LTexture* mFull_health_bar;
 	LTexture* mEmpty_health_bar;
 	SDL_Rect mHealth_bar_dimensions;
 };
-
