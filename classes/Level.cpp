@@ -1,5 +1,7 @@
 #include "Level.h"
 #include "ConfigFile.h"
+#include <iostream>
+#include <fstream>
 
 
 Level::Level(std::string level_number)
@@ -26,8 +28,22 @@ Level::Level(std::string level_number)
 	}
 
 	//create Level-Matrix
+	std::ifstream file("level/Level1.txt");
+	std::string content;
 	for (auto i0 = 0; i0 < 20; i0++)
 	{
+		file >> content;
+		for (auto i1 = 0; i1 < 16; i1++)
+		{
+			if (content.at(i1) == 0) mMap_matrix[i0][i1] = TILETYPS::EMPTY;
+			if (content.at(i1) == 0) mMap_matrix[i0][i1] = TILETYPS::EMPTY;
+
+		}
+	}
+
+	while (file >> content)
+	{
+		std::cout << content << ' ';
 		for (auto i1 = 0; i1 < 16; i1++)
 		{
 			
