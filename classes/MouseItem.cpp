@@ -34,8 +34,13 @@ void MouseItem::render()
 	int mouse_x, mouse_y;
 	//get coordinates
 	SDL_GetMouseState(&mouse_x, &mouse_y);
-	auto grid_offset_x = (mouse_x ) % TILE_WIDTH;
-	auto grid_offset_y = (mouse_y) % TILE_HEIGHT;
+	auto grid_offset_x = 0, grid_offset_y = 0;
+	if(mouse_x < 1280)
+	{
+		grid_offset_x = (mouse_x) % TILE_WIDTH;
+		grid_offset_y = (mouse_y) % TILE_HEIGHT;
+	}
+
 	dest.x = mouse_x - grid_offset_x;
 	dest.y = mouse_y - grid_offset_y;
 	dest.w = mSprite->get_width();

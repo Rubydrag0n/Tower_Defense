@@ -37,7 +37,6 @@ Level::Level(std::string level_number)
 		this->mMap_matrix[i] = new TILETYPES[16];
 	}
 
-
 	for (auto y = 0; y < 16; y++)
 	{
 		file >> content;
