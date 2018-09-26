@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "Enemy.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
@@ -20,6 +21,10 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	this->mLife_cost = gConfig_file->Value(monster_stats_section, "lifecost");
 	int checkpoint_number = gConfig_file->Value(level_section, "way" + s_way + "number_of_checkpoints");
 
+	SDL_Point mOffset;
+	mOffset.x = (rand() % 31) - 15;
+	mOffset.y = (rand() % 31) - 15;
+
 	for (auto i = 0; i < checkpoint_number; i++)
 	{
 		//reading the checkpoint data
@@ -27,8 +32,9 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 		SDL_Point p;
 
 		//printf("reading checkpoint %i\n", i);
-		p.x = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "x");
-		p.y = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "y");
+		//take offset into account
+		p.x = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "x") + mOffset.x;
+		p.y = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "y") + mOffset.y;
 		//sorting the checkpoints into the array (they have to be in the right order)
 		mCheckpoints.push_back(p);
 	}
@@ -77,8 +83,7 @@ void Enemy::move()
 			mCheckpoints.erase(mCheckpoints.begin());
 			if (mCheckpoints.empty())
 			{
-				got_through();
-				return;
+				this->got_through();
 			}
 			return;
 		}
@@ -162,7 +167,7 @@ void Enemy::render()
 	//now rendering the health bar
 	SDL_Rect full_health;
 	full_health.x = mPosition.x - mHealth_bar_dimensions.w / 2;
-	full_health.y = mPosition.y - mCurrent_clip.h / 2 - mHealth_bar_dimensions.h / 2;
+	full_health.y = mPosition.y - mCurrent_clip.h - mHealth_bar_dimensions.h / 2;
 	full_health.w = mHealth_bar_dimensions.w;
 	full_health.h = mHealth_bar_dimensions.h;
 
