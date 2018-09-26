@@ -328,16 +328,10 @@
     <None Include="level\Level1.FMP">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="resources\LinkMonster.cfg">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\LinkMonster.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resources\archer.png">
@@ -368,6 +362,30 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resources\Zombie.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\grid.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\gridTrans.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\health_bar_small_empty.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\health_bar_small_full.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\TowerButton.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\townhall.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\zombie_death.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

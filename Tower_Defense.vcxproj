@@ -245,7 +245,6 @@
     <None Include="ClassDiagram.cd" />
     <None Include="config\game.cfg" />
     <None Include="level\Level1.FMP" />
-    <None Include="resources\LinkMonster.cfg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\archer.png" />
@@ -254,12 +253,19 @@
     <Image Include="resources\background.bmp" />
     <Image Include="resources\bomb.png" />
     <Image Include="resources\cannon.png" />
+    <Image Include="resources\explosion.png" />
+    <Image Include="resources\grid.png" />
+    <Image Include="resources\gridTrans.png" />
     <Image Include="resources\health_bar_empty.png" />
     <Image Include="resources\health_bar_full.png" />
-    <Image Include="resources\LinkMonster.png" />
+    <Image Include="resources\health_bar_small_empty.png" />
+    <Image Include="resources\health_bar_small_full.png" />
     <Image Include="resources\Lumberjack.png" />
     <Image Include="resources\testbutton.png" />
+    <Image Include="resources\TowerButton.png" />
+    <Image Include="resources\townhall.png" />
     <Image Include="resources\Zombie.png" />
+    <Image Include="resources\zombie_death.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\lazy.ttf" />
