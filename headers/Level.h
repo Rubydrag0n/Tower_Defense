@@ -3,13 +3,13 @@
 #include <vector>
 #include "Resources.h"
 
-enum class TILETYPS
+enum class TILETYPES
 {
 	EMPTY,
 	BUILDING,
-	WOOD,
-	PATH,
 	STREET,
+	PATH,
+	WOOD,
 	COUNT
 };
 
@@ -33,6 +33,8 @@ public:
 
 	void set_ressources(Resources ressources);
 	void set_lives(int lives);
+	TILETYPES** get_map_matrix();
+	void set_map_matrix(int x, int y, TILETYPES type);
 	
 private:
 
@@ -42,6 +44,6 @@ private:
 	int mLives;
 	Resources mRessources;
 	int mWaves_count;
-	TILETYPS mMap_matrix[20][16];
+	TILETYPES** mMap_matrix;
 };
 

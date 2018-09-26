@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <time.h>
-
 #include "SDL_setup.h"
 #include "Map.h"
 #include "Game.h"
@@ -15,6 +14,7 @@
 #include "EntityHandler.h"
 #include "MouseHandler.h"
 #include "MainMenu.h"
+#include <fstream>
 
 int main( int argc, char* args[] )
 {

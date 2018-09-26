@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "Window.h"
 #include "LayerHandler.h"
+#include "MouseHandler.h"
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
@@ -85,14 +86,15 @@ void Building::render()
 		window_rect.y = mCoords.y - 200;
 		window_rect.w = 200;
 		window_rect.h = 200;
+		mWindow->set_dim(window_rect);
+		mWindow->set_rendering_enabled(true);
+
 		button_rect.x = window_rect.x;
 		button_rect.y = window_rect.y;
 		button_rect.w = 100;
 		button_rect.h = 26;
-		mWindow->set_dim(window_rect);
-		mWindow->set_rendering_enabled(true);
-		mWindow->get_demolish_button()->set_rendering_enabled(true);
 		mWindow->get_demolish_button()->set_dimension(button_rect);
+		mWindow->get_demolish_button()->set_rendering_enabled(true);
 	}
 	else
 	{
@@ -123,7 +125,14 @@ void Building::set_maintenance(Resources new_maintenance)
 
 void Building::on_click(int mouse_x, int mouse_y)
 {
-	this->set_clicked(true);
+//	if(gMouse_handler->get_item_on_mouse() != nullptr)
+//	{
+	//	if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
+	//	{
+			this->set_clicked(true);
+	//	}
+//	}
+
 }
 
 void Building::on_mouse_over(int mouse_x, int mouse_y)

@@ -34,8 +34,13 @@ void MouseItem::render()
 	int mouse_x, mouse_y;
 	//get coordinates
 	SDL_GetMouseState(&mouse_x, &mouse_y);
-	auto grid_offset_x = (mouse_x ) % TILE_WIDTH;
-	auto grid_offset_y = (mouse_y) % TILE_HEIGHT;
+	auto grid_offset_x = 0, grid_offset_y = 0;
+	if(mouse_x < 1280)
+	{
+		grid_offset_x = (mouse_x) % TILE_WIDTH;
+		grid_offset_y = (mouse_y) % TILE_HEIGHT;
+	}
+
 	dest.x = mouse_x - grid_offset_x;
 	dest.y = mouse_y - grid_offset_y;
 	dest.w = mSprite->get_width();
@@ -70,12 +75,15 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 		auto grid_offset_y = (mouse_y) % TILE_HEIGHT;
 		p.x = mouse_x - grid_offset_x;
 		p.y = mouse_y - grid_offset_y;
+		auto tile_x = mouse_x / 64;
+		auto tile_y = mouse_y / 64;
 		std::string kind_of_object = gConfig_file->Value(mName_of_object + "/menuitem", "kind_of_object");
-		if (mLevel->get_ressources()->sub(&mConstruction_costs))
+		if (mLevel->get_ressources()->sub(&mConstruction_costs) && mLevel->get_map_matrix()[tile_x][tile_y] == TILETYPES::EMPTY)
 		{
 			if (kind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
 			if (kind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }
 			if (kind_of_object == "industrialbuilding") { new IndustrialBuilding(this->mName_of_object, p, mLevel); }
+			mLevel->set_map_matrix(tile_x, tile_y, TILETYPES::BUILDING);
 		}
 	}
 }
