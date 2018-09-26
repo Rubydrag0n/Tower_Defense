@@ -30,30 +30,52 @@ Level::Level(std::string level_number)
 	//create Level-Matrix
 	std::ifstream file("level/Level1.txt");
 	std::string content;
-	for (auto i0 = 0; i0 < 20; i0++)
+
+	this->mMap_matrix = new TILETYPES*[20];
+	for (auto i = 0; i < 20; i++)
+	{
+		this->mMap_matrix[i] = new TILETYPES[16];
+	}
+
+
+	for (auto y = 0; y < 16; y++)
 	{
 		file >> content;
-		for (auto i1 = 0; i1 < 16; i1++)
+		for (auto x = 0; x < 20; x++)
 		{
-			if (content.at(i1) == 0) mMap_matrix[i0][i1] = TILETYPS::EMPTY;
-			if (content.at(i1) == 0) mMap_matrix[i0][i1] = TILETYPS::EMPTY;
-
+			switch (content.at(x))
+			{
+			case '0':
+				mMap_matrix[x][y] = TILETYPES::EMPTY;
+				break;
+			case '1':
+				mMap_matrix[x][y] = TILETYPES::BUILDING;
+				break;
+			case '2':
+				mMap_matrix[x][y] = TILETYPES::STREET;
+				break;
+			case '3':
+				mMap_matrix[x][y] = TILETYPES::PATH;
+				break;
+			case '4':
+				mMap_matrix[x][y] = TILETYPES::WOOD;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
-	while (file >> content)
-	{
-		std::cout << content << ' ';
-		for (auto i1 = 0; i1 < 16; i1++)
-		{
-			
-		}
-	}
 }
 
 
 Level::~Level()
 {
+	for (auto i = 0; i < 20; i++)
+	{
+		delete this->mMap_matrix[i];
+	}
+	delete this->mMap_matrix;
 }
 
 
@@ -112,3 +134,15 @@ void Level::set_lives(int lives)
 {
 	mLives = lives;
 }
+
+TILETYPES** Level::get_map_matrix()
+{
+	return mMap_matrix;
+}
+
+void Level::set_map_matrix(int x, int y, TILETYPES type)
+{
+	mMap_matrix[x][y] = type;
+}
+
+
