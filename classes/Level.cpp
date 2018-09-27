@@ -59,6 +59,8 @@ Level::Level(std::string level_number)
 			case '4':
 				mMap_matrix[x][y] = TILETYPES::WOOD;
 				break;
+			case '5':
+				mMap_matrix[x][y] = TILETYPES::IRON;
 			default:
 				break;
 			}

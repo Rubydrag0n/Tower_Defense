@@ -65,6 +65,23 @@ Building::~Building()
 void Building::demolish()
 {
 	mLevel->get_ressources()->add(&(mConstruction_costs/2));
+	SDL_Point p;
+	auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
+	auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
+	p.x = mCoords.x - grid_offset_x;
+	p.y = mCoords.y - grid_offset_y;
+	auto tile_x = mCoords.x / 64;
+	auto tile_y = mCoords.y / 64;
+	auto tiletype = TILETYPES::EMPTY;
+	if(mName == "lumberjack")
+	{
+		tiletype = TILETYPES::WOOD;
+	}
+	if(mName == "ironmine")
+	{
+		tiletype = TILETYPES::IRON;
+	}
+	mLevel->set_map_matrix(tile_x, tile_y, tiletype);
 }
 
 
@@ -125,13 +142,17 @@ void Building::set_maintenance(Resources new_maintenance)
 
 void Building::on_click(int mouse_x, int mouse_y)
 {
-//	if(gMouse_handler->get_item_on_mouse() != nullptr)
-//	{
-	//	if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
-	//	{
+	if(gMouse_handler->get_item_on_mouse() != nullptr)
+	{
+		if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
+		{
 			this->set_clicked(true);
-	//	}
-//	}
+		}
+	}
+	else
+	{
+		this->set_clicked(true);
+	}
 
 }
 
