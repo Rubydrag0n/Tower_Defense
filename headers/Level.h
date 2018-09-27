@@ -10,6 +10,7 @@ enum class TILETYPES
 	STREET,
 	PATH,
 	WOOD,
+	IRON,
 	COUNT
 };
 

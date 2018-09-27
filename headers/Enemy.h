@@ -1,6 +1,7 @@
 #pragma once
 #include "Unit.h"
 #include <string>
+#include "Resources.h"
 
 class Level;
 
@@ -35,6 +36,7 @@ private:
 	Level* mLevel;
 	//how much life will be lost when the enemy gets through
 	int mLife_cost;
+	Resources mLoot_resources;
 	
 	//TODO: make healthbar it's own class? not sure
 	LTexture* mFull_health_bar;

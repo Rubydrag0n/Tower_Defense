@@ -78,13 +78,20 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 		auto tile_x = mouse_x / 64;
 		auto tile_y = mouse_y / 64;
 		std::string kind_of_object = gConfig_file->Value(mName_of_object + "/menuitem", "kind_of_object");
-		if (mLevel->get_ressources()->sub(&mConstruction_costs) && mLevel->get_map_matrix()[tile_x][tile_y] == TILETYPES::EMPTY)
+		auto tiletype = mLevel->get_map_matrix()[tile_x][tile_y];
+		if((tiletype == TILETYPES::EMPTY && (kind_of_object == "homingtower" || kind_of_object == "aoetower"))
+			|| (tiletype == TILETYPES::WOOD && mName_of_object == "lumberjack")
+			|| (tiletype == TILETYPES::IRON && mName_of_object == "ironmine"))
 		{
-			if (kind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
-			if (kind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }
-			if (kind_of_object == "industrialbuilding") { new IndustrialBuilding(this->mName_of_object, p, mLevel); }
-			mLevel->set_map_matrix(tile_x, tile_y, TILETYPES::BUILDING);
+			if (mLevel->get_ressources()->sub(&mConstruction_costs))
+			{
+				if (kind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
+				if (kind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }
+				if (kind_of_object == "industrialbuilding") { new IndustrialBuilding(this->mName_of_object, p, mLevel); }
+				mLevel->set_map_matrix(tile_x, tile_y, TILETYPES::BUILDING);
+			}
 		}
+
 	}
 }
 
