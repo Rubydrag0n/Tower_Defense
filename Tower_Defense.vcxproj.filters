@@ -67,6 +67,12 @@
     <Filter Include="Header Files\Animations">
       <UniqueIdentifier>{5e23f5d6-37fd-4ff0-ab86-f5fc66806098}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Buildings\Logistics buildings">
+      <UniqueIdentifier>{228048d0-2ec3-47cc-baf5-b8bfb0c99a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buildings\Logistics buildings">
+      <UniqueIdentifier>{7d27564f-5816-48d3-8ea1-7bf6f7499620}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classes\Game.cpp">
@@ -195,6 +201,9 @@
     <ClCompile Include="classes\ButtonObject.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="classes\WareHouse.cpp">
+      <Filter>Source Files\Buildings\Logistics buildings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -319,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="headers\ButtonObject.h">
       <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\WareHouse.h">
+      <Filter>Header Files\Buildings\Logistics buildings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

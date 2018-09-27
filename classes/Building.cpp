@@ -58,7 +58,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 
 Building::~Building()
 {
-	delete(mWindow);
+	delete mWindow;
 	//don't destroy texture, handled by texture class
 }
 
