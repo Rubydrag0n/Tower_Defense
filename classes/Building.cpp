@@ -125,13 +125,17 @@ void Building::set_maintenance(Resources new_maintenance)
 
 void Building::on_click(int mouse_x, int mouse_y)
 {
-//	if(gMouse_handler->get_item_on_mouse() != nullptr)
-//	{
-	//	if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
-	//	{
+	if(gMouse_handler->get_item_on_mouse() != nullptr)
+	{
+		if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
+		{
 			this->set_clicked(true);
-	//	}
-//	}
+		}
+	}
+	else
+	{
+		this->set_clicked(true);
+	}
 
 }
 
