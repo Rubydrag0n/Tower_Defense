@@ -14,10 +14,10 @@ public:
 	bool is_dead() const;
 
 	int get_monster_group_count() const;
-	std::vector<MonsterGroup>* get_monster_groups();
+	std::vector<MonsterGroup*>* get_monster_groups();
 
 private:
-	std::vector<MonsterGroup> mMonster_groups;
+	std::vector<MonsterGroup*> mMonster_groups;
 	int mMonster_group_count;
 	Level* mLevel;
 };

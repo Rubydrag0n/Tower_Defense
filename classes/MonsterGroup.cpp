@@ -8,8 +8,6 @@ MonsterGroup::MonsterGroup(std::string wave_number, std::string monster_group_nu
 	mLevel = Level;
 	mElapsed_ticks = 0;
 	mCurrent_monster_count = 0;
-	mDead_monsters = 0;
-
 	auto section = "monstergroup" + mLevel->get_level_number() + "_" + wave_number + "_" + monster_group_number;
 
 	mMonster_name.assign(gConfig_file->Value(section, "monstername"));
@@ -40,15 +38,6 @@ void MonsterGroup::update()
 
 	for (auto i = 0; i < mMonsters.size(); i++)
 	{
-		if (mMonsters.at(i)->is_dead())
-		{
-			//the monster died -> delete from the vector
-			delete mMonsters.at(i);
-			mMonsters.erase(mMonsters.begin() + i);
-			i--;
-			mDead_monsters++;
-			continue;
-		}
 		mMonsters.at(i)->move();
 	}
 
@@ -60,13 +49,13 @@ void MonsterGroup::update()
 
 bool MonsterGroup::is_dead() const
 {
-	//if every monsters of this group is dead:
-	if (mDead_monsters == mMax_monster_count)
+	for (auto i = 0; i < mMonsters.size(); i++)
 	{
-		return true;
+		if (!mMonsters[i]->is_dead()) {
+			return false;
+		}
 	}
-	//otherwise
-	return false;
+	return true;
 }
 
 std::vector<Enemy*> MonsterGroup::get_monsters() const

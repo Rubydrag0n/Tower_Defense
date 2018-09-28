@@ -11,6 +11,8 @@ public:
 	~HomingShot();
 	Enemy *get_enemy_to_shoot() const;
 
+	void on_tick() override;
+
 	bool follow(); //shot follows an enemy, returns true when hit
 
 private:

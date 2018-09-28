@@ -6,6 +6,7 @@ enum class ENTITYTYPE
 	UNDEFINED,
 	TOWER,
 	ENEMY,
+	SHOT,
 	PARTICLE,
 	COUNT
 };

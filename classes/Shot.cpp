@@ -24,6 +24,8 @@ Shot::Shot(Tower* tower)
 	mCoords.y = mCoords.y + tower->get_dimensions().h / 2;
 	mCoords_in_double.x = mCoords.x;
 	mCoords_in_double.y = mCoords.y;
+
+	mDamage = tower->get_damage();
 }
 
 Shot::~Shot()
@@ -31,23 +33,22 @@ Shot::~Shot()
 	//don't destroy texture, handled by Textures class
 }
 
-
-void Shot::render(SDL_Point target) const
+void Shot::render()
 {
 	SDL_Rect dest;
 	SDL_Point center;
 	auto angle_in_deg = 0.0;
 	auto flip = SDL_FLIP_NONE;
-	this->points_projectile_to_target(&dest, &center, &angle_in_deg, target);
+	this->points_projectile_to_target(&dest, &center, &angle_in_deg);
 
 	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::SHOTS, nullptr, &dest, angle_in_deg, &center, flip);
 }
 
-void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle, SDL_Point target) const
+void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle) const
 {
 	double angle_in_rad;
-	double x_d = target.x - mCoords.x;
-	double y_d = target.y - mCoords.y;
+	double x_d = mTarget.x - mCoords.x;
+	double y_d = mTarget.y - mCoords.y;
 	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
 
 	if (x_d < 0)
@@ -73,8 +74,6 @@ void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double
 	dest->y = mCoords.y - mSprite_dimensions.h / 2;
 }
 
-
-
 bool Shot::follow(SDL_Point target)
 {
 	auto travel_dist = mProjectile_speed / 60.0;
@@ -99,6 +98,11 @@ bool Shot::follow(SDL_Point target)
 	return false;
 }
 
+ENTITYTYPE Shot::get_type()
+{
+	return ENTITYTYPE::SHOT;
+}
+
 SDL_Point Shot::get_coords() const
 {
 	return mCoords;
@@ -107,4 +111,9 @@ SDL_Point Shot::get_coords() const
 void Shot::set_coords(SDL_Point coords)
 {
 	mCoords = coords;
+}
+
+void Shot::set_target(SDL_Point target)
+{
+	mTarget = target;
 }

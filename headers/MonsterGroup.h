@@ -27,8 +27,6 @@ private:
 	int mMax_monster_count;
 	//the amount already spawned
 	int mCurrent_monster_count;
-	//counts the already killed monsters
-	int mDead_monsters;
 	//to load the right stats etc. for the monsters
 	std::string mMonster_name;
 	int mWay;

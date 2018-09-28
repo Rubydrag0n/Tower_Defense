@@ -13,9 +13,7 @@ public:
 	Tower(std::string tower_name, SDL_Point coords, Level* level);
 	~Tower();
 
-	virtual void render_shot(Shot* shot) const = 0;
-	virtual Shot* create_shot(Enemy* enemy) = 0;
-	virtual bool update_shot(Shot* shot) = 0;
+	virtual void create_shot(Enemy* enemy) = 0;
 	ENTITYTYPE get_type() override;
 
 	//calls Building::render and renders all shots from the tower
@@ -25,10 +23,12 @@ public:
 	void on_tick() override;
 	
 	//checks if an enemy is in range of the tower
-	bool enemy_in_range(Enemy* enemy, double radius, SDL_Point center) const;
+	static bool enemy_in_range(Enemy* enemy, double radius, SDL_Point center);
 
 	std::string get_projectile_name() const;
 	double get_projectile_speed() const;
+
+	Damage get_damage();
 
 protected:
 	int mAttack_cooldown; //60 / mAttackspeed
@@ -38,6 +38,5 @@ protected:
 	Damage mDamage;
 	std::string mProjectile_name;
 	std::string mTower_name;
-	std::vector<Shot*> mShots;//all shots that are fired from the tower
 };
 
