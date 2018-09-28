@@ -92,6 +92,8 @@ bool init_graphics()
 			}
 			else
 			{
+				//set logical screen resolution
+				SDL_RenderSetLogicalSize(gRenderer, 1920, 1080);
 				//Initialize renderer color
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);	//so alpha can be used

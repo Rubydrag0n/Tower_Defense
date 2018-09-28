@@ -84,8 +84,6 @@ void Building::demolish()
 	mLevel->set_map_matrix(tile_x, tile_y, tiletype);
 }
 
-
-
 void Building::render()
 {
 	SDL_Rect dest, window_rect, button_rect;
@@ -153,19 +151,6 @@ void Building::on_click(int mouse_x, int mouse_y)
 	{
 		this->set_clicked(true);
 	}
-
-}
-
-void Building::on_mouse_over(int mouse_x, int mouse_y)
-{
-}
-
-void Building::on_right_click(int mouse_x, int mouse_y)
-{	
-}
-
-void Building::on_middle_click(int mouse_x, int mouse_y)
-{
 }
 
 void Building::set_coords(SDL_Point coords)
