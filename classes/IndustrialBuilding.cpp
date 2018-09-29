@@ -31,7 +31,7 @@ void IndustrialBuilding::on_tick()
 	{
 		if(!this->mIdle)
 		{
-			mLevel->get_ressources()->add(&mRessources_produced_per_second);
+			mLevel->get_resources()->add(&mRessources_produced_per_second);
 		}
 	}
 }

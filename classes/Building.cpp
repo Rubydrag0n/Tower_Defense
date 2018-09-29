@@ -64,7 +64,7 @@ Building::~Building()
 
 void Building::demolish()
 {
-	mLevel->get_ressources()->add(&(mConstruction_costs/2));
+	mLevel->get_resources()->add(&(mConstruction_costs/2));
 	SDL_Point p;
 	auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
 	auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
@@ -127,7 +127,7 @@ void Building::on_tick()
 {
 	if(mElapsed_ticks % 60 == 0)
 	{
-		mIdle = !mLevel->get_ressources()->sub(&mMaintenance);
+		mIdle = !mLevel->get_resources()->sub(&mMaintenance);
 	}
 	mElapsed_ticks++;
 }

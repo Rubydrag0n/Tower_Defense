@@ -5,7 +5,6 @@ HomingTower::HomingTower(std::string tower_name, SDL_Point coords, Level* level)
 {
 }
 
-
 HomingTower::~HomingTower()
 {
 }

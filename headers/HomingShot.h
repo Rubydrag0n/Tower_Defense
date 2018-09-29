@@ -15,6 +15,11 @@ public:
 
 	bool follow(); //shot follows an enemy, returns true when hit
 
+	void self_destruct();
+
 private:
 	Enemy* mEnemy_to_shoot;
+
+	//when this is set the shot will selfdestruct next tick
+	bool mDelete_me;
 };

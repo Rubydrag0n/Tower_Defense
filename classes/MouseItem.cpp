@@ -83,7 +83,7 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 			|| (tiletype == TILETYPES::WOOD && mName_of_object == "lumberjack")
 			|| (tiletype == TILETYPES::IRON && mName_of_object == "ironmine"))
 		{
-			if (mLevel->get_ressources()->sub(&mConstruction_costs))
+			if (mLevel->get_resources()->sub(&mConstruction_costs))
 			{
 				if (kind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
 				if (kind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }

@@ -29,7 +29,7 @@ public:
 	int get_waves_count() const;
 	std::vector<Wave>* get_waves();
 	int get_lives() const;
-	Resources* get_ressources();
+	Resources* get_resources();
 	std::string get_level_number() const;
 
 	void set_ressources(Resources ressources);
