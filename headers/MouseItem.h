@@ -2,6 +2,7 @@
 #include "Clickable.h"
 #include "LTexture.h"
 #include "Resources.h"
+#include "Level.h"
 
 
 class Level;
@@ -30,4 +31,5 @@ private:
 	Resources mConstruction_costs;
 	std::string mGrid_sprite_path;
 	LTexture* mGrid_sprite;
+	TILETYPES mTile_to_build_on;
 };

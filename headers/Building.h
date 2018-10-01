@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "Window.h"
 #include "BuildingWindow.h"
+#include "Level.h"
 
 class Level;
 
@@ -42,7 +43,7 @@ protected:
 	std::string mName;
 	std::string mSprite_path;
 	Resources mConstruction_costs;
-
+	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 };
 

@@ -9,30 +9,32 @@
 Building::Building(std::string building_name, SDL_Point coords, Level* level)
 {
 	mName = building_name;
-	mSprite_path = std::string(gConfig_file->Value(mName + "/sprite", "path"));
+	auto building_sprite_section = mName + "/sprite";
+	auto building_stats_section = mName + "/stats";
+	mSprite_path = std::string(gConfig_file->Value(building_sprite_section, "path"));
 	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(mSprite_path);
-	mSprite_dimensions.w = gConfig_file->Value(building_name + "/sprite", "image_width");
-	mSprite_dimensions.h = gConfig_file->Value(building_name + "/sprite", "image_height");
+	mSprite_dimensions.w = gConfig_file->Value(building_sprite_section, "image_width");
+	mSprite_dimensions.h = gConfig_file->Value(building_sprite_section, "image_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 
 	//set the maintenance costs of the building
-	mMaintenance.set_resources(gConfig_file->Value(building_name + "/stats", "goldMain"),
-		gConfig_file->Value(building_name + "/stats", "woodMain"),
-		gConfig_file->Value(building_name + "/stats", "stoneMain"),
-		gConfig_file->Value(building_name + "/stats", "ironMain"),
-		gConfig_file->Value(building_name + "/stats", "energyMain"),
-		gConfig_file->Value(building_name + "/stats", "waterMain"),
-		gConfig_file->Value(building_name + "/stats", "foodMain"));
+	mMaintenance.set_resources(gConfig_file->Value(building_stats_section, "goldMain"),
+		gConfig_file->Value(building_stats_section, "woodMain"),
+		gConfig_file->Value(building_stats_section, "stoneMain"),
+		gConfig_file->Value(building_stats_section, "ironMain"),
+		gConfig_file->Value(building_stats_section, "energyMain"),
+		gConfig_file->Value(building_stats_section, "waterMain"),
+		gConfig_file->Value(building_stats_section, "foodMain"));
 
-	mConstruction_costs.set_resources(gConfig_file->Value(mName + "/stats", "goldcosts"),
-		gConfig_file->Value(mName + "/stats", "woodcosts"),
-		gConfig_file->Value(mName + "/stats", "stonecosts"),
-		gConfig_file->Value(mName + "/stats", "ironcosts"),
-		gConfig_file->Value(mName + "/stats", "energycosts"),
-		gConfig_file->Value(mName + "/stats", "watercosts"),
-		gConfig_file->Value(mName + "/stats", "foodcosts"));
+	mConstruction_costs.set_resources(gConfig_file->Value(building_stats_section, "goldcosts"),
+		gConfig_file->Value(building_stats_section, "woodcosts"),
+		gConfig_file->Value(building_stats_section, "stonecosts"),
+		gConfig_file->Value(building_stats_section, "ironcosts"),
+		gConfig_file->Value(building_stats_section, "energycosts"),
+		gConfig_file->Value(building_stats_section, "watercosts"),
+		gConfig_file->Value(building_stats_section, "foodcosts"));
 
 	mElapsed_ticks = 0;
 
@@ -54,6 +56,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	rect.w = 200;
 	rect.h = 200;
 	mWindow = new BuildingWindow(rect, this);
+	int i = gConfig_file->Value(building_stats_section, "tile");
+	mTile_to_build_on = static_cast<TILETYPES>(i);
 }
 
 Building::~Building()
@@ -72,16 +76,7 @@ void Building::demolish()
 	p.y = mCoords.y - grid_offset_y;
 	auto tile_x = mCoords.x / 64;
 	auto tile_y = mCoords.y / 64;
-	auto tiletype = TILETYPES::EMPTY;
-	if(mName == "lumberjack")
-	{
-		tiletype = TILETYPES::WOOD;
-	}
-	if(mName == "ironmine")
-	{
-		tiletype = TILETYPES::IRON;
-	}
-	mLevel->set_map_matrix(tile_x, tile_y, tiletype);
+	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
 }
 
 void Building::render()
