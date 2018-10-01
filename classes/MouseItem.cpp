@@ -21,6 +21,8 @@ MouseItem::MouseItem(std::string name_of_object, LTexture* sprite, Level* level,
 	mConstruction_costs = construction_costs;
 	mGrid_sprite_path = std::string(gConfig_file->Value("grid", "path"));
 	mGrid_sprite = gTextures->get_texture(mGrid_sprite_path);
+	int i = gConfig_file->Value(name_of_object + "/stats", "tile");
+	mTile_to_build_on = static_cast<TILETYPES>(i);
 }
 
 MouseItem::~MouseItem()
@@ -79,9 +81,7 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 		auto tile_y = mouse_y / 64;
 		std::string kind_of_object = gConfig_file->Value(mName_of_object + "/menuitem", "kind_of_object");
 		auto tiletype = mLevel->get_map_matrix()[tile_x][tile_y];
-		if((tiletype == TILETYPES::EMPTY && (kind_of_object == "homingtower" || kind_of_object == "aoetower"))
-			|| (tiletype == TILETYPES::WOOD && mName_of_object == "lumberjack")
-			|| (tiletype == TILETYPES::IRON && mName_of_object == "ironmine"))
+		if(tiletype == mTile_to_build_on)
 		{
 			if (mLevel->get_resources()->sub(&mConstruction_costs))
 			{
