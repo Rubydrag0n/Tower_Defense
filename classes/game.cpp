@@ -73,11 +73,11 @@ void Game::start_game()
 
 	for (auto game_tick = 0; game_tick < 300000; game_tick++)
 	{
-		SDL_GetMouseState(&mMouse_position.x, &mMouse_position.y);
 		//SDL_Delay(100);
 		//also renders the hover window
 		//mouse handler update needs to happen first
 		gMouse_handler->update();
+		gMouse_handler->get_mouse_position(&mMouse_position.x, &mMouse_position.y);
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			gMouse_handler->handle_event(&e);
