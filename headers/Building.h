@@ -45,7 +45,9 @@ protected:
 	Resources mConstruction_costs;
 	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
+
+	//the limit of how many resources a building can store internally. Might change when upgraded
+	Resources mResource_limit;
+	//how many resources the building has
+	Resources mCurrent_resources;
 };
-
-
-

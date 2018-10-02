@@ -36,6 +36,17 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->Value(building_stats_section, "watercosts"),
 		gConfig_file->Value(building_stats_section, "foodcosts"));
 
+	mResource_limit.set_resources(gConfig_file->Value(building_stats_section, "goldLimit"),
+		gConfig_file->Value(building_stats_section, "woodLimit"),
+		gConfig_file->Value(building_stats_section, "stoneLimit"),
+		gConfig_file->Value(building_stats_section, "ironLimit"),
+		gConfig_file->Value(building_stats_section, "energyLimit"),
+		gConfig_file->Value(building_stats_section, "waterLimit"),
+		gConfig_file->Value(building_stats_section, "foodLimit"));
+
+	//building starts without resources
+	mCurrent_resources.set_resources(0, 0, 0, 0, 0, 0, 0);
+
 	mElapsed_ticks = 0;
 
 	mLevel = level;
@@ -120,6 +131,7 @@ void Building::render()
 
 void Building::on_tick()
 {
+	//TODO: magic number, framerate might not always be 60
 	if(mElapsed_ticks % 60 == 0)
 	{
 		mIdle = !mLevel->get_resources()->sub(&mMaintenance);
