@@ -49,7 +49,8 @@ void MouseHandler::update()
 	{
 		auto rect = (*it)->get_clickable_space();
 		if (mouse_x > rect.x && mouse_x < rect.x + rect.w && 
-			mouse_y > rect.y && mouse_y < rect.y + rect.h)
+			mouse_y > rect.y && mouse_y < rect.y + rect.h && 
+			(*it)->is_enabled())
 		{
 			(*it)->on_mouse_over(mouse_x, mouse_y);
 			(*it)->set_state(LClickableState::MOUSE_OVER);
@@ -74,7 +75,8 @@ void MouseHandler::handle_event(SDL_Event *e)
 			it->set_clicked(false);
 		}
 		auto rect = it->get_clickable_space();
-		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h)
+		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h
+			&& it->is_enabled())
 		{
 			switch (e->type)
 			{

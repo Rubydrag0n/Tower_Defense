@@ -23,17 +23,19 @@ public:
 
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
-	Resources get_maintenance() const;
+	Resources* get_maintenance() const;
+	void set_maintenance(Resources* maintenance);
 	void set_coords(SDL_Point coords);
-	void set_maintenance(Resources maintenance);
 	void set_idle(bool value);
 	bool get_idle();
+
+	Resources* get_current_resources() const;
 
 	void on_click(int mouse_x, int mouse_y) override;
 
 protected:
 	SDL_Point mCoords;
-	Resources mMaintenance;
+	Resources* mMaintenance;
 	LTexture *mSprite; //texture
 	SDL_Rect mSprite_dimensions; //size of the texture
 	Level *mLevel;
@@ -42,12 +44,12 @@ protected:
 	int mElapsed_ticks;
 	std::string mName;
 	std::string mSprite_path;
-	Resources mConstruction_costs;
+	Resources* mConstruction_costs;
 	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 
 	//the limit of how many resources a building can store internally. Might change when upgraded
-	Resources mResource_limit;
+	Resources* mResource_limit;
 	//how many resources the building has
-	Resources mCurrent_resources;
+	Resources* mCurrent_resources;
 };

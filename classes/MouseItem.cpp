@@ -91,7 +91,6 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 				mLevel->set_map_matrix(tile_x, tile_y, TILETYPES::BUILDING);
 			}
 		}
-
 	}
 }
 

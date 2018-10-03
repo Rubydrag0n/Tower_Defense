@@ -27,11 +27,12 @@ void IndustrialBuilding::render()
 void IndustrialBuilding::on_tick()
 {
 	Building::on_tick();
+	//TODO: magic number
 	if (mElapsed_ticks % 60 == 0)
 	{
 		if(!this->mIdle)
 		{
-			mLevel->get_resources()->add(&mRessources_produced_per_second);
+			this->mCurrent_resources->add(&mRessources_produced_per_second);
 		}
 	}
 }

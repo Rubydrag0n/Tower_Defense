@@ -4,6 +4,7 @@ class Resources
 public:
 	Resources();
 	Resources(int gold, int wood, int stone, int iron, int energy, int water, int food);
+	explicit Resources(Resources* resource);
 
 	//set and get all the different values
 	void set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food);

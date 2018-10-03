@@ -22,6 +22,17 @@ Resources::Resources(int gold, int wood, int stone, int iron, int energy, int wa
 	mFood = food;
 }
 
+Resources::Resources(Resources * resource)
+{
+	this->mGold = resource->get_gold();
+	this->mFood = resource->get_food();
+	this->mWood = resource->get_wood();
+	this->mStone = resource->get_stone();
+	this->mIron = resource->get_iron();
+	this->mWater = resource->get_water();
+	this->mEnergy = resource->get_energy();
+}
+
 void Resources::set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
 	mGold = gold;
