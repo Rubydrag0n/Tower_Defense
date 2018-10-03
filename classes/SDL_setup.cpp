@@ -76,7 +76,7 @@ bool init_graphics()
 		std::string windowflags = cf.Value("video", "window_mode");
 		Uint32 flags;
 		if (windowflags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
-		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS | SDL_WINDOW_FULLSCREEN;
+		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS;
 		else if (windowflags == "windowed") flags = SDL_WINDOW_OPENGL;
 		else flags = 0;
 		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, flags);

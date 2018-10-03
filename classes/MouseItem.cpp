@@ -6,6 +6,7 @@
 #include "HomingTower.h"
 #include "MouseHandler.h"
 #include "SDL_setup.h"
+#include "WareHouse.h"
 
 MouseItem::MouseItem(std::string name_of_object, LTexture* sprite, Level* level, Resources construction_costs)
 {
@@ -85,9 +86,10 @@ void MouseItem::on_click(int mouse_x, int mouse_y)
 		{
 			if (mLevel->get_resources()->sub(&mConstruction_costs))
 			{
-				if (kind_of_object == "homingtower") { new HomingTower(this->mName_of_object, p, this->mLevel); }
-				if (kind_of_object == "aoetower") { new AoeTower(this->mName_of_object, p, this->mLevel); }
-				if (kind_of_object == "industrialbuilding") { new IndustrialBuilding(this->mName_of_object, p, mLevel); }
+				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel);
+				if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel);
+				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel);
+				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel);
 				mLevel->set_map_matrix(tile_x, tile_y, TILETYPES::BUILDING);
 			}
 		}
