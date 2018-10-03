@@ -30,6 +30,8 @@ public:
 	bool get_idle();
 
 	Resources* get_current_resources() const;
+	void add_resources(Resources* r);
+	bool transfer_resources(Resources* r);
 
 	void on_click(int mouse_x, int mouse_y) override;
 
@@ -48,8 +50,6 @@ protected:
 	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 
-	//the limit of how many resources a building can store internally. Might change when upgraded
-	Resources* mResource_limit;
 	//how many resources the building has
 	Resources* mCurrent_resources;
 };

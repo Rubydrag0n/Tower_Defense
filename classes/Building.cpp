@@ -22,7 +22,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	this->mMaintenance = new Resources();
 	this->mConstruction_costs = new Resources();
 	this->mCurrent_resources = new Resources();
-	this->mResource_limit = new Resources();
+	auto resource_limit = new Resources();
 
 	//set the maintenance costs of the building
 	mMaintenance->set_resources(gConfig_file->Value(building_stats_section, "goldMain"),
@@ -41,7 +41,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->Value(building_stats_section, "watercosts"),
 		gConfig_file->Value(building_stats_section, "foodcosts"));
 
-	mResource_limit->set_resources(gConfig_file->Value(building_stats_section, "goldLimit"),
+	resource_limit->set_resources(gConfig_file->Value(building_stats_section, "goldLimit"),
 		gConfig_file->Value(building_stats_section, "woodLimit"),
 		gConfig_file->Value(building_stats_section, "stoneLimit"),
 		gConfig_file->Value(building_stats_section, "ironLimit"),
@@ -50,7 +50,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->Value(building_stats_section, "foodLimit"));
 
 	//building starts without resources
-	mCurrent_resources->set_resources(0, 0, 0, 0, 0, 0, 0);
+	mCurrent_resources->set_empty();
+	mCurrent_resources->set_limit(resource_limit);
 
 	mElapsed_ticks = 0;
 
@@ -193,6 +194,16 @@ bool Building::get_idle()
 Resources* Building::get_current_resources() const
 {
 	return this->mCurrent_resources;
+}
+
+void Building::add_resources(Resources * r)
+{
+	this->mCurrent_resources->add(r);
+}
+
+bool Building::transfer_resources(Resources * r)
+{
+	return this->mCurrent_resources->transfer(r);
 }
 
 void Building::set_idle(bool value)

@@ -17,6 +17,8 @@
 #include "RenderableHandler.h"
 #include "ConfigFile.h"
 #include "Button.h"
+#include "Carriage.h"
+#include "WareHouse.h"
 
 Game::Game()
 {
@@ -36,6 +38,17 @@ Game::Game()
 	dim.w = 100;
 	dim.h = 26;
 	gLayer_handler = new LayerHandler();
+
+	SDL_Point p;
+	p.x = 64;
+	p.y = 640;
+
+	auto warehouse = new Warehouse("warehouse", p, mLevel);
+	p.x = 1024;
+	p.y = 480;
+	auto tower = new HomingTower("archer", p, mLevel);
+
+	auto carriage = new Carriage("carriage", warehouse, tower);
 }
 
 Game::~Game()

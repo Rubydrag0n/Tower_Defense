@@ -182,30 +182,29 @@ void Enemy::on_death()
 		}
 		mFollowed_by.clear();
 	}
+	this->set_rendering_enabled(false);
 }
 
 void Enemy::render()
 {
-	if (!this->is_dead()) {
-		//rendering the unit
-		Unit::render();
+	//rendering the unit
+	Unit::render();
 
-		//now rendering the health bar
-		SDL_Rect full_health;
-		full_health.x = mPosition.x - mHealth_bar_dimensions.w / 2;
-		full_health.y = mPosition.y - mCurrent_clip.h - mHealth_bar_dimensions.h / 2;
-		full_health.w = mHealth_bar_dimensions.w;
-		full_health.h = mHealth_bar_dimensions.h;
+	//now rendering the health bar
+	SDL_Rect full_health;
+	full_health.x = mPosition.x - mHealth_bar_dimensions.w / 2;
+	full_health.y = mPosition.y - mCurrent_clip.h - mHealth_bar_dimensions.h / 2;
+	full_health.w = mHealth_bar_dimensions.w;
+	full_health.h = mHealth_bar_dimensions.h;
 
-		auto current_health = full_health;
-		current_health.w = mHealth_bar_dimensions.w * (this->get_defense().get_health() / this->get_defense().get_full_health());
-		auto src_current_health = current_health;
-		src_current_health.x = 0;
-		src_current_health.y = 0;
+	auto current_health = full_health;
+	current_health.w = mHealth_bar_dimensions.w * (this->get_defense().get_health() / this->get_defense().get_full_health());
+	auto src_current_health = current_health;
+	src_current_health.x = 0;
+	src_current_health.y = 0;
 
-		gLayer_handler->render_to_layer(mEmpty_health_bar, LAYERS::WINDOWS, &mHealth_bar_dimensions, &full_health);
-		gLayer_handler->render_to_layer(mFull_health_bar, LAYERS::WINDOWS, &src_current_health, &current_health);
-	}
+	gLayer_handler->render_to_layer(mEmpty_health_bar, LAYERS::WINDOWS, &mHealth_bar_dimensions, &full_health);
+	gLayer_handler->render_to_layer(mFull_health_bar, LAYERS::WINDOWS, &src_current_health, &current_health);
 }
 
 void Enemy::add_following_shot(HomingShot * shot)
@@ -223,7 +222,6 @@ void Enemy::delete_following_shot(HomingShot * shot)
 			return;
 		}
 	}
-	printf("what?\n");
 }
 
 ENTITYTYPE Enemy::get_type()

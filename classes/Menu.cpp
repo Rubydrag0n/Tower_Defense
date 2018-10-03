@@ -123,10 +123,14 @@ void Menu::render()
 
 	this->mMenu_texture = new LTexture();
 	
-	mMenu_texture->load_from_rendered_text("lives: " + std::to_string(mLevel->get_lives()) + " \tgold: " + std::to_string(mLevel->get_resources()->get_gold()) +
-		" \twood: " + std::to_string(mLevel->get_resources()->get_wood()) + " \tstone: " + std::to_string(mLevel->get_resources()->get_stone()) +
-		" \tiron: " + std::to_string(mLevel->get_resources()->get_iron()) + " \tenergy: " + std::to_string(mLevel->get_resources()->get_energy()) +
-		" \twater: " + std::to_string(mLevel->get_resources()->get_water()) + " \tfood: " + std::to_string(mLevel->get_resources()->get_food()), text_color);
+	mMenu_texture->load_from_rendered_text("lives: " + std::to_string(mLevel->get_lives()) + 
+		" \tgold: " + std::to_string(mLevel->get_resources()->get_resource(GOLD)) +
+		" \twood: " + std::to_string(mLevel->get_resources()->get_resource(WOOD)) + 
+		" \tstone: " + std::to_string(mLevel->get_resources()->get_resource(STONE)) +
+		" \tiron: " + std::to_string(mLevel->get_resources()->get_resource(IRON)) + 
+		" \tenergy: " + std::to_string(mLevel->get_resources()->get_resource(ENERGY)) +
+		" \twater: " + std::to_string(mLevel->get_resources()->get_resource(WATER)) + 
+		" \tfood: " + std::to_string(mLevel->get_resources()->get_resource(FOOD)), text_color);
 	
 	SDL_Rect dest;
 	dest.x = 0;
