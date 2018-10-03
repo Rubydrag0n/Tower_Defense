@@ -24,9 +24,14 @@ public:
 	MouseItem* get_item_on_mouse();
 	void set_item_on_mouse(MouseItem* item);
 
+	void set_mouse_position(int x, int y);
+	void get_mouse_position(int *x, int *y);
+
 private:
 	std::vector<Clickable*> mClickables;
 	MouseItem* mItem_on_mouse;
+
+	SDL_Point mCurrent_mouse_position;
 };
 
 //holds pointers to all clickable objects

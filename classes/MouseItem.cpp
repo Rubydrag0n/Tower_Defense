@@ -35,7 +35,7 @@ void MouseItem::render()
 	SDL_Rect dest;
 	int mouse_x, mouse_y;
 	//get coordinates
-	SDL_GetMouseState(&mouse_x, &mouse_y);
+	gMouse_handler->get_mouse_position(&mouse_x, &mouse_y);
 	auto grid_offset_x = 0, grid_offset_y = 0;
 	if(mouse_x < 1280)
 	{

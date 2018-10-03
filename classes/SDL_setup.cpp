@@ -16,6 +16,9 @@ Textures* gTextures = nullptr;
 
 TTF_Font* gFont = nullptr;
 
+int* ACTUAL_SCREEN_WIDTH = nullptr;
+int* ACTUAL_SCREEN_HEIGHT = nullptr;
+
 SDL_Texture* load_texture(std::string path)
 {
 	//The final texture
@@ -69,12 +72,19 @@ bool init_graphics()
 		ConfigFile cf("config/game.cfg");
 		int screen_width = cf.Value("video", "screen_width");
 		int screen_height = cf.Value("video", "screen_height");
+
 		std::string windowflags = cf.Value("video", "window_mode");
 		Uint32 flags;
 		if (windowflags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
-		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS;
+		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS | SDL_WINDOW_FULLSCREEN;
+		else if (windowflags == "windowed") flags = SDL_WINDOW_OPENGL;
 		else flags = 0;
 		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, flags);
+
+		ACTUAL_SCREEN_WIDTH = new int();
+		ACTUAL_SCREEN_HEIGHT = new int();
+		SDL_GetWindowSize(gWindow, ACTUAL_SCREEN_WIDTH, ACTUAL_SCREEN_HEIGHT);
+
 		if (gWindow == nullptr)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
@@ -84,6 +94,8 @@ bool init_graphics()
 		{
 			//Create renderer for window
 			//SDL_RENDERER_PRESENTVSYNC locks framerate to the monitors' framerate
+
+			//TODO: don't just use vsync with 60fps
 			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
 			if (gRenderer == nullptr)
 			{

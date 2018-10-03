@@ -1,10 +1,12 @@
-#include <MouseHandler.h>
 #include <SDL.h>
 #include <vector>
 
+#include "MouseHandler.h"
+#include "SDL_setup.h"
+
 MouseHandler* gMouse_handler = nullptr;
 
-MouseHandler::MouseHandler() : mClickables{}
+MouseHandler::MouseHandler() : mClickables{}, mCurrent_mouse_position{0, 0}
 {
 	mItem_on_mouse = nullptr;
 }
@@ -37,6 +39,9 @@ void MouseHandler::update()
 	int mouse_x, mouse_y;
 	//get coordinates
 	SDL_GetMouseState(&mouse_x, &mouse_y);
+	//set the mouse position for this tick
+	this->set_mouse_position(mouse_x, mouse_y);
+	this->get_mouse_position(&mouse_x, &mouse_y);
 
 	auto end = this->mClickables.end();
 
@@ -114,4 +119,17 @@ void MouseHandler::set_item_on_mouse(MouseItem* item)
 {
 	delete mItem_on_mouse;
 	mItem_on_mouse = item;
+}
+
+void MouseHandler::set_mouse_position(int x, int y)
+{
+	//convert to 1920x1080 from the actual resolution
+	this->mCurrent_mouse_position.x = double(x) / *ACTUAL_SCREEN_WIDTH * LOGICAL_SCREEN_WIDTH;
+	this->mCurrent_mouse_position.y = double(y) / *ACTUAL_SCREEN_HEIGHT * LOGICAL_SCREEN_HEIGHT;
+}
+
+void MouseHandler::get_mouse_position(int *x, int *y)
+{
+	*x = this->mCurrent_mouse_position.x;
+	*y = this->mCurrent_mouse_position.y;
 }
