@@ -31,7 +31,13 @@ public:
 
 	Resources* get_current_resources() const;
 	void add_resources(Resources* r);
-	bool transfer_resources(Resources* r);
+
+	//puts resources into this building from r
+	//returns true if r is empty afterwards
+	bool transfer_resources_in(Resources* r);
+	//puts resources into r from this building
+	//returns true if this building is empty afterwards
+	bool transfer_resources_out(Resources* r);
 
 	void on_click(int mouse_x, int mouse_y) override;
 

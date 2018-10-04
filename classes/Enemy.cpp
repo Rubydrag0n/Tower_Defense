@@ -143,6 +143,7 @@ void Enemy::got_through()
 	//kill the unit
 	mLevel->set_lives(mLevel->get_lives() - this->mLife_cost);
 	mDead = true;
+	this->on_death();
 }
 
 bool Enemy::is_dead() const

@@ -26,6 +26,8 @@ public:
 	Building* get_source();
 	Building* get_drain();
 
+	bool move_towards(Building* target);
+
 	void move();
 
 private:

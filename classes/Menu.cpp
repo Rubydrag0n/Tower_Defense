@@ -38,6 +38,7 @@ Menu::Menu(Level *level)
 
 Menu::~Menu()
 {
+	//TODO: fix this deconstructor, it's broken
 	//delete all the buttons and menuitems
 	for (auto i = 0; i < BUILDINGTYPE::TYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];

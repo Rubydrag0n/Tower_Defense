@@ -47,6 +47,32 @@ Building* Carriage::get_drain()
 	return this->mDrain;
 }
 
+bool Carriage::move_towards(Building* target_building)
+{
+	double move_dist = mMove_speed / 60.0;
+	auto target = target_building->get_coords();
+
+	double x_d = target.x - mPosition.x;
+	auto x_d_abs = abs(x_d); //take the absolute value for further calculations
+	double y_d = target.y - mPosition.y;
+	auto y_d_abs = abs(y_d); //same as above
+
+	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
+
+	if (move_dist > dist_to_enemy)
+	{
+		//if close enough deliver resources and get back
+		this->mPosition.x = target_building->get_coords().x;
+		this->mPosition.y = target_building->get_coords().y;
+		return true;
+	}
+
+	mPosition.x += move_dist * (x_d / (x_d_abs + y_d_abs));
+	mPosition.y += move_dist * (y_d / (x_d_abs + y_d_abs));
+
+	return false;
+}
+
 void Carriage::move()
 {
 	switch (this->mCurrent_activity)
@@ -55,40 +81,22 @@ void Carriage::move()
 		//move towards source building
 		if (this->mSource != nullptr)
 		{
-			double move_dist = mMove_speed*mMove_speed / 3600.0;
-			if ( move_dist >
-				abs(mPosition.x - mSource->get_coords().x) * abs(mPosition.y - mSource->get_coords().y))
+			if (this->move_towards(mSource))
 			{
-				//if close enough deliver resources and get back
-				this->mPosition.x = mSource->get_coords().x;
-				this->mPosition.y = mSource->get_coords().y;
-				this->mSource->transfer_resources(this->mCurrent_resources);
+				this->mSource->transfer_resources_out(this->mCurrent_resources);
 				this->mCurrent_activity = DELIVERING;
-			}
-			else 
-			{
-				auto target = mSource->get_coords();
-				//otherwise move
-				//TODO: move on paths
-				if (this->mPosition.x < mSource->get_coords().x) {
-					this->mPosition.x = mSource->get_coords().x;
-					this->mPosition.y = mSource->get_coords().y;
-					break;
-				}
-
-				double x_d = target.x - mPosition.x;
-				auto x_d_abs = sqrt(x_d * x_d); //take the absolute value for further calculations
-				double y_d = target.y - mPosition.y;
-				auto y_d_abs = sqrt(y_d * y_d); //same as above
-
-				mPosition.x += move_dist * (x_d / (x_d_abs + y_d_abs));
-				mPosition.y += move_dist * (y_d / (x_d_abs + y_d_abs));
-				break;
 			}
 		}
 		break;
 	case DELIVERING:
-
+		if (this->mDrain != nullptr)
+		{
+			if (this->move_towards(mDrain))
+			{
+				this->mDrain->transfer_resources_in(this->mCurrent_resources);
+				this->mCurrent_activity = GETTING;
+			}
+		}
 		break;
 	default:
 		break;

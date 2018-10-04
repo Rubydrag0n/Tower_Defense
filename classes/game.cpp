@@ -44,6 +44,8 @@ Game::Game()
 	p.y = 640;
 
 	auto warehouse = new Warehouse("warehouse", p, mLevel);
+	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	warehouse->add_resources(r);
 	p.x = 1024;
 	p.y = 480;
 	auto tower = new HomingTower("archer", p, mLevel);

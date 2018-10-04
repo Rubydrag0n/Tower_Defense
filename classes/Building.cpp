@@ -201,9 +201,14 @@ void Building::add_resources(Resources * r)
 	this->mCurrent_resources->add(r);
 }
 
-bool Building::transfer_resources(Resources * r)
+bool Building::transfer_resources_in(Resources * r)
 {
 	return this->mCurrent_resources->transfer(r);
+}
+
+bool Building::transfer_resources_out(Resources * r)
+{
+	return r->transfer(this->mCurrent_resources);
 }
 
 void Building::set_idle(bool value)
