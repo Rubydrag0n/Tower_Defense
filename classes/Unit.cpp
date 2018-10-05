@@ -107,9 +107,5 @@ void Unit::update_animation_clip()
 	}
 	auto index = mAnimation_tick / mTickcount_per_clip;
 
-	/* if not top down:
-	index += mAnimation_tick_count / mTickcount_per_clip * mDirection;
-	*/
-
 	mCurrent_clip = mClips.at(index);
 }

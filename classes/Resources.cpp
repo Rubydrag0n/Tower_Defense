@@ -2,149 +2,134 @@
 
 Resources::Resources()
 {
-	mGold = 0;
-	mWood = 0;
-	mStone = 0;
-	mIron = 0;
-	mEnergy = 0;
-	mWater = 0;
-	mFood = 0;
+	this->set_empty();
+	this->mLimit = nullptr;
 }
 
 Resources::Resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
-	mGold = gold;
-	mWood = wood;
-	mStone = stone;
-	mIron = iron;
-	mEnergy = energy;
-	mWater = water;
-	mFood = food;
+	this->set_resources(gold, wood, stone, iron, energy, water, food);
+	this->mLimit = nullptr;
+}
+
+Resources::Resources(Resources* resource, Resources* limit)
+{
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		this->set_resource(RESOURCETYPES(i), resource->get_resource(RESOURCETYPES(i)));
+	}
+	if (limit != nullptr)
+	{
+		this->mLimit = limit;
+	}
 }
 
 void Resources::set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
 {
-	mGold = gold;
-	mFood = food;
-	mWood = wood;
-	mStone = stone;
-	mIron = iron;
-	mWater = water;
-	mEnergy = energy;
+	mResources[GOLD] = gold;
+	mResources[FOOD] = food;
+	mResources[WOOD] = wood;
+	mResources[STONE] = stone;
+	mResources[IRON] = iron;
+	mResources[WATER] = water;
+	mResources[ENERGY] = energy;
 }
 
-void Resources::set_gold(int gold)
+void Resources::set_resource(RESOURCETYPES type, int res)
 {
-	mGold = gold;
+	this->mResources[type] = res;
 }
 
-int Resources::get_gold() const
+int Resources::get_resource(RESOURCETYPES type)
 {
-	return mGold;
+	return mResources[type];
 }
 
-void Resources::set_wood(int wood)
+void Resources::set_empty()
 {
-	mWood = wood;
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		this->set_resource(RESOURCETYPES(i), 0);
+	}
 }
 
-int Resources::get_wood() const
+bool Resources::is_empty()
 {
-	return mWood;
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		if (mResources[RESOURCETYPES(i)] != 0) return false;
+	}
+	return true;
 }
 
-void Resources::set_stone(int stone)
+void Resources::add(RESOURCETYPES type, int res)
 {
-	mStone = stone;
+	if (mLimit != nullptr) {
+		if (res + mResources[type] > mLimit->get_resource(type)) {
+			mResources[type] = mLimit->get_resource(type);
+			return;
+		}
+	}
+	mResources[type] += res;
 }
 
-int Resources::get_stone() const
+bool Resources::sub(RESOURCETYPES type, int res)
 {
-	return mStone;
+	if (mResources[type] - res < 0) {
+		return false;
+	}
+	mResources[type] -= res;
+	return true;
 }
 
-void Resources::set_iron(int iron)
-{
-	mIron = iron;
-}
-
-int Resources::get_iron() const
-{
-	return mIron;
-}
-
-void Resources::set_energy(int energy)
-{
-	mEnergy = energy;
-}
-
-int Resources::get_energy() const
-{
-	return mEnergy;
-}
-
-void Resources::set_water(int water)
-{
-	mWater = water;
-}
-
-int Resources::get_water() const
-{
-	return mWater;
-}
-
-void Resources::set_food(int food)
-{
-	mFood = food;
-}
-
-int Resources::get_food() const
-{
-	return mFood;
-}
-
+//Returns true if the subtracting succeeded, false if there wasn't enough resources
 bool Resources::sub(Resources *cost)
 {
-	//Returns true if the subtracting succeeded, false if there wasn't enough ressources
-	if (mGold - cost->get_gold() >= 0 &&
-		mWood - cost->get_wood() >= 0 &&
-		mStone - cost->get_stone() >= 0 &&
-		mIron - cost->get_iron() >= 0 &&
-		mEnergy - cost->get_energy() >= 0 &&
-		mWater - cost->get_water() >= 0 &&
-		mFood - cost->get_food() >= 0)
-	{
-		mGold -= cost->get_gold();
-		mWood -= cost->get_wood();
-		mStone -= cost->get_stone();
-		mIron -= cost->get_iron();
-		mEnergy -= cost->get_energy();
-		mWater -= cost->get_water();
-		mFood -= cost->get_food();
-		return true;
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		if (mResources[RESOURCETYPES(i)] - cost->get_resource(RESOURCETYPES(i)) < 0) {
+			return false;
+		}
 	}
-	else
-	{
-		return false;
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		mResources[RESOURCETYPES(i)] -= cost->get_resource(RESOURCETYPES(i));
 	}
 }
 
 void Resources::add(Resources *income)
 {
-	mGold += income->get_gold();
-	mWood += income->get_wood();
-	mStone += income->get_stone();
-	mIron += income->get_iron();
-	mEnergy += income->get_energy();
-	mWater += income->get_water();
-	mFood += income->get_food();
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		this->add(RESOURCETYPES(i), income->get_resource(RESOURCETYPES(i)));
+	}
 }
-
 
 Resources Resources::operator/(const int &d)
 {
 	Resources r;
-	r.set_resources(this->get_gold() / 2, this->get_wood() / 2, this->get_stone() / 2,
-		this->get_iron() / 2, this->get_energy() / 2, this->get_water() / 2, this->get_food() / 2);
+
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+		r.set_resource(RESOURCETYPES(i), this->get_resource(RESOURCETYPES(i)) / 2);
+	}
 	return r;
+}
+
+void Resources::set_limit(Resources * limit)
+{
+	this->mLimit = limit;
+}
+
+bool Resources::transfer(Resources *source)
+{
+	if (this->mLimit == nullptr) {
+		this->add(source);
+		source->set_empty();
+		return true;
+	}
+
+	int adding;
+
+	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) 
+	{
+		adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
+		this->add(RESOURCETYPES(i), source->get_resource(RESOURCETYPES(i)));
+		source->sub(RESOURCETYPES(i), adding);
+	}
+
+	return source->is_empty();
 }

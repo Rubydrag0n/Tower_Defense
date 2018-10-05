@@ -28,9 +28,6 @@
     <Filter Include="Header Files\Data structures">
       <UniqueIdentifier>{adb84e76-93f9-490c-8567-74bacc1962ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Level and Monster">
-      <UniqueIdentifier>{7cf2ada0-d8b4-4613-8d42-1b22405daa24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Handlers">
       <UniqueIdentifier>{ffd5cb9f-2c9d-4a2c-a11b-6c271453f0db}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="Source Files\Data structures">
       <UniqueIdentifier>{783370fc-cd45-4cd7-8d83-d0c38dcac01b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Level and Monster">
-      <UniqueIdentifier>{7dbe55f6-c31c-4766-a004-75b2fb794bf5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Handlers">
       <UniqueIdentifier>{8a223eda-b8c7-4288-aaac-94424531c3be}</UniqueIdentifier>
@@ -72,6 +66,18 @@
     </Filter>
     <Filter Include="Source Files\Buildings\Logistics buildings">
       <UniqueIdentifier>{7d27564f-5816-48d3-8ea1-7bf6f7499620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Units">
+      <UniqueIdentifier>{bb17d01b-fe9e-4ce8-b6ed-130d59aede68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level">
+      <UniqueIdentifier>{7dbe55f6-c31c-4766-a004-75b2fb794bf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level">
+      <UniqueIdentifier>{7cf2ada0-d8b4-4613-8d42-1b22405daa24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Units">
+      <UniqueIdentifier>{afbf9d64-3a4b-40f6-80b8-84263980ff3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,16 +127,16 @@
       <Filter>Source Files\Buildings\Resource buildings</Filter>
     </ClCompile>
     <ClCompile Include="classes\Level.cpp">
-      <Filter>Source Files\Level and Monster</Filter>
+      <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="classes\LTexture.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
     <ClCompile Include="classes\Map.cpp">
-      <Filter>Source Files\Level and Monster</Filter>
+      <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="classes\MonsterGroup.cpp">
-      <Filter>Source Files\Level and Monster</Filter>
+      <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="classes\Menu.cpp">
       <Filter>Source Files\Menus</Filter>
@@ -153,20 +159,14 @@
     <ClCompile Include="classes\Textures.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\Unit.cpp">
-      <Filter>Source Files\Level and Monster</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Wave.cpp">
-      <Filter>Source Files\Level and Monster</Filter>
+      <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="classes\Window.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
     <ClCompile Include="classes\LayerHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="classes\Enemy.cpp">
-      <Filter>Source Files\Level and Monster</Filter>
     </ClCompile>
     <ClCompile Include="classes\MenuItem.cpp">
       <Filter>Source Files\Menus</Filter>
@@ -204,6 +204,15 @@
     <ClCompile Include="classes\WareHouse.cpp">
       <Filter>Source Files\Buildings\Logistics buildings</Filter>
     </ClCompile>
+    <ClCompile Include="classes\Enemy.cpp">
+      <Filter>Source Files\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Unit.cpp">
+      <Filter>Source Files\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Carriage.cpp">
+      <Filter>Source Files\Units</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -239,20 +248,14 @@
     <ClInclude Include="headers\Damage.h">
       <Filter>Header Files\Data structures</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Enemy.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
     <ClInclude Include="headers\MonsterGroup.h">
-      <Filter>Header Files\Level and Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Unit.h">
-      <Filter>Header Files\Level and Monster</Filter>
+      <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="headers\Wave.h">
-      <Filter>Header Files\Level and Monster</Filter>
+      <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="headers\Level.h">
-      <Filter>Header Files\Level and Monster</Filter>
+      <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="headers\Resources.h">
       <Filter>Header Files\Data structures</Filter>
@@ -294,7 +297,7 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\Map.h">
-      <Filter>Header Files\Level and Monster</Filter>
+      <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="headers\LayerHandler.h">
       <Filter>Header Files\Handlers</Filter>
@@ -331,6 +334,15 @@
     </ClInclude>
     <ClInclude Include="headers\WareHouse.h">
       <Filter>Header Files\Buildings\Logistics buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Enemy.h">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Unit.h">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Carriage.h">
+      <Filter>Header Files\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +410,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resources\zombie_death.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Warehouse.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

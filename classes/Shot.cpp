@@ -78,9 +78,9 @@ bool Shot::follow(SDL_Point target)
 {
 	auto travel_dist = mProjectile_speed / 60.0;
 	double x_d = target.x - mCoords.x;
-	auto x_d_abs = sqrt(x_d * x_d); //take the absolute value for further calculations
+	auto x_d_abs = abs(x_d); //take the absolute value for further calculations
 	double y_d = target.y - mCoords.y;
-	auto y_d_abs = sqrt(y_d * y_d); //same as above
+	auto y_d_abs = abs(y_d); //same as above
 	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
 
 	if(dist_to_enemy < travel_dist)

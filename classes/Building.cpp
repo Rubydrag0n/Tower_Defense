@@ -19,8 +19,13 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 
+	this->mMaintenance = new Resources();
+	this->mConstruction_costs = new Resources();
+	this->mCurrent_resources = new Resources();
+	auto resource_limit = new Resources();
+
 	//set the maintenance costs of the building
-	mMaintenance.set_resources(gConfig_file->Value(building_stats_section, "goldMain"),
+	mMaintenance->set_resources(gConfig_file->Value(building_stats_section, "goldMain"),
 		gConfig_file->Value(building_stats_section, "woodMain"),
 		gConfig_file->Value(building_stats_section, "stoneMain"),
 		gConfig_file->Value(building_stats_section, "ironMain"),
@@ -28,13 +33,25 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->Value(building_stats_section, "waterMain"),
 		gConfig_file->Value(building_stats_section, "foodMain"));
 
-	mConstruction_costs.set_resources(gConfig_file->Value(building_stats_section, "goldcosts"),
+	mConstruction_costs->set_resources(gConfig_file->Value(building_stats_section, "goldcosts"),
 		gConfig_file->Value(building_stats_section, "woodcosts"),
 		gConfig_file->Value(building_stats_section, "stonecosts"),
 		gConfig_file->Value(building_stats_section, "ironcosts"),
 		gConfig_file->Value(building_stats_section, "energycosts"),
 		gConfig_file->Value(building_stats_section, "watercosts"),
 		gConfig_file->Value(building_stats_section, "foodcosts"));
+
+	resource_limit->set_resources(gConfig_file->Value(building_stats_section, "goldLimit"),
+		gConfig_file->Value(building_stats_section, "woodLimit"),
+		gConfig_file->Value(building_stats_section, "stoneLimit"),
+		gConfig_file->Value(building_stats_section, "ironLimit"),
+		gConfig_file->Value(building_stats_section, "energyLimit"),
+		gConfig_file->Value(building_stats_section, "waterLimit"),
+		gConfig_file->Value(building_stats_section, "foodLimit"));
+
+	//building starts without resources
+	mCurrent_resources->set_empty();
+	mCurrent_resources->set_limit(resource_limit);
 
 	mElapsed_ticks = 0;
 
@@ -68,7 +85,7 @@ Building::~Building()
 
 void Building::demolish()
 {
-	mLevel->get_resources()->add(&(mConstruction_costs/2));
+	mLevel->get_resources()->add(&(*mConstruction_costs/2));
 	SDL_Point p;
 	auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
 	auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
@@ -120,17 +137,18 @@ void Building::render()
 
 void Building::on_tick()
 {
+	//TODO: magic number, framerate might not always be 60
 	if(mElapsed_ticks % 60 == 0)
 	{
-		mIdle = !mLevel->get_resources()->sub(&mMaintenance);
+		mIdle = !this->mCurrent_resources->sub(mMaintenance);
 	}
 	mElapsed_ticks++;
 }
 
 
-void Building::set_maintenance(Resources new_maintenance)
+void Building::set_maintenance(Resources* new_maintenance)
 {
-	mMaintenance = new_maintenance;
+	mMaintenance = new Resources(new_maintenance);
 }
 
 void Building::on_click(int mouse_x, int mouse_y)
@@ -163,14 +181,34 @@ SDL_Rect Building::get_dimensions() const
 	return mSprite_dimensions;
 }
 
-Resources Building::get_maintenance() const
+Resources* Building::get_maintenance() const
 {
-	return mMaintenance;
+	return this->mMaintenance;
 }
 
 bool Building::get_idle()
 {
 	return this->mIdle;
+}
+
+Resources* Building::get_current_resources() const
+{
+	return this->mCurrent_resources;
+}
+
+void Building::add_resources(Resources * r)
+{
+	this->mCurrent_resources->add(r);
+}
+
+bool Building::transfer_resources_in(Resources * r)
+{
+	return this->mCurrent_resources->transfer(r);
+}
+
+bool Building::transfer_resources_out(Resources * r)
+{
+	return r->transfer(this->mCurrent_resources);
 }
 
 void Building::set_idle(bool value)

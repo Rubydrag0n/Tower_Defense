@@ -39,6 +39,15 @@ public:
 	bool get_clicked();
 	void set_clicked(bool value);
 
+	//enables the object to be clicked
+	void enable();
+
+	//disables the object to be clicked; on_click functions won't be called anymore
+	void disable();
+
+	//returns if this object is currently clickable
+	bool is_enabled();
+
 private:
 	//the space that can be clicked on to trigger an event
 	SDL_Rect mClickable_space;
@@ -46,7 +55,9 @@ private:
 	//the state that the clickable is in right now. Is handled by the MouseHandler
 	LClickableState mState;
 
-	bool mClicked; // true, if clickable was clicked and shows additional information
+	// true, if clickable was clicked and shows additional information
+	bool mClicked; 
 
-
+	//only if this is true the functions will be called
+	bool mEnabled; 
 };

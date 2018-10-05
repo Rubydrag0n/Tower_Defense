@@ -2,12 +2,11 @@
 #include "Clickable.h""
 #include <SDL.h>
 
-Clickable::Clickable() : mClickable_space{}
+Clickable::Clickable() : mClickable_space{}, mClicked{false}, mEnabled{true}
 {
 	//add this object to the list of clickable objects
 	gMouse_handler->add_clickable(this);
 	this->mState = LClickableState::MOUSE_OUT;
-	mClicked = false;
 }
 
 Clickable::~Clickable()
@@ -46,3 +45,17 @@ void Clickable::set_clicked(bool value)
 	mClicked = value;
 }
 
+void Clickable::enable()
+{
+	mEnabled = true;
+}
+
+void Clickable::disable()
+{
+	mEnabled = false;
+}
+
+bool Clickable::is_enabled()
+{
+	return this->mEnabled;
+}

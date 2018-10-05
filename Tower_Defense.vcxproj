@@ -21,13 +21,13 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BA372483-5172-4022-B2F9-27F8710B6FB3}</ProjectGuid>
     <RootNamespace>Tower_Defense</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -154,6 +154,7 @@
     <ClCompile Include="classes\BuildingWindow.cpp" />
     <ClCompile Include="classes\Button.cpp" />
     <ClCompile Include="classes\ButtonObject.cpp" />
+    <ClCompile Include="classes\Carriage.cpp" />
     <ClCompile Include="classes\Chameleon.cpp" />
     <ClCompile Include="classes\Clickable.cpp" />
     <ClCompile Include="classes\ConfigFile.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="headers\BuildingWindow.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\ButtonObject.h" />
+    <ClInclude Include="headers\Carriage.h" />
     <ClInclude Include="headers\Chameleon.h" />
     <ClInclude Include="headers\Clickable.h" />
     <ClInclude Include="headers\ConfigFile.h" />
@@ -266,6 +268,7 @@
     <Image Include="resources\testbutton.png" />
     <Image Include="resources\TowerButton.png" />
     <Image Include="resources\townhall.png" />
+    <Image Include="resources\Warehouse.png" />
     <Image Include="resources\Zombie.png" />
     <Image Include="resources\zombie_death.png" />
   </ItemGroup>

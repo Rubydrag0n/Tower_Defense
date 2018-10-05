@@ -16,7 +16,7 @@ enum DIRECTION
 };
 /*
  * A Unit
- * Can walk over the screen (with animation?)
+ * Can walk over the screen with animation
  * Has defensive stats and movement speed
  */
 class Unit : public Entity
