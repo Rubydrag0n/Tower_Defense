@@ -17,3 +17,5 @@ Townhallicon - SimpleIcon (https://www.flaticon.com/free-icon/buildings_34271)
 Explosion sprite - http://1.bp.blogspot.com/-h4gHvGnPfH0/UmFUg1riZlI/AAAAAAAAAFU/FGgUImTIGbU/s640/explosjon3.png
 
 Big Health bar - https://luckshotpro.files.wordpress.com/2013/03/health-bar.png
+
+GROBOLD - Font by Guy Buhry (https://www.dafont.com/de/font-comment.php?file=grobold)
