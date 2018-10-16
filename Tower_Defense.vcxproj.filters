@@ -213,6 +213,9 @@
     <ClCompile Include="classes\Carriage.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
+    <ClCompile Include="classes\Path.cpp">
+      <Filter>Source Files\Buildings\Logistics buildings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -343,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="headers\Carriage.h">
       <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Path.h">
+      <Filter>Header Files\Buildings\Logistics buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Enums.h">
+      <Filter>Header Files\Data structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

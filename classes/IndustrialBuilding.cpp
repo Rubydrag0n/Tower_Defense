@@ -1,6 +1,6 @@
 #include "IndustrialBuilding.h"
 #include "ConfigFile.h"
-
+#include "Menu.h"
 
 IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL_Point coords, Level *level) : Building(industrial_building_name, coords, level)
 {
@@ -22,6 +22,11 @@ IndustrialBuilding::~IndustrialBuilding()
 void IndustrialBuilding::render()
 {
 	Building::render();
+}
+
+BUILDINGTYPE IndustrialBuilding::get_building_type()
+{
+	return BUILDINGTYPE::INDUSTRIAL_BUILDING;
 }
 
 void IndustrialBuilding::on_tick()

@@ -1,6 +1,7 @@
 #pragma once
 #include "Building.h"
 #include "Level.h"
+#include "Menu.h"
 
 class IndustrialBuilding :
 	public Building
@@ -15,6 +16,7 @@ public:
 	//calls Buildung::render
 	void render() override;
 
+	BUILDINGTYPE get_building_type() override;
 
 private:
 	Resources mRessources_produced_per_second;

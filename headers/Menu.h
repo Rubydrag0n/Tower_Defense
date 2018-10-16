@@ -4,14 +4,9 @@
 #include "CoordinatesInDouble.h"
 #include "Button.h"
 #include "ButtonObject.h"
+#include "Enums.h"
 
-enum BUILDINGTYPE
-{
-	TOWER,
-	INDUSTRIAL_BUILDING,
-	LOGISTICS_BUILDING,
-	TYPES_TOTAL
-};
+class MenuItem;
 
 class Menu 
 	: public Renderable, public ButtonObject

@@ -1,19 +1,13 @@
 #pragma once
-#include "Defense.h"
 #include <SDL.h>
 #include <vector>
+
+#include "Defense.h"
 #include "LTexture.h"
 #include "Entity.h"
 #include "CoordinatesInDouble.h"
+#include "Enums.h"
 
-//The numbers are the rowpositions of the rotations in the sprite image
-enum DIRECTION
-{
-	DOWN = 4,
-	LEFT = 5,
-	UP = 6,
-	RIGHT = 7
-};
 /*
  * A Unit
  * Can walk over the screen with animation

@@ -19,6 +19,7 @@
 #include "Button.h"
 #include "Carriage.h"
 #include "WareHouse.h"
+#include "Path.h"
 
 Game::Game()
 {
@@ -40,17 +41,35 @@ Game::Game()
 	gLayer_handler = new LayerHandler();
 
 	SDL_Point p;
-	p.x = 64;
-	p.y = 640;
+	p.x = 896;
+	p.y = 448;
 
-	auto warehouse = new Warehouse("warehouse", p, mLevel);
-	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
-	warehouse->add_resources(r);
-	p.x = 1024;
-	p.y = 480;
 	auto tower = new HomingTower("archer", p, mLevel);
 
-	auto carriage = new Carriage("carriage", warehouse, tower);
+	p.x += 64;
+	new Path("path", p, mLevel);
+	p.x += 64;
+	new Path("path", p, mLevel);
+	p.x += 64;
+	new Path("path", p, mLevel);
+	p.x += 64;
+	new Path("path", p, mLevel);
+	p.y += 64;
+	new Path("path", p, mLevel);
+	p.y += 64;
+	new Path("path", p, mLevel);
+
+	p.x = 1152;
+	p.y = 640;
+	auto warehouse = new Warehouse("warehouse", p, mLevel);
+
+
+	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	warehouse->add_resources(r);
+
+
+
+	auto carriage = new Carriage("carriage", mLevel, warehouse, tower);
 }
 
 Game::~Game()

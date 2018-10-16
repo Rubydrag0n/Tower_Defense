@@ -2,19 +2,9 @@
 #include <vector>
 #include <SDL.h>
 #include <map>
-#include "LTexture.h"
 
-enum class LAYERS
-{
-	BACKGROUND,
-	BUILDINGS,
-	ENEMIES,
-	SHOTS,
-	PARTICLES,
-	WINDOWS,
-	OVERLAY,
-	COUNT
-};
+#include "LTexture.h"
+#include "Enums.h"
 
 //this class holds all the attributes needed to render a texture right
 struct RenderTexture

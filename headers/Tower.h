@@ -1,10 +1,12 @@
 #pragma once
+#include <SDL.h>
+#include <vector>
+
 #include "Building.h"
 #include "Damage.h"
 #include "Enemy.h"
 #include "Shot.h"
-#include <SDL.h>
-#include <vector>
+#include "Menu.h"
 
 class Tower : 
 	public Building
@@ -14,13 +16,14 @@ public:
 	~Tower();
 
 	virtual void create_shot(Enemy* enemy) = 0;
-	ENTITYTYPE get_type() override;
 
 	//calls Building::render and renders all shots from the tower
 	void render() override;
 	
 	//all projectiles, that are fired from this tower are updated, shots are fired
 	void on_tick() override;
+
+	BUILDINGTYPE get_building_type() override;
 	
 	//checks if an enemy is in range of the tower
 	static bool enemy_in_range(Enemy* enemy, double radius, SDL_Point center);

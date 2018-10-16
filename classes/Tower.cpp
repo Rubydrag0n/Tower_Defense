@@ -1,7 +1,9 @@
+#include <SDL.h>
+
+#include "Menu.h"
 #include "Tower.h"
 #include "ConfigFile.h"
 #include "Enemy.h"
-#include <SDL.h>
 #include "EntityHandler.h"
 
 
@@ -24,11 +26,6 @@ Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(
 
 Tower::~Tower()
 {
-}
-
-ENTITYTYPE Tower::get_type()
-{
-	return ENTITYTYPE::TOWER;
 }
 
 void Tower::render()
@@ -54,6 +51,11 @@ void Tower::on_tick()
 			}
 		}
 	}
+}
+
+BUILDINGTYPE Tower::get_building_type()
+{
+	return BUILDINGTYPE::TOWER;
 }
 
 bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center)

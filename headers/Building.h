@@ -1,13 +1,16 @@
 #pragma once
 #include <SDL.h>
-#include "Resources.h"
 #include <string>
+
+#include "Resources.h"
 #include "Clickable.h"
 #include "LTexture.h"
 #include "Entity.h"
 #include "Window.h"
 #include "BuildingWindow.h"
 #include "Level.h"
+#include "Menu.h"
+#include "Enums.h"
 
 class Level;
 
@@ -28,6 +31,14 @@ public:
 	void set_coords(SDL_Point coords);
 	void set_idle(bool value);
 	bool get_idle();
+
+	ENTITYTYPE get_type() override;
+	virtual BUILDINGTYPE get_building_type() = 0;
+
+	//returns the building in the neighbouring tile or nullptr if it doesn't exist
+	Building* get_neighbour(BUILDINGDIRECTION dir);
+	//sets the building in the given direction to building
+	void set_neighbour(BUILDINGDIRECTION dir, Building* building);
 
 	Resources* get_current_resources() const;
 	void add_resources(Resources* r);
@@ -55,6 +66,10 @@ protected:
 	Resources* mConstruction_costs;
 	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
+
+	//this map holds pointers to the neighbouring buildings or nullptrs
+	//it is kept up to date by the level
+	std::map<BUILDINGDIRECTION, Building*> mSurrounding_buildings;
 
 	//how many resources the building has
 	Resources* mCurrent_resources;

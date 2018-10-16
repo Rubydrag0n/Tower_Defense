@@ -1,5 +1,6 @@
 #pragma once
 #include "Building.h"
+#include "Menu.h"
 
 class Warehouse 
 	: public Building
@@ -10,4 +11,6 @@ public:
 
 	void on_tick() override;
 	void render() override;
+
+	BUILDINGTYPE get_building_type() override;
 };

@@ -4,17 +4,11 @@
 #include "Building.h"
 #include "Resources.h"
 
-enum ACTIVITY {
-	GETTING,
-	DELIVERING,
-	ACTIVITIES_TOTAL,
-};
-
 class Carriage
 	: public Unit
 {
 public:
-	explicit Carriage(std::string unit_name, Building* source = nullptr, Building* drain = nullptr);
+	explicit Carriage(std::string unit_name, Level* level, Building* source = nullptr, Building* drain = nullptr);
 	~Carriage();
 
 	void render() override;
@@ -26,9 +20,11 @@ public:
 	Building* get_source();
 	Building* get_drain();
 
-	bool move_towards(Building* target);
+	bool move_towards(SDL_Point target);
 
 	void move();
+
+	bool update_checkpoints_to(Building* source, Building* target);
 
 private:
 	//building the carriage is getting resources from
@@ -41,4 +37,8 @@ private:
 	Resources* mCurrent_resources;
 
 	ACTIVITY mCurrent_activity;
+
+	std::vector<SDL_Point> mCheckpoints;
+
+	Level* mLevel;
 };

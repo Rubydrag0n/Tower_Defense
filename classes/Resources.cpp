@@ -14,7 +14,7 @@ Resources::Resources(int gold, int wood, int stone, int iron, int energy, int wa
 
 Resources::Resources(Resources* resource, Resources* limit)
 {
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		this->set_resource(RESOURCETYPES(i), resource->get_resource(RESOURCETYPES(i)));
 	}
 	if (limit != nullptr)
@@ -46,14 +46,14 @@ int Resources::get_resource(RESOURCETYPES type)
 
 void Resources::set_empty()
 {
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		this->set_resource(RESOURCETYPES(i), 0);
 	}
 }
 
 bool Resources::is_empty()
 {
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		if (mResources[RESOURCETYPES(i)] != 0) return false;
 	}
 	return true;
@@ -82,19 +82,19 @@ bool Resources::sub(RESOURCETYPES type, int res)
 //Returns true if the subtracting succeeded, false if there wasn't enough resources
 bool Resources::sub(Resources *cost)
 {
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		if (mResources[RESOURCETYPES(i)] - cost->get_resource(RESOURCETYPES(i)) < 0) {
 			return false;
 		}
 	}
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		mResources[RESOURCETYPES(i)] -= cost->get_resource(RESOURCETYPES(i));
 	}
 }
 
 void Resources::add(Resources *income)
 {
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		this->add(RESOURCETYPES(i), income->get_resource(RESOURCETYPES(i)));
 	}
 }
@@ -103,7 +103,7 @@ Resources Resources::operator/(const int &d)
 {
 	Resources r;
 
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) {
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		r.set_resource(RESOURCETYPES(i), this->get_resource(RESOURCETYPES(i)) / 2);
 	}
 	return r;
@@ -124,7 +124,7 @@ bool Resources::transfer(Resources *source)
 
 	int adding;
 
-	for (auto i = 0; i < RESOURCETYPES::TOTAL_ACTIVITIES; i++) 
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) 
 	{
 		adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
 		this->add(RESOURCETYPES(i), source->get_resource(RESOURCETYPES(i)));
