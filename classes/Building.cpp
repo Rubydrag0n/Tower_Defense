@@ -103,6 +103,7 @@ void Building::demolish()
 	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
 }
 
+//TODO: magic numbers
 void Building::render()
 {
 	SDL_Rect dest, window_rect, button_rect;
@@ -118,6 +119,14 @@ void Building::render()
 	{
 		window_rect.x = mCoords.x;
 		window_rect.y = mCoords.y - 200;
+		if(mCoords.y < 200)
+		{
+			window_rect.y = mCoords.y + mSprite_dimensions.h;
+		}
+		if(mCoords.x > 1080)
+		{
+			window_rect.x = mCoords.x + 64 - 200;
+		}
 		window_rect.w = 200;
 		window_rect.h = 200;
 		mWindow->set_dim(window_rect);

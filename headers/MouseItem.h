@@ -32,4 +32,5 @@ private:
 	std::string mGrid_sprite_path;
 	LTexture* mGrid_sprite;
 	TILETYPES mTile_to_build_on;
+
 };

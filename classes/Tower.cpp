@@ -5,23 +5,27 @@
 #include "ConfigFile.h"
 #include "Enemy.h"
 #include "EntityHandler.h"
+#include "SDL_setup.h"
+#include "LayerHandler.h"
 
 
 Tower::Tower(std::string tower_name, SDL_Point coords, Level *level) : Building(tower_name, coords, level)
 {
 	mTower_name = tower_name;
+	auto tower_stats_section = mTower_name + "/stats";
+	mDamage.set_damages(gConfig_file->Value(tower_stats_section, "phys"),
+		gConfig_file->Value(tower_stats_section, "magic"),
+		gConfig_file->Value(tower_stats_section, "fire"),
+		gConfig_file->Value(tower_stats_section, "water"),
+		gConfig_file->Value(tower_stats_section, "elec"));
 
-	mDamage.set_damages(gConfig_file->Value(mTower_name + "/stats", "phys"),
-		gConfig_file->Value(mTower_name + "/stats", "magic"),
-		gConfig_file->Value(mTower_name + "/stats", "fire"),
-		gConfig_file->Value(mTower_name + "/stats", "water"),
-		gConfig_file->Value(mTower_name + "/stats", "elec"));
-
-	mRange = gConfig_file->Value(mTower_name + "/stats", "range");
-	mAttack_speed = gConfig_file->Value(mTower_name + "/stats", "attackspeed");
-	mProjectile_speed = gConfig_file->Value(mTower_name + "/stats", "projectilespeed");
-	mProjectile_name.assign(gConfig_file->Value(mTower_name + "/stats", "projectile_name"));
+	mRange = gConfig_file->Value(tower_stats_section, "range");
+	mAttack_speed = gConfig_file->Value(tower_stats_section, "attackspeed");
+	mProjectile_speed = gConfig_file->Value(tower_stats_section, "projectilespeed");
+	mProjectile_name.assign(gConfig_file->Value(tower_stats_section, "projectile_name"));
 	mAttack_cooldown = 60 / mAttack_speed;
+	auto sprite_path = std::string(gConfig_file->Value("rangeindicator", "path"));
+	mRange_indicator_sprite = gTextures->get_texture(sprite_path);
 }
 
 Tower::~Tower()
@@ -31,6 +35,16 @@ Tower::~Tower()
 void Tower::render()
 {
 	Building::render();
+	if(get_clicked())
+	{
+		SDL_Rect dest;
+		auto dest_offset = mRange / 800;
+		dest.x = get_coords().x - 400 * dest_offset;
+		dest.y = get_coords().y - 400 * dest_offset;
+		dest.h = 800 * dest_offset;
+		dest.w = 800 * dest_offset;
+		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::WINDOWS, nullptr, &dest);
+	}
 }
 
 void Tower::on_tick()
