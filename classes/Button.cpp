@@ -36,6 +36,12 @@ void Button::set_dimension(SDL_Rect dim)
 	this->mButton_dimensions = dim;
 }
 
+SDL_Rect Button::get_dimension()
+{
+	return mButton_dimensions;
+}
+
+
 void Button::set_sprite_clips(SDL_Rect * clips)
 {
 	for (auto i = 0; i < LClickableState::STATES_TOTAL; i++)

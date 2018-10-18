@@ -15,6 +15,7 @@ public:
 
 	//Sets dimension of the button on the screen
 	void set_dimension(SDL_Rect dim);
+	SDL_Rect get_dimension();
 
 	//Sets the Clips
 	void set_sprite_clips(SDL_Rect *clips);

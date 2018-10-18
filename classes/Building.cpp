@@ -99,7 +99,7 @@ void Building::demolish()
 //TODO: magic numbers
 void Building::render()
 {
-	SDL_Rect dest, window_rect, button_rect;
+	SDL_Rect dest;
 
 	dest.x = mCoords.x;
 	dest.y = mCoords.y;
@@ -110,37 +110,15 @@ void Building::render()
 
 	if(this->get_clicked())
 	{
-		window_rect.x = mCoords.x;
-		window_rect.y = mCoords.y - 200;
-		if(mCoords.y < 200)
-		{
-			window_rect.y = mCoords.y + mSprite_dimensions.h;
-		}
-		if(mCoords.x > 1080)
-		{
-			window_rect.x = mCoords.x + 64 - 200;
-		}
-		window_rect.w = 200;
-		window_rect.h = 200;
-		mWindow->set_dim(window_rect);
-		mWindow->set_rendering_enabled(true);
-
-		button_rect.x = window_rect.x;
-		button_rect.y = window_rect.y;
-		button_rect.w = 100;
-		button_rect.h = 26;
-		mWindow->get_demolish_button()->set_dimension(button_rect);
 		mWindow->get_demolish_button()->set_rendering_enabled(true);
+		mWindow->set_rendering_enabled(true);
+		mWindow->get_demolish_button()->enable();
 	}
 	else
 	{
-		button_rect.x = 0;
-		button_rect.y = 0;
-		button_rect.h = 0;
-		button_rect.w = 0;
 		mWindow->set_rendering_enabled(false);
 		mWindow->get_demolish_button()->set_rendering_enabled(false);
-		mWindow->get_demolish_button()->set_dimension(button_rect);
+		mWindow->get_demolish_button()->disable();
 	}
 }
 

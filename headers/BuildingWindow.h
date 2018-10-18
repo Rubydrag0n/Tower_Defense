@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "Button.h"
+#include "CoordinatesInDouble.h"
 
 class Building;
 
@@ -20,10 +21,12 @@ public:
 	void on_button_press(int button_id) override;
 	
 	Button* get_demolish_button();
+	CoordinatesInDouble get_button_offset();
 	void demolish_building();
 
 
 private:
 	Button* mDemolish_button;
 	Building* mBuilding;
+	CoordinatesInDouble mButton_offset;
 };
