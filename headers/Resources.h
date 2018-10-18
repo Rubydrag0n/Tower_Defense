@@ -1,16 +1,6 @@
 #pragma once
 #include <map>
-
-enum RESOURCETYPES {
-	GOLD,
-	WOOD,
-	STONE,
-	IRON,
-	ENERGY,
-	WATER,
-	FOOD,
-	TOTAL_ACTIVITIES
-};
+#include "Enums.h"
 
 class Resources
 {

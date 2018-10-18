@@ -28,7 +28,12 @@ Menu::Menu(Level *level)
 	mButtons[BUILDINGTYPE::LOGISTICS_BUILDING]
 		= new Button("TowerButton", dim, this, BUILDINGTYPE::LOGISTICS_BUILDING);
 
-	for (auto i = 0; i < BUILDINGTYPE::TYPES_TOTAL; i++) {
+	dim.x = 1600;
+	mButtons[BUILDINGTYPE::STREET]
+		= new Button("TowerButton", dim, this, BUILDINGTYPE::STREET);
+
+
+	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
 		this->mMenu_items[BUILDINGTYPE(i)] = new std::vector<MenuItem*>();
 	}
 
@@ -40,7 +45,7 @@ Menu::~Menu()
 {
 	//TODO: fix this deconstructor, it's broken
 	//delete all the buttons and menuitems
-	for (auto i = 0; i < BUILDINGTYPE::TYPES_TOTAL; i++) {
+	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];
 		for (auto j = mMenu_items[BUILDINGTYPE(i)]->size(); j > 0; j--) {
 			delete (mMenu_items[BUILDINGTYPE(i)]->at(j));
@@ -57,7 +62,7 @@ void Menu::show_tab(BUILDINGTYPE open_tab)
 	this->mOpen_tab = open_tab;
 
 	//enable all the items in the opened tab, disable all the items in the not opened tabs
-	for (auto j = 0; j < BUILDINGTYPE::TYPES_TOTAL; j++) {
+	for (auto j = 0; j < BUILDINGTYPE::BUILDINGTYPES_TOTAL; j++) {
 		if (BUILDINGTYPE(j) == open_tab) {
 			for (auto i = 0; i < mMenu_items[open_tab]->size(); i++)
 			{
@@ -93,8 +98,9 @@ void Menu::sort_items_into_menu()
 	types.emplace_back("tower");
 	types.emplace_back("industrialbuildings");
 	types.emplace_back("logisticsbuildings");
+	types.emplace_back("streets");
 
-	for (auto j = 0; j < BUILDINGTYPE::TYPES_TOTAL; j++) {
+	for (auto j = 0; j < BUILDINGTYPE::BUILDINGTYPES_TOTAL; j++) {
 		for (auto i = 0; ; i++)
 		{
 			coords.x = 1300 + (i % number_of_items_per_row) * TILE_WIDTH;

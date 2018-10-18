@@ -177,6 +177,7 @@
     <ClCompile Include="classes\MouseHandler.cpp" />
     <ClCompile Include="classes\MouseItem.cpp" />
     <ClCompile Include="classes\Particles.cpp" />
+    <ClCompile Include="classes\Path.cpp" />
     <ClCompile Include="classes\Renderable.cpp" />
     <ClCompile Include="classes\RenderableHandler.cpp" />
     <ClCompile Include="classes\Resources.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="headers\Damage.h" />
     <ClInclude Include="headers\Defense.h" />
     <ClInclude Include="headers\Enemy.h" />
+    <ClInclude Include="headers\Enums.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\HomingShot.h" />
     <ClInclude Include="headers\HomingTower.h" />
@@ -228,6 +230,7 @@
     <ClInclude Include="headers\MouseHandler.h" />
     <ClInclude Include="headers\MouseItem.h" />
     <ClInclude Include="headers\Particles.h" />
+    <ClInclude Include="headers\Path.h" />
     <ClInclude Include="headers\Renderable.h" />
     <ClInclude Include="headers\RenderableHandler.h" />
     <ClInclude Include="headers\Resources.h" />

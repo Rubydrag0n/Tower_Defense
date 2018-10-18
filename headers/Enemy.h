@@ -7,7 +7,6 @@
 
 class Level;
 
-
 class Enemy :
 	public Unit
 {

@@ -1,16 +1,7 @@
 #pragma once
 #include <SDL.h>
 
-enum LClickableState
-{
-	MOUSE_OUT = 0,			//while the mouse is not over the clickable
-	MOUSE_OVER = 1,			//while the mouse hovers over the clickable
-	MOUSE_DOWN_LEFT = 2,	//while left mouse button is pressed
-	MOUSE_DOWN_RIGHT = 3,	//while right mouse button is pressed
-	MOUSE_DOWN_MIDDLE = 4,	//while middle mouse button is pressed
-	MOUSE_UP = 5,			//one tick after a mouseclick
-	STATES_TOTAL = 6
-};
+#include "Enums.h"
 
 class Clickable
 {

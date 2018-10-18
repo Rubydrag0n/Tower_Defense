@@ -75,10 +75,17 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mWindow = new BuildingWindow(rect, this);
 	int i = gConfig_file->Value(building_stats_section, "tile");
 	mTile_to_build_on = static_cast<TILETYPES>(i);
+
+	for (auto i = 0; BUILDINGDIRECTION(i) < BUILDINGDIRECTION::BUILDINGDIRECTIONS_TOTAL; i++)
+	{
+		this->mSurrounding_buildings[BUILDINGDIRECTION(i)] = nullptr;
+	}
+	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, this);
 }
 
 Building::~Building()
 {
+	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
 	delete mWindow;
 	//don't destroy texture, handled by texture class
 }
@@ -178,6 +185,11 @@ bool Building::get_idle()
 	return this->mIdle;
 }
 
+ENTITYTYPE Building::get_type()
+{
+	return ENTITYTYPE::BUILDING;
+}
+
 Resources* Building::get_current_resources() const
 {
 	return this->mCurrent_resources;
@@ -203,4 +215,12 @@ void Building::set_idle(bool value)
 	this->mIdle = value;
 }
 
+Building* Building::get_neighbour(BUILDINGDIRECTION dir)
+{
+	return this->mSurrounding_buildings[dir];
+}
 
+void Building::set_neighbour(BUILDINGDIRECTION dir, Building* building)
+{
+	this->mSurrounding_buildings[dir] = building;
+}

@@ -6,7 +6,7 @@ EntityHandler* gEntity_handler = nullptr;
 EntityHandler::EntityHandler() : mEntities(), mEntities_by_type(), mEntityvector_dirty_bit()
 {
 	//initialize mEntities_by_type and set all dirtybits to true
-	for (int i = 0; i < int(ENTITYTYPE::COUNT); i++) {
+	for (int i = 0; i < int(ENTITYTYPE::ENTITYTYPES_TOTAL); i++) {
 		this->mEntities_by_type[ENTITYTYPE(i)] = new std::vector<Entity*>();
 		this->mEntityvector_dirty_bit[ENTITYTYPE(i)] = true;
 	}
@@ -73,7 +73,7 @@ const std::vector<Entity*>* EntityHandler::get_entities_of_type(ENTITYTYPE type)
 
 void EntityHandler::invalidate_entity_vectors()
 {
-	for (int i = 0; i < int(ENTITYTYPE::COUNT); i++) {
+	for (int i = 0; i < int(ENTITYTYPE::ENTITYTYPES_TOTAL); i++) {
 		this->mEntityvector_dirty_bit[ENTITYTYPE(i)] = true;
 	}
 }

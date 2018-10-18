@@ -125,7 +125,8 @@ bool init_graphics()
 					success = false;
 				}
 
-				gFont = TTF_OpenFont("resources/lazy.ttf", 28);
+				//TODO: Needs Error handling
+				gFont = TTF_OpenFont("resources/GROBOLD.ttf", 28);
 
 			}
 		}

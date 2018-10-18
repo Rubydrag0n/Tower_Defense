@@ -1,15 +1,6 @@
 #pragma once
 #include "Renderable.h"
-
-enum class ENTITYTYPE
-{
-	UNDEFINED,
-	TOWER,
-	ENEMY,
-	SHOT,
-	PARTICLE,
-	COUNT
-};
+#include "Enums.h"
 
 class Entity :
 	public Renderable

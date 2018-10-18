@@ -18,6 +18,7 @@
 
 int main( int argc, char* args[] )
 {
+	//TODO: Needs error handling
 	gConfig_file = new ConfigFile("config/game.cfg");
 	if (!init_graphics())
 	{

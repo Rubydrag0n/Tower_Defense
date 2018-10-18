@@ -102,7 +102,7 @@ void LayerHandler::renderex_to_layer(LTexture* texture, LAYERS layer, SDL_Rect* 
 void LayerHandler::present()
 {
 	SDL_RenderClear(gRenderer);
-	for (auto i = 0; i < int(LAYERS::COUNT); i++)
+	for (auto i = 0; i < int(LAYERS::LAYERS_TOTAL); i++)
 	{
 		std::vector<RenderTexture*>* x = mPairs.at(LAYERS(i));
 
@@ -125,7 +125,7 @@ void LayerHandler::present()
 
 void LayerHandler::init_mpairs()
 {
-	for (auto i = 0; i < int(LAYERS::COUNT); i++)
+	for (auto i = 0; i < int(LAYERS::LAYERS_TOTAL); i++)
 	{
 		auto v = new std::vector<RenderTexture*>();
 		this->mPairs.insert(std::pair<LAYERS, std::vector<RenderTexture*>*>(LAYERS(i), v));

@@ -1,14 +1,10 @@
 #pragma once
-#include"Textures.h"
 #include <SDL.h>
+
+#include "Textures.h"
 #include "Clickable.h"
 #include "Renderable.h"
-
-enum STYLE
-{
-	STANDARD,
-	COUNT
-};
+#include "Enums.h"
 
 /*
  * This class implements a window of given dimensions
