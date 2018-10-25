@@ -10,6 +10,13 @@ void BuildingWindow::demolish_building()
 	delete mBuilding;
 }
 
+void BuildingWindow::upgrade_building()
+{
+	auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level());
+	mBuilding->upgrade(building_upgrade_section);
+}
+
+
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 {
 	//correct position of the window, so it does not collide with the border
@@ -29,18 +36,25 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 	
 	SDL_Rect button_dim;
 	mButton_offset.x = 0;
-	mButton_offset.y = 180;
+	mButton_offset.y = 140;
 	button_dim.x = dim.x + mButton_offset.x;
 	button_dim.y = dim.y + mButton_offset.y;
-	button_dim.w = 100;
+	button_dim.w = 26;
 	button_dim.h = 26;
-	mBuilding = building;
 	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
+	button_dim.y += 20;
+	mUpgrade_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_BUTTON);
+	if(building->get_building_max_level() == 0)
+	{
+		mUpgrade_button->disable();
+		mUpgrade_button->set_rendering_enabled(false);
+	}
 }
 
 BuildingWindow::~BuildingWindow()
 {
 	delete mDemolish_button;
+	delete mUpgrade_button;
 }
 
 void BuildingWindow::render()
@@ -91,9 +105,8 @@ void BuildingWindow::render()
 
 void BuildingWindow::on_button_press(int button_id)
 {
-	if (button_id == DEMOLISH_BUTTON) {
-		this->demolish_building();
-	}
+	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
+	if (button_id == UPGRADE_BUTTON) this->upgrade_building();
 }
 
 Button* BuildingWindow::get_demolish_button()
@@ -101,9 +114,19 @@ Button* BuildingWindow::get_demolish_button()
 	return mDemolish_button;
 }
 
+Button* BuildingWindow::get_upgrade_button()
+{
+	return mUpgrade_button;
+}
+
+
 CoordinatesInDouble BuildingWindow::get_button_offset()
 {
 	return mButton_offset;
 }
 
+Building* BuildingWindow::get_building()
+{
+	return mBuilding;
+}
 

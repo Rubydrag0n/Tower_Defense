@@ -216,6 +216,9 @@
     <ClCompile Include="classes\Path.cpp">
       <Filter>Source Files\Buildings\Logistics buildings</Filter>
     </ClCompile>
+    <ClCompile Include="classes\TowerWindow.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="headers\Enums.h">
       <Filter>Header Files\Data structures</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\TowerWindow.h">
+      <Filter>Header Files\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

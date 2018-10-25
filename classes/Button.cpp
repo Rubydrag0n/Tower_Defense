@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 #include "ButtonObject.h"
+#include "BuildingWindow.h"
 
 Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id) : mClips{}, mButtonSprite{}, mButton_id{ button_id }
 {

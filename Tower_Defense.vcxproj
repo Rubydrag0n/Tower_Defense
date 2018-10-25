@@ -189,6 +189,7 @@
     <ClCompile Include="classes\Shot.cpp" />
     <ClCompile Include="classes\Textures.cpp" />
     <ClCompile Include="classes\Tower.cpp" />
+    <ClCompile Include="classes\TowerWindow.cpp" />
     <ClCompile Include="classes\Unit.cpp" />
     <ClCompile Include="classes\Entity.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -239,6 +240,7 @@
     <ClInclude Include="headers\Shot.h" />
     <ClInclude Include="headers\Textures.h" />
     <ClInclude Include="headers\Tower.h" />
+    <ClInclude Include="headers\TowerWindow.h" />
     <ClInclude Include="headers\Unit.h" />
     <ClInclude Include="headers\Entity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

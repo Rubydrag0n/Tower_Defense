@@ -53,6 +53,9 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mCurrent_resources->set_empty();
 	mCurrent_resources->set_limit(resource_limit);
 
+	mBuilding_level = 0;
+	mBuilding_max_level = gConfig_file->Value(building_stats_section, "maxLevel");
+
 	mElapsed_ticks = 0;
 
 	mLevel = level;
@@ -67,12 +70,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mIdle = false;
 
 	//set the mouse over window up with initial values
-	SDL_Rect rect;
-	rect.x = mCoords.x;
-	rect.y = mCoords.y - 200;
-	rect.w = 200;
-	rect.h = 200;
-	mWindow = new BuildingWindow(rect, this);
+
 	int i = gConfig_file->Value(building_stats_section, "tile");
 	mTile_to_build_on = static_cast<TILETYPES>(i);
 
@@ -103,7 +101,33 @@ void Building::demolish()
 	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
 }
 
-//TODO: magic numbers
+void Building::upgrade(std::string building_upgrade_section)
+{
+	mBuilding_level++;
+
+	auto plusMaintenance = new Resources(gConfig_file->Value(building_upgrade_section, "goldMain"),
+		gConfig_file->Value(building_upgrade_section, "woodMain"),
+		gConfig_file->Value(building_upgrade_section, "stoneMain"),
+		gConfig_file->Value(building_upgrade_section, "ironMain"),
+		gConfig_file->Value(building_upgrade_section, "energyMain"),
+		gConfig_file->Value(building_upgrade_section, "waterMain"),
+		gConfig_file->Value(building_upgrade_section, "foodMain"));
+	mMaintenance->add(plusMaintenance);
+
+	auto plusConstruction = new Resources(gConfig_file->Value(building_upgrade_section, "goldcosts"),
+		gConfig_file->Value(building_upgrade_section, "woodcosts"),
+		gConfig_file->Value(building_upgrade_section, "stonecosts"),
+		gConfig_file->Value(building_upgrade_section, "ironcosts"),
+		gConfig_file->Value(building_upgrade_section, "energycosts"),
+		gConfig_file->Value(building_upgrade_section, "watercosts"),
+		gConfig_file->Value(building_upgrade_section, "foodcosts"));
+	mConstruction_costs->add(plusConstruction);
+
+	mLevel->get_resources()->sub(plusConstruction);
+
+}
+
+
 void Building::render()
 {
 	SDL_Rect dest;
@@ -117,15 +141,22 @@ void Building::render()
 
 	if(this->get_clicked())
 	{
+		if (get_building_level() < get_building_max_level())
+		{
+			mWindow->get_upgrade_button()->set_rendering_enabled(true);
+			mWindow->get_upgrade_button()->enable();
+		}
 		mWindow->get_demolish_button()->set_rendering_enabled(true);
-		mWindow->set_rendering_enabled(true);
 		mWindow->get_demolish_button()->enable();
+		mWindow->set_rendering_enabled(true);
 	}
 	else
 	{
 		mWindow->set_rendering_enabled(false);
-		mWindow->get_demolish_button()->set_rendering_enabled(false);
 		mWindow->get_demolish_button()->disable();
+		mWindow->get_upgrade_button()->set_rendering_enabled(false);
+		mWindow->get_upgrade_button()->disable();
+		mWindow->get_demolish_button()->set_rendering_enabled(false);
 	}
 }
 
@@ -137,12 +168,6 @@ void Building::on_tick()
 		mIdle = !this->mCurrent_resources->sub(mMaintenance);
 	}
 	mElapsed_ticks++;
-}
-
-
-void Building::set_maintenance(Resources* new_maintenance)
-{
-	mMaintenance = new Resources(new_maintenance);
 }
 
 void Building::on_click(int mouse_x, int mouse_y)
@@ -158,6 +183,11 @@ void Building::on_click(int mouse_x, int mouse_y)
 	{
 		this->set_clicked(true);
 	}
+}
+
+void Building::set_maintenance(Resources* new_maintenance)
+{
+	mMaintenance = new Resources(new_maintenance);
 }
 
 void Building::set_coords(SDL_Point coords)
@@ -224,3 +254,19 @@ void Building::set_neighbour(BUILDINGDIRECTION dir, Building* building)
 {
 	this->mSurrounding_buildings[dir] = building;
 }
+
+int Building::get_building_level()
+{
+	return mBuilding_level;
+}
+
+int Building::get_building_max_level()
+{
+	return mBuilding_max_level;
+}
+
+std::string Building::get_name()
+{
+	return mName;
+}
+

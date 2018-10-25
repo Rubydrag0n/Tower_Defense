@@ -18,6 +18,16 @@ Damage::Damage(double phys, double magic, double fire, double water, double elec
 	mElec_dmg = elec;
 }
 
+void Damage::add(double phys, double magic, double fire, double water, double elec)
+{
+	mPhys_dmg += phys;
+	mMagic_dmg += magic;
+	mFire_dmg += fire;
+	mWater_dmg += water;
+	mElec_dmg += elec;
+}
+
+
 void Damage::set_damages(double phys, double magic, double fire, double water, double elec)
 {
 	mPhys_dmg = phys;

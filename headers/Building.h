@@ -23,6 +23,7 @@ public:
 	void render() override; //render the picture of the building
 	void on_tick() override; //takes ressources for maintenance
 	void demolish();
+	virtual void upgrade(std::string building_upgrade_section); //upgrades building
 
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
@@ -31,6 +32,9 @@ public:
 	void set_coords(SDL_Point coords);
 	void set_idle(bool value);
 	bool get_idle();
+	int get_building_level();
+	int get_building_max_level();
+	std::string get_name();
 
 	ENTITYTYPE get_type() override;
 	virtual BUILDINGTYPE get_building_type() = 0;
@@ -73,4 +77,7 @@ protected:
 
 	//how many resources the building has
 	Resources* mCurrent_resources;
+
+	int mBuilding_level; //level of the building, can be raised by upgrades
+	int mBuilding_max_level; //max level of this building
 };
