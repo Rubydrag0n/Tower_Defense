@@ -12,6 +12,13 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL
 		gConfig_file->Value(industrial_building_name + "/stats", "energyproduction"),
 		gConfig_file->Value(industrial_building_name + "/stats", "waterproduction"),
 		gConfig_file->Value(industrial_building_name + "/stats", "foodproduction"));
+
+	SDL_Rect rect;
+	rect.x = mCoords.x;
+	rect.y = mCoords.y - 200;
+	rect.w = 200;
+	rect.h = 200;
+	mWindow = new BuildingWindow(rect, this);
 }
 
 IndustrialBuilding::~IndustrialBuilding()

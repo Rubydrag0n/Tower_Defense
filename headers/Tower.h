@@ -23,6 +23,11 @@ public:
 	//all projectiles, that are fired from this tower are updated, shots are fired
 	void on_tick() override;
 
+	void upgrade(std::string tower_upgrade_section) override;
+	void upgrade_damage();
+	void upgrade_range();
+	void upgrade_attackspeed();
+
 	BUILDINGTYPE get_building_type() override;
 	
 	//checks if an enemy is in range of the tower

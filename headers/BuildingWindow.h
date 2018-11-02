@@ -1,11 +1,13 @@
 #pragma once
 #include "Window.h"
 #include "Button.h"
+#include "CoordinatesInDouble.h"
 
 class Building;
 
 enum BUILDINGWINDOWBUTTONIDS {
 	DEMOLISH_BUTTON,
+	UPGRADE_BUTTON,
 	BUTTON_NUMBER
 };
 
@@ -19,11 +21,21 @@ public:
 	void render() override;
 	void on_button_press(int button_id) override;
 	
-	Button* get_demolish_button();
 	void demolish_building();
+	void upgrade_building();
+
+	Button* get_demolish_button();
+	Button* get_upgrade_button();
+	CoordinatesInDouble get_button_offset();
+	Building* get_building();
 
 
 private:
 	Button* mDemolish_button;
+	Button* mUpgrade_button;
+	CoordinatesInDouble mButton_offset;
+
+protected:
 	Building* mBuilding;
+
 };

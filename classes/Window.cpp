@@ -79,19 +79,6 @@ void Window::render()
 	{
 		gLayer_handler->render_to_layer(mVerticalborder, LAYERS::WINDOWS, nullptr, &dest);
 	}
-	SDL_Color text_color = { 0, 255, 255 };
-
-	LTexture* text = new LTexture();
-	text->load_from_rendered_text("b,iae,amiuembiumbei", text_color);
-	dest.w = mDim.w;
-	dest.h = mDim.h;
-
-	dest.x = mDim.x;
-	dest.y = mDim.y;
-
-
-	gLayer_handler->render_to_layer(text, LAYERS::WINDOWS, nullptr, &dest);
-
 }
 
 void Window::set_dim(SDL_Rect dim)

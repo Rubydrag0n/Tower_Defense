@@ -6,6 +6,7 @@ public:
 	Damage();
 	Damage(double phys, double magic, double fire, double water, double elec);
 
+	void add(double phys, double magic, double fire, double water, double elec);
 	//set and get all the different types of damage
 	void set_damages(double phys, double magic, double fire, double water, double elec);
 	void set_phys_dmg(double phys);

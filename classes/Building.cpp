@@ -53,6 +53,9 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mCurrent_resources->set_empty();
 	mCurrent_resources->set_limit(resource_limit);
 
+	mBuilding_level = 0;
+	mBuilding_max_level = gConfig_file->Value(building_stats_section, "maxLevel");
+
 	mElapsed_ticks = 0;
 
 	mLevel = level;
@@ -67,12 +70,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mIdle = false;
 
 	//set the mouse over window up with initial values
-	SDL_Rect rect;
-	rect.x = mCoords.x;
-	rect.y = mCoords.y - 200;
-	rect.w = 200;
-	rect.h = 200;
-	mWindow = new BuildingWindow(rect, this);
+
 	int i = gConfig_file->Value(building_stats_section, "tile");
 	mTile_to_build_on = static_cast<TILETYPES>(i);
 
@@ -103,10 +101,36 @@ void Building::demolish()
 	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
 }
 
-//TODO: magic numbers
+void Building::upgrade(std::string building_upgrade_section)
+{
+	mBuilding_level++;
+
+	auto plusMaintenance = new Resources(gConfig_file->Value(building_upgrade_section, "goldMain"),
+		gConfig_file->Value(building_upgrade_section, "woodMain"),
+		gConfig_file->Value(building_upgrade_section, "stoneMain"),
+		gConfig_file->Value(building_upgrade_section, "ironMain"),
+		gConfig_file->Value(building_upgrade_section, "energyMain"),
+		gConfig_file->Value(building_upgrade_section, "waterMain"),
+		gConfig_file->Value(building_upgrade_section, "foodMain"));
+	mMaintenance->add(plusMaintenance);
+
+	auto plusConstruction = new Resources(gConfig_file->Value(building_upgrade_section, "goldcosts"),
+		gConfig_file->Value(building_upgrade_section, "woodcosts"),
+		gConfig_file->Value(building_upgrade_section, "stonecosts"),
+		gConfig_file->Value(building_upgrade_section, "ironcosts"),
+		gConfig_file->Value(building_upgrade_section, "energycosts"),
+		gConfig_file->Value(building_upgrade_section, "watercosts"),
+		gConfig_file->Value(building_upgrade_section, "foodcosts"));
+	mConstruction_costs->add(plusConstruction);
+
+	mLevel->get_resources()->sub(plusConstruction);
+
+}
+
+
 void Building::render()
 {
-	SDL_Rect dest, window_rect, button_rect;
+	SDL_Rect dest;
 
 	dest.x = mCoords.x;
 	dest.y = mCoords.y;
@@ -117,37 +141,22 @@ void Building::render()
 
 	if(this->get_clicked())
 	{
-		window_rect.x = mCoords.x;
-		window_rect.y = mCoords.y - 200;
-		if(mCoords.y < 200)
+		if (get_building_level() < get_building_max_level())
 		{
-			window_rect.y = mCoords.y + mSprite_dimensions.h;
+			mWindow->get_upgrade_button()->set_rendering_enabled(true);
+			mWindow->get_upgrade_button()->enable();
 		}
-		if(mCoords.x > 1080)
-		{
-			window_rect.x = mCoords.x + 64 - 200;
-		}
-		window_rect.w = 200;
-		window_rect.h = 200;
-		mWindow->set_dim(window_rect);
-		mWindow->set_rendering_enabled(true);
-
-		button_rect.x = window_rect.x;
-		button_rect.y = window_rect.y;
-		button_rect.w = 100;
-		button_rect.h = 26;
-		mWindow->get_demolish_button()->set_dimension(button_rect);
 		mWindow->get_demolish_button()->set_rendering_enabled(true);
+		mWindow->get_demolish_button()->enable();
+		mWindow->set_rendering_enabled(true);
 	}
 	else
 	{
-		button_rect.x = 0;
-		button_rect.y = 0;
-		button_rect.h = 0;
-		button_rect.w = 0;
 		mWindow->set_rendering_enabled(false);
+		mWindow->get_demolish_button()->disable();
+		mWindow->get_upgrade_button()->set_rendering_enabled(false);
+		mWindow->get_upgrade_button()->disable();
 		mWindow->get_demolish_button()->set_rendering_enabled(false);
-		mWindow->get_demolish_button()->set_dimension(button_rect);
 	}
 }
 
@@ -159,12 +168,6 @@ void Building::on_tick()
 		mIdle = !this->mCurrent_resources->sub(mMaintenance);
 	}
 	mElapsed_ticks++;
-}
-
-
-void Building::set_maintenance(Resources* new_maintenance)
-{
-	mMaintenance = new Resources(new_maintenance);
 }
 
 void Building::on_click(int mouse_x, int mouse_y)
@@ -180,6 +183,11 @@ void Building::on_click(int mouse_x, int mouse_y)
 	{
 		this->set_clicked(true);
 	}
+}
+
+void Building::set_maintenance(Resources* new_maintenance)
+{
+	mMaintenance = new Resources(new_maintenance);
 }
 
 void Building::set_coords(SDL_Point coords)
@@ -246,3 +254,19 @@ void Building::set_neighbour(BUILDINGDIRECTION dir, Building* building)
 {
 	this->mSurrounding_buildings[dir] = building;
 }
+
+int Building::get_building_level()
+{
+	return mBuilding_level;
+}
+
+int Building::get_building_max_level()
+{
+	return mBuilding_max_level;
+}
+
+std::string Building::get_name()
+{
+	return mName;
+}
+

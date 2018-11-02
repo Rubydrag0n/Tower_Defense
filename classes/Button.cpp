@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 #include "ButtonObject.h"
+#include "BuildingWindow.h"
 
 Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id) : mClips{}, mButtonSprite{}, mButton_id{ button_id }
 {
@@ -35,6 +36,12 @@ void Button::set_dimension(SDL_Rect dim)
 {
 	this->mButton_dimensions = dim;
 }
+
+SDL_Rect Button::get_dimension()
+{
+	return mButton_dimensions;
+}
+
 
 void Button::set_sprite_clips(SDL_Rect * clips)
 {
