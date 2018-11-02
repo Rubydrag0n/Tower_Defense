@@ -85,7 +85,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 
 Building::~Building()
 {
-	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
 	delete mWindow;
 	//don't destroy texture, handled by texture class
 }
@@ -101,6 +100,7 @@ void Building::demolish()
 	auto tile_x = mCoords.x / 64;
 	auto tile_y = mCoords.y / 64;
 	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
+	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
 }
 
 //TODO: magic numbers
