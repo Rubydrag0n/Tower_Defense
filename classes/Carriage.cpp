@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Unit.h"
 #include "SDL_setup.h"
+#include <set>
 
 Carriage::Carriage(std::string unit_name, Level* level, Building* source, Building* drain) : Unit{ unit_name }
 {
@@ -137,8 +138,6 @@ void Carriage::move()
 //if path exists returns true and sets the path into mCheckpoints, otherwise returns false
 bool Carriage::update_checkpoints_to(Building * source, Building * target)
 {
-	//TODO: make this thing less terrible
-
 	if (source == nullptr || target == nullptr) return false;
 
 	//if already there
@@ -147,8 +146,11 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 	//breadth-first search because there isn't enough space for difficult searches
 	//and we find the shortest path guranteed
 	std::map<int, std::vector<std::pair<Building*, Building*>>> depth_search;
+	//what buildings have already been visited
+	std::set<Building*> visited;
 	//		depth, vector of buildings in depth with mapped precursor
 	depth_search[0].emplace_back(std::pair<Building*, Building*>(target, nullptr));
+	visited.insert(target);
 
 	bool success = false;
 	int distance = 0;
@@ -162,23 +164,17 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 			
 			for (int dir = 0; dir != BUILDINGDIRECTIONS_TOTAL; dir++) { //iterating through 
 				Building* neighbour = current->get_neighbour(BUILDINGDIRECTION(dir));
+				if (neighbour == nullptr) continue;
 
-				if (neighbour != nullptr) {
-					bool already_contained = false;
-					//search if this building exists already somewhere
-					for (auto i = 0; i < depth + 1; i++) {
-						for (auto it2 = depth_search[i].begin(); it2 != depth_search[i].end(); it2++) {
-							if (it2->first == neighbour) already_contained = true;
-						}
-					}
-					if (!already_contained) {
-						//if this new building hasn't been visited
-						depth_search[depth + 1].emplace_back(std::pair<Building*, Building*>(neighbour, it->first));
-						if (neighbour == source)
-						{
-							success = true;
-							distance = depth + 1;
-						}
+				if (visited.find(neighbour) == visited.end())
+				{
+					//if this new building hasn't been visited
+					depth_search[depth + 1].emplace_back(std::pair<Building*, Building*>(neighbour, it->first));
+					visited.insert(neighbour);
+					if (neighbour == source)
+					{
+						success = true;
+						distance = depth + 1;
 					}
 				}
 			}
@@ -195,7 +191,10 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 			if (it->first == current)
 			{
 				//add to checkpoints
-				mCheckpoints.emplace_back(it->second->get_coords());
+				SDL_Point p = it->second->get_coords();
+				p.x += TILE_WIDTH / 2;
+				p.y += TILE_HEIGHT / 2;
+				mCheckpoints.emplace_back(p);
 				current = it->second;
 			}
 		}
