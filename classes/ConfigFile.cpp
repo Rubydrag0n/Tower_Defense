@@ -49,10 +49,36 @@ ConfigFile::ConfigFile(std::string const& configFile) {
 Chameleon const& ConfigFile::Value(std::string const& section, std::string const& entry) const {
 	const auto ci = content_.find(section + '/' + entry);
 
-	if (ci == content_.end()) throw "does not exist";
-
+	if (ci == content_.end())
+	{
+		throw "does not exist";
+	}
 	return ci->second;
 }
+
+bool ConfigFile::value_exists(std::string const& section, std::string const& entry)
+{
+	const auto ci = content_.find(section + '/' + entry);
+	if (ci == content_.end())
+	{
+		return false;
+	}
+	return true;
+}
+
+Chameleon ConfigFile::value_or_zero(std::string const& section, std::string const& entry)
+{
+	const auto ci = content_.find(section + '/' + entry);
+
+	if (ci == content_.end())
+	{
+		auto cham = new Chameleon(0.0);
+		return *cham;
+	}
+	return ci->second;
+}
+
+
 
 Chameleon const& ConfigFile::Value(std::string const& section, std::string const& entry, double value) {
 	try {

@@ -11,6 +11,8 @@ public:
 	ConfigFile(std::string const& configFile);
 
 	Chameleon const& Value(std::string const& section, std::string const& entry) const;
+	bool value_exists(std::string const& section, std::string const& entry);
+	Chameleon value_or_zero(std::string const& section, std::string const& entry); //if no value in config is specified it returns zero
 
 	Chameleon const& Value(std::string const& section, std::string const& entry, double value);
 	Chameleon const& Value(std::string const& section, std::string const& entry, std::string const& value);

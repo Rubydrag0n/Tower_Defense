@@ -56,13 +56,13 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	mHealth_bar_dimensions.h = gConfig_file->Value(healthbar_sprite_section, "image_height");
 
 
-	mLoot_resources.set_resources(gConfig_file->Value(monster_stats_section, "goldloot"),
-		gConfig_file->Value(monster_stats_section, "woodloot"),
-		gConfig_file->Value(monster_stats_section, "stoneloot"),
-		gConfig_file->Value(monster_stats_section, "ironloot"),
-		gConfig_file->Value(monster_stats_section, "energyloot"),
-		gConfig_file->Value(monster_stats_section, "waterloot"),
-		gConfig_file->Value(monster_stats_section, "foodloot"));
+	mLoot_resources.set_resources(gConfig_file->value_or_zero(monster_stats_section, "goldloot"),
+		gConfig_file->value_or_zero(monster_stats_section, "woodloot"),
+		gConfig_file->value_or_zero(monster_stats_section, "stoneloot"),
+		gConfig_file->value_or_zero(monster_stats_section, "ironloot"),
+		gConfig_file->value_or_zero(monster_stats_section, "energyloot"),
+		gConfig_file->value_or_zero(monster_stats_section, "waterloot"),
+		gConfig_file->value_or_zero(monster_stats_section, "foodloot"));
 }
 
 Enemy::~Enemy()

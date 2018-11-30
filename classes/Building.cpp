@@ -12,6 +12,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	auto building_sprite_section = mName + "/sprite";
 	auto building_stats_section = mName + "/stats";
 	mSprite_path = std::string(gConfig_file->Value(building_sprite_section, "path"));
+
+
 	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(mSprite_path);
 	mSprite_dimensions.w = gConfig_file->Value(building_sprite_section, "image_width");
@@ -25,29 +27,29 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	auto resource_limit = new Resources();
 
 	//set the maintenance costs of the building
-	mMaintenance->set_resources(gConfig_file->Value(building_stats_section, "goldMain"),
-		gConfig_file->Value(building_stats_section, "woodMain"),
-		gConfig_file->Value(building_stats_section, "stoneMain"),
-		gConfig_file->Value(building_stats_section, "ironMain"),
-		gConfig_file->Value(building_stats_section, "energyMain"),
-		gConfig_file->Value(building_stats_section, "waterMain"),
-		gConfig_file->Value(building_stats_section, "foodMain"));
+	mMaintenance->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldMain"),
+		gConfig_file->value_or_zero(building_stats_section, "woodMain"),
+		gConfig_file->value_or_zero(building_stats_section, "stoneMain"),
+		gConfig_file->value_or_zero(building_stats_section, "ironMain"),
+		gConfig_file->value_or_zero(building_stats_section, "energyMain"),
+		gConfig_file->value_or_zero(building_stats_section, "waterMain"),
+		gConfig_file->value_or_zero(building_stats_section, "foodMain"));
 
-	mConstruction_costs->set_resources(gConfig_file->Value(building_stats_section, "goldcosts"),
-		gConfig_file->Value(building_stats_section, "woodcosts"),
-		gConfig_file->Value(building_stats_section, "stonecosts"),
-		gConfig_file->Value(building_stats_section, "ironcosts"),
-		gConfig_file->Value(building_stats_section, "energycosts"),
-		gConfig_file->Value(building_stats_section, "watercosts"),
-		gConfig_file->Value(building_stats_section, "foodcosts"));
+	mConstruction_costs->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldcosts"),
+		gConfig_file->value_or_zero(building_stats_section, "woodcosts"),
+		gConfig_file->value_or_zero(building_stats_section, "stonecosts"),
+		gConfig_file->value_or_zero(building_stats_section, "ironcosts"),
+		gConfig_file->value_or_zero(building_stats_section, "energycosts"),
+		gConfig_file->value_or_zero(building_stats_section, "watercosts"),
+		gConfig_file->value_or_zero(building_stats_section, "foodcosts"));
 
-	resource_limit->set_resources(gConfig_file->Value(building_stats_section, "goldLimit"),
-		gConfig_file->Value(building_stats_section, "woodLimit"),
-		gConfig_file->Value(building_stats_section, "stoneLimit"),
-		gConfig_file->Value(building_stats_section, "ironLimit"),
-		gConfig_file->Value(building_stats_section, "energyLimit"),
-		gConfig_file->Value(building_stats_section, "waterLimit"),
-		gConfig_file->Value(building_stats_section, "foodLimit"));
+	resource_limit->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldLimit"),
+		gConfig_file->value_or_zero(building_stats_section, "woodLimit"),
+		gConfig_file->value_or_zero(building_stats_section, "stoneLimit"),
+		gConfig_file->value_or_zero(building_stats_section, "ironLimit"),
+		gConfig_file->value_or_zero(building_stats_section, "energyLimit"),
+		gConfig_file->value_or_zero(building_stats_section, "waterLimit"),
+		gConfig_file->value_or_zero(building_stats_section, "foodLimit"));
 
 	//building starts without resources
 	mCurrent_resources->set_empty();
@@ -55,6 +57,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 
 	mBuilding_level = 0;
 	mBuilding_max_level = gConfig_file->Value(building_stats_section, "maxLevel");
+	mCount_of_little_upgrade = 0;
 
 	mElapsed_ticks = 0;
 
@@ -105,22 +108,23 @@ void Building::upgrade(std::string building_upgrade_section)
 {
 	mBuilding_level++;
 
-	auto plusMaintenance = new Resources(gConfig_file->Value(building_upgrade_section, "goldMain"),
-		gConfig_file->Value(building_upgrade_section, "woodMain"),
-		gConfig_file->Value(building_upgrade_section, "stoneMain"),
-		gConfig_file->Value(building_upgrade_section, "ironMain"),
-		gConfig_file->Value(building_upgrade_section, "energyMain"),
-		gConfig_file->Value(building_upgrade_section, "waterMain"),
-		gConfig_file->Value(building_upgrade_section, "foodMain"));
+	auto plusMaintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
+		gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
+		gConfig_file->value_or_zero(building_upgrade_section, "stoneMain"),
+		gConfig_file->value_or_zero(building_upgrade_section, "ironMain"),
+		gConfig_file->value_or_zero(building_upgrade_section, "energyMain"),
+		gConfig_file->value_or_zero(building_upgrade_section, "waterMain"),
+		gConfig_file->value_or_zero(building_upgrade_section, "foodMain"));
 	mMaintenance->add(plusMaintenance);
 
-	auto plusConstruction = new Resources(gConfig_file->Value(building_upgrade_section, "goldcosts"),
-		gConfig_file->Value(building_upgrade_section, "woodcosts"),
-		gConfig_file->Value(building_upgrade_section, "stonecosts"),
-		gConfig_file->Value(building_upgrade_section, "ironcosts"),
-		gConfig_file->Value(building_upgrade_section, "energycosts"),
-		gConfig_file->Value(building_upgrade_section, "watercosts"),
-		gConfig_file->Value(building_upgrade_section, "foodcosts"));
+	auto upgrade_cost_multiplier = mCount_of_little_upgrade * 2 + 1;
+	auto plusConstruction = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts") * upgrade_cost_multiplier,
+		gConfig_file->value_or_zero(building_upgrade_section, "woodcosts") * upgrade_cost_multiplier,
+		gConfig_file->value_or_zero(building_upgrade_section, "stonecosts") * upgrade_cost_multiplier,
+		gConfig_file->value_or_zero(building_upgrade_section, "ironcosts") * upgrade_cost_multiplier,
+		gConfig_file->value_or_zero(building_upgrade_section, "energycosts") * upgrade_cost_multiplier,
+		gConfig_file->value_or_zero(building_upgrade_section, "watercosts") * upgrade_cost_multiplier,
+		gConfig_file->value_or_zero(building_upgrade_section, "foodcosts") * upgrade_cost_multiplier);
 	mConstruction_costs->add(plusConstruction);
 
 	mLevel->get_resources()->sub(plusConstruction);

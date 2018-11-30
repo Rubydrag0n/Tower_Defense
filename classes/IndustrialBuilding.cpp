@@ -5,13 +5,13 @@
 IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL_Point coords, Level *level) : Building(industrial_building_name, coords, level)
 {
 	//set the ressources that are produced per second
-	mRessources_produced_per_second.set_resources(gConfig_file->Value(industrial_building_name + "/stats", "goldproduction"),
-		gConfig_file->Value(industrial_building_name + "/stats", "woodproduction"),
-		gConfig_file->Value(industrial_building_name + "/stats", "stoneproduction"),
-		gConfig_file->Value(industrial_building_name + "/stats", "ironproduction"),
-		gConfig_file->Value(industrial_building_name + "/stats", "energyproduction"),
-		gConfig_file->Value(industrial_building_name + "/stats", "waterproduction"),
-		gConfig_file->Value(industrial_building_name + "/stats", "foodproduction"));
+	mRessources_produced_per_second.set_resources(gConfig_file->value_or_zero(industrial_building_name + "/stats", "goldproduction"),
+		gConfig_file->value_or_zero(industrial_building_name + "/stats", "woodproduction"),
+		gConfig_file->value_or_zero(industrial_building_name + "/stats", "stoneproduction"),
+		gConfig_file->value_or_zero(industrial_building_name + "/stats", "ironproduction"),
+		gConfig_file->value_or_zero(industrial_building_name + "/stats", "energyproduction"),
+		gConfig_file->value_or_zero(industrial_building_name + "/stats", "waterproduction"),
+		gConfig_file->value_or_zero(industrial_building_name + "/stats", "foodproduction"));
 
 	SDL_Rect rect;
 	rect.x = mCoords.x;
