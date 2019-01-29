@@ -3,13 +3,6 @@
 
 class Tower;
 
-enum TOWERWINDOWBUTTONIDS
-{
-	UPGRADE_DAMAGE_BUTTON,
-	UPGRADE_RANGE_BUTTON,
-	UPGRADE_ATTACKSPEED_BUTTON,
-	BUTTON_COUNT
-};
 
 class TowerWindow : public BuildingWindow
 {

@@ -47,17 +47,17 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	mDirection = DIRECTION::DOWN;
 
 	mMove_speed = gConfig_file->Value(stats_section, "movementspeed");
-	mDefense.set_defenses(double(int(gConfig_file->Value(stats_section, "health"))),
-						  double(int(gConfig_file->Value(stats_section, "armor"))),
-						  double(int(gConfig_file->Value(stats_section, "magicres"))),
-						  double(int(gConfig_file->Value(stats_section, "fireres"))),
-						  double(int(gConfig_file->Value(stats_section, "waterres"))),
-						  double(int(gConfig_file->Value(stats_section, "elecres"))));
-	mDefense.set_immunities(bool(int(gConfig_file->Value(stats_section, "physimm"))),
-							bool(int(gConfig_file->Value(stats_section, "magicimm"))),
-							bool(int(gConfig_file->Value(stats_section, "fireimm"))),
-							bool(int(gConfig_file->Value(stats_section, "waterimm"))),
-							bool(int(gConfig_file->Value(stats_section, "elecimm"))));
+	mDefense.set_defenses(double(int(gConfig_file->value_or_zero(stats_section, "health"))),
+						  double(int(gConfig_file->value_or_zero(stats_section, "armor"))),
+						  double(int(gConfig_file->value_or_zero(stats_section, "magicres"))),
+						  double(int(gConfig_file->value_or_zero(stats_section, "fireres"))),
+						  double(int(gConfig_file->value_or_zero(stats_section, "waterres"))),
+						  double(int(gConfig_file->value_or_zero(stats_section, "elecres"))));
+	mDefense.set_immunities(bool(int(gConfig_file->value_or_zero(stats_section, "physimm"))),
+							bool(int(gConfig_file->value_or_zero(stats_section, "magicimm"))),
+							bool(int(gConfig_file->value_or_zero(stats_section, "fireimm"))),
+							bool(int(gConfig_file->value_or_zero(stats_section, "waterimm"))),
+							bool(int(gConfig_file->value_or_zero(stats_section, "elecimm"))));
 	//setting up the blending
 	mSprite->set_blend_mode(SDL_BLENDMODE_BLEND);
 

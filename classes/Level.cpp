@@ -10,17 +10,17 @@ const int matrix_height = 16;
 Level::Level(std::string level_number)
 {
 	mLevel_number = level_number;
-	mLives = gConfig_file->Value("level" + mLevel_number, "lives");
+	mLives = gConfig_file->value_or_zero("level" + mLevel_number, "lives");
 	mWaves_count = gConfig_file->Value("level" + mLevel_number, "waves_count");
 
 	//set the start-ressources in this level
-	mRessources.set_resources(gConfig_file->Value("level" + mLevel_number, "gold"),
-		gConfig_file->Value("level" + mLevel_number, "wood"),
-		gConfig_file->Value("level" + mLevel_number, "stone"),
-		gConfig_file->Value("level" + mLevel_number, "iron"),
-		gConfig_file->Value("level" + mLevel_number, "energy"),
-		gConfig_file->Value("level" + mLevel_number, "water"), 
-		gConfig_file->Value("level" + mLevel_number, "food"));
+	mRessources.set_resources(gConfig_file->value_or_zero("level" + mLevel_number, "gold"),
+		gConfig_file->value_or_zero("level" + mLevel_number, "wood"),
+		gConfig_file->value_or_zero("level" + mLevel_number, "stone"),
+		gConfig_file->value_or_zero("level" + mLevel_number, "iron"),
+		gConfig_file->value_or_zero("level" + mLevel_number, "energy"),
+		gConfig_file->value_or_zero("level" + mLevel_number, "water"),
+		gConfig_file->value_or_zero("level" + mLevel_number, "food"));
 
 	//create all waves in the level and insert them in the vector mWaves
 	for (auto i = 1; i <= mWaves_count; i++)

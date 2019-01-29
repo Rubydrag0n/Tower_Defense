@@ -79,4 +79,5 @@ protected:
 
 	int mBuilding_level; //level of the building, can be raised by upgrades
 	int mBuilding_max_level; //max level of this building
+	int mCount_of_little_upgrade; //count of the little upgrades as a requiremnt for big upgrades
 };

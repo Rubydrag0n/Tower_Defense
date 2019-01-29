@@ -22,13 +22,13 @@ MenuItem::MenuItem(std::string name_of_object, Level *level, SDL_Point coords)
 	this->set_clickable_space(clickable);
 
 	//set the construction costs of the building
-	mConstruction_costs.set_resources(gConfig_file->Value(name_of_object + "/stats", "goldcosts"),
-		gConfig_file->Value(name_of_object + "/stats", "woodcosts"),
-		gConfig_file->Value(name_of_object + "/stats", "stonecosts"),
-		gConfig_file->Value(name_of_object + "/stats", "ironcosts"),
-		gConfig_file->Value(name_of_object + "/stats", "energycosts"),
-		gConfig_file->Value(name_of_object + "/stats", "watercosts"),
-		gConfig_file->Value(name_of_object + "/stats", "foodcosts"));
+	mConstruction_costs.set_resources(gConfig_file->value_or_zero(name_of_object + "/stats", "goldcosts"),
+		gConfig_file->value_or_zero(name_of_object + "/stats", "woodcosts"),
+		gConfig_file->value_or_zero(name_of_object + "/stats", "stonecosts"),
+		gConfig_file->value_or_zero(name_of_object + "/stats", "ironcosts"),
+		gConfig_file->value_or_zero(name_of_object + "/stats", "energycosts"),
+		gConfig_file->value_or_zero(name_of_object + "/stats", "watercosts"),
+		gConfig_file->value_or_zero(name_of_object + "/stats", "foodcosts"));
 }
 
 MenuItem::~MenuItem()

@@ -7,12 +7,14 @@
 void BuildingWindow::demolish_building()
 {
 	mBuilding->demolish();
+	std::cout << "dem";
 	delete mBuilding;
 }
 
 void BuildingWindow::upgrade_building()
 {
-	auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level());
+	std::cout << "up";
+	auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level()+1);
 	mBuilding->upgrade(building_upgrade_section);
 }
 
