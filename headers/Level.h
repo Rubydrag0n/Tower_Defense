@@ -3,8 +3,10 @@
 
 #include "Wave.h"
 #include "Resources.h"
-#include "Building.h"
 #include "Enums.h"
+
+class Building;
+class Warehouse;
 
 class Level
 {
@@ -31,6 +33,9 @@ public:
 
 	void set_building_matrix(int x, int y, Building* building);
 	Building* get_building_matrix(int x, int y);
+
+	Warehouse* get_main_building();
+	void set_main_building(Warehouse *main_building);
 	
 private:
 	std::string mLevel_number;
@@ -41,5 +46,6 @@ private:
 	int mWaves_count;
 	TILETYPES** mMap_matrix;
 	Building*** mMap_buildings;
-};
 
+	Warehouse* mMain_building;
+};

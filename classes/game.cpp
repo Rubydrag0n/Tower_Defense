@@ -62,14 +62,11 @@ Game::Game()
 	p.x = 1152;
 	p.y = 640;
 	auto warehouse = new Warehouse("warehouse", p, mLevel);
-
+	this->mLevel->set_main_building(warehouse);
 
 	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	warehouse->add_resources(r);
 
-
-
-	auto carriage = new Carriage("carriage", mLevel, warehouse, tower);
 }
 
 Game::~Game()
@@ -99,10 +96,11 @@ void Game::start_game()
 
 	SDL_RenderPresent(gRenderer);
 
-
-/*	auto testButton = new Button();
+	/*	
+	auto testButton = new Button();
 	std::string path = std::string(gConfig_file->Value("StartButton/sprite", "path"));
-	testButton->mButtonSpriteSheetTexture = gTextures->get_texture(path);*/
+	testButton->mButtonSpriteSheetTexture = gTextures->get_texture(path);
+	*/
 
 
 	for (auto game_tick = 0; game_tick < 300000; game_tick++)

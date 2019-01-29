@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "Building.h"
 #include "ConfigFile.h"
 #include <iostream>
 #include <fstream>
@@ -175,4 +176,12 @@ void Level::set_building_matrix(int x, int y, Building* building)
 Building* Level::get_building_matrix(int x, int y)
 {
 	return this->mMap_buildings[x][y];
+}
+
+Warehouse* Level::get_main_building() {
+	return this->mMain_building;
+}
+
+void Level::set_main_building(Warehouse *main_building) {
+	this->mMain_building = main_building;
 }

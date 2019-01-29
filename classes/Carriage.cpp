@@ -66,9 +66,9 @@ bool Carriage::move_towards(SDL_Point target)
 	double y_d = target.y - mPosition.y;
 	auto y_d_abs = abs(y_d); //same as above
 
-	auto dist_to_enemy = sqrt(x_d * x_d + y_d * y_d);
+	auto distance_to_target = sqrt(x_d * x_d + y_d * y_d);
 
-	if (move_dist > dist_to_enemy)
+	if (move_dist > distance_to_target)
 	{
 		this->mPosition.x = target.x;
 		this->mPosition.y = target.y;

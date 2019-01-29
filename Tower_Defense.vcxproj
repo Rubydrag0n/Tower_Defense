@@ -69,7 +69,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;C:\Users\Anton\Source\Repos\Tower_Defense\headers;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2-2.0.8\include;$(IncludePath);E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers</IncludePath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;C:\Users\Anton\Source\Repos\Tower_Defense\headers;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2-2.0.8\include;$(IncludePath);E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include</IncludePath>
     <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\classes;C:\vs_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\vs_dev_lib\SDL2-2.0.8\lib\x86;C:\vs_dev_lib\SDL_Config-1.2\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -2,17 +2,16 @@
 #include <SDL.h>
 #include <string>
 
-#include "Resources.h"
 #include "Clickable.h"
 #include "LTexture.h"
 #include "Entity.h"
-#include "Window.h"
 #include "BuildingWindow.h"
-#include "Level.h"
 #include "Menu.h"
 #include "Enums.h"
 
 class Level;
+class Resources;
+class Window;
 
 class Building : public Clickable, public Entity
 {
