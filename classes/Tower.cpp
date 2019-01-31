@@ -43,6 +43,9 @@ Tower::~Tower()
 void Tower::render()
 {
 	Building::render();
+
+	auto temp_window = dynamic_cast<TowerWindow*>(mWindow);
+
 	if(get_clicked())
 	{
 		SDL_Rect dest;
@@ -54,21 +57,21 @@ void Tower::render()
 		dest.w = 0;
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::WINDOWS, nullptr, &dest);
 
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_damage_button()->enable();
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_damage_button()->set_rendering_enabled(true);
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_range_button()->enable();
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_range_button()->set_rendering_enabled(true);
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_attackspeed_button()->enable();
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_attackspeed_button()->set_rendering_enabled(true);
+		temp_window->get_upgrade_damage_button()->enable();
+		temp_window->get_upgrade_damage_button()->set_rendering_enabled(true);
+		temp_window->get_upgrade_range_button()->enable();
+		temp_window->get_upgrade_range_button()->set_rendering_enabled(true);
+		temp_window->get_upgrade_attackspeed_button()->enable();
+		temp_window->get_upgrade_attackspeed_button()->set_rendering_enabled(true);
 	}
 	else
 	{
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_damage_button()->disable();
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_damage_button()->set_rendering_enabled(false);
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_range_button()->disable();
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_range_button()->set_rendering_enabled(false);
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_attackspeed_button()->disable();
-		dynamic_cast<TowerWindow*>(mWindow)->get_upgrade_attackspeed_button()->set_rendering_enabled(false);
+		temp_window->get_upgrade_damage_button()->disable();
+		temp_window->get_upgrade_damage_button()->set_rendering_enabled(false);
+		temp_window->get_upgrade_range_button()->disable();
+		temp_window->get_upgrade_range_button()->set_rendering_enabled(false);
+		temp_window->get_upgrade_attackspeed_button()->disable();
+		temp_window->get_upgrade_attackspeed_button()->set_rendering_enabled(false);
 	}
 }
 
@@ -135,10 +138,6 @@ void Tower::upgrade_attackspeed()
 	mAttack_speed += gConfig_file->Value(tower_upgrade_section, "attackspeed");
 	mCount_of_little_upgrade++;
 }
-
-
-
-
 
 bool Tower::enemy_in_range(Enemy* enemy, double radius, SDL_Point center)
 {
