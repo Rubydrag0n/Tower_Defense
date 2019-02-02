@@ -219,6 +219,9 @@
     <ClCompile Include="classes\TowerWindow.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="classes\Production.cpp">
+      <Filter>Source Files\Data structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="headers\TowerWindow.h">
       <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Production.h">
+      <Filter>Header Files\Data structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

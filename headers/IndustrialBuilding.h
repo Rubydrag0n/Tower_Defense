@@ -17,8 +17,5 @@ public:
 	void render() override;
 
 	BUILDINGTYPE get_building_type() override;
-
-private:
-	Resources mRessources_produced_per_second;
 };
 

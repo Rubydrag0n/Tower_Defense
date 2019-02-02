@@ -45,6 +45,12 @@ enum RESOURCETYPES {
 	RESOURCES_TOTAL
 };
 
+enum PRODUCTIONSTATE {
+	NONE,
+	PRODUCING,
+	CONSUMING
+};
+
 //The numbers are the rowpositions of the rotations in the sprite image (outdated)
 enum DIRECTION {
 	DOWN = 4,

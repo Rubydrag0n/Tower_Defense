@@ -6,9 +6,8 @@
 #include "LayerHandler.h"
 #include "MouseHandler.h"
 
-Building::Building(std::string building_name, SDL_Point coords, Level* level)
+Building::Building(std::string building_name, SDL_Point coords, Level* level) : mName{building_name}
 {
-	mName = building_name;
 	auto building_sprite_section = mName + "/sprite";
 	auto building_stats_section = mName + "/stats";
 	mSprite_path = std::string(gConfig_file->Value(building_sprite_section, "path"));
@@ -22,6 +21,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 	mSprite_dimensions.y = 0;
 
 	this->mMaintenance = new Resources();
+	this->mProduce = new Resources();
 	this->mConstruction_costs = new Resources();
 	this->mCurrent_resources = new Resources();
 	auto resource_limit = new Resources();
@@ -50,6 +50,15 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level)
 		gConfig_file->value_or_zero(building_stats_section, "energyLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "waterLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "foodLimit"));
+
+	//set the ressources that are produced per second
+	mProduce->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldproduction"),
+		gConfig_file->value_or_zero(building_stats_section, "woodproduction"),
+		gConfig_file->value_or_zero(building_stats_section, "stoneproduction"),
+		gConfig_file->value_or_zero(building_stats_section, "ironproduction"),
+		gConfig_file->value_or_zero(building_stats_section, "energyproduction"),
+		gConfig_file->value_or_zero(building_stats_section, "waterproduction"),
+		gConfig_file->value_or_zero(building_stats_section, "foodproduction"));
 
 	//building starts without resources
 	mCurrent_resources->set_empty();
@@ -189,9 +198,16 @@ void Building::on_click(int mouse_x, int mouse_y)
 	}
 }
 
-void Building::set_maintenance(Resources* new_maintenance)
+void Building::set_maintenance(Resources* maintenance)
 {
-	mMaintenance = new Resources(new_maintenance);
+	if (mMaintenance != nullptr) delete mMaintenance;
+	mMaintenance = new Resources(maintenance);
+}
+
+void Building::set_produce(Resources* produce)
+{
+	if (mProduce != nullptr) delete mProduce;
+	mProduce = new Resources(produce);
 }
 
 void Building::set_coords(SDL_Point coords)
@@ -212,6 +228,11 @@ SDL_Rect Building::get_dimensions() const
 Resources* Building::get_maintenance() const
 {
 	return this->mMaintenance;
+}
+
+Resources* Building::get_produce() const
+{
+	return this->mProduce;
 }
 
 bool Building::get_idle()

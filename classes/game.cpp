@@ -96,16 +96,8 @@ void Game::start_game()
 
 	SDL_RenderPresent(gRenderer);
 
-	/*	
-	auto testButton = new Button();
-	std::string path = std::string(gConfig_file->Value("StartButton/sprite", "path"));
-	testButton->mButtonSpriteSheetTexture = gTextures->get_texture(path);
-	*/
-
-
 	for (auto game_tick = 0; game_tick < 300000; game_tick++)
 	{
-		//SDL_Delay(100);
 		//also renders the hover window
 		//mouse handler update needs to happen first
 		gMouse_handler->update();
@@ -121,20 +113,14 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
-		if (game_tick % 60 == 0)
-		{
-			//printf("Second...\n");
-		}
 		if (mLevel->is_dead())
 		{
-			//std::cout << "all enemies dead" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
 
 		if (mLevel->no_lives())
 		{
-			//std::cout << "no lives" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}

@@ -20,14 +20,19 @@ public:
 	~Building();
 
 	void render() override; //render the picture of the building
-	void on_tick() override; //takes ressources for maintenance
+	void on_tick() override; //takes resources for maintenance
 	void demolish();
 	virtual void upgrade(std::string building_upgrade_section); //upgrades building
 
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
+
 	Resources* get_maintenance() const;
 	void set_maintenance(Resources* maintenance);
+
+	Resources* get_produce() const;
+	void set_produce(Resources* produce);
+
 	void set_coords(SDL_Point coords);
 	void set_idle(bool value);
 	bool get_idle();
@@ -58,11 +63,12 @@ public:
 protected:
 	SDL_Point mCoords;
 	Resources* mMaintenance;
+	Resources* mProduce;
 	LTexture *mSprite; //texture
 	SDL_Rect mSprite_dimensions; //size of the texture
 	Level *mLevel;
 
-	bool mIdle; // if the player doesnt have enough res to maintain the building the building doesnt do anything
+	bool mIdle; // if the player doesn't have enough res to maintain the building the building doesn't do anything
 	int mElapsed_ticks;
 	std::string mName;
 	std::string mSprite_path;
@@ -70,7 +76,7 @@ protected:
 	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 
-	//this map holds pointers to the neighbouring buildings or nullptrs
+	//this map holds pointers to the neighboring buildings or nullptr
 	//it is kept up to date by the level
 	std::map<BUILDINGDIRECTION, Building*> mSurrounding_buildings;
 
@@ -79,5 +85,5 @@ protected:
 
 	int mBuilding_level; //level of the building, can be raised by upgrades
 	int mBuilding_max_level; //max level of this building
-	int mCount_of_little_upgrade; //count of the little upgrades as a requiremnt for big upgrades
+	int mCount_of_little_upgrade; //count of the little upgrades as a requirement for big upgrades
 };
