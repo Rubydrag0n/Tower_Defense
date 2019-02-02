@@ -5,7 +5,7 @@
 
 MainMenu::MainMenu()
 {
-	mSprite_path = std::string(gConfig_file->Value("MainMenu/sprite", "path"));
+	mSprite_path = std::string(gConfig_file->value("MainMenu/sprite", "path"));
 	mSprite = gTextures->get_texture(mSprite_path);
 }
 

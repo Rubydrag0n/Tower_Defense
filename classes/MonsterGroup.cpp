@@ -3,25 +3,24 @@
 #include "Level.h"
 #include <iostream>
 
-MonsterGroup::MonsterGroup(std::string wave_number, std::string monster_group_number, Level* Level) : mMonsters()
+MonsterGroup::MonsterGroup(const std::string& wave_number, const std::string& monster_group_number, Level* level) : mLevel(level)
 {
-	mLevel = Level;
 	mElapsed_ticks = 0;
 	mCurrent_monster_count = 0;
-	auto section = "monstergroup" + mLevel->get_level_number() + "_" + wave_number + "_" + monster_group_number;
+	const auto section = "monstergroup" + mLevel->get_level_number() + "_" + wave_number + "_" + monster_group_number;
 
-	mMonster_name.assign(gConfig_file->Value(section, "monstername"));
-	mDelay_ticks = gConfig_file->Value(section, "delay_ticks");
-	mMax_monster_count = gConfig_file->Value(section, "monster_count");
-	mWay = gConfig_file->Value(section, "way");
+	mMonster_name.assign(gConfig_file->value(section, "monstername"));
+	mDelay_ticks = gConfig_file->value(section, "delay_ticks");
+	mMax_monster_count = gConfig_file->value(section, "monster_count");
+	mWay = gConfig_file->value(section, "way");
 }
 
 MonsterGroup::~MonsterGroup()
 {
 	//delete all the things in the vector in case there are any left
-	for (auto i = 0; i < mMonsters.size(); i++)
+	for (auto& monster : mMonsters)
 	{
-		delete mMonsters[i];
+		delete monster;
 	}
 	mMonsters.clear();
 }
@@ -31,14 +30,14 @@ void MonsterGroup::update()
 	//whenever elapsed ticks is zero spawn new enemy copy
 	if (mElapsed_ticks == 0 && mCurrent_monster_count < mMax_monster_count)
 	{
-		auto new_enemy = new Enemy(mMonster_name, mWay, mLevel);
+		const auto new_enemy = new Enemy(mMonster_name, mWay, mLevel);
 		mMonsters.push_back(new_enemy);
 		mCurrent_monster_count++;
 	}
 
-	for (auto i = 0; i < mMonsters.size(); i++)
+	for (auto& monster : mMonsters)
 	{
-		mMonsters.at(i)->move();
+		monster->move();
 	}
 
 	//updating the current tick
@@ -49,9 +48,9 @@ void MonsterGroup::update()
 
 bool MonsterGroup::is_dead() const
 {
-	for (auto i = 0; i < mMonsters.size(); i++)
+	for (auto monster : mMonsters)
 	{
-		if (!mMonsters[i]->is_dead()) {
+		if (!monster->is_dead()) {
 			return false;
 		}
 	}

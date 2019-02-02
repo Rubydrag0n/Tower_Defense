@@ -29,7 +29,7 @@ René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 
 class Chameleon {
 public:
-	Chameleon() {};
+	Chameleon() = default;;
 	explicit Chameleon(const std::string&);
 	explicit Chameleon(double);
 	explicit Chameleon(const char*);
@@ -42,7 +42,7 @@ public:
 
 public:
 	operator std::string() const;
-	operator double() const;
+	operator int() const;
 private:
-	std::string value_;
+	std::string mValue_;
 };

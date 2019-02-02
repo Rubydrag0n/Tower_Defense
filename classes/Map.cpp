@@ -5,11 +5,11 @@
 
 Map::Map(char *map_path)
 {
-	mOffset_left = gConfig_file->Value("map", "offset_left");
-	mOffset_top = gConfig_file->Value("map", "offset_top");
-	mWidth = gConfig_file->Value("map", "width");
-	mHeight = gConfig_file->Value("map", "height");
-	mLayer_count = gConfig_file->Value("map", "layer_count");
+	mOffset_left = gConfig_file->value("map", "offset_left");
+	mOffset_top = gConfig_file->value("map", "offset_top");
+	mWidth = gConfig_file->value("map", "width");
+	mHeight = gConfig_file->value("map", "height");
+	mLayer_count = gConfig_file->value("map", "layer_count");
 	mMap = new SDLMappy;
 	if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
 		printf("Could not load %s\n", map_path);

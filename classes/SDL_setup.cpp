@@ -70,10 +70,10 @@ bool init_graphics()
 
 		//Create window
 		ConfigFile cf("config/game.cfg");
-		int screen_width = cf.Value("video", "screen_width");
-		int screen_height = cf.Value("video", "screen_height");
+		int screen_width = cf.value("video", "screen_width");
+		int screen_height = cf.value("video", "screen_height");
 
-		std::string windowflags = cf.Value("video", "window_mode");
+		std::string windowflags = cf.value("video", "window_mode");
 		Uint32 flags;
 		if (windowflags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
 		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS;

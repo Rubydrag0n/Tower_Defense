@@ -19,8 +19,8 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	auto monster_sprite_section = monster_name + "/sprite";
 	auto monster_stats_section = monster_name + "/stats";
 
-	this->mLife_cost = gConfig_file->Value(monster_stats_section, "lifecost");
-	int checkpoint_number = gConfig_file->Value(level_section, "way" + s_way + "number_of_checkpoints");
+	this->mLife_cost = gConfig_file->value(monster_stats_section, "lifecost");
+	int checkpoint_number = gConfig_file->value(level_section, "way" + s_way + "number_of_checkpoints");
 
 	SDL_Point mOffset;
 	mOffset.x = (rand() % 31) - 15;
@@ -34,8 +34,8 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 
 		//printf("reading checkpoint %i\n", i);
 		//take offset into account
-		p.x = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "x") + mOffset.x;
-		p.y = gConfig_file->Value(level_section, "way" + s_way + "checkpoint" + number + "y") + mOffset.y;
+		p.x = gConfig_file->value(level_section, "way" + s_way + "checkpoint" + number + "x") + mOffset.x;
+		p.y = gConfig_file->value(level_section, "way" + s_way + "checkpoint" + number + "y") + mOffset.y;
 		//sorting the checkpoints into the array (they have to be in the right order)
 		mCheckpoints.push_back(p);
 	}
@@ -45,15 +45,15 @@ Enemy::Enemy(std::string monster_name, int way, Level* level) : Unit(monster_nam
 	mCheckpoints.erase(mCheckpoints.begin());
 
 	//initialize health bar things
-	std::string health_bar_name = gConfig_file->Value(monster_sprite_section, "health_bar");
+	std::string health_bar_name = gConfig_file->value(monster_sprite_section, "health_bar");
 
 	auto healthbar_sprite_section = health_bar_name + "/sprite";
-	mEmpty_health_bar = gTextures->get_texture(gConfig_file->Value(healthbar_sprite_section, "empty_path"));
-	mFull_health_bar = gTextures->get_texture(gConfig_file->Value(healthbar_sprite_section, "full_path"));
+	mEmpty_health_bar = gTextures->get_texture(gConfig_file->value(healthbar_sprite_section, "empty_path"));
+	mFull_health_bar = gTextures->get_texture(gConfig_file->value(healthbar_sprite_section, "full_path"));
 	mHealth_bar_dimensions.x = 0;
 	mHealth_bar_dimensions.y = 0;
-	mHealth_bar_dimensions.w = gConfig_file->Value(healthbar_sprite_section, "image_width");
-	mHealth_bar_dimensions.h = gConfig_file->Value(healthbar_sprite_section, "image_height");
+	mHealth_bar_dimensions.w = gConfig_file->value(healthbar_sprite_section, "image_width");
+	mHealth_bar_dimensions.h = gConfig_file->value(healthbar_sprite_section, "image_height");
 
 
 	mLoot_resources.set_resources(gConfig_file->value_or_zero(monster_stats_section, "goldloot"),

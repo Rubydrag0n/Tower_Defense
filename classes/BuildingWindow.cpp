@@ -2,24 +2,23 @@
 #include "LayerHandler.h"
 #include "Building.h"
 #include <iostream>
-#include "SDL_setup.h"
 
-void BuildingWindow::demolish_building()
+void BuildingWindow::demolish_building() const
 {
 	mBuilding->demolish();
 	std::cout << "dem";
 	delete mBuilding;
 }
 
-void BuildingWindow::upgrade_building()
+void BuildingWindow::upgrade_building() const
 {
 	std::cout << "up";
-	auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level()+1);
+	const auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level()+1);
 	mBuilding->upgrade(building_upgrade_section);
 }
 
 
-BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
+BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
 {
 	//correct position of the window, so it does not collide with the border
 	dim.x = building->get_coords().x;
@@ -39,8 +38,8 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 	SDL_Rect button_dim;
 	mButton_offset.x = 0;
 	mButton_offset.y = 140;
-	button_dim.x = dim.x + mButton_offset.x;
-	button_dim.y = dim.y + mButton_offset.y;
+	button_dim.x = static_cast<int>(dim.x + mButton_offset.x);
+	button_dim.y = static_cast<int>(dim.y + mButton_offset.y);
 	button_dim.w = 26;
 	button_dim.h = 26;
 	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
@@ -68,11 +67,11 @@ void BuildingWindow::render()
 	dest.y = get_dim().y + 20;
 	dest.w = get_dim().w;
 	dest.h = get_dim().h;
-	SDL_Color text_color = { 0, 0, 0 };
+	const SDL_Color text_color = { 0, 0, 0, 0 };
 
-	auto maintenace_heading = new LTexture();
-	maintenace_heading->load_from_rendered_text("Maintenance", text_color);
-	gLayer_handler->render_to_layer(maintenace_heading, LAYERS::WINDOWS, nullptr, &dest);
+	auto maintenance_heading = new LTexture();
+	maintenance_heading->load_from_rendered_text("Maintenance", text_color);
+	gLayer_handler->render_to_layer(maintenance_heading, LAYERS::WINDOWS, nullptr, &dest);
 
 	auto gold_line = new LTexture();
 	gold_line->load_from_rendered_text("Gold: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::GOLD)), text_color);
@@ -105,29 +104,29 @@ void BuildingWindow::render()
 	gLayer_handler->render_to_layer(energy_line, LAYERS::WINDOWS, nullptr, &dest);
 }
 
-void BuildingWindow::on_button_press(int button_id)
+void BuildingWindow::on_button_press(const int button_id)
 {
 	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
 	if (button_id == UPGRADE_BUTTON) this->upgrade_building();
 }
 
-Button* BuildingWindow::get_demolish_button()
+Button* BuildingWindow::get_demolish_button() const
 {
 	return mDemolish_button;
 }
 
-Button* BuildingWindow::get_upgrade_button()
+Button* BuildingWindow::get_upgrade_button() const
 {
 	return mUpgrade_button;
 }
 
 
-CoordinatesInDouble BuildingWindow::get_button_offset()
+CoordinatesInDouble BuildingWindow::get_button_offset() const
 {
 	return mButton_offset;
 }
 
-Building* BuildingWindow::get_building()
+Building* BuildingWindow::get_building() const
 {
 	return mBuilding;
 }

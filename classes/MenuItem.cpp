@@ -9,7 +9,7 @@
 MenuItem::MenuItem(std::string name_of_object, Level *level, SDL_Point coords) 
 {
 	mName_of_object = name_of_object;
-	mSprite = gTextures->get_texture(gConfig_file->Value(name_of_object + "/sprite", "path"));
+	mSprite = gTextures->get_texture(gConfig_file->value(name_of_object + "/sprite", "path"));
 	//mCoords.x = gConfig_file->Value(mName_of_object + "/menuitem", "x");
 	//mCoords.y = gConfig_file->Value(mName_of_object + "/menuitem", "y");
 	mCoords = coords;

@@ -9,9 +9,9 @@
 
 Shot::Shot(Tower* tower)
 {
-	mSprite = gTextures->get_texture(gConfig_file->Value(tower->get_projectile_name() + "/sprite", "path"));
-	mSprite_dimensions.w = gConfig_file->Value(tower->get_projectile_name() + "/sprite", "image_width");
-	mSprite_dimensions.h = gConfig_file->Value(tower->get_projectile_name() + "/sprite", "image_height");
+	mSprite = gTextures->get_texture(gConfig_file->value(tower->get_projectile_name() + "/sprite", "path"));
+	mSprite_dimensions.w = gConfig_file->value(tower->get_projectile_name() + "/sprite", "image_width");
+	mSprite_dimensions.h = gConfig_file->value(tower->get_projectile_name() + "/sprite", "image_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 

@@ -5,15 +5,15 @@
 #include "ButtonObject.h"
 #include "BuildingWindow.h"
 
-Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id) : mClips{}, mButtonSprite{}, mButton_id{ button_id }
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, const int button_id) : mButton_dimensions(dim), mClips{}, mButtonSprite{}, mObject_to_notify(obj), mButton_id{ button_id }
 {
-	auto section = "button/" + button_name;
+	const auto section = "button/" + button_name;
 
-	this->mButtonSprite = gTextures->get_texture(gConfig_file->Value(section, "path"));
+	this->mButtonSprite = gTextures->get_texture(gConfig_file->value(section, "path"));
 
 	//initialize the clips
-	int clip_width = gConfig_file->Value(section, "clip_width");
-	int clip_height = gConfig_file->Value(section, "clip_height");
+	const int clip_width = gConfig_file->value(section, "clip_width");
+	const int clip_height = gConfig_file->value(section, "clip_height");
 	for (auto i = 0; i < LClickableState::STATES_TOTAL; i++)
 	{
 		this->mClips[i].x = i*clip_width;
@@ -23,21 +23,16 @@ Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int but
 	}
 
 	this->set_clickable_space(dim);
-	this->set_dimension(dim);
-
-	this->mObject_to_notify = obj;
 }
 
-Button::~Button()
-{
-}
+Button::~Button() = default;
 
-void Button::set_dimension(SDL_Rect dim)
+void Button::set_dimension(const SDL_Rect dim)
 {
 	this->mButton_dimensions = dim;
 }
 
-SDL_Rect Button::get_dimension()
+SDL_Rect Button::get_dimension() const
 {
 	return mButton_dimensions;
 }

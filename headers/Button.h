@@ -10,12 +10,12 @@ class Button
 {
 public:
 	//creates a button with dimensions (and position) dim and a function onclick that gets called when the button is clicked on
-	Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id = 0);
+	Button(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, int button_id = 0);
 	~Button();
 
 	//Sets dimension of the button on the screen
 	void set_dimension(SDL_Rect dim);
-	SDL_Rect get_dimension();
+	SDL_Rect get_dimension() const;
 
 	//Sets the Clips
 	void set_sprite_clips(SDL_Rect *clips);

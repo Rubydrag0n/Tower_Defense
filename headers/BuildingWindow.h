@@ -24,13 +24,13 @@ public:
 	void render() override;
 	void on_button_press(int button_id) override;
 	
-	void demolish_building();
-	void upgrade_building();
+	void demolish_building() const;
+	void upgrade_building() const;
 
-	Button* get_demolish_button();
-	Button* get_upgrade_button();
-	CoordinatesInDouble get_button_offset();
-	Building* get_building();
+	Button* get_demolish_button() const;
+	Button* get_upgrade_button() const;
+	CoordinatesInDouble get_button_offset() const;
+	Building* get_building() const;
 
 
 private:
@@ -40,5 +40,4 @@ private:
 
 protected:
 	Building* mBuilding;
-
 };

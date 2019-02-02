@@ -12,7 +12,7 @@ class Tower :
 	public Building
 {
 public:
-	Tower(std::string tower_name, SDL_Point coords, Level* level);
+	Tower(const std::string& tower_name, SDL_Point coords, Level* level);
 	~Tower();
 
 	virtual void create_shot(Enemy* enemy) = 0;
@@ -23,7 +23,7 @@ public:
 	//all projectiles, that are fired from this tower are updated, shots are fired
 	void on_tick() override;
 
-	void upgrade(std::string tower_upgrade_section) override;
+	void upgrade(const std::string& tower_upgrade_section) override;
 	void upgrade_damage();
 	void upgrade_range();
 	void upgrade_attackspeed();
@@ -36,7 +36,7 @@ public:
 	std::string get_projectile_name() const;
 	double get_projectile_speed() const;
 
-	Damage get_damage();
+	Damage get_damage() const;
 
 protected:
 	int mAttack_cooldown; //60 / mAttackspeed

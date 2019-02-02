@@ -21,8 +21,8 @@ public:
 
 	void render() override; //render the picture of the building
 	void on_tick() override; //takes resources for maintenance
-	void demolish();
-	virtual void upgrade(std::string building_upgrade_section); //upgrades building
+	void demolish() const;
+	virtual void upgrade(const std::string& building_upgrade_section); //upgrades building
 
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
@@ -35,28 +35,28 @@ public:
 
 	void set_coords(SDL_Point coords);
 	void set_idle(bool value);
-	bool get_idle();
-	int get_building_level();
-	int get_building_max_level();
-	std::string get_name();
+	bool get_idle() const;
+	int get_building_level() const;
+	int get_building_max_level() const;
+	std::string get_name() const;
 
 	ENTITYTYPE get_type() override;
 	virtual BUILDINGTYPE get_building_type() = 0;
 
 	//returns the building in the neighbouring tile or nullptr if it doesn't exist
-	Building* get_neighbour(BUILDINGDIRECTION dir);
+	Building* get_neighbor(BUILDINGDIRECTION dir);
 	//sets the building in the given direction to building
-	void set_neighbour(BUILDINGDIRECTION dir, Building* building);
+	void set_neighbor(BUILDINGDIRECTION dir, Building* building);
 
 	Resources* get_current_resources() const;
-	void add_resources(Resources* r);
+	void add_resources(Resources* r) const;
 
 	//puts resources into this building from r
 	//returns true if r is empty afterwards
-	bool transfer_resources_in(Resources* r);
+	bool transfer_resources_in(Resources* r) const;
 	//puts resources into r from this building
 	//returns true if this building is empty afterwards
-	bool transfer_resources_out(Resources* r);
+	bool transfer_resources_out(Resources* r) const;
 
 	void on_click(int mouse_x, int mouse_y) override;
 

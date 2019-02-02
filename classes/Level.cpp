@@ -11,7 +11,7 @@ Level::Level(std::string level_number)
 {
 	mLevel_number = level_number;
 	mLives = gConfig_file->value_or_zero("level" + mLevel_number, "lives");
-	mWaves_count = gConfig_file->Value("level" + mLevel_number, "waves_count");
+	mWaves_count = gConfig_file->value("level" + mLevel_number, "waves_count");
 
 	//set the start-ressources in this level
 	mRessources.set_resources(gConfig_file->value_or_zero("level" + mLevel_number, "gold"),
@@ -156,20 +156,20 @@ void Level::set_building_matrix(int x, int y, Building* building)
 
 	//set the neighbours of all buildings that change
 	if (x > 0) {
-		if (building != nullptr) building->set_neighbour(WEST, mMap_buildings[x - 1][y]);
-		if (mMap_buildings[x - 1][y] != nullptr) mMap_buildings[x - 1][y]->set_neighbour(EAST, building);
+		if (building != nullptr) building->set_neighbor(WEST, mMap_buildings[x - 1][y]);
+		if (mMap_buildings[x - 1][y] != nullptr) mMap_buildings[x - 1][y]->set_neighbor(EAST, building);
 	}
 	if (y > 0) {
-		if (building != nullptr) building->set_neighbour(NORTH, mMap_buildings[x][y - 1]);
-		if (mMap_buildings[x][y - 1] != nullptr) mMap_buildings[x][y - 1]->set_neighbour(SOUTH, building);
+		if (building != nullptr) building->set_neighbor(NORTH, mMap_buildings[x][y - 1]);
+		if (mMap_buildings[x][y - 1] != nullptr) mMap_buildings[x][y - 1]->set_neighbor(SOUTH, building);
 	}
 	if (x < matrix_width - 1) {
-		if (building != nullptr) building->set_neighbour(EAST, mMap_buildings[x + 1][y]);
-		if (mMap_buildings[x + 1][y] != nullptr) mMap_buildings[x + 1][y]->set_neighbour(WEST, building);
+		if (building != nullptr) building->set_neighbor(EAST, mMap_buildings[x + 1][y]);
+		if (mMap_buildings[x + 1][y] != nullptr) mMap_buildings[x + 1][y]->set_neighbor(WEST, building);
 	}
 	if (y < matrix_height - 1) {
-		if (building != nullptr) building->set_neighbour(SOUTH, mMap_buildings[x][y + 1]);
-		if (mMap_buildings[x][y + 1] != nullptr) mMap_buildings[x][y + 1]->set_neighbour(NORTH, building);
+		if (building != nullptr) building->set_neighbor(SOUTH, mMap_buildings[x][y + 1]);
+		if (mMap_buildings[x][y + 1] != nullptr) mMap_buildings[x][y + 1]->set_neighbor(NORTH, building);
 	}
 }
 

@@ -10,15 +10,15 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	auto sprite_section = unit_name + "/sprite";
 	auto stats_section = unit_name + "/stats";
 	//load path of the sprite
-	std::string path = gConfig_file->Value(sprite_section, "path");
+	std::string path = gConfig_file->value(sprite_section, "path");
 	mSprite = gTextures->get_texture(path);	//set the pointer to the sprite
 
 	mSprite_dimensions.w = mSprite->get_width();
 	mSprite_dimensions.h = mSprite->get_height();
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
-	int clip_width = gConfig_file->Value(sprite_section, "clip_width");
-	int clip_height = gConfig_file->Value(sprite_section, "clip_height");
+	int clip_width = gConfig_file->value(sprite_section, "clip_width");
+	int clip_height = gConfig_file->value(sprite_section, "clip_height");
 	for (auto i = 0; i < mSprite_dimensions.h; i += clip_height)
 	{
 		for (auto j = 0; j < mSprite_dimensions.w; j += clip_width)
@@ -32,10 +32,10 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 		}
 	}
 	mAnimation_tick = 0;
-	mTickcount_per_clip = gConfig_file->Value(sprite_section, "tickcount_per_clip");
+	mTickcount_per_clip = gConfig_file->value(sprite_section, "tickcount_per_clip");
 
-	this->mCenter.x = gConfig_file->Value(sprite_section, "rotation_center_x");
-	this->mCenter.y = gConfig_file->Value(sprite_section, "rotation_center_y");
+	this->mCenter.x = gConfig_file->value(sprite_section, "rotation_center_x");
+	this->mCenter.y = gConfig_file->value(sprite_section, "rotation_center_y");
 	
 	// animation tick count is how many ticks it takes for one cycle of the animation to run through.
 	// each clip gets shown for tickcount_per_clip ticks
@@ -46,7 +46,7 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	mPosition.y = 0;
 	mDirection = DIRECTION::DOWN;
 
-	mMove_speed = gConfig_file->Value(stats_section, "movementspeed");
+	mMove_speed = gConfig_file->value(stats_section, "movementspeed");
 	mDefense.set_defenses(double(int(gConfig_file->value_or_zero(stats_section, "health"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "armor"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "magicres"))),

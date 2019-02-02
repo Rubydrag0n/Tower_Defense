@@ -163,7 +163,7 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 			Building* current = it->first;
 			
 			for (int dir = 0; dir != BUILDINGDIRECTIONS_TOTAL; dir++) { //iterating through 
-				Building* neighbour = current->get_neighbour(BUILDINGDIRECTION(dir));
+				Building* neighbour = current->get_neighbor(BUILDINGDIRECTION(dir));
 				if (neighbour == nullptr) continue;
 
 				if (visited.find(neighbour) == visited.end())

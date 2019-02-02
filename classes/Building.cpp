@@ -1,4 +1,5 @@
 #include "Building.h"
+#include <utility>
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "Level.h"
@@ -6,17 +7,17 @@
 #include "LayerHandler.h"
 #include "MouseHandler.h"
 
-Building::Building(std::string building_name, SDL_Point coords, Level* level) : mName{building_name}
+Building::Building(std::string building_name, SDL_Point coords, Level* level) : mCoords{ coords }, mSprite_dimensions{}, mLevel{ level }, mName{ std::move(building_name) }, mWindow{ nullptr }
 {
 	auto building_sprite_section = mName + "/sprite";
 	auto building_stats_section = mName + "/stats";
-	mSprite_path = std::string(gConfig_file->Value(building_sprite_section, "path"));
+	mSprite_path = std::string(gConfig_file->value(building_sprite_section, "path"));
 
 
 	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(mSprite_path);
-	mSprite_dimensions.w = gConfig_file->Value(building_sprite_section, "image_width");
-	mSprite_dimensions.h = gConfig_file->Value(building_sprite_section, "image_height");
+	mSprite_dimensions.w = gConfig_file->value(building_sprite_section, "image_width");
+	mSprite_dimensions.h = gConfig_file->value(building_sprite_section, "image_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 
@@ -51,7 +52,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 		gConfig_file->value_or_zero(building_stats_section, "waterLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "foodLimit"));
 
-	//set the ressources that are produced per second
+	//set the resources that are produced per second
 	mProduce->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldproduction"),
 		gConfig_file->value_or_zero(building_stats_section, "woodproduction"),
 		gConfig_file->value_or_zero(building_stats_section, "stoneproduction"),
@@ -65,13 +66,10 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 	mCurrent_resources->set_limit(resource_limit);
 
 	mBuilding_level = 0;
-	mBuilding_max_level = gConfig_file->Value(building_stats_section, "maxLevel");
+	mBuilding_max_level = gConfig_file->value(building_stats_section, "maxLevel");
 	mCount_of_little_upgrade = 0;
 
 	mElapsed_ticks = 0;
-
-	mLevel = level;
-	mCoords = coords;
 
 	SDL_Rect clickable;
 	clickable.x = coords.x;
@@ -83,12 +81,12 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 
 	//set the mouse over window up with initial values
 
-	int i = gConfig_file->Value(building_stats_section, "tile");
+	int i = gConfig_file->value(building_stats_section, "tile");
 	mTile_to_build_on = static_cast<TILETYPES>(i);
 
-	for (auto i = 0; BUILDINGDIRECTION(i) < BUILDINGDIRECTION::BUILDINGDIRECTIONS_TOTAL; i++)
+	for (auto j = 0; BUILDINGDIRECTION(j) < BUILDINGDIRECTION::BUILDINGDIRECTIONS_TOTAL; j++)
 	{
-		this->mSurrounding_buildings[BUILDINGDIRECTION(i)] = nullptr;
+		this->mSurrounding_buildings[BUILDINGDIRECTION(j)] = nullptr;
 	}
 	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, this);
 }
@@ -99,25 +97,28 @@ Building::~Building()
 	//don't destroy texture, handled by texture class
 }
 
-void Building::demolish()
+void Building::demolish() const
 {
 	mLevel->get_resources()->add(&(*mConstruction_costs/2));
+
+	//this whole stuff isn't used? what's it for? TODO
 	SDL_Point p;
-	auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
-	auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
+	const auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
+	const auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
 	p.x = mCoords.x - grid_offset_x;
 	p.y = mCoords.y - grid_offset_y;
-	auto tile_x = mCoords.x / 64;
-	auto tile_y = mCoords.y / 64;
+
+	const auto tile_x = mCoords.x / 64;
+	const auto tile_y = mCoords.y / 64;
 	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
 	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
 }
 
-void Building::upgrade(std::string building_upgrade_section)
+void Building::upgrade(const std::string& building_upgrade_section)
 {
 	mBuilding_level++;
 
-	auto plusMaintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
+	const auto plusMaintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "stoneMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "ironMain"),
@@ -126,20 +127,19 @@ void Building::upgrade(std::string building_upgrade_section)
 		gConfig_file->value_or_zero(building_upgrade_section, "foodMain"));
 	mMaintenance->add(plusMaintenance);
 
-	auto upgrade_cost_multiplier = mCount_of_little_upgrade * 2 + 1;
-	auto plusConstruction = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts") * upgrade_cost_multiplier,
+	const auto upgrade_cost_multiplier = mCount_of_little_upgrade * 2 + 1;
+	const auto plus_construction = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "woodcosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "stonecosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "ironcosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "energycosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "watercosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "foodcosts") * upgrade_cost_multiplier);
-	mConstruction_costs->add(plusConstruction);
+	mConstruction_costs->add(plus_construction);
 
-	mLevel->get_resources()->sub(plusConstruction);
+	mLevel->get_resources()->sub(plus_construction);
 
 }
-
 
 void Building::render()
 {
@@ -200,17 +200,17 @@ void Building::on_click(int mouse_x, int mouse_y)
 
 void Building::set_maintenance(Resources* maintenance)
 {
-	if (mMaintenance != nullptr) delete mMaintenance;
+	delete mMaintenance;
 	mMaintenance = new Resources(maintenance);
 }
 
 void Building::set_produce(Resources* produce)
 {
-	if (mProduce != nullptr) delete mProduce;
+	delete mProduce;
 	mProduce = new Resources(produce);
 }
 
-void Building::set_coords(SDL_Point coords)
+void Building::set_coords(const SDL_Point coords)
 {
 	mCoords = coords;
 }
@@ -235,7 +235,7 @@ Resources* Building::get_produce() const
 	return this->mProduce;
 }
 
-bool Building::get_idle()
+bool Building::get_idle() const
 {
 	return this->mIdle;
 }
@@ -250,47 +250,47 @@ Resources* Building::get_current_resources() const
 	return this->mCurrent_resources;
 }
 
-void Building::add_resources(Resources * r)
+void Building::add_resources(Resources * r) const
 {
 	this->mCurrent_resources->add(r);
 }
 
-bool Building::transfer_resources_in(Resources * r)
+bool Building::transfer_resources_in(Resources * r) const
 {
 	return this->mCurrent_resources->transfer(r);
 }
 
-bool Building::transfer_resources_out(Resources * r)
+bool Building::transfer_resources_out(Resources * r) const
 {
 	return r->transfer(this->mCurrent_resources);
 }
 
-void Building::set_idle(bool value)
+void Building::set_idle(const bool value)
 {
 	this->mIdle = value;
 }
 
-Building* Building::get_neighbour(BUILDINGDIRECTION dir)
+Building* Building::get_neighbor(const BUILDINGDIRECTION dir)
 {
 	return this->mSurrounding_buildings[dir];
 }
 
-void Building::set_neighbour(BUILDINGDIRECTION dir, Building* building)
+void Building::set_neighbor(const BUILDINGDIRECTION dir, Building* building)
 {
 	this->mSurrounding_buildings[dir] = building;
 }
 
-int Building::get_building_level()
+int Building::get_building_level() const
 {
 	return mBuilding_level;
 }
 
-int Building::get_building_max_level()
+int Building::get_building_max_level() const
 {
 	return mBuilding_max_level;
 }
 
-std::string Building::get_name()
+std::string Building::get_name() const
 {
 	return mName;
 }

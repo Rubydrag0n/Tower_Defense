@@ -9,8 +9,8 @@ class Particle :
 	public Entity
 {
 public:
-	Particle::Particle(std::string particle_name, CoordinatesInDouble pos, CoordinatesInDouble dir, float rot, float rot_speed);
-	Particle::~Particle();
+	Particle(const std::string& particle_name, const CoordinatesInDouble& pos, const CoordinatesInDouble& dir, float rot, float rot_speed);
+	~Particle();
 
 	void render() override;
 	void on_tick() override;

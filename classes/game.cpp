@@ -44,7 +44,7 @@ Game::Game()
 	p.x = 896;
 	p.y = 448;
 
-	auto tower = new HomingTower("archer", p, mLevel);
+	new HomingTower("archer", p, mLevel);
 
 	p.x += 64;
 	new Path("path", p, mLevel);
@@ -64,7 +64,7 @@ Game::Game()
 	auto warehouse = new Warehouse("warehouse", p, mLevel);
 	this->mLevel->set_main_building(warehouse);
 
-	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	warehouse->add_resources(r);
 
 }
@@ -74,17 +74,17 @@ Game::~Game()
 	delete mMenu;
 	delete mLevel;
 	delete mMap;
-	for (auto i = 0; i<mAll_towers.size(); i++)
+	for (auto& tower : mAll_towers)
 	{
-		delete mAll_towers.at(i);
+		delete tower;
 	}
-	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
+	for (auto& building : mAll_industrial_buildings)
 	{
-		delete mAll_industrial_buildings.at(i);
+		delete building;
 	}
 }
 
-void Game::render_all()
+void Game::render_all() const
 {
 	gRenderables_handler->render();
 	mMap->render();

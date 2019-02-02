@@ -3,14 +3,12 @@
 #include "ConfigFile.h"
 #include "EntityHandler.h"
 
-AoeTower::AoeTower(std::string tower_name, SDL_Point coords, Level* level) : Tower(tower_name, coords, level)
+AoeTower::AoeTower(const std::string& tower_name, const SDL_Point coords, Level* level) : Tower(tower_name, coords, level)
 {
-	mExplosive_radius = gConfig_file->Value(mTower_name + "/stats", "explosiveradius");
+	mExplosive_radius = gConfig_file->value(mTower_name + "/stats", "explosiveradius");
 }
 
-AoeTower::~AoeTower()
-{
-}
+AoeTower::~AoeTower() = default;
 
 void AoeTower::create_shot(Enemy* enemy)
 {
