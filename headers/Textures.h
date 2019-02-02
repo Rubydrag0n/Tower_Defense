@@ -15,7 +15,7 @@ public:
 	LTexture* get_texture(std::string path);
 
 	//deletes a loaded texture with a given name
-	bool del_texture(std::string path);
+	bool del_texture(const std::string& path);
 
 private:
 	//stores the unit name strings and the associated sprite

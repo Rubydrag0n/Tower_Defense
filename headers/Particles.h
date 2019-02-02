@@ -2,7 +2,6 @@
 #include <vector>
 #include "LTexture.h"
 #include "CoordinatesInDouble.h"
-#include "Renderable.h"
 #include "Entity.h"
 
 class Particle :

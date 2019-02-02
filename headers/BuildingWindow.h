@@ -5,15 +5,6 @@
 
 class Building;
 
-enum BUILDINGWINDOWBUTTONIDS {
-	DEMOLISH_BUTTON,
-	UPGRADE_BUTTON,
-	UPGRADE_DAMAGE_BUTTON,
-	UPGRADE_RANGE_BUTTON,
-	UPGRADE_ATTACKSPEED_BUTTON,
-	BUTTON_NUMBER
-};
-
 class BuildingWindow
 	: public Window, public ButtonObject
 {

@@ -51,7 +51,7 @@ Chameleon const& ConfigFile::value(std::string const& section, std::string const
 
 	if (ci == mContent_.end())
 	{
-		throw "does not exist";
+		throw std::exception("does not exist");
 	}
 	return ci->second;
 }

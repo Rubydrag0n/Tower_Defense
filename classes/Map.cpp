@@ -1,6 +1,5 @@
 #include "Map.h"
 #include "ConfigFile.h"
-#include "SDL_setup.h"
 #include "LayerHandler.h"
 
 Map::Map(char *map_path)
@@ -38,17 +37,17 @@ void Map::render() const
 	gLayer_handler->render_to_layer(mMap_texture, LAYERS::BACKGROUND, nullptr, nullptr);
 }
 
-void Map::update_map_texture()
+void Map::update_map_texture() const
 {
 	mMap->map_move_to(mOffset_left, mOffset_top);
 	mMap->map_change_layer(0);	//Background first
-	auto s = SDL_LoadBMP("resources/background.bmp");
+	const auto s = SDL_LoadBMP("resources/background.bmp");
 	if (mMap->map_draw_bg(s) == -1)
 		printf("Failed to draw background of Map!\n");
 	
 	for (auto i = 1; i < mLayer_count; i++)
 	{
-		auto s2 = SDL_LoadBMP("resources/background.bmp");
+		const auto s2 = SDL_LoadBMP("resources/background.bmp");
 		mMap->map_change_layer(i);
 		if (mMap->map_draw_bgt(s2) == -1)
 			printf("Failed to draw layer %i of foreground of Map!\n", mLayer_count);

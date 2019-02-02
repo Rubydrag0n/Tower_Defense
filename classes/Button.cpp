@@ -14,7 +14,7 @@ Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject*
 	//initialize the clips
 	const int clip_width = gConfig_file->value(section, "clip_width");
 	const int clip_height = gConfig_file->value(section, "clip_height");
-	for (auto i = 0; i < LClickableState::STATES_TOTAL; i++)
+	for (auto i = 0; i < L_CLICKABLE_STATE::STATES_TOTAL; i++)
 	{
 		this->mClips[i].x = i*clip_width;
 		this->mClips[i].y = 0;
@@ -40,7 +40,7 @@ SDL_Rect Button::get_dimension() const
 
 void Button::set_sprite_clips(SDL_Rect * clips)
 {
-	for (auto i = 0; i < LClickableState::STATES_TOTAL; i++)
+	for (auto i = 0; i < L_CLICKABLE_STATE::STATES_TOTAL; i++)
 	{
 		mClips[i] = clips[i];
 	}

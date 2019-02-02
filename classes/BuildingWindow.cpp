@@ -1,6 +1,8 @@
 #include "BuildingWindow.h"
 #include "LayerHandler.h"
 #include "Building.h"
+#include "Enums.h"
+
 #include <iostream>
 
 void BuildingWindow::demolish_building() const

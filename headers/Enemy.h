@@ -7,11 +7,11 @@
 
 class Level;
 
-class Enemy :
+class Enemy final :
 	public Unit
 {
 public:
-	Enemy(std::string monster_name, int way, Level* level);
+	Enemy(const std::string& monster_name, int way, Level* level);
 	~Enemy();
 
 	void on_tick() override;
@@ -26,7 +26,7 @@ public:
 	bool take_damage(Damage *dmg);
 	//is called once on death
 	void on_death();
-	void render(); //calls Unit::render() and shows the health bar with two rectangles
+	void render() override; //calls Unit::render() and shows the health bar with two rectangles
 
 	void add_following_shot(HomingShot* shot);
 	void delete_following_shot(HomingShot* shot);

@@ -21,8 +21,6 @@ Window::Window(const SDL_Rect dim, const STYLE style) : mDim(dim), mStyle(style)
 	mBorder_thickness = gConfig_file->value(category, "border_thickness");
 }
 
-Window::~Window() = default;
-
 void Window::render()
 {
 	//draw the inner color of the window (background of the window)

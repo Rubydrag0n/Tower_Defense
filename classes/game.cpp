@@ -10,18 +10,16 @@
 #include "Menu.h"
 #include "IndustrialBuilding.h"
 #include "HomingTower.h"
-#include "AoeTower.h"
 #include "MouseHandler.h"
 #include "LayerHandler.h"
 #include "EntityHandler.h"
 #include "RenderableHandler.h"
 #include "ConfigFile.h"
-#include "Button.h"
 #include "Carriage.h"
 #include "WareHouse.h"
 #include "Path.h"
 
-Game::Game()
+Game::Game() : mMouse_position()
 {
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
@@ -31,13 +29,9 @@ Game::Game()
 
 	mMenu = new Menu(mLevel);
 
-	mMap = new Map("level/Level1.FMP");
 
-	SDL_Rect dim;
-	dim.x = 500;
-	dim.y = 500;
-	dim.w = 100;
-	dim.h = 26;
+	mMap = new Map(const_cast<char*>("level/Level1.FMP"));
+
 	gLayer_handler = new LayerHandler();
 
 	SDL_Point p;
@@ -113,13 +107,7 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
-		if (mLevel->is_dead())
-		{
-			SDL_Delay(10000);
-			break;
-		}
-
-		if (mLevel->no_lives())
+		if (mLevel->is_dead() || mLevel->no_lives())
 		{
 			SDL_Delay(10000);
 			break;
@@ -136,4 +124,3 @@ void Game::add_industrial_building(IndustrialBuilding* industrial_building)
 {
 	mAll_industrial_buildings.push_back(industrial_building);
 }
-

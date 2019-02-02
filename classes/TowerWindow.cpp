@@ -43,7 +43,7 @@ void TowerWindow::upgrade_range() const
 void TowerWindow::upgrade_attackspeed() const
 {
 	std::cout << "speed";
-	dynamic_cast<Tower*>(mBuilding)->upgrade_attackspeed();
+	dynamic_cast<Tower*>(mBuilding)->upgrade_attack_speed();
 }
 
 void TowerWindow::on_button_press(const int button_id)

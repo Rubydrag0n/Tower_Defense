@@ -13,7 +13,6 @@ class Window : public Clickable, public Renderable
 {
 public:
 	explicit Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);
-	~Window();
 
 	void render() override;
 

@@ -1,35 +1,18 @@
 #include "Carriage.h"
-#include "Entity.h"
 #include "Unit.h"
 #include "SDL_setup.h"
 #include <set>
 
-Carriage::Carriage(std::string unit_name, Level* level, Building* source, Building* drain) : Unit{ unit_name }
+Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{ unit_name }, mSource(source), mDrain(drain), mCurrent_activity(GETTING_IDLE), mLevel(level)
 {
-	this->mSource = source;
-	this->mDrain = drain;
 	this->mCapacity = new Resources();
 	this->mCurrent_resources = new Resources();
-
-	this->mCurrent_activity = ACTIVITY::GETTING_IDLE;
-
-	this->mLevel = level;
 
 	if (mSource != nullptr)
 	{
 		mPosition.x = mSource->get_coords().x;
 		mPosition.y = mSource->get_coords().y;
 	}
-}
-
-Carriage::~Carriage()
-{
-
-}
-
-void Carriage::render()
-{
-	Unit::render();
 }
 
 void Carriage::on_tick()
@@ -47,26 +30,26 @@ void Carriage::set_drain(Building* b)
 	this->mDrain = b;
 }
 
-Building* Carriage::get_source()
+Building* Carriage::get_source() const
 {
 	return this->mSource;
 }
 
-Building* Carriage::get_drain()
+Building* Carriage::get_drain() const
 {
 	return this->mDrain;
 }
 
-bool Carriage::move_towards(SDL_Point target)
+bool Carriage::move_towards(const SDL_Point target)
 {
-	double move_dist = mMove_speed / 60.0;
+	const auto move_dist = mMove_speed / 60.0;
 
-	double x_d = target.x - mPosition.x;
-	auto x_d_abs = abs(x_d); //take the absolute value for further calculations
-	double y_d = target.y - mPosition.y;
-	auto y_d_abs = abs(y_d); //same as above
+	const auto x_d = target.x - mPosition.x;
+	const auto x_d_abs = abs(x_d); //take the absolute value for further calculations
+	const auto y_d = target.y - mPosition.y;
+	const auto y_d_abs = abs(y_d); //same as above
 
-	auto distance_to_target = sqrt(x_d * x_d + y_d * y_d);
+	const auto distance_to_target = sqrt(x_d * x_d + y_d * y_d);
 
 	if (move_dist > distance_to_target)
 	{
@@ -83,9 +66,9 @@ bool Carriage::move_towards(SDL_Point target)
 
 void Carriage::move()
 {
-	int x_tile = this->mPosition.x / TILE_WIDTH;
-	int y_tile = this->mPosition.y / TILE_HEIGHT;
-	Building* here = mLevel->get_building_matrix(x_tile, y_tile);
+	const auto x_tile = static_cast<int>(this->mPosition.x / TILE_WIDTH);
+	const auto y_tile = static_cast<int>(this->mPosition.y / TILE_HEIGHT);
+	const auto here = mLevel->get_building_matrix(x_tile, y_tile);
 
 	switch (this->mCurrent_activity)
 	{
@@ -96,7 +79,7 @@ void Carriage::move()
 		}
 		break;
 	case GETTING:
-		if (mCheckpoints.size() == 0)
+		if (mCheckpoints.empty())
 		{
 			//carriage arrived
 			this->mSource->transfer_resources_out(this->mCurrent_resources);
@@ -117,7 +100,7 @@ void Carriage::move()
 		}
 		break;
 	case DELIVERING:
-		if (mCheckpoints.size() == 0)
+		if (mCheckpoints.empty())
 		{
 			//carriage arrived
 			this->mDrain->transfer_resources_in(this->mCurrent_resources);
@@ -144,7 +127,7 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 	if (source == target) return true;
 
 	//breadth-first search because there isn't enough space for difficult searches
-	//and we find the shortest path guranteed
+	//and we find the shortest path guaranteed
 	std::map<int, std::vector<std::pair<Building*, Building*>>> depth_search;
 	//what buildings have already been visited
 	std::set<Building*> visited;
@@ -152,26 +135,26 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 	depth_search[0].emplace_back(std::pair<Building*, Building*>(target, nullptr));
 	visited.insert(target);
 
-	bool success = false;
-	int distance = 0;
+	auto success = false;
+	auto distance = 0;
 
-	for (int depth = 0; !success; depth++) {	//going "up" through the depths
-		//break if theres nothing more to search
-		if (depth_search[depth].size() == 0) break;
+	for (auto depth = 0; !success; depth++) {	//going "up" through the depths
+		//break if there's nothing more to search
+		if (depth_search[depth].empty()) break;
 		for (auto it = depth_search[depth].begin(); it != depth_search[depth].end(); ++it) {	//iterating through each depth
-			
-			Building* current = it->first;
-			
-			for (int dir = 0; dir != BUILDINGDIRECTIONS_TOTAL; dir++) { //iterating through 
-				Building* neighbour = current->get_neighbor(BUILDINGDIRECTION(dir));
-				if (neighbour == nullptr) continue;
 
-				if (visited.find(neighbour) == visited.end())
+			auto current = it->first;
+			
+			for (auto dir = 0; dir != BUILDINGDIRECTIONS_TOTAL; dir++) { //iterating through 
+				auto neighbor = current->get_neighbor(BUILDINGDIRECTION(dir));
+				if (neighbor == nullptr) continue;
+
+				if (visited.find(neighbor) == visited.end())
 				{
 					//if this new building hasn't been visited
-					depth_search[depth + 1].emplace_back(std::pair<Building*, Building*>(neighbour, it->first));
-					visited.insert(neighbour);
-					if (neighbour == source)
+					depth_search[depth + 1].emplace_back(std::pair<Building*, Building*>(neighbor, it->first));
+					visited.insert(neighbor);
+					if (neighbor == source)
 					{
 						success = true;
 						distance = depth + 1;
@@ -184,18 +167,19 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 	if (distance == 0) return false;
 
 	//collect path from source to target
-	Building* current = source;
+	auto current = source;
 	for (auto depth = distance; depth > 0; depth--)
 	{
-		for (auto it = depth_search[depth].begin(); it != depth_search[depth].end(); ++it) {
-			if (it->first == current)
+		for (auto& it : depth_search[depth])
+		{
+			if (it.first == current)
 			{
 				//add to checkpoints
-				SDL_Point p = it->second->get_coords();
+				auto p = it.second->get_coords();
 				p.x += TILE_WIDTH / 2;
 				p.y += TILE_HEIGHT / 2;
 				mCheckpoints.emplace_back(p);
-				current = it->second;
+				current = it.second;
 			}
 		}
 	}

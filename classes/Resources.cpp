@@ -6,7 +6,7 @@ Resources::Resources()
 	this->mLimit = nullptr;
 }
 
-Resources::Resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
 {
 	this->set_resources(gold, wood, stone, iron, energy, water, food);
 	this->mLimit = nullptr;
@@ -23,7 +23,7 @@ Resources::Resources(Resources* resource, Resources* limit)
 	}
 }
 
-void Resources::set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+void Resources::set_resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
 {
 	mResources[GOLD] = gold;
 	mResources[FOOD] = food;
@@ -34,12 +34,12 @@ void Resources::set_resources(int gold, int wood, int stone, int iron, int energ
 	mResources[ENERGY] = energy;
 }
 
-void Resources::set_resource(RESOURCETYPES type, int res)
+void Resources::set_resource(const RESOURCETYPES type, const int res)
 {
 	this->mResources[type] = res;
 }
 
-int Resources::get_resource(RESOURCETYPES type)
+int Resources::get_resource(const RESOURCETYPES type)
 {
 	return mResources[type];
 }
@@ -59,7 +59,7 @@ bool Resources::is_empty()
 	return true;
 }
 
-void Resources::add(RESOURCETYPES type, int res)
+void Resources::add(const RESOURCETYPES type, const int res)
 {
 	if (mLimit != nullptr) {
 		if (res + mResources[type] > mLimit->get_resource(type)) {
@@ -70,7 +70,7 @@ void Resources::add(RESOURCETYPES type, int res)
 	mResources[type] += res;
 }
 
-bool Resources::sub(RESOURCETYPES type, int res)
+bool Resources::sub(const RESOURCETYPES type, const int res)
 {
 	if (mResources[type] - res < 0) {
 		return false;
@@ -90,6 +90,7 @@ bool Resources::sub(Resources *cost)
 	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		mResources[RESOURCETYPES(i)] -= cost->get_resource(RESOURCETYPES(i));
 	}
+	return true;
 }
 
 void Resources::add(Resources *income)
@@ -122,11 +123,9 @@ bool Resources::transfer(Resources *source)
 		return true;
 	}
 
-	int adding;
-
 	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) 
 	{
-		adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
+		const auto adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
 		this->add(RESOURCETYPES(i), source->get_resource(RESOURCETYPES(i)));
 		source->sub(RESOURCETYPES(i), adding);
 	}

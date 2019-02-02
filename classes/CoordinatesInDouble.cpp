@@ -7,18 +7,13 @@ CoordinatesInDouble::CoordinatesInDouble()
 	y = 0;
 }
 
-CoordinatesInDouble::CoordinatesInDouble(SDL_Point p)
+CoordinatesInDouble::CoordinatesInDouble(const SDL_Point p)
 {
 	this->x = p.x;
 	this->y = p.y;
 }
 
-CoordinatesInDouble::~CoordinatesInDouble()
-{
-	
-}
-
-CoordinatesInDouble CoordinatesInDouble::operator+(CoordinatesInDouble summand) const
+CoordinatesInDouble CoordinatesInDouble::operator+(const CoordinatesInDouble summand) const
 {
 	CoordinatesInDouble result;
 	result.x = this->x + summand.x;
@@ -26,7 +21,7 @@ CoordinatesInDouble CoordinatesInDouble::operator+(CoordinatesInDouble summand) 
 	return result;
 }
 
-CoordinatesInDouble::operator SDL_Point()
+CoordinatesInDouble::operator SDL_Point() const
 {
 	SDL_Point p;
 	p.x = int(this->x);

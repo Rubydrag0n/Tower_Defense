@@ -12,9 +12,6 @@ AoeShot::AoeShot(Tower* tower, const SDL_Point location_to_shoot, const double e
 	this->set_target(location_to_shoot);
 }
 
-AoeShot::~AoeShot()
-= default;
-
 void AoeShot::on_tick()
 {
 	if (this->follow())

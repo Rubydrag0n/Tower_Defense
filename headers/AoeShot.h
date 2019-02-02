@@ -1,13 +1,11 @@
 #pragma once
 #include "Shot.h"
-#include <vector>
 
 class AoeShot final : 
 	public Shot
 {
 public:
 	AoeShot(Tower* tower, SDL_Point location_to_shoot, double explosion_radius);
-	~AoeShot();
 
 	void on_tick() override;
 	

@@ -1,6 +1,5 @@
 #include "IndustrialBuilding.h"
 #include "ConfigFile.h"
-#include "Menu.h"
 
 IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL_Point coords, Level *level) : Building(industrial_building_name, coords, level)
 {
@@ -10,10 +9,6 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL
 	rect.w = 200;
 	rect.h = 200;
 	mWindow = new BuildingWindow(rect, this);
-}
-
-IndustrialBuilding::~IndustrialBuilding()
-{
 }
 
 void IndustrialBuilding::render()

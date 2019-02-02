@@ -30,7 +30,7 @@ RenderTexture::RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* ds
 	}
 }
 
-RenderTexture::RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* dst_rect, double angle, SDL_Point* center, SDL_RendererFlip flip) :
+RenderTexture::RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* dst_rect, const double angle, SDL_Point* center, const SDL_RendererFlip flip) :
 	texture{ texture }, src_rect{}, dst_rect{},
 	ex{ true }, angle{ angle }, center{}, flip{ flip }
 {
@@ -64,8 +64,7 @@ RenderTexture::RenderTexture(LTexture* texture, SDL_Rect* src_rect, SDL_Rect* ds
 	}
 }
 
-
-LayerHandler::LayerHandler() : mPairs{}
+LayerHandler::LayerHandler()
 {
 	this->init_mpairs();
 }
@@ -83,18 +82,18 @@ LayerHandler::~LayerHandler()
 	mPairs.clear();
 }
 
-void LayerHandler::render_to_layer(LTexture* texture, LAYERS layer, SDL_Rect* src_rect, SDL_Rect* dst_rect)
+void LayerHandler::render_to_layer(LTexture* texture, const LAYERS layer, SDL_Rect* src_rect, SDL_Rect* dst_rect)
 {
 	//create the RenderTexture object with all the necessary meta data
-	auto render_texture = new RenderTexture(texture, src_rect, dst_rect);
+	const auto render_texture = new RenderTexture(texture, src_rect, dst_rect);
 	//insert the texture into the vector at the right layer
 	this->mPairs.at(layer)->push_back(render_texture);
 }
 
-void LayerHandler::renderex_to_layer(LTexture* texture, LAYERS layer, SDL_Rect* src_rect, SDL_Rect* dst_rect, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void LayerHandler::renderex_to_layer(LTexture* texture, const LAYERS layer, SDL_Rect* src_rect, SDL_Rect* dst_rect, const double angle, SDL_Point* center, const SDL_RendererFlip flip)
 {
 	//create the RenderTexture object with all the necessary meta data
-	auto render_texture = new RenderTexture(texture, src_rect, dst_rect, angle, center, flip);
+	const auto render_texture = new RenderTexture(texture, src_rect, dst_rect, angle, center, flip);
 	//insert the texture into the vector at the right layer
 	this->mPairs.at(layer)->push_back(render_texture);
 }
@@ -104,11 +103,10 @@ void LayerHandler::present()
 	SDL_RenderClear(gRenderer);
 	for (auto i = 0; i < int(LAYERS::LAYERS_TOTAL); i++)
 	{
-		std::vector<RenderTexture*>* x = mPairs.at(LAYERS(i));
+		auto x = mPairs.at(LAYERS(i));
 
-		for (auto j = 0; j < x->size(); j++) {
-			auto r = x->at(j);
-
+		for (auto r : *x)
+		{
 			SDL_Rect* src = nullptr;
 			if (r->src_rect.x != -1)
 			{

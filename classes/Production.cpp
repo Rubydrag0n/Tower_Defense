@@ -12,11 +12,6 @@ Production::Production(Building* building)
 	update(building);
 }
 
-Production::~Production()
-{
-	this->clear();
-}
-
 void Production::initialize()
 {
 	for (int i = 0; i < RESOURCES_TOTAL; i++) {

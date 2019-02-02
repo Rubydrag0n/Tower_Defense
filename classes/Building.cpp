@@ -99,14 +99,17 @@ Building::~Building()
 
 void Building::demolish() const
 {
-	mLevel->get_resources()->add(&(*mConstruction_costs/2));
+	auto refund = *mConstruction_costs / 2;
+	mLevel->get_resources()->add(&refund);
 
 	//this whole stuff isn't used? what's it for? TODO
-	SDL_Point p;
+	/*
+	*SDL_Point p;
 	const auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
 	const auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
 	p.x = mCoords.x - grid_offset_x;
 	p.y = mCoords.y - grid_offset_y;
+	*/
 
 	const auto tile_x = mCoords.x / 64;
 	const auto tile_y = mCoords.y / 64;
@@ -118,14 +121,14 @@ void Building::upgrade(const std::string& building_upgrade_section)
 {
 	mBuilding_level++;
 
-	const auto plusMaintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
+	const auto plus_maintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "stoneMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "ironMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "energyMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "waterMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "foodMain"));
-	mMaintenance->add(plusMaintenance);
+	mMaintenance->add(plus_maintenance);
 
 	const auto upgrade_cost_multiplier = mCount_of_little_upgrade * 2 + 1;
 	const auto plus_construction = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts") * upgrade_cost_multiplier,

@@ -1,5 +1,14 @@
 #pragma once
 
+enum BUILDINGWINDOWBUTTONIDS {
+	DEMOLISH_BUTTON,
+	UPGRADE_BUTTON,
+	UPGRADE_DAMAGE_BUTTON,
+	UPGRADE_RANGE_BUTTON,
+	UPGRADE_ATTACKSPEED_BUTTON,
+	BUTTON_NUMBER
+};
+
 enum BUILDINGTYPE {
 	TOWER,
 	INDUSTRIAL_BUILDING,
@@ -51,7 +60,7 @@ enum PRODUCTIONSTATE {
 	CONSUMING
 };
 
-//The numbers are the rowpositions of the rotations in the sprite image (outdated)
+//The numbers are the row positions of the rotations in the sprite image (outdated)
 enum DIRECTION {
 	DOWN = 4,
 	LEFT = 5,
@@ -59,13 +68,13 @@ enum DIRECTION {
 	RIGHT = 7
 }; 
 
-enum LClickableState {
+enum L_CLICKABLE_STATE {
 	MOUSE_OUT = 0,			//while the mouse is not over the clickable
 	MOUSE_OVER = 1,			//while the mouse hovers over the clickable
 	MOUSE_DOWN_LEFT = 2,	//while left mouse button is pressed
 	MOUSE_DOWN_RIGHT = 3,	//while right mouse button is pressed
 	MOUSE_DOWN_MIDDLE = 4,	//while middle mouse button is pressed
-	MOUSE_UP = 5,			//one tick after a mouseclick
+	MOUSE_UP = 5,			//one tick after a mouse click
 	STATES_TOTAL = 6
 };
 

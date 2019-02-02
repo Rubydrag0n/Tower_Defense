@@ -8,8 +8,6 @@ AoeTower::AoeTower(const std::string& tower_name, const SDL_Point coords, Level*
 	mExplosive_radius = gConfig_file->value(mTower_name + "/stats", "explosiveradius");
 }
 
-AoeTower::~AoeTower() = default;
-
 void AoeTower::create_shot(Enemy* enemy)
 {
 	new AoeShot(this, enemy->get_position(), mExplosive_radius);

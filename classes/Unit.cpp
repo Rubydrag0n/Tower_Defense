@@ -5,10 +5,10 @@
 #include "LayerHandler.h"
 
 
-Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
+Unit::Unit(const std::string& unit_name) : mCenter(), mCurrent_clip(), mSprite_dimensions()
 {
-	auto sprite_section = unit_name + "/sprite";
-	auto stats_section = unit_name + "/stats";
+	const auto sprite_section = unit_name + "/sprite";
+	const auto stats_section = unit_name + "/stats";
 	//load path of the sprite
 	std::string path = gConfig_file->value(sprite_section, "path");
 	mSprite = gTextures->get_texture(path);	//set the pointer to the sprite
@@ -64,10 +64,6 @@ Unit::Unit(std::string unit_name) : mDefense(), mClips(), mSprite_dimensions()
 	update_animation_clip();
 }
 
-Unit::~Unit()
-{
-	//Don't destroy texture here, that is handled by the Textures class
-}
 
 void Unit::render()
 {
@@ -75,14 +71,14 @@ void Unit::render()
 
 	SDL_Rect dest;
 
-	dest.x = mPosition.x - mCenter.x;
-	dest.y = mPosition.y - mCenter.y;
+	dest.x = static_cast<int>(mPosition.x - mCenter.x);
+	dest.y = static_cast<int>(mPosition.y - mCenter.y);
 	dest.w = mCurrent_clip.w;
 	dest.h = mCurrent_clip.h;
 	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::ENEMIES, &this->mCurrent_clip, &dest, this->get_rotation_angle(), &this->mCenter, SDL_FLIP_NONE);
 }
 
-double Unit::get_rotation_angle()
+double Unit::get_rotation_angle() const
 {
 	switch (this->mDirection) {
 	case DIRECTION::RIGHT:
@@ -105,7 +101,7 @@ void Unit::update_animation_clip()
 	{
 		mAnimation_tick = 0;
 	}
-	auto index = mAnimation_tick / mTickcount_per_clip;
+	const auto index = mAnimation_tick / mTickcount_per_clip;
 
 	mCurrent_clip = mClips.at(index);
 }

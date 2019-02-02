@@ -11,7 +11,7 @@ class Warehouse;
 class Level
 {
 public:
-	Level(std::string level_number);
+	explicit Level(std::string level_number);
 	~Level();
 
 	//at the moment: update the first wave in the vector, if this wave is dead spawn the next wave
@@ -26,15 +26,15 @@ public:
 	Resources* get_resources();
 	std::string get_level_number() const;
 
-	void set_ressources(Resources ressources);
+	void set_resources(const Resources *resources);
 	void set_lives(int lives);
-	TILETYPES** get_map_matrix();
-	void set_map_matrix(int x, int y, TILETYPES type);
+	TILETYPES** get_map_matrix() const;
+	void set_map_matrix(int x, int y, TILETYPES type) const;
 
-	void set_building_matrix(int x, int y, Building* building);
-	Building* get_building_matrix(int x, int y);
+	void set_building_matrix(int x, int y, Building* building) const;
+	Building* get_building_matrix(int x, int y) const;
 
-	Warehouse* get_main_building();
+	Warehouse* get_main_building() const;
 	void set_main_building(Warehouse *main_building);
 	
 private:
@@ -42,10 +42,10 @@ private:
 
 	std::vector<Wave> mWaves;
 	int mLives;
-	Resources mRessources;
+	Resources mResources;
 	int mWaves_count;
 	TILETYPES** mMap_matrix;
 	Building*** mMap_buildings;
 
-	Warehouse* mMain_building;
+	Warehouse* mMain_building{};
 };

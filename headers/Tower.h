@@ -5,15 +5,12 @@
 #include "Building.h"
 #include "Damage.h"
 #include "Enemy.h"
-#include "Shot.h"
-#include "Menu.h"
 
 class Tower : 
 	public Building
 {
 public:
 	Tower(const std::string& tower_name, SDL_Point coords, Level* level);
-	~Tower();
 
 	virtual void create_shot(Enemy* enemy) = 0;
 
@@ -26,7 +23,7 @@ public:
 	void upgrade(const std::string& tower_upgrade_section) override;
 	void upgrade_damage();
 	void upgrade_range();
-	void upgrade_attackspeed();
+	void upgrade_attack_speed();
 
 	BUILDINGTYPE get_building_type() override;
 	

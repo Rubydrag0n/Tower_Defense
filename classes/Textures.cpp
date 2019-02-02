@@ -2,18 +2,16 @@
 #include "SDL_setup.h"
 #include "LTexture.h"
 
-
-Textures::Textures() : mContent{}
+Textures::Textures()
 {
 }
 
-
 Textures::~Textures()
 {
-	for (auto iter = mContent.begin(); iter != mContent.end(); ++iter)
+	for (auto& it : mContent)
 	{
 		//Getting rid of all the left textures
-		iter->second->free();
+		it.second->free();
 	}
 	//empty the map itself
 	mContent.clear();
@@ -22,7 +20,7 @@ Textures::~Textures()
 LTexture* Textures::get_texture(std::string path)
 {
 	//search for the path as key
-	auto it = mContent.find(path);
+	const auto it = mContent.find(path);
 	if (it != mContent.end())	//if the name is found -> it's already loaded
 	{
 		return it->second;		//return the stored pointer to the LTexture
@@ -38,7 +36,7 @@ LTexture* Textures::get_texture(std::string path)
 	return tex;
 }
 
-bool Textures::del_texture(std::string path)
+bool Textures::del_texture(const std::string& path)
 {
 	auto it = mContent.find(path);
 	if (it != mContent.end())

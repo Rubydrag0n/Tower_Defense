@@ -1,18 +1,17 @@
 #pragma once
 #include "Level.h"
 #include "MenuItem.h"
-#include "CoordinatesInDouble.h"
 #include "Button.h"
 #include "ButtonObject.h"
 #include "Enums.h"
 
 class MenuItem;
 
-class Menu 
+class Menu final
 	: public Renderable, public ButtonObject
 {
 public:
-	Menu(Level *level);
+	explicit Menu(Level *level);
 	~Menu();
 
 	void sort_items_into_menu();
@@ -20,7 +19,7 @@ public:
 	void add_menu_item(MenuItem* menu_item, BUILDINGTYPE tab);
 
 	void on_button_press(int button_id) override;
-	void render() override; //shows lives and ressources
+	void render() override; //shows lives and resources
 
 private:
 	Level* mLevel;

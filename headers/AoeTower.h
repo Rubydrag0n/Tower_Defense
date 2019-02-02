@@ -1,13 +1,11 @@
 #pragma once
 #include "Tower.h"
-#include "AoeShot.h"
 
-class AoeTower : 
+class AoeTower final : 
 	public Tower
 {
 public:
 	AoeTower(const std::string& tower_name, SDL_Point coords, Level* level);
-	~AoeTower();
 
 	void create_shot(Enemy* enemy) override;
 

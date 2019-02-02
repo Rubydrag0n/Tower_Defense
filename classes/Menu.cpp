@@ -44,7 +44,7 @@ Menu::Menu(Level *level)
 Menu::~Menu()
 {
 	//TODO: fix this deconstructor, it's broken
-	//delete all the buttons and menuitems
+	//delete all the buttons and menu items
 	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];
 		for (auto j = mMenu_items[BUILDINGTYPE(i)]->size(); j > 0; j--) {
@@ -57,22 +57,22 @@ Menu::~Menu()
 	mMenu_items.clear();
 }
 
-void Menu::show_tab(BUILDINGTYPE open_tab)
+void Menu::show_tab(const BUILDINGTYPE open_tab)
 {
 	this->mOpen_tab = open_tab;
 
 	//enable all the items in the opened tab, disable all the items in the not opened tabs
 	for (auto j = 0; j < BUILDINGTYPE::BUILDINGTYPES_TOTAL; j++) {
 		if (BUILDINGTYPE(j) == open_tab) {
-			for (auto i = 0; i < mMenu_items[open_tab]->size(); i++)
+			for (auto& i : *mMenu_items[open_tab])
 			{
-				mMenu_items[open_tab]->at(i)->set_rendering_enabled(true);
-				mMenu_items[open_tab]->at(i)->enable();
+				i->set_rendering_enabled(true);
+				i->enable();
 			}
 		}
 		else
 		{
-			for (auto i = 0; i < mMenu_items[BUILDINGTYPE(j)]->size(); i++)
+			for (unsigned i = 0; i < mMenu_items[BUILDINGTYPE(j)]->size(); i++)
 			{
 				mMenu_items[BUILDINGTYPE(j)]->at(i)->set_rendering_enabled(false);
 				mMenu_items[BUILDINGTYPE(j)]->at(i)->disable();
@@ -111,7 +111,7 @@ void Menu::sort_items_into_menu()
 			{
 				break;
 			}
-			auto new_item = new MenuItem(name_of_object, mLevel, coords);
+			const auto new_item = new MenuItem(name_of_object, mLevel, coords);
 			this->add_menu_item(new_item, BUILDINGTYPE(j));
 		}
 	}
@@ -119,7 +119,7 @@ void Menu::sort_items_into_menu()
 
 void Menu::render()
 {
-	SDL_Color text_color = { 0, 0, 255 };
+	const SDL_Color text_color = { 0, 0, 255, 0};
 
 	//if there is a texture from last time, delete it
 	if (mMenu_texture != nullptr)
@@ -148,7 +148,7 @@ void Menu::render()
 	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::WINDOWS, nullptr, &dest);
 }
 
-void Menu::add_menu_item(MenuItem* menu_item, BUILDINGTYPE tab)
+void Menu::add_menu_item(MenuItem* menu_item, const BUILDINGTYPE tab)
 {
 	this->mMenu_items[tab]->push_back(menu_item);
 }

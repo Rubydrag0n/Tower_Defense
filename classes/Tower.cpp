@@ -35,13 +35,11 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	mWindow = new TowerWindow(rect, this);
 }
 
-Tower::~Tower() = default;
-
 void Tower::render()
 {
 	Building::render();
 
-	auto temp_window = dynamic_cast<TowerWindow*>(mWindow);
+	const auto temp_window = dynamic_cast<TowerWindow*>(mWindow);
 
 	if(get_clicked())
 	{
@@ -128,7 +126,7 @@ void Tower::upgrade_range()
 	mCount_of_little_upgrade++;
 }
 
-void Tower::upgrade_attackspeed()
+void Tower::upgrade_attack_speed()
 {
 	const auto tower_upgrade_section = mTower_name + "/upgradeAttackspeed";
 	Building::upgrade(tower_upgrade_section);

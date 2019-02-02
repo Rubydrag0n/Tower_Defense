@@ -3,24 +3,21 @@
 #include "Building.h"
 
 
-class MenuItem :
+class MenuItem final :
 	public Clickable, public Renderable
 {
 public:
-	MenuItem(std::string name_of_object, Level *level, SDL_Point coords);
+	MenuItem(const std::string& name_of_object, Level *level, SDL_Point coords);
 	~MenuItem();
 
-	void render();
+	void render() override;
 	void delete_clickable_space();
 
 	void on_click(int mouse_x, int mouse_y) override;
-	void on_mouse_over(int mouse_x, int mouse_y) override;
-	void on_right_click(int mouse_x, int mouse_y) override;
-	void on_middle_click(int mouse_x, int mouse_y) override;
 
 
-	LTexture* get_sprite();
-	SDL_Point get_coords();
+	LTexture* get_sprite() const;
+	SDL_Point get_coords() const;
 	Resources get_construction_costs() const;
 
 

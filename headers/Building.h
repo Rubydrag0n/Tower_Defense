@@ -43,7 +43,7 @@ public:
 	ENTITYTYPE get_type() override;
 	virtual BUILDINGTYPE get_building_type() = 0;
 
-	//returns the building in the neighbouring tile or nullptr if it doesn't exist
+	//returns the building in the neighboring tile or nullptr if it doesn't exist
 	Building* get_neighbor(BUILDINGDIRECTION dir);
 	//sets the building in the given direction to building
 	void set_neighbor(BUILDINGDIRECTION dir, Building* building);

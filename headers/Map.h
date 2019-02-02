@@ -1,12 +1,11 @@
 #pragma once
 #include "SDLMappy.h"
-#include <SDL.h>
 #include "LTexture.h"
 
 class Map
 {
 public:
-	Map(char *map_path);
+	explicit Map(char *map_path);
 	~Map();
 
 	int get_height() const;
@@ -15,7 +14,7 @@ public:
 	void render() const;
 
 private:
-	void update_map_texture();
+	void update_map_texture() const;
 
 	LTexture *mMap_texture;
 

@@ -21,11 +21,11 @@ public:
 	//handles all click related events
 	void handle_event(SDL_Event* e);
 
-	MouseItem* get_item_on_mouse();
+	MouseItem* get_item_on_mouse() const;
 	void set_item_on_mouse(MouseItem* item);
 
 	void set_mouse_position(int x, int y);
-	void get_mouse_position(int *x, int *y);
+	void get_mouse_position(int *x, int *y) const;
 
 private:
 	std::vector<Clickable*> mClickables;
