@@ -9,13 +9,7 @@ MainMenu::MainMenu()
 	mSprite = gTextures->get_texture(mSprite_path);
 }
 
-MainMenu::~MainMenu()
-{
-	
-}
-
-
-void MainMenu::render()
+void MainMenu::render() const
 {
 	SDL_Rect dest;
 

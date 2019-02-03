@@ -7,7 +7,10 @@
 #include "LayerHandler.h"
 #include "MouseHandler.h"
 
-Building::Building(std::string building_name, SDL_Point coords, Level* level) : mCoords{ coords }, mSprite_dimensions{}, mLevel{ level }, mName{ std::move(building_name) }, mWindow{ nullptr }
+Building::Building(std::string building_name, SDL_Point coords, Level* level) : mCoords{coords}, mSprite_dimensions{},
+                                                                                mLevel{level},
+                                                                                mName{std::move(building_name)},
+                                                                                mWindow{nullptr}
 {
 	auto building_sprite_section = mName + "/sprite";
 	auto building_stats_section = mName + "/stats";
@@ -178,10 +181,14 @@ void Building::render()
 
 void Building::on_tick()
 {
-	//TODO: magic number, framerate might not always be 60
-	if(mElapsed_ticks % 60 == 0)
+	if(mElapsed_ticks % *gFrame_rate == 0)
 	{
-		mIdle = !this->mCurrent_resources->sub(mMaintenance);
+		mIdle = !this->mCurrent_resources->sub(mMaintenance); 
+
+		if (!this->mIdle)
+		{
+			this->mCurrent_resources->add(mProduce);
+		}
 	}
 	mElapsed_ticks++;
 }
@@ -297,4 +304,3 @@ std::string Building::get_name() const
 {
 	return mName;
 }
-

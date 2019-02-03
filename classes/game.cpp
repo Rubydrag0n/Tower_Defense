@@ -1,5 +1,5 @@
-//Here comes the definiton of the game class
-#include <stdio.h>
+//Here comes the definition of the game class
+#include <cstdio>
 #include <iostream>
 
 #include "Game.h"
@@ -55,7 +55,7 @@ Game::Game() : mMouse_position()
 
 	p.x = 1152;
 	p.y = 640;
-	auto warehouse = new Warehouse("warehouse", p, mLevel);
+	const auto warehouse = new Warehouse("warehouse", p, mLevel);
 	this->mLevel->set_main_building(warehouse);
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);

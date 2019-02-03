@@ -8,10 +8,6 @@ HomingShot::HomingShot(Tower* tower, Enemy *enemy_to_shoot) : Shot(tower), mDele
 	enemy_to_shoot->add_following_shot(this);
 }
 
-HomingShot::~HomingShot()
-{
-}
-
 bool HomingShot::follow()
 {
 	return Shot::follow(mEnemy_to_shoot->get_position());

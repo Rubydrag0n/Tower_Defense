@@ -16,7 +16,8 @@ Defense::Defense()
 	mElec_immune = false;
 }
 
-Defense::Defense(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res)
+Defense::Defense(const double health, const double armor, const double magic_res, const double fire_res,
+                 const double water_res, const double elec_res)
 {
 	mFull_health = health;
 	mHealth = health;
@@ -32,7 +33,8 @@ Defense::Defense(double health, double armor, double magic_res, double fire_res,
 	mElec_immune = false;
 }
 
-void Defense::set_defenses(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res)
+void Defense::set_defenses(const double health, const double armor, const double magic_res, const double fire_res,
+                           const double water_res, const double elec_res)
 {
 	mFull_health = health;
 	mHealth = health;
@@ -43,7 +45,7 @@ void Defense::set_defenses(double health, double armor, double magic_res, double
 	mElec_res = elec_res;
 }
 
-void Defense::set_immunities(bool phys, bool magic, bool fire, bool water, bool elec)
+void Defense::set_immunities(const bool phys, const bool magic, const bool fire, const bool water, const bool elec)
 {
 	mPhys_immune = phys;
 	mMagic_immune = magic;
@@ -52,7 +54,7 @@ void Defense::set_immunities(bool phys, bool magic, bool fire, bool water, bool 
 	mElec_immune = elec;
 }
 
-void Defense::set_health(double health)
+void Defense::set_health(const double health)
 {
 	mHealth = health;
 }
@@ -62,7 +64,7 @@ double Defense::get_health() const
 	return mHealth;
 }
 
-void Defense::set_full_health(double health)
+void Defense::set_full_health(const double health)
 {
 	mFull_health = health;
 }
@@ -72,7 +74,7 @@ double Defense::get_full_health() const
 	return mFull_health;
 }
 
-void Defense::set_armor(double armor)
+void Defense::set_armor(const double armor)
 {
 	mArmor = armor;
 }
@@ -82,7 +84,7 @@ double Defense::get_armor() const
 	return mArmor;
 }
 
-void Defense::set_magic_res(double magic_res)
+void Defense::set_magic_res(const double magic_res)
 {
 	mMagic_res = magic_res;
 }
@@ -92,7 +94,7 @@ double Defense::get_magic_res() const
 	return mMagic_res;
 }
 
-void Defense::set_fire_res(double fire_res)
+void Defense::set_fire_res(const double fire_res)
 {
 	mFire_res = fire_res;
 }
@@ -102,7 +104,7 @@ double Defense::get_fire_res() const
 	return mFire_res;
 }
 
-void Defense::set_water_res(double water_res)
+void Defense::set_water_res(const double water_res)
 {
 	mWater_res = water_res;
 }
@@ -112,7 +114,7 @@ double Defense::get_water_res() const
 	return mWater_res;
 }
 
-void Defense::set_elec_res(double elec_res)
+void Defense::set_elec_res(const double elec_res)
 {
 	mElec_res = elec_res;
 }
@@ -139,7 +141,7 @@ bool Defense::take_damage(Damage *dmg)
 	auto elec_dmg = dmg->get_elec_dmg() * 100 / (100 + mElec_res);
 	if (mElec_immune) elec_dmg = 0.0;
 
-	auto total_dmg = phys_dmg + magic_dmg + fire_dmg + water_dmg + elec_dmg;
+	const auto total_dmg = phys_dmg + magic_dmg + fire_dmg + water_dmg + elec_dmg;
 
 	auto killed = false;
 

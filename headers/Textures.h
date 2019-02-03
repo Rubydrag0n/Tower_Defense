@@ -3,11 +3,10 @@
 #include "LTexture.h"
 
 
-//A class to handle all the textures so they don't get loadet more than once
+//A class to handle all the textures so they don't get loaded more than once
 class Textures
 {
 public:
-	Textures();
 	~Textures();
 
 	//retrieving a texture

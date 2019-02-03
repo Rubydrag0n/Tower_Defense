@@ -19,8 +19,6 @@ std::string trim(std::string const& source, char const* delims = " \t\r\n") {
 	return result;
 }
 
-
-
 ConfigFile::ConfigFile(std::string const& config_file) {
 	std::ifstream file(config_file.c_str());
 
@@ -42,7 +40,9 @@ ConfigFile::ConfigFile(std::string const& config_file) {
 		auto name = trim(line.substr(0, pos_equal));
 		auto value = trim(line.substr(pos_equal + 1));
 
-		mContent_[in_section + '/' + name] = Chameleon(value);
+		std::string t = in_section;
+		t.append("/").append(name);
+		mContent_[t] = Chameleon(value);
 	}
 }
 

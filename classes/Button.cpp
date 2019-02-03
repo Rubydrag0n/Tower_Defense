@@ -5,11 +5,11 @@
 #include "ButtonObject.h"
 #include "BuildingWindow.h"
 
-Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, const int button_id) : mButton_dimensions(dim), mClips{}, mButtonSprite{}, mObject_to_notify(obj), mButton_id{ button_id }
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, const int button_id) : mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mButton_id{ button_id }
 {
 	const auto section = "button/" + button_name;
 
-	this->mButtonSprite = gTextures->get_texture(gConfig_file->value(section, "path"));
+	this->mButton_sprite = gTextures->get_texture(gConfig_file->value(section, "path"));
 
 	//initialize the clips
 	const int clip_width = gConfig_file->value(section, "clip_width");
@@ -49,7 +49,7 @@ void Button::set_sprite_clips(SDL_Rect * clips)
 void Button::render()
 {
 	//Show current button sprite
-	gLayer_handler->render_to_layer(mButtonSprite, LAYERS::OVERLAY, &mClips[this->get_state()], &mButton_dimensions);
+	gLayer_handler->render_to_layer(mButton_sprite, LAYERS::OVERLAY, &mClips[this->get_state()], &mButton_dimensions);
 }
 
 void Button::on_click(int mouse_x, int mouse_y)

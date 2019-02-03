@@ -31,9 +31,15 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level) : Uni
 		auto number = std::to_string(i);
 		SDL_Point p;
 
+		//some preprocessing using append to (hopefully) improve performance
+		std::string x_string = "way";
+		x_string.append(s_way).append("checkpoint").append(number);
+		auto y_string = x_string;
+		x_string.append("x");
+		y_string.append("y");
 		//take offset into account
-		p.x = gConfig_file->value(level_section, "way" + s_way + "checkpoint" + number + "x") + offset.x;
-		p.y = gConfig_file->value(level_section, "way" + s_way + "checkpoint" + number + "y") + offset.y;
+		p.x = gConfig_file->value(level_section, x_string) + offset.x;
+		p.y = gConfig_file->value(level_section, y_string) + offset.y;
 		//sorting the checkpoints into the array (they have to be in the right order)
 		mCheckpoints.push_back(p);
 	}
@@ -82,8 +88,7 @@ void Enemy::move()
 {
 	if (!mDead)
 	{
-		//TODO Framerate?! magic number
-		const auto travel_dist = mMove_speed / 60.0;	//60.0 is frame rate
+		const auto travel_dist = mMove_speed / *gFrame_rate;	//60.0 is frame rate
 
 		auto dist_to_next_checkpoint = (mPosition.x - mCheckpoints.at(0).x) * (mPosition.x - mCheckpoints.at(0).x) +
 			(mPosition.y - mCheckpoints.at(0).y) * (mPosition.y - mCheckpoints.at(0).y);

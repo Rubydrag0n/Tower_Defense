@@ -4,13 +4,12 @@
 class Wave
 {
 public:
-	Wave(std::string wave_number, Level* level);
-	~Wave();
+	Wave(const std::string& wave_number, Level* level);
 
-	//at the moment: update the first monstergroup in the vector, if it is dead spawn the next wave
+	//at the moment: update the first monster group in the vector, if it is dead spawn the next wave
 	void update();
 
-	//Wave::update deletes mMonstergroup.at(0), if the monstergroup is dead, so the next monstergroup will be rendered
+	//Wave::update deletes mMonster_groups.at(0), if the monster group is dead, so the next monster group will be rendered
 	bool is_dead() const;
 
 	int get_monster_group_count() const;
@@ -21,4 +20,3 @@ private:
 	int mMonster_group_count;
 	Level* mLevel;
 };
-

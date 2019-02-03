@@ -10,7 +10,6 @@ class MouseHandler
 {
 public:
 	MouseHandler();
-	~MouseHandler();
 
 	void add_clickable(Clickable* c);
 	void del_clickable(Clickable* c);

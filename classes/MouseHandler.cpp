@@ -11,11 +11,6 @@ MouseHandler::MouseHandler() : mCurrent_mouse_position{0, 0}
 	mItem_on_mouse = nullptr;
 }
 
-MouseHandler::~MouseHandler()
-{
-	mClickables.clear();
-}
-
 void MouseHandler::add_clickable(Clickable* c)
 {
 	this->mClickables.push_back(c);

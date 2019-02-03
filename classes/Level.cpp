@@ -2,11 +2,12 @@
 #include "Building.h"
 #include "ConfigFile.h"
 #include <fstream>
+#include <utility>
 
-const int gMatrix_width = 20;
-const int gMatrix_height = 16;
+const int MATRIX_WIDTH = 20;
+const int MATRIX_HEIGHT = 16;
 
-Level::Level(std::string level_number) : mLevel_number(level_number)
+Level::Level(std::string level_number) : mLevel_number(std::move(level_number))
 {
 	mLives = gConfig_file->value_or_zero("level" + mLevel_number, "lives");
 	mWaves_count = gConfig_file->value("level" + mLevel_number, "waves_count");
@@ -32,18 +33,18 @@ Level::Level(std::string level_number) : mLevel_number(level_number)
 	std::ifstream file("level/Level1.txt");
 	std::string content;
 
-	this->mMap_matrix = new TILETYPES*[gMatrix_width];
-	this->mMap_buildings = new Building**[gMatrix_width];
-	for (auto i = 0; i < gMatrix_width; i++)
+	this->mMap_matrix = new TILETYPES*[MATRIX_WIDTH];
+	this->mMap_buildings = new Building**[MATRIX_WIDTH];
+	for (auto i = 0; i < MATRIX_WIDTH; i++)
 	{
-		this->mMap_matrix[i] = new TILETYPES[gMatrix_height];
-		this->mMap_buildings[i] = new Building*[gMatrix_height];
+		this->mMap_matrix[i] = new TILETYPES[MATRIX_HEIGHT];
+		this->mMap_buildings[i] = new Building*[MATRIX_HEIGHT];
 	}
 
-	for (auto y = 0; y < gMatrix_height; y++)
+	for (auto y = 0; y < MATRIX_HEIGHT; y++)
 	{
 		file >> content;
-		for (auto x = 0; x < gMatrix_width; x++)
+		for (auto x = 0; x < MATRIX_WIDTH; x++)
 		{
 			switch (content.at(x))
 			{
@@ -75,7 +76,7 @@ Level::Level(std::string level_number) : mLevel_number(level_number)
 
 Level::~Level()
 {
-	for (auto i = 0; i < gMatrix_width; i++)
+	for (auto i = 0; i < MATRIX_WIDTH; i++)
 	{
 		delete this->mMap_matrix[i];
 	}
@@ -161,11 +162,11 @@ void Level::set_building_matrix(const int x, const int y, Building* building) co
 		if (building != nullptr) building->set_neighbor(NORTH, mMap_buildings[x][y - 1]);
 		if (mMap_buildings[x][y - 1] != nullptr) mMap_buildings[x][y - 1]->set_neighbor(SOUTH, building);
 	}
-	if (x < gMatrix_width - 1) {
+	if (x < MATRIX_WIDTH - 1) {
 		if (building != nullptr) building->set_neighbor(EAST, mMap_buildings[x + 1][y]);
 		if (mMap_buildings[x + 1][y] != nullptr) mMap_buildings[x + 1][y]->set_neighbor(WEST, building);
 	}
-	if (y < gMatrix_height - 1) {
+	if (y < MATRIX_HEIGHT - 1) {
 		if (building != nullptr) building->set_neighbor(SOUTH, mMap_buildings[x][y + 1]);
 		if (mMap_buildings[x][y + 1] != nullptr) mMap_buildings[x][y + 1]->set_neighbor(NORTH, building);
 	}

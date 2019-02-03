@@ -66,5 +66,5 @@ Chameleon::operator std::string() const {
 }
 
 Chameleon::operator int() const {
-	return atoi(mValue_.c_str());
+	return strtol(mValue_.c_str(), nullptr, 10);
 }

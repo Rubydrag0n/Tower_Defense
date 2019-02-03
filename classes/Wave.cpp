@@ -3,26 +3,19 @@
 #include "Level.h"
 
 
-Wave::Wave(std::string wave_number, Level* level)
+Wave::Wave(const std::string& wave_number, Level* level) : mLevel(level)
 {
-	mLevel = level;
+	const auto section = "wave" + mLevel->get_level_number() + "_" + wave_number;
 
-	auto section = "wave" + mLevel->get_level_number() + "_" + wave_number;
+	mMonster_group_count = gConfig_file->value(section, "monster_group_count");//number of monster groups in the wave
 
-	mMonster_group_count = gConfig_file->value(section, "monster_group_count");//number of monstergroups in the wave
-
-	//create all monstergroups in this wave and insert them in the vector mMonster_groups
+	//create all monster groups in this wave and insert them in the vector mMonster_groups
 	for(auto i = 1; i <= mMonster_group_count; i++)
 	{
 		auto monster_group_number = std::to_string(i);
 		auto new_monster_group = new MonsterGroup(wave_number, monster_group_number, mLevel);
 		mMonster_groups.push_back(new_monster_group);
 	}
-}
-
-
-Wave::~Wave()
-{
 }
 
 void Wave::update()

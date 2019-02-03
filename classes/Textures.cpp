@@ -2,10 +2,6 @@
 #include "SDL_setup.h"
 #include "LTexture.h"
 
-Textures::Textures()
-{
-}
-
 Textures::~Textures()
 {
 	for (auto& it : mContent)
