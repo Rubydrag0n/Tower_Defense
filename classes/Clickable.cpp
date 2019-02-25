@@ -35,7 +35,7 @@ void Clickable::set_state(const L_CLICKABLE_STATE state)
 	this->mState = state;
 }
 
-bool Clickable::get_clicked() const
+bool Clickable::is_clicked() const
 {
 	return mClicked;
 }

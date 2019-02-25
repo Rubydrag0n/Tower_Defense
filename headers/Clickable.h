@@ -27,7 +27,7 @@ public:
 	L_CLICKABLE_STATE get_state() const;
 	void set_state(L_CLICKABLE_STATE state);
 
-	bool get_clicked() const;
+	bool is_clicked() const;
 	void set_clicked(bool value);
 
 	//enables the object to be clicked

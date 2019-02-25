@@ -1,6 +1,5 @@
 #pragma once
 #include "Entity.h"
-#include "Enemy.h"
 #include <vector>
 #include <map>
 

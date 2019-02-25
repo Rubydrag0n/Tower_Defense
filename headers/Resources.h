@@ -9,12 +9,15 @@ public:
 	Resources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 	explicit Resources(Resources* resource, Resources* limit = nullptr);
 
+	~Resources();
+
 	//set and get all the different values
 	void set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 	
 	//set and get individual resource
 	void set_resource(RESOURCETYPES type, int res);
 	int get_resource(RESOURCETYPES type);
+	int* get_resource_pointer(RESOURCETYPES type);
 
 	//sets all resources to 0
 	void set_empty();
@@ -44,6 +47,14 @@ public:
 	//returns true if the source is empty afterwards
 	//false otherwise
 	bool transfer(Resources *source);
+
+	//transfers one resource type
+	//returns true if the source is empty afterwards
+	//false otherwise
+	bool transfer(RESOURCETYPES type, int *r);
+
+	//returns a string literal containing the name of the resource
+	static std::string get_name(RESOURCETYPES type);
 
 private:
 	std::map<RESOURCETYPES, int> mResources;

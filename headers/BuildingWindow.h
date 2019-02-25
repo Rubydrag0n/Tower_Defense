@@ -29,6 +29,10 @@ private:
 	Button* mUpgrade_button;
 	CoordinatesInDouble mButton_offset;
 
+	//the textures can't be immediately deleted, so they are reused instead
+	std::map<RESOURCETYPES, LTexture*> mText;
+	LTexture* mHeadline;
+
 protected:
 	Building* mBuilding;
 };

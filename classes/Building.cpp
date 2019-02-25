@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "LayerHandler.h"
 #include "MouseHandler.h"
+#include "Production.h"
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level) : mCoords{coords}, mSprite_dimensions{},
                                                                                 mLevel{level},
@@ -15,7 +16,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 	auto building_sprite_section = mName + "/sprite";
 	auto building_stats_section = mName + "/stats";
 	mSprite_path = std::string(gConfig_file->value(building_sprite_section, "path"));
-
 
 	//load texture and the size of the image from the config file
 	mSprite = gTextures->get_texture(mSprite_path);
@@ -92,6 +92,9 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 		this->mSurrounding_buildings[BUILDINGDIRECTION(j)] = nullptr;
 	}
 	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, this);
+
+	//initialize what this building is producing and consuming
+	mProducing = new Production(this);
 }
 
 Building::~Building()
@@ -144,7 +147,6 @@ void Building::upgrade(const std::string& building_upgrade_section)
 	mConstruction_costs->add(plus_construction);
 
 	mLevel->get_resources()->sub(plus_construction);
-
 }
 
 void Building::render()
@@ -158,7 +160,7 @@ void Building::render()
 	
 	gLayer_handler->render_to_layer(mSprite, LAYERS::BUILDINGS, nullptr, &dest);
 
-	if(this->get_clicked())
+	if(this->is_clicked())
 	{
 		if (get_building_level() < get_building_max_level())
 		{
@@ -273,6 +275,29 @@ bool Building::transfer_resources_in(Resources * r) const
 bool Building::transfer_resources_out(Resources * r) const
 {
 	return r->transfer(this->mCurrent_resources);
+}
+
+void Building::transfer_resources(Resources* r) const
+{
+	for (auto i = 0; i < RESOURCES_TOTAL; i++)
+	{
+		switch(mProducing->at(RESOURCETYPES(i)))
+		{
+		case NONE:
+			//do nothing
+			break;
+		case PRODUCING:
+			//this building is producing the resource, so transfer into r
+			r->transfer(RESOURCETYPES(i), mCurrent_resources->get_resource_pointer(RESOURCETYPES(i)));
+			break;
+		case CONSUMING:
+			//this building is consuming the resource, so transfer into building
+			mCurrent_resources->transfer(RESOURCETYPES(i), r->get_resource_pointer(RESOURCETYPES(i)));
+			break;
+		default: 
+			;	//shouldn't get here
+		}
+	}
 }
 
 void Building::set_idle(const bool value)

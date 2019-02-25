@@ -1,4 +1,5 @@
 #include "Resources.h"
+#include <algorithm>
 
 Resources::Resources()
 {
@@ -17,10 +18,15 @@ Resources::Resources(Resources* resource, Resources* limit)
 	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		this->set_resource(RESOURCETYPES(i), resource->get_resource(RESOURCETYPES(i)));
 	}
-	if (limit != nullptr)
-	{
-		this->mLimit = limit;
+	if (limit == nullptr) this->mLimit = nullptr;
+	else {
+		this->mLimit = new Resources(limit);
 	}
+}
+
+Resources::~Resources()
+{
+	delete mLimit;
 }
 
 void Resources::set_resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
@@ -42,6 +48,11 @@ void Resources::set_resource(const RESOURCETYPES type, const int res)
 int Resources::get_resource(const RESOURCETYPES type)
 {
 	return mResources[type];
+}
+
+int* Resources::get_resource_pointer(const RESOURCETYPES type)
+{
+	return &mResources[type];
 }
 
 void Resources::set_empty()
@@ -123,12 +134,57 @@ bool Resources::transfer(Resources *source)
 		return true;
 	}
 
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) 
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) 
 	{
-		const auto adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
+		auto adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
+		//skip if over full already
+		if (adding <= 0) continue;
+		adding = std::min(adding, source->get_resource(RESOURCETYPES(i)));
 		this->add(RESOURCETYPES(i), source->get_resource(RESOURCETYPES(i)));
 		source->sub(RESOURCETYPES(i), adding);
 	}
 
 	return source->is_empty();
+}
+
+bool Resources::transfer(const RESOURCETYPES type, int *r)
+{
+	if (this->mLimit == nullptr)
+	{
+		this->add(type, *r);
+		*r = 0;
+		return true;
+	}
+
+	const auto adding = mLimit->get_resource(type) - mResources[type];
+	if (adding > 0)
+	{
+		this->add(type, *r);
+		*r -= adding;
+	}
+
+	return *r == 0;
+}
+
+std::string Resources::get_name(const RESOURCETYPES type)
+{
+	//TODO: locale stuff monkaS
+	switch (type) {
+	case GOLD:
+		return "Gold";
+	case WOOD:
+		return "Wood";
+	case FOOD:
+		return "Food";
+	case IRON:
+		return "Iron";
+	case STONE:
+		return "Stone";
+	case WATER:
+		return "Water";
+	case ENERGY:
+		return "Energy";
+	default:
+		return "Unknown Resource";
+	}
 }

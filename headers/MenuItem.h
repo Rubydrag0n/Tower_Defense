@@ -1,7 +1,11 @@
 #pragma once
 #include "Clickable.h"
-#include "Building.h"
+#include "Renderable.h"
+#include <string>
+#include "LTexture.h"
+#include "Resources.h"
 
+class Level;
 
 class MenuItem final :
 	public Clickable, public Renderable
@@ -19,7 +23,6 @@ public:
 	LTexture* get_sprite() const;
 	SDL_Point get_coords() const;
 	Resources get_construction_costs() const;
-
 
 private:
 	SDL_Point mCoords; //coordinates, where the item is placed in the menu

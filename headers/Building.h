@@ -12,6 +12,7 @@
 class Level;
 class Resources;
 class Window;
+class Production;
 
 class Building : public Clickable, public Entity
 {
@@ -58,6 +59,8 @@ public:
 	//returns true if this building is empty afterwards
 	bool transfer_resources_out(Resources* r) const;
 
+	void transfer_resources(Resources* r) const;
+
 	void on_click(int mouse_x, int mouse_y) override;
 
 protected:
@@ -82,6 +85,7 @@ protected:
 
 	//how many resources the building has
 	Resources* mCurrent_resources;
+	Production* mProducing;
 
 	int mBuilding_level; //level of the building, can be raised by upgrades
 	int mBuilding_max_level; //max level of this building

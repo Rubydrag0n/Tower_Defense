@@ -38,8 +38,8 @@ void MouseItem::render() const
 	auto grid_offset_y = 0;
 	if(mouse_x < 1280)
 	{
-		grid_offset_x = (mouse_x) % TILE_WIDTH;
-		grid_offset_y = (mouse_y) % TILE_HEIGHT;
+		grid_offset_x = mouse_x % TILE_WIDTH;
+		grid_offset_y = mouse_y % TILE_HEIGHT;
 	}
 
 	dest.x = mouse_x - grid_offset_x;
@@ -72,8 +72,8 @@ void MouseItem::on_click(const int mouse_x, const int mouse_y)
 	if(mouse_x < 1280)
 	{
 		SDL_Point p;
-		const auto grid_offset_x = (mouse_x) % TILE_WIDTH;
-		const auto grid_offset_y = (mouse_y) % TILE_HEIGHT;
+		const auto grid_offset_x = mouse_x % TILE_WIDTH;
+		const auto grid_offset_y = mouse_y % TILE_HEIGHT;
 		p.x = mouse_x - grid_offset_x;
 		p.y = mouse_y - grid_offset_y;
 		const auto tile_x = mouse_x / 64;
@@ -87,7 +87,7 @@ void MouseItem::on_click(const int mouse_x, const int mouse_y)
 			if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel);
 			if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel);
 			if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel);
-			mLevel->set_map_matrix(tile_x, tile_y, TILETYPES::BUILDINGTILE);
+			mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
 		}
 	}
 }

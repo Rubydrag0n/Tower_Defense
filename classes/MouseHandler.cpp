@@ -13,7 +13,8 @@ MouseHandler::MouseHandler() : mCurrent_mouse_position{0, 0}
 
 void MouseHandler::add_clickable(Clickable* c)
 {
-	this->mClickables.push_back(c);
+	if (c != nullptr) 
+		this->mClickables.push_back(c);
 }
 
 void MouseHandler::del_clickable(Clickable* c)
@@ -48,11 +49,11 @@ void MouseHandler::update()
 			(*it)->is_enabled())
 		{
 			(*it)->on_mouse_over(mouse_x, mouse_y);
-			(*it)->set_state(L_CLICKABLE_STATE::MOUSE_OVER);
+			(*it)->set_state(MOUSE_OVER);
 		} 
 		else 
 		{
-			(*it)->set_state(L_CLICKABLE_STATE::MOUSE_OUT);
+			(*it)->set_state(MOUSE_OUT);
 		}
 	}
 }
@@ -62,8 +63,9 @@ void MouseHandler::handle_event(SDL_Event *e)
 	auto end = this->mClickables.end();
 	const auto x = e->button.x;
 	const auto y = e->button.y;
-	for (auto it : mClickables)
+	for (std::size_t i = 0; i < mClickables.size(); ++i)  // NOLINT(modernize-loop-convert)
 	{
+		auto it = mClickables.at(i);
 		if (e->button.button == 1 && e->button.state == SDL_PRESSED)
 		{
 			it->set_clicked(false);
@@ -76,22 +78,22 @@ void MouseHandler::handle_event(SDL_Event *e)
 			{
 			case SDL_MOUSEBUTTONDOWN:
 				if (e->button.button == 1) {
-					it->set_state(L_CLICKABLE_STATE::MOUSE_DOWN_LEFT);
+					it->set_state(MOUSE_DOWN_LEFT);
 					it->on_click(x, y);
 				}
 				else if (e->button.button == 2)
 				{
-					it->set_state(L_CLICKABLE_STATE::MOUSE_DOWN_MIDDLE);
+					it->set_state(MOUSE_DOWN_MIDDLE);
 					it->on_middle_click(x, y);
 				}
 				else if (e->button.button == 3)
 				{
-					it->set_state(L_CLICKABLE_STATE::MOUSE_DOWN_RIGHT);
+					it->set_state(MOUSE_DOWN_RIGHT);
 					it->on_right_click(x, y);
 				}
 				break;
 			case SDL_MOUSEMOTION:
-				it->set_state(L_CLICKABLE_STATE::MOUSE_OVER);
+				it->set_state(MOUSE_OVER);
 				it->on_mouse_over(x, y);
 				break;
 			default:
@@ -100,7 +102,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 		}
 		else 
 		{
-			it->set_state(L_CLICKABLE_STATE::MOUSE_OUT);
+			it->set_state(MOUSE_OUT);
 		}
 	}
 }

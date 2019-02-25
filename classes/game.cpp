@@ -38,8 +38,6 @@ Game::Game() : mMouse_position()
 	p.x = 896;
 	p.y = 448;
 
-	new HomingTower("archer", p, mLevel);
-
 	p.x += 64;
 	new Path("path", p, mLevel);
 	p.x += 64;
@@ -57,6 +55,11 @@ Game::Game() : mMouse_position()
 	p.y = 640;
 	const auto warehouse = new Warehouse("warehouse", p, mLevel);
 	this->mLevel->set_main_building(warehouse);
+
+	p.x = 896;
+	p.y = 448;
+
+	new HomingTower("archer", p, mLevel);
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	warehouse->add_resources(r);

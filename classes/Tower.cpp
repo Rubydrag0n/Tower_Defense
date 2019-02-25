@@ -8,6 +8,7 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 #include "TowerWindow.h"
+#include "Carriage.h"
 
 
 Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level) : Building(tower_name, coords, level), mTower_name(tower_name)
@@ -33,6 +34,8 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	rect.w = 200;
 	rect.h = 200;
 	mWindow = new TowerWindow(rect, this);
+
+	new Carriage("carriage", mLevel, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
 }
 
 void Tower::render()
@@ -41,7 +44,7 @@ void Tower::render()
 
 	const auto temp_window = dynamic_cast<TowerWindow*>(mWindow);
 
-	if(get_clicked())
+	if(is_clicked())
 	{
 		SDL_Rect dest;
 		const auto offset = mRange / 800;

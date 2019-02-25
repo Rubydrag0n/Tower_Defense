@@ -52,7 +52,7 @@ bool init_graphics()
 	//Initialization flag
 	auto success = true;
 
-	*gFrame_rate = 60;
+	gFrame_rate = new int(60);
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
