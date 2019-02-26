@@ -2,10 +2,10 @@
 #include "Unit.h"
 #include "SDL_setup.h"
 #include <set>
+#include "ConfigFile.h"
 
 Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{ unit_name }, mSource(source), mDrain(drain), mCurrent_activity(GETTING_IDLE), mLevel(level)
 {
-	this->mCapacity = new Resources();
 	this->mCurrent_resources = new Resources();
 
 	if (mSource != nullptr)
@@ -13,6 +13,18 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 		mPosition.x = mSource->get_coords().x;
 		mPosition.y = mSource->get_coords().y;
 	}
+
+	auto section = unit_name + "/stats";
+	Resources limit;
+	limit.set_resources(gConfig_file->value_or_zero(section, "goldcapacity"),
+			gConfig_file->value_or_zero(section, "woodcapacity"),
+			gConfig_file->value_or_zero(section, "stonecapacity"),
+			gConfig_file->value_or_zero(section, "ironcapacity"),
+			gConfig_file->value_or_zero(section, "energycapacity"),
+			gConfig_file->value_or_zero(section, "watercapacity"),
+			gConfig_file->value_or_zero(section, "foodcapacity"));
+	
+	this->mCurrent_resources->set_limit(&limit);
 }
 
 void Carriage::on_tick()

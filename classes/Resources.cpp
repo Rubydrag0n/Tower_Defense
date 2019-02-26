@@ -123,7 +123,8 @@ Resources Resources::operator/(const int &d)
 
 void Resources::set_limit(Resources * limit)
 {
-	this->mLimit = limit;
+	delete mLimit;
+	this->mLimit = new Resources(limit);
 }
 
 bool Resources::transfer(Resources *source)

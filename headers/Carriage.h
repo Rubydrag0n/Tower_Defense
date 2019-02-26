@@ -30,7 +30,6 @@ private:
 	Building* mDrain;
 
 	//total capacity
-	Resources* mCapacity;
 	Resources* mCurrent_resources;
 
 	ACTIVITY mCurrent_activity;
