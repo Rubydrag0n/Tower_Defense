@@ -45,16 +45,14 @@ Menu::~Menu()
 {
 	//TODO: fix this deconstructor, it's broken
 	//delete all the buttons and menu items
-	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
+	/*for (auto i = 0; i < BUILDINGTYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];
 		for (auto j = mMenu_items[BUILDINGTYPE(i)]->size(); j > 0; j--) {
-			delete (mMenu_items[BUILDINGTYPE(i)]->at(j));
+			delete mMenu_items[BUILDINGTYPE(i)]->at(j);
 		}
 		mMenu_items[BUILDINGTYPE(i)]->clear();
 		delete mMenu_items[BUILDINGTYPE(i)];
-	}
-	mButtons.clear();
-	mMenu_items.clear();
+	}*/
 }
 
 void Menu::show_tab(const BUILDINGTYPE open_tab)
@@ -62,7 +60,7 @@ void Menu::show_tab(const BUILDINGTYPE open_tab)
 	this->mOpen_tab = open_tab;
 
 	//enable all the items in the opened tab, disable all the items in the not opened tabs
-	for (auto j = 0; j < BUILDINGTYPE::BUILDINGTYPES_TOTAL; j++) {
+	for (auto j = 0; j < BUILDINGTYPES_TOTAL; j++) {
 		if (BUILDINGTYPE(j) == open_tab) {
 			for (auto& i : *mMenu_items[open_tab])
 			{
@@ -131,13 +129,14 @@ void Menu::render()
 	this->mMenu_texture = new LTexture();
 	
 	mMenu_texture->load_from_rendered_text("lives: " + std::to_string(mLevel->get_lives()) + 
-		" \tgold: " + std::to_string(mLevel->get_resources()->get_resource(GOLD)) +
-		" \twood: " + std::to_string(mLevel->get_resources()->get_resource(WOOD)) + 
-		" \tstone: " + std::to_string(mLevel->get_resources()->get_resource(STONE)) +
-		" \tiron: " + std::to_string(mLevel->get_resources()->get_resource(IRON)) + 
-		" \tenergy: " + std::to_string(mLevel->get_resources()->get_resource(ENERGY)) +
-		" \twater: " + std::to_string(mLevel->get_resources()->get_resource(WATER)) + 
-		" \tfood: " + std::to_string(mLevel->get_resources()->get_resource(FOOD)), text_color);
+		" \tgold: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(GOLD)) +
+		" \twood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WOOD)) +
+		" \tstone: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(STONE)) +
+		" \tiron: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(IRON)) +
+		" \tenergy: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(ENERGY)) +
+		" \twater: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WATER)) +
+		" \tfood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(FOOD)), 
+		text_color);
 	
 	SDL_Rect dest;
 	dest.x = 0;
@@ -145,7 +144,7 @@ void Menu::render()
 	dest.w = this->mMenu_texture->get_width();
 	dest.h = this->mMenu_texture->get_height();
 
-	gLayer_handler->render_to_layer(this->mMenu_texture, LAYERS::WINDOWS, nullptr, &dest);
+	gLayer_handler->render_to_layer(this->mMenu_texture, WINDOWS, nullptr, &dest);
 }
 
 void Menu::add_menu_item(MenuItem* menu_item, const BUILDINGTYPE tab)

@@ -5,12 +5,14 @@ Resources::Resources()
 {
 	this->set_empty();
 	this->mLimit = nullptr;
+	this->set_display_zero();
 }
 
 Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
 {
 	this->set_resources(gold, wood, stone, iron, energy, water, food);
 	this->mLimit = nullptr;
+	this->set_display_zero();
 }
 
 Resources::Resources(Resources* resource, Resources* limit)
@@ -22,6 +24,7 @@ Resources::Resources(Resources* resource, Resources* limit)
 	else {
 		this->mLimit = new Resources(limit);
 	}
+	this->set_display_zero();
 }
 
 Resources::~Resources()
@@ -167,6 +170,19 @@ bool Resources::transfer(const RESOURCETYPES type, int *r)
 	return *r == 0;
 }
 
+Resources Resources::get_display_resources()
+{
+	Resources res;
+
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
+		auto r = RESOURCETYPES(i);
+		this->mDisplay[r] += float(mResources[r] - mDisplay[r]) / 100.f;
+		//if (mResources[r] - mDisplay[r] <= 2) mDisplay[r] = mResources[r];
+		res.set_resource(r, int(mDisplay[r]));
+	}
+	return res;
+}
+
 std::string Resources::get_name(const RESOURCETYPES type)
 {
 	//TODO: locale stuff monkaS
@@ -187,5 +203,12 @@ std::string Resources::get_name(const RESOURCETYPES type)
 		return "Energy";
 	default:
 		return "Unknown Resource";
+	}
+}
+
+void Resources::set_display_zero()
+{
+	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
+		this->mDisplay[RESOURCETYPES(i)] = 0;
 	}
 }

@@ -88,7 +88,7 @@ void BuildingWindow::render()
 		mText[RESOURCETYPES(i)]->load_from_rendered_text(
 			Resources::get_name(RESOURCETYPES(i)) 
 				+ ": \t" 
-				+ std::to_string(mBuilding->get_current_resources()->get_resource(RESOURCETYPES(i))), 
+				+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i))), 
 			text_color);
 		dest.y += 20;
 		gLayer_handler->render_to_layer(mText[RESOURCETYPES(i)], WINDOWS, nullptr, &dest);

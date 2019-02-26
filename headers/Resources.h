@@ -53,11 +53,18 @@ public:
 	//false otherwise
 	bool transfer(RESOURCETYPES type, int *r);
 
+	//returns a Resources object that is ticking behind the actual resources
+	//to make it nice to display
+	Resources get_display_resources();
+
 	//returns a string literal containing the name of the resource
 	static std::string get_name(RESOURCETYPES type);
 
 private:
 	std::map<RESOURCETYPES, int> mResources;
+	std::map<RESOURCETYPES, float> mDisplay;
+
+	void set_display_zero();
 
 	//if there should be a limit to how many resources there can be
 	Resources* mLimit;
