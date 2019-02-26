@@ -161,9 +161,11 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 				auto neighbor = current->get_neighbor(BUILDINGDIRECTION(dir));
 				if (neighbor == nullptr) continue;
 
-				if (visited.find(neighbor) == visited.end())
+				if (visited.find(neighbor) == visited.end() &&
+					(neighbor->get_building_type() == BUILDINGTYPE::STREET || neighbor == source))
 				{
 					//if this new building hasn't been visited
+					//and is either a street or the target
 					depth_search[depth + 1].emplace_back(std::pair<Building*, Building*>(neighbor, it->first));
 					visited.insert(neighbor);
 					if (neighbor == source)

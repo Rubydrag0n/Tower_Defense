@@ -1,25 +1,29 @@
 #include "Level.h"
 #include "Building.h"
 #include "ConfigFile.h"
+#include "WareHouse.h"
 #include <fstream>
 #include <utility>
+#include "SDL_setup.h"
 
 const int MATRIX_WIDTH = 20;
 const int MATRIX_HEIGHT = 16;
 
-Level::Level(std::string level_number) : mLevel_number(std::move(level_number))
+Level::Level(std::string level_number) : mLevel_number(std::move(level_number)), mMain_building()
 {
-	mLives = gConfig_file->value_or_zero("level" + mLevel_number, "lives");
-	mWaves_count = gConfig_file->value("level" + mLevel_number, "waves_count");
+	auto level_section = "level" + mLevel_number;
+
+	mLives = gConfig_file->value_or_zero(level_section, "lives");
+	mWaves_count = gConfig_file->value(level_section, "waves_count");
 
 	//set the start-resources in this level
-	mResources.set_resources(gConfig_file->value_or_zero("level" + mLevel_number, "gold"),
-		gConfig_file->value_or_zero("level" + mLevel_number, "wood"),
-		gConfig_file->value_or_zero("level" + mLevel_number, "stone"),
-		gConfig_file->value_or_zero("level" + mLevel_number, "iron"),
-		gConfig_file->value_or_zero("level" + mLevel_number, "energy"),
-		gConfig_file->value_or_zero("level" + mLevel_number, "water"),
-		gConfig_file->value_or_zero("level" + mLevel_number, "food"));
+	mStart_resources.set_resources(gConfig_file->value_or_zero("level" + mLevel_number, "gold"),
+		gConfig_file->value_or_zero(level_section, "wood"),
+		gConfig_file->value_or_zero(level_section, "stone"),
+		gConfig_file->value_or_zero(level_section, "iron"),
+		gConfig_file->value_or_zero(level_section, "energy"),
+		gConfig_file->value_or_zero(level_section, "water"),
+		gConfig_file->value_or_zero(level_section, "food"));
 
 	//create all waves in the level and insert them in the vector mWaves
 	for (auto i = 1; i <= mWaves_count; i++)
@@ -72,6 +76,13 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number))
 			this->mMap_buildings[x][y] = nullptr;
 		}
 	}
+
+
+	//has to happen after mMap_buildings was initialized
+	SDL_Point warehouse_coord;
+	warehouse_coord.x = TILE_WIDTH * gConfig_file->value(level_section, "main_building_x");
+	warehouse_coord.y = TILE_HEIGHT * gConfig_file->value(level_section, "main_building_y");
+	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this);
 }
 
 Level::~Level()
@@ -118,20 +129,19 @@ std::vector<Wave>* Level::get_waves()
 	return &mWaves;
 }
 
-Resources* Level::get_resources()
+Resources* Level::get_resources() const
 {
-	return &mResources;
+	return this->mMain_building->get_current_resources();
+}
+
+void Level::set_resources(const Resources* resources)
+{
+	mStart_resources = *resources;
 }
 
 std::string Level::get_level_number() const
 {
 	return this->mLevel_number;
-}
-
-
-void Level::set_resources(const Resources* resources)
-{
-	mResources = *resources;
 }
 
 void Level::set_lives(const int lives)
@@ -184,4 +194,6 @@ Warehouse* Level::get_main_building() const
 
 void Level::set_main_building(Warehouse *main_building) {
 	this->mMain_building = main_building;
+	this->mMain_building->get_current_resources()->set_empty();
+	this->mMain_building->get_current_resources()->add(&this->mStart_resources);
 }

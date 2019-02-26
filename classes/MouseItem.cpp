@@ -80,14 +80,18 @@ void MouseItem::on_click(const int mouse_x, const int mouse_y)
 		const auto tile_y = mouse_y / 64;
 		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
 		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
-		if(tile_type == mTile_to_build_on && mLevel->get_resources()->sub(&mConstruction_costs))
+		if(tile_type == mTile_to_build_on)
 		{
-			if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel);
-			if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel);
-			if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel);
-			if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel);
-			if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel);
-			mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
+			//don't combine these with && since we only want to sub resources when we can actually build
+			if (mLevel->get_resources()->sub(&mConstruction_costs))
+			{
+				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel);
+				if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel);
+				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel);
+				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel);
+				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel);
+				mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
+			}
 		}
 	}
 }

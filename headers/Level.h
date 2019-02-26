@@ -23,7 +23,7 @@ public:
 	int get_waves_count() const;
 	std::vector<Wave>* get_waves();
 	int get_lives() const;
-	Resources* get_resources();
+	Resources* get_resources() const;
 	std::string get_level_number() const;
 
 	void set_resources(const Resources *resources);
@@ -42,10 +42,10 @@ private:
 
 	std::vector<Wave> mWaves;
 	int mLives;
-	Resources mResources;
+	Resources mStart_resources;
 	int mWaves_count;
 	TILETYPES** mMap_matrix;
 	Building*** mMap_buildings;
 
-	Warehouse* mMain_building{};
+	Warehouse* mMain_building;
 };
