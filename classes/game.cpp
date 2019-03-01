@@ -26,10 +26,20 @@ Game::Game()
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
 	gRenderables_handler = new RenderableHandler();
-	mLevel = new Level("1");
+
+	for(auto i = 1; ; i++)
+	{
+		if(!gConfig_file->value_exists("level" + std::to_string(i), "exists"))
+		{
+			break;
+		}
+		auto new_level = new Level(std::to_string(i));
+		mLevels.push_back(new_level);
+	}
+	mCurrent_level = mLevels.at(0);
 
 
-	mMenu = new Menu(mLevel);
+	mMenu = new Menu(mCurrent_level);
 
 	mMap = new Map("level/Level1.FMP");
 
@@ -44,24 +54,24 @@ Game::Game()
 	p.x = 896;
 	p.y = 448;
 
-	auto tower = new HomingTower("archer", p, mLevel);
+	auto tower = new HomingTower("archer", p, mCurrent_level);
 
 	p.x += 64;
-	new Path("path", p, mLevel);
+	new Path("path", p, mCurrent_level);
 	p.x += 64;
-	new Path("path", p, mLevel);
+	new Path("path", p, mCurrent_level);
 	p.x += 64;
-	new Path("path", p, mLevel);
+	new Path("path", p, mCurrent_level);
 	p.x += 64;
-	new Path("path", p, mLevel);
+	new Path("path", p, mCurrent_level);
 	p.y += 64;
-	new Path("path", p, mLevel);
+	new Path("path", p, mCurrent_level);
 	p.y += 64;
-	new Path("path", p, mLevel);
+	new Path("path", p, mCurrent_level);
 
 	p.x = 1152;
 	p.y = 640;
-	auto warehouse = new Warehouse("warehouse", p, mLevel);
+	auto warehouse = new Warehouse("warehouse", p, mCurrent_level);
 
 
 	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
@@ -69,13 +79,16 @@ Game::Game()
 
 
 
-	auto carriage = new Carriage("carriage", mLevel, warehouse, tower);
+	auto carriage = new Carriage("carriage", mCurrent_level, warehouse, tower);
 }
 
 Game::~Game()
 {
 	delete mMenu;
-	delete mLevel;
+	for(auto i =0; i<mLevels.size(); i++)
+	{
+		delete mLevels.at(i);
+	}
 	delete mMap;
 	for (auto i = 0; i<mAll_towers.size(); i++)
 	{
@@ -118,7 +131,7 @@ void Game::start_game()
 		}
 
 		gEntity_handler->update();
-		mLevel->on_tick();
+		mCurrent_level->on_tick();
 		this->render_all();
 
 		gLayer_handler->present();
@@ -127,14 +140,14 @@ void Game::start_game()
 		{
 			//printf("Second...\n");
 		}
-		if (mLevel->is_dead())
+		if (mCurrent_level->is_dead())
 		{
 			//std::cout << "all enemies dead" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
 
-		if (mLevel->no_lives())
+		if (mCurrent_level->no_lives())
 		{
 			//std::cout << "no lives" << std::endl;
 			SDL_Delay(10000);

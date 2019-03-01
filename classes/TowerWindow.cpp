@@ -14,7 +14,6 @@ TowerWindow::TowerWindow(SDL_Rect dim, Tower* tower) : BuildingWindow(dim, tower
 	mUpgrade_range_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
 	button_dim.y += 30;
 	mUpgrade_attackspeed_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
-	mBuilding = tower;
 }
 
 TowerWindow::~TowerWindow()

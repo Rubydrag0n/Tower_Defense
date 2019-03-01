@@ -9,6 +9,8 @@ Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int but
 {
 	auto section = "button/" + button_name;
 
+	mButton_name = button_name;
+
 	this->mButtonSprite = gTextures->get_texture(gConfig_file->Value(section, "path"));
 
 	//initialize the clips

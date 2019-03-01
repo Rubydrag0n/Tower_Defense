@@ -3,6 +3,7 @@
 #include "Building.h"
 #include <iostream>
 #include "SDL_setup.h"
+#include "ConfigFile.h"
 
 void BuildingWindow::demolish_building()
 {
@@ -35,17 +36,32 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 	dim.w = 200;
 	dim.h = 200;
 	set_dim(dim);
-	
+	mBuilding = building;
+
 	SDL_Rect button_dim;
 	mButton_offset.x = 0;
-	mButton_offset.y = 140;
+	mButton_offset.y = 10;
 	button_dim.x = dim.x + mButton_offset.x;
 	button_dim.y = dim.y + mButton_offset.y;
 	button_dim.w = 26;
 	button_dim.h = 26;
-	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
-	button_dim.y += 20;
+
+	std::string upgrade_section;
+	/*for(auto i = 1; ; i++)
+	{
+		upgrade_section = std::to_string(i);
+		if(!gConfig_file->value_exists(mBuilding->get_name() + "/upgrade" + upgrade_section, "exists"))
+		{
+			break;
+		}
+		auto new_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_BUTTON);
+		mUpgrade_buttons.insert(std::make_pair(new_button, upgrade_section));
+	}*/
 	mUpgrade_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_BUTTON);
+	button_dim.y += 20;
+	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
+	mUpgrade_button->disable();
+	mUpgrade_button->set_rendering_enabled(false);
 	if(building->get_building_max_level() == 0)
 	{
 		mUpgrade_button->disable();

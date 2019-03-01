@@ -66,6 +66,17 @@ bool ConfigFile::value_exists(std::string const& section, std::string const& ent
 	return true;
 }
 
+bool ConfigFile::section_exists(std::string const& section)
+{
+	const auto ci = content_.find(section + '/');
+	if (ci == content_.end())
+	{
+		return false;
+	}
+	return true;
+}
+
+
 Chameleon ConfigFile::value_or_zero(std::string const& section, std::string const& entry)
 {
 	const auto ci = content_.find(section + '/' + entry);
