@@ -12,11 +12,9 @@ public:
 	//Wave::update deletes mMonster_groups.at(0), if the monster group is dead, so the next monster group will be rendered
 	bool is_dead() const;
 
-	int get_monster_group_count() const;
 	std::vector<MonsterGroup*>* get_monster_groups();
 
 private:
 	std::vector<MonsterGroup*> mMonster_groups;
-	int mMonster_group_count;
 	Level* mLevel;
 };

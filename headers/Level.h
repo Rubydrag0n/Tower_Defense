@@ -20,8 +20,7 @@ public:
 	bool is_dead() const;
 	bool no_lives() const;
 
-	int get_waves_count() const;
-	std::vector<Wave>* get_waves();
+	std::vector<Wave*> get_waves();
 	int get_lives() const;
 	Resources* get_resources() const;
 	std::string get_level_number() const;
@@ -40,7 +39,7 @@ public:
 private:
 	std::string mLevel_number;
 
-	std::vector<Wave> mWaves;
+	std::vector<Wave*> mWaves;
 	int mLives;
 	Resources mStart_resources;
 	int mWaves_count;

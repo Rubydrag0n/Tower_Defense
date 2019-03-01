@@ -8,8 +8,10 @@
 Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, const int button_id) : mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mButton_id{ button_id }
 {
 	const auto section = "button/" + button_name;
+	
+	
 
-	this->mButton_sprite = gTextures->get_texture(gConfig_file->value(section, "path"));
+	this->mButtonSprite = gTextures->get_texture(gConfig_file->Value(section, "path"));
 
 	//initialize the clips
 	const int clip_width = gConfig_file->value(section, "clip_width");

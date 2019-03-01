@@ -21,7 +21,8 @@ private:
 	std::vector<Tower*> mAll_towers;
 	std::vector<IndustrialBuilding*> mAll_industrial_buildings;
 	Menu* mMenu;
-	Level* mLevel;
+	std::vector<Level*> mLevels;
+	Level* mCurrent_level;
 	Map* mMap;
 	SDL_Point mMouse_position;
 };

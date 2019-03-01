@@ -35,4 +35,7 @@ private:
 
 protected:
 	Building* mBuilding;
+	std::map<Button*, std::string> mUpgrade_buttons;
+
+
 };

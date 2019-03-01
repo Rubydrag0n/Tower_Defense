@@ -102,11 +102,11 @@ void Tower::upgrade(const std::string& tower_upgrade_section)
 		gConfig_file->value_or_zero(tower_upgrade_section, "water"),
 		gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
 
-	mRange += gConfig_file->value_or_zero(tower_upgrade_section, "range");
-	mAttack_speed += gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
-	mProjectile_speed += gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
-	mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
-	mAttack_cooldown = int(60 / mAttack_speed);
+	mRange = gConfig_file->value_or_zero(tower_upgrade_section, "range");
+	mAttack_speed = gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
+	mProjectile_speed = gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
+	mProjectile_name.assign(gConfig_file->Value(tower_upgrade_section, "projectile_name"));
+	mAttack_cooldown = 60 / mAttack_speed;
 }
 
 void Tower::upgrade_damage()

@@ -40,4 +40,6 @@ private:
 
 	//button id is transferred in case more than one button can call the function on object_to_notify
 	int mButton_id;
+
+	std::string mButton_name;
 };

@@ -11,7 +11,8 @@ const int MATRIX_HEIGHT = 16;
 
 Level::Level(std::string level_number) : mLevel_number(std::move(level_number)), mMain_building()
 {
-	auto level_section = "level" + mLevel_number;
+	mLevel_number = level_number;
+	mLives = gConfig_file->value_or_zero("level" + mLevel_number, "lives");
 
 	mLives = gConfig_file->value_or_zero(level_section, "lives");
 	mWaves_count = gConfig_file->value(level_section, "waves_count");
@@ -26,11 +27,15 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 		gConfig_file->value_or_zero(level_section, "food"));
 
 	//create all waves in the level and insert them in the vector mWaves
-	for (auto i = 1; i <= mWaves_count; i++)
+	for (auto i = 1; ; i++)
 	{
 		auto wave_number = std::to_string(i);
+		if(!gConfig_file->value_exists("wave" + level_number + "_" + wave_number, "exists"))
+		{
+			break;
+		}
 		auto new_wave = new Wave(wave_number, this);
-		mWaves.push_back(*new_wave);
+		mWaves.push_back(new_wave);
 	}
 
 	//create Level-Matrix
@@ -96,10 +101,9 @@ Level::~Level()
 
 void Level::on_tick()
 {
-	mWaves.at(0).update();
-	if(mWaves.at(0).is_dead())
+	mWaves.at(0)->update();
+	if(mWaves.at(0)->is_dead())
 	{
-		mWaves_count--;
 		mWaves.erase(mWaves.begin());
 	}
 }
@@ -119,14 +123,10 @@ int Level::get_lives() const
 	return mLives;
 }
 
-int Level::get_waves_count() const
-{
-	return mWaves_count;
-}
 
-std::vector<Wave>* Level::get_waves()
+std::vector<Wave*> Level::get_waves()
 {
-	return &mWaves;
+	return mWaves;
 }
 
 Resources* Level::get_resources() const

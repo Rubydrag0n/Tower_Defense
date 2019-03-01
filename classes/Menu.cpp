@@ -104,12 +104,12 @@ void Menu::sort_items_into_menu()
 			coords.x = 1300 + (i % number_of_items_per_row) * TILE_WIDTH;
 			coords.y = 64 + (i / number_of_items_per_row) * TILE_HEIGHT;
 
-			name_of_object.assign(gConfig_file->value(types.at(j), std::to_string(i)));
-			if (name_of_object == "end")
+			if(!gConfig_file->value_exists(types.at(j), std::to_string(i)))
 			{
 				break;
 			}
-			const auto new_item = new MenuItem(name_of_object, mLevel, coords);
+			name_of_object.assign(gConfig_file->Value(types.at(j), std::to_string(i)));
+			auto new_item = new MenuItem(name_of_object, mLevel, coords);
 			this->add_menu_item(new_item, BUILDINGTYPE(j));
 		}
 	}

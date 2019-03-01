@@ -125,7 +125,7 @@ void Building::demolish() const
 
 void Building::upgrade(const std::string& building_upgrade_section)
 {
-	mBuilding_level++;
+	//mBuilding_level++;
 
 	const auto plus_maintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
