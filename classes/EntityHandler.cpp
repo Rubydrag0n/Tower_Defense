@@ -3,18 +3,18 @@
 
 EntityHandler* gEntity_handler = nullptr;
 
-EntityHandler::EntityHandler() : mEntities(), mEntities_by_type(), mEntityvector_dirty_bit()
+EntityHandler::EntityHandler()
 {
 	//initialize mEntities_by_type and set all dirtybits to true
-	for (int i = 0; i < int(ENTITYTYPE::ENTITYTYPES_TOTAL); i++) {
+	for (auto i = 0; i < int(ENTITYTYPES_TOTAL); i++) {
 		this->mEntities_by_type[ENTITYTYPE(i)] = new std::vector<Entity*>();
-		this->mEntityvector_dirty_bit[ENTITYTYPE(i)] = true;
+		this->mEntity_vector_dirty_bit[ENTITYTYPE(i)] = true;
 	}
 }
 
 EntityHandler::~EntityHandler()
 {
-	mEntities.empty();
+	mEntities.clear();
 }
 
 void EntityHandler::add_entity(Entity* u)
@@ -26,7 +26,7 @@ void EntityHandler::add_entity(Entity* u)
 void EntityHandler::del_entity(Entity* u)
 {
 	this->invalidate_entity_vectors();
-	for (auto it = mEntities.begin(); it != mEntities.end(); it++)
+	for (auto it = mEntities.begin(); it != mEntities.end(); ++it)
 	{
 		if(*it == u)
 		{
@@ -44,9 +44,9 @@ void EntityHandler::update()
 	}
 }
 
-const std::vector<Entity*>* EntityHandler::get_entities_of_type(ENTITYTYPE type)
+const std::vector<Entity*>* EntityHandler::get_entities_of_type(const ENTITYTYPE type)
 {
-	if (!this->mEntityvector_dirty_bit[type]) {
+	if (!this->mEntity_vector_dirty_bit[type]) {
 		return this->mEntities_by_type[type];
 	}
 
@@ -55,26 +55,24 @@ const std::vector<Entity*>* EntityHandler::get_entities_of_type(ENTITYTYPE type)
 
 	auto v = new std::vector<Entity*>();
 
-	auto end = mEntities.end();
-	for (auto it = this->mEntities.begin(); it != end; ++it)
+	for (auto const& it : mEntities)
 	{
-		if ((*it)->get_type() == type)
+		if (it->get_type() == type)
 		{
-			v->push_back(*it);
+			v->push_back(it);
 		}
 	}
 
 	//save the updated vector and set dirtybit back to false
 	this->mEntities_by_type[type] = v;
-	this->mEntityvector_dirty_bit[type] = false;
+	this->mEntity_vector_dirty_bit[type] = false;
 
 	return v;
 }
 
 void EntityHandler::invalidate_entity_vectors()
 {
-	for (int i = 0; i < int(ENTITYTYPE::ENTITYTYPES_TOTAL); i++) {
-		this->mEntityvector_dirty_bit[ENTITYTYPE(i)] = true;
+	for (auto i = 0; i < int(ENTITYTYPE::ENTITYTYPES_TOTAL); i++) {
+		this->mEntity_vector_dirty_bit[ENTITYTYPE(i)] = true;
 	}
 }
-

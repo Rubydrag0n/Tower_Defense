@@ -1,5 +1,5 @@
-//Here comes the definiton of the game class
-#include <stdio.h>
+//Here comes the definition of the game class
+#include <cstdio>
 #include <iostream>
 
 #include "Game.h"
@@ -10,18 +10,16 @@
 #include "Menu.h"
 #include "IndustrialBuilding.h"
 #include "HomingTower.h"
-#include "AoeTower.h"
 #include "MouseHandler.h"
 #include "LayerHandler.h"
 #include "EntityHandler.h"
 #include "RenderableHandler.h"
 #include "ConfigFile.h"
-#include "Button.h"
 #include "Carriage.h"
 #include "WareHouse.h"
 #include "Path.h"
 
-Game::Game()
+Game::Game() : mMouse_position()
 {
 	gMouse_handler = new MouseHandler();
 	gEntity_handler = new EntityHandler();
@@ -39,22 +37,17 @@ Game::Game()
 	mCurrent_level = mLevels.at(0);
 
 
-	mMenu = new Menu(mCurrent_level);
+	
 
-	mMap = new Map("level/Level1.FMP");
+	mMap = new Map(const_cast<char*>("level/Level1.FMP"));
 
-	SDL_Rect dim;
-	dim.x = 500;
-	dim.y = 500;
-	dim.w = 100;
-	dim.h = 26;
 	gLayer_handler = new LayerHandler();
 
 	SDL_Point p;
 	p.x = 896;
 	p.y = 448;
 
-	auto tower = new HomingTower("archer", p, mCurrent_level);
+	auto tower = new HomingTower("archer", p, mLevel);
 
 	p.x += 64;
 	new Path("path", p, mCurrent_level);
@@ -69,17 +62,20 @@ Game::Game()
 	p.y += 64;
 	new Path("path", p, mCurrent_level);
 
+	/*
 	p.x = 1152;
 	p.y = 640;
-	auto warehouse = new Warehouse("warehouse", p, mCurrent_level);
+	const auto warehouse = new Warehouse("warehouse", p, mLevel);
+	this->mLevel->set_main_building(warehouse);
+	*/
 
+	p.x = 896;
+	p.y = 448;
 
-	Resources* r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
-	warehouse->add_resources(r);
+	new HomingTower("archer", p, mLevel);
 
-
-
-	auto carriage = new Carriage("carriage", mCurrent_level, warehouse, tower);
+	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	mLevel->get_main_building()->add_resources(r);
 }
 
 Game::~Game()
@@ -90,17 +86,17 @@ Game::~Game()
 		delete mLevels.at(i);
 	}
 	delete mMap;
-	for (auto i = 0; i<mAll_towers.size(); i++)
+	for (auto& tower : mAll_towers)
 	{
-		delete mAll_towers.at(i);
+		delete tower;
 	}
-	for (auto i = 0; i<mAll_industrial_buildings.size(); i++)
+	for (auto& building : mAll_industrial_buildings)
 	{
-		delete mAll_industrial_buildings.at(i);
+		delete building;
 	}
 }
 
-void Game::render_all()
+void Game::render_all() const
 {
 	gRenderables_handler->render();
 	mMap->render();
@@ -112,15 +108,8 @@ void Game::start_game()
 
 	SDL_RenderPresent(gRenderer);
 
-
-/*	auto testButton = new Button();
-	std::string path = std::string(gConfig_file->Value("StartButton/sprite", "path"));
-	testButton->mButtonSpriteSheetTexture = gTextures->get_texture(path);*/
-
-
 	for (auto game_tick = 0; game_tick < 300000; game_tick++)
 	{
-		//SDL_Delay(100);
 		//also renders the hover window
 		//mouse handler update needs to happen first
 		gMouse_handler->update();
@@ -136,20 +125,8 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
-		if (game_tick % 60 == 0)
+		if (mLevel->is_dead() || mLevel->no_lives())
 		{
-			//printf("Second...\n");
-		}
-		if (mCurrent_level->is_dead())
-		{
-			//std::cout << "all enemies dead" << std::endl;
-			SDL_Delay(10000);
-			break;
-		}
-
-		if (mCurrent_level->no_lives())
-		{
-			//std::cout << "no lives" << std::endl;
 			SDL_Delay(10000);
 			break;
 		}
@@ -165,4 +142,3 @@ void Game::add_industrial_building(IndustrialBuilding* industrial_building)
 {
 	mAll_industrial_buildings.push_back(industrial_building);
 }
-

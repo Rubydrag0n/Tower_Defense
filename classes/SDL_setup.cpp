@@ -16,16 +16,17 @@ Textures* gTextures = nullptr;
 
 TTF_Font* gFont = nullptr;
 
-int* ACTUAL_SCREEN_WIDTH = nullptr;
-int* ACTUAL_SCREEN_HEIGHT = nullptr;
+int* gActual_screen_width = nullptr;
+int* gActual_screen_height = nullptr;
+int* gFrame_rate = nullptr;
 
-SDL_Texture* load_texture(std::string path)
+SDL_Texture* load_texture(const std::string& path)
 {
 	//The final texture
 	SDL_Texture* new_texture = nullptr;
 
 	//Load image at specified path
-	auto loaded_surface = IMG_Load(path.c_str());
+	const auto loaded_surface = IMG_Load(path.c_str());
 	if (loaded_surface == nullptr)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
@@ -51,9 +52,7 @@ bool init_graphics()
 	//Initialization flag
 	auto success = true;
 
-	//Initalize randomness
-	srand(time(nullptr));
-
+	gFrame_rate = new int(60);
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -70,20 +69,20 @@ bool init_graphics()
 
 		//Create window
 		ConfigFile cf("config/game.cfg");
-		int screen_width = cf.Value("video", "screen_width");
-		int screen_height = cf.Value("video", "screen_height");
+		const int screen_width = cf.value("video", "screen_width");
+		const int screen_height = cf.value("video", "screen_height");
 
-		std::string windowflags = cf.Value("video", "window_mode");
+		const std::string window_flags = cf.value("video", "window_mode");
 		Uint32 flags;
-		if (windowflags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
-		else if (windowflags == "borderless") flags = SDL_WINDOW_BORDERLESS;
-		else if (windowflags == "windowed") flags = SDL_WINDOW_OPENGL;
+		if (window_flags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
+		else if (window_flags == "borderless") flags = SDL_WINDOW_BORDERLESS;
+		else if (window_flags == "windowed") flags = SDL_WINDOW_OPENGL;
 		else flags = 0;
 		gWindow = SDL_CreateWindow("TOWER DEFENSE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, flags);
 
-		ACTUAL_SCREEN_WIDTH = new int();
-		ACTUAL_SCREEN_HEIGHT = new int();
-		SDL_GetWindowSize(gWindow, ACTUAL_SCREEN_WIDTH, ACTUAL_SCREEN_HEIGHT);
+		gActual_screen_width = new int();
+		gActual_screen_height = new int();
+		SDL_GetWindowSize(gWindow, gActual_screen_width, gActual_screen_height);
 
 		if (gWindow == nullptr)
 		{
@@ -93,7 +92,7 @@ bool init_graphics()
 		else
 		{
 			//Create renderer for window
-			//SDL_RENDERER_PRESENTVSYNC locks framerate to the monitors' framerate
+			//SDL_RENDERER_PRESENTVSYNC locks frame rate to the monitors' frame rate
 
 			//TODO: don't just use vsync with 60fps
 			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
@@ -111,7 +110,7 @@ bool init_graphics()
 				SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);	//so alpha can be used
 
 				//Initialize PNG loading
-				int img_flags = IMG_INIT_PNG;
+				const int img_flags = IMG_INIT_PNG;
 				if (!(IMG_Init(img_flags) & img_flags))
 				{
 					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());

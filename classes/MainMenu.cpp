@@ -5,17 +5,11 @@
 
 MainMenu::MainMenu()
 {
-	mSprite_path = std::string(gConfig_file->Value("MainMenu/sprite", "path"));
+	mSprite_path = std::string(gConfig_file->value("MainMenu/sprite", "path"));
 	mSprite = gTextures->get_texture(mSprite_path);
 }
 
-MainMenu::~MainMenu()
-{
-	
-}
-
-
-void MainMenu::render()
+void MainMenu::render() const
 {
 	SDL_Rect dest;
 

@@ -5,18 +5,18 @@
 #include "Chameleon.h"
 
 class ConfigFile {
-	std::map<std::string, Chameleon> content_;
+	std::map<std::string, Chameleon> mContent_;
 
 public:
-	ConfigFile(std::string const& configFile);
+	explicit ConfigFile(std::string const& config_file);
 
-	Chameleon const& Value(std::string const& section, std::string const& entry) const;
+	Chameleon const& value(std::string const& section, std::string const& entry) const;
 	bool value_exists(std::string const& section, std::string const& entry);
 	bool section_exists(std::string const& section);
 	Chameleon value_or_zero(std::string const& section, std::string const& entry); //if no value in config is specified it returns zero
 
-	Chameleon const& Value(std::string const& section, std::string const& entry, double value);
-	Chameleon const& Value(std::string const& section, std::string const& entry, std::string const& value);
+	Chameleon const& value(std::string const& section, std::string const& entry, double value);
+	Chameleon const& value(std::string const& section, std::string const& entry, std::string const& value);
 };
 
 extern ConfigFile* gConfig_file;

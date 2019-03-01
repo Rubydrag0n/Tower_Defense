@@ -3,14 +3,11 @@
 
 RenderableHandler* gRenderables_handler = nullptr;
 
-RenderableHandler::RenderableHandler() : mRenderables()
-{
-
-}
+RenderableHandler::RenderableHandler() = default;
 
 RenderableHandler::~RenderableHandler()
 {
-	mRenderables.empty();
+	mRenderables.clear();
 }
 
 void RenderableHandler::add_renderable(Renderable* r)
@@ -20,7 +17,7 @@ void RenderableHandler::add_renderable(Renderable* r)
 
 void RenderableHandler::del_renderable(Renderable* r)
 {
-	for (auto it = mRenderables.begin(); it != mRenderables.end(); it++)
+	for (auto it = mRenderables.begin(); it != mRenderables.end(); ++it)
 	{
 		if (*it == r)
 		{
@@ -32,9 +29,10 @@ void RenderableHandler::del_renderable(Renderable* r)
 
 void RenderableHandler::render()
 {
-	for (auto it = this->mRenderables.begin(); it != mRenderables.end(); it++) {
-		if ((*it)->is_rendering_enabled()) {
-			(*it)->render();
+	for (auto const& it: mRenderables)
+	{
+		if (it->is_rendering_enabled()) {
+			it->render();
 		}
 	}
 }

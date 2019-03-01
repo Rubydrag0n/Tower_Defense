@@ -3,16 +3,15 @@
 #include "Menu.h"
 #include "Enums.h"
 
-class Path
+class Path final
 	: public Building
 {
 public:
 	Path(std::string path_name, SDL_Point coords, Level* level);
-	~Path();
 
 	BUILDINGTYPE get_building_type() override;
 
-	double get_speed_multiplier();
+	double get_speed_multiplier() const;
 
 private:
 

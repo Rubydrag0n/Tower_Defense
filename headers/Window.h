@@ -12,18 +12,12 @@
 class Window : public Clickable, public Renderable
 {
 public:
-	Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);
-	~Window();
+	explicit Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);
 
-	virtual void render();
+	void render() override;
 
 	void set_dim(SDL_Rect dim);
-	SDL_Rect get_dim();
-
-	void on_click(int mouse_x, int mouse_y) override;
-	void on_mouse_over(int mouse_x, int mouse_y) override;
-	void on_right_click(int mouse_x, int mouse_y) override;
-	void on_middle_click(int mouse_x, int mouse_y) override;
+	SDL_Rect get_dim() const;
 
 private:
 	//the dimensions of the window
@@ -33,12 +27,12 @@ private:
 	STYLE mStyle;
 
 	//pointers to all the textures used
-	LTexture *mBlcorner;
-	LTexture *mBrcorner;
-	LTexture *mTlcorner;
-	LTexture *mTrcorner;
-	LTexture *mHorizontalborder;
-	LTexture *mVerticalborder;
+	LTexture *mBottom_left_corner;
+	LTexture *mBottom_right_corner;
+	LTexture *mTop_left_corner;
+	LTexture *mTop_right_corner;
+	LTexture *mHorizontal_border;
+	LTexture *mVertical_border;
 	LTexture *mBackground;
 
 	int mCorner_width;

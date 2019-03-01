@@ -10,11 +10,10 @@ class Shot
 	: public Entity
 {
 public:
-	Shot(Tower* tower);
-	~Shot();
+	explicit Shot(Tower* tower);
 	
 	void render() override; //renders the shot
-	virtual void on_tick() = 0;
+	void on_tick() override = 0;
 	void points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle) const;
 	bool follow(SDL_Point target); //follows the enemy and returns true when it hits
 

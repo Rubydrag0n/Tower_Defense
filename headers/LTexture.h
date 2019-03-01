@@ -14,11 +14,11 @@ public:
 	~LTexture();
 
 	//Loads image at specified path
-	bool load_from_file(std::string path);
+	bool load_from_file(const std::string& path);
 
 #ifdef _SDL_TTF_H
 	//Creates image from font string
-	bool load_from_rendered_text(std::string textureText, SDL_Color textColor);
+	bool load_from_rendered_text(const std::string& texture_text, SDL_Color text_color);
 #endif
 
 	//Creates image from SDL_Surface. The surface is not gonna be destroyed at the end

@@ -18,7 +18,7 @@ LTexture::~LTexture()
 	free();
 }
 
-bool LTexture::load_from_file(std::string path)
+bool LTexture::load_from_file(const std::string& path)
 {
 	//Get rid of preexisting texture
 	free();
@@ -27,7 +27,7 @@ bool LTexture::load_from_file(std::string path)
 	SDL_Texture* new_texture = nullptr;
 
 	//Load image at specified path
-	auto loaded_surface = IMG_Load(path.c_str());
+	const auto loaded_surface = IMG_Load(path.c_str());
 	if (loaded_surface == nullptr)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
@@ -60,16 +60,16 @@ bool LTexture::load_from_file(std::string path)
 }
 
 #ifdef _SDL_TTF_H
-bool LTexture::load_from_rendered_text(std::string textureText, SDL_Color textColor)
+bool LTexture::load_from_rendered_text(const std::string& texture_text, const SDL_Color text_color)
 {
 	//Get rid of preexisting texture
 	free();
 	//Render text surface
 	if (gFont == nullptr)
 	{
-		throw std::errc::bad_file_descriptor;
+		throw std::exception("Couldn't load font!");
 	}
-	auto text_surface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
+	const auto text_surface = TTF_RenderText_Solid(gFont, texture_text.c_str(), text_color);
 	if (text_surface == nullptr)
 	{
 		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());

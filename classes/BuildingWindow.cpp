@@ -1,26 +1,27 @@
 #include "BuildingWindow.h"
 #include "LayerHandler.h"
 #include "Building.h"
-#include <iostream>
-#include "SDL_setup.h"
-#include "ConfigFile.h"
+#include "Enums.h"
 
-void BuildingWindow::demolish_building()
+#include <iostream>
+
+
+void BuildingWindow::demolish_building() const
 {
 	mBuilding->demolish();
 	std::cout << "dem";
 	delete mBuilding;
 }
 
-void BuildingWindow::upgrade_building()
+void BuildingWindow::upgrade_building() const
 {
 	std::cout << "up";
-	auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level()+1);
+	const auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level()+1);
 	mBuilding->upgrade(building_upgrade_section);
 }
 
 
-BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
+BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
 {
 	//correct position of the window, so it does not collide with the border
 	dim.x = building->get_coords().x;
@@ -40,9 +41,9 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 
 	SDL_Rect button_dim;
 	mButton_offset.x = 0;
-	mButton_offset.y = 10;
-	button_dim.x = dim.x + mButton_offset.x;
-	button_dim.y = dim.y + mButton_offset.y;
+	mButton_offset.y = 140;
+	button_dim.x = static_cast<int>(dim.x + mButton_offset.x);
+	button_dim.y = static_cast<int>(dim.y + mButton_offset.y);
 	button_dim.w = 26;
 	button_dim.h = 26;
 
@@ -67,6 +68,13 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim)
 		mUpgrade_button->disable();
 		mUpgrade_button->set_rendering_enabled(false);
 	}
+
+	//initialize map for text lines
+	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		mText[RESOURCETYPES(i)] = new LTexture();
+	}
+	mHeadline = new LTexture();
 }
 
 BuildingWindow::~BuildingWindow()
@@ -84,66 +92,48 @@ void BuildingWindow::render()
 	dest.y = get_dim().y + 20;
 	dest.w = get_dim().w;
 	dest.h = get_dim().h;
-	SDL_Color text_color = { 0, 0, 0 };
+	const SDL_Color text_color = { 0, 0, 0, 0 };
 
-	auto maintenace_heading = new LTexture();
-	maintenace_heading->load_from_rendered_text("Maintenance", text_color);
-	gLayer_handler->render_to_layer(maintenace_heading, LAYERS::WINDOWS, nullptr, &dest);
+	//render headline
+	mHeadline->load_from_rendered_text("Storage", text_color);
+	gLayer_handler->render_to_layer(mHeadline, WINDOWS, nullptr, &dest);
 
-	auto gold_line = new LTexture();
-	gold_line->load_from_rendered_text("Gold: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::GOLD)), text_color);
-	dest.y += 20;
-	gLayer_handler->render_to_layer(gold_line, LAYERS::WINDOWS, nullptr, &dest);
-
-	auto food_line = new LTexture();
-	food_line->load_from_rendered_text("Food: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::FOOD)), text_color);
-	dest.y += 20;
-	gLayer_handler->render_to_layer(food_line, LAYERS::WINDOWS, nullptr, &dest);
-
-	auto wood_line = new LTexture();
-	wood_line->load_from_rendered_text("Wood: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::WOOD)), text_color);
-	dest.y += 20;
-	gLayer_handler->render_to_layer(wood_line, LAYERS::WINDOWS, nullptr, &dest);
-
-	auto stone_line = new LTexture();
-	stone_line->load_from_rendered_text("Stone: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::STONE)), text_color);
-	dest.y += 20;
-	gLayer_handler->render_to_layer(stone_line, LAYERS::WINDOWS, nullptr, &dest);
-
-	auto iron_line = new LTexture();
-	iron_line->load_from_rendered_text("Iron: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::IRON)), text_color);
-	dest.y += 20;
-	gLayer_handler->render_to_layer(iron_line, LAYERS::WINDOWS, nullptr, &dest);
-
-	auto energy_line = new LTexture();
-	energy_line->load_from_rendered_text("Energy: " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES::ENERGY)), text_color);
-	dest.y += 20;
-	gLayer_handler->render_to_layer(energy_line, LAYERS::WINDOWS, nullptr, &dest);
+	//render all the single resource lines
+	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		mText[RESOURCETYPES(i)]->load_from_rendered_text(
+			Resources::get_name(RESOURCETYPES(i)) 
+				+ ": \t" 
+				+ std::to_string(mBuilding->get_current_resources()->get_resource(RESOURCETYPES(i))), 
+			text_color);
+		dest.y += 20;
+		gLayer_handler->render_to_layer(mText[RESOURCETYPES(i)], WINDOWS, nullptr, &dest);
+	}
 }
 
-void BuildingWindow::on_button_press(int button_id)
+void BuildingWindow::on_button_press(const int button_id)
 {
 	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
 	if (button_id == UPGRADE_BUTTON) this->upgrade_building();
 }
 
-Button* BuildingWindow::get_demolish_button()
+Button* BuildingWindow::get_demolish_button() const
 {
 	return mDemolish_button;
 }
 
-Button* BuildingWindow::get_upgrade_button()
+Button* BuildingWindow::get_upgrade_button() const
 {
 	return mUpgrade_button;
 }
 
 
-CoordinatesInDouble BuildingWindow::get_button_offset()
+CoordinatesInDouble BuildingWindow::get_button_offset() const
 {
 	return mButton_offset;
 }
 
-Building* BuildingWindow::get_building()
+Building* BuildingWindow::get_building() const
 {
 	return mBuilding;
 }

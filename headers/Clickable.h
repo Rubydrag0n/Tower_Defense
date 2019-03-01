@@ -24,10 +24,10 @@ public:
 	SDL_Rect get_clickable_space() const;
 	void set_clickable_space(SDL_Rect clickable_space);
 
-	LClickableState get_state() const;
-	void set_state(LClickableState state);
+	L_CLICKABLE_STATE get_state() const;
+	void set_state(L_CLICKABLE_STATE state);
 
-	bool get_clicked();
+	bool is_clicked() const;
 	void set_clicked(bool value);
 
 	//enables the object to be clicked
@@ -37,14 +37,14 @@ public:
 	void disable();
 
 	//returns if this object is currently clickable
-	bool is_enabled();
+	bool is_enabled() const;
 
 private:
 	//the space that can be clicked on to trigger an event
 	SDL_Rect mClickable_space;
 
 	//the state that the clickable is in right now. Is handled by the MouseHandler
-	LClickableState mState;
+	L_CLICKABLE_STATE mState;
 
 	// true, if clickable was clicked and shows additional information
 	bool mClicked; 

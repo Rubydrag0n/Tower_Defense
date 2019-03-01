@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tower_Defense", "Tower_Defense.vcxproj", "{BA372483-5172-4022-B2F9-27F8710B6FB3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tower_Defense_Tests", "..\Tower_Defense_Tests\Tower_Defense_Tests.vcxproj", "{F450561F-C347-470D-9116-F4339A7A90EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{BA372483-5172-4022-B2F9-27F8710B6FB3}.Release|x64.Build.0 = Debug|x64
 		{BA372483-5172-4022-B2F9-27F8710B6FB3}.Release|x86.ActiveCfg = Release|Win32
 		{BA372483-5172-4022-B2F9-27F8710B6FB3}.Release|x86.Build.0 = Release|Win32
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Debug|x64.ActiveCfg = Debug|x64
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Debug|x64.Build.0 = Debug|x64
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Debug|x86.ActiveCfg = Debug|Win32
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Debug|x86.Build.0 = Debug|Win32
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Release|x64.ActiveCfg = Release|x64
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Release|x64.Build.0 = Release|x64
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Release|x86.ActiveCfg = Release|Win32
+		{F450561F-C347-470D-9116-F4339A7A90EC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

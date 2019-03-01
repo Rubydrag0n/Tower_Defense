@@ -4,19 +4,17 @@
 #include <crtdbg.h>  
 */
 #include <cstdlib>
-#include <stdio.h>
-#include <iostream>
-#include <time.h>
+#include <cstdio>
+#include <ctime>
 #include "SDL_setup.h"
-#include "Map.h"
 #include "Game.h"
 #include "ConfigFile.h"
-#include "EntityHandler.h"
 #include "MouseHandler.h"
-#include "MainMenu.h"
 #include <fstream>
 
-int main( int argc, char* args[] )
+#undef main
+
+int main( int argc, char* argv[] )
 {
 	//TODO: Needs error handling
 	gConfig_file = new ConfigFile("config/game.cfg");
@@ -27,7 +25,7 @@ int main( int argc, char* args[] )
 	else
 	{
 		//initialize randomness
-		srand(time(NULL));
+		srand(static_cast<unsigned>(time(nullptr)));
 
 		auto game = new Game();
 		game->start_game();

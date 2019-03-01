@@ -3,7 +3,6 @@
 
 class Tower;
 
-
 class TowerWindow : public BuildingWindow
 {
 public:
@@ -13,13 +12,13 @@ public:
 	void render() override;
 	void on_button_press(int button_id) override;
 
-	void upgrade_damage();
-	void upgrade_range();
-	void upgrade_attackspeed();
+	void upgrade_damage() const;
+	void upgrade_range() const;
+	void upgrade_attackspeed() const;
 
-	Button* get_upgrade_damage_button();
-	Button* get_upgrade_range_button();
-	Button* get_upgrade_attackspeed_button();
+	Button* get_upgrade_damage_button() const;
+	Button* get_upgrade_range_button() const;
+	Button* get_upgrade_attackspeed_button() const;
 
 private:
 	Button* mUpgrade_damage_button;

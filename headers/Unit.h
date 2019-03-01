@@ -16,14 +16,13 @@
 class Unit : public Entity
 {
 public:
-	Unit(std::string unit_name);
-	~Unit();
+	explicit Unit(const std::string& unit_name);
 
-	void render();
+	void render() override;
 
 protected:
 	void update_animation_clip();
-	double get_rotation_angle();
+	double get_rotation_angle() const;
 
 	Defense mDefense;
 	double mMove_speed;

@@ -5,15 +5,6 @@
 
 class Building;
 
-enum BUILDINGWINDOWBUTTONIDS {
-	DEMOLISH_BUTTON,
-	UPGRADE_BUTTON,
-	UPGRADE_DAMAGE_BUTTON,
-	UPGRADE_RANGE_BUTTON,
-	UPGRADE_ATTACKSPEED_BUTTON,
-	BUTTON_NUMBER
-};
-
 class BuildingWindow
 	: public Window, public ButtonObject
 {
@@ -24,19 +15,23 @@ public:
 	void render() override;
 	void on_button_press(int button_id) override;
 	
-	void demolish_building();
-	void upgrade_building();
+	void demolish_building() const;
+	void upgrade_building() const;
 
-	Button* get_demolish_button();
-	Button* get_upgrade_button();
-	CoordinatesInDouble get_button_offset();
-	Building* get_building();
+	Button* get_demolish_button() const;
+	Button* get_upgrade_button() const;
+	CoordinatesInDouble get_button_offset() const;
+	Building* get_building() const;
 
 
 private:
 	Button* mDemolish_button;
 	Button* mUpgrade_button;
 	CoordinatesInDouble mButton_offset;
+
+	//the textures can't be immediately deleted, so they are reused instead
+	std::map<RESOURCETYPES, LTexture*> mText;
+	LTexture* mHeadline;
 
 protected:
 	Building* mBuilding;

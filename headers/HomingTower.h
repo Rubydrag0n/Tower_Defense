@@ -1,12 +1,11 @@
 #pragma once
 #include "Tower.h"
 
-class HomingTower :
+class HomingTower final :
 	public Tower
 {
 public:
-	HomingTower(std::string tower_name, SDL_Point coords, Level* level);
-	~HomingTower();
+	HomingTower(const std::string& tower_name, SDL_Point coords, Level* level);
 
 	void create_shot(Enemy* enemy) override;
 };

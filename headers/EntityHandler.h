@@ -1,6 +1,5 @@
 #pragma once
 #include "Entity.h"
-#include "Enemy.h"
 #include <vector>
 #include <map>
 
@@ -24,7 +23,7 @@ private:
 
 	std::map<ENTITYTYPE, std::vector<Entity*>*> mEntities_by_type;
 
-	std::map<ENTITYTYPE, bool> mEntityvector_dirty_bit;
+	std::map<ENTITYTYPE, bool> mEntity_vector_dirty_bit;
 };
 
 extern EntityHandler* gEntity_handler;

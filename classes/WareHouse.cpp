@@ -2,7 +2,7 @@
 #include "Menu.h"
 
 Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Level *level) : 
-	Building{logistics_building_name, coords, level}
+	Building{std::move(logistics_building_name), coords, level}
 {
 	SDL_Rect rect;
 	rect.x = mCoords.x;
@@ -10,11 +10,6 @@ Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Leve
 	rect.w = 200;
 	rect.h = 200;
 	mWindow = new BuildingWindow(rect, this);
-}
-
-Warehouse::~Warehouse()
-{
-
 }
 
 void Warehouse::on_tick()

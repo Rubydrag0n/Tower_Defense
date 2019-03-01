@@ -11,7 +11,7 @@
 class MonsterGroup
 {
 public:
-	MonsterGroup(std::string wave_number, std::string monster_group_number, Level* Level);
+	MonsterGroup(const std::string& wave_number, const std::string& monster_group_number, Level* level);
 	~MonsterGroup();
 
 	//updates the monster group: looks if anyone has died, spawns new monsters in the given intervals

@@ -1,4 +1,5 @@
 #include "Resources.h"
+#include <algorithm>
 
 Resources::Resources()
 {
@@ -6,7 +7,7 @@ Resources::Resources()
 	this->mLimit = nullptr;
 }
 
-Resources::Resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
 {
 	this->set_resources(gold, wood, stone, iron, energy, water, food);
 	this->mLimit = nullptr;
@@ -17,13 +18,18 @@ Resources::Resources(Resources* resource, Resources* limit)
 	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		this->set_resource(RESOURCETYPES(i), resource->get_resource(RESOURCETYPES(i)));
 	}
-	if (limit != nullptr)
-	{
-		this->mLimit = limit;
+	if (limit == nullptr) this->mLimit = nullptr;
+	else {
+		this->mLimit = new Resources(limit);
 	}
 }
 
-void Resources::set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food)
+Resources::~Resources()
+{
+	delete mLimit;
+}
+
+void Resources::set_resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
 {
 	mResources[GOLD] = gold;
 	mResources[FOOD] = food;
@@ -34,14 +40,19 @@ void Resources::set_resources(int gold, int wood, int stone, int iron, int energ
 	mResources[ENERGY] = energy;
 }
 
-void Resources::set_resource(RESOURCETYPES type, int res)
+void Resources::set_resource(const RESOURCETYPES type, const int res)
 {
 	this->mResources[type] = res;
 }
 
-int Resources::get_resource(RESOURCETYPES type)
+int Resources::get_resource(const RESOURCETYPES type)
 {
 	return mResources[type];
+}
+
+int* Resources::get_resource_pointer(const RESOURCETYPES type)
+{
+	return &mResources[type];
 }
 
 void Resources::set_empty()
@@ -59,7 +70,7 @@ bool Resources::is_empty()
 	return true;
 }
 
-void Resources::add(RESOURCETYPES type, int res)
+void Resources::add(const RESOURCETYPES type, const int res)
 {
 	if (mLimit != nullptr) {
 		if (res + mResources[type] > mLimit->get_resource(type)) {
@@ -70,7 +81,7 @@ void Resources::add(RESOURCETYPES type, int res)
 	mResources[type] += res;
 }
 
-bool Resources::sub(RESOURCETYPES type, int res)
+bool Resources::sub(const RESOURCETYPES type, const int res)
 {
 	if (mResources[type] - res < 0) {
 		return false;
@@ -90,6 +101,7 @@ bool Resources::sub(Resources *cost)
 	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		mResources[RESOURCETYPES(i)] -= cost->get_resource(RESOURCETYPES(i));
 	}
+	return true;
 }
 
 void Resources::add(Resources *income)
@@ -111,7 +123,8 @@ Resources Resources::operator/(const int &d)
 
 void Resources::set_limit(Resources * limit)
 {
-	this->mLimit = limit;
+	delete mLimit;
+	this->mLimit = new Resources(limit);
 }
 
 bool Resources::transfer(Resources *source)
@@ -122,14 +135,57 @@ bool Resources::transfer(Resources *source)
 		return true;
 	}
 
-	int adding;
-
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) 
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) 
 	{
-		adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
+		auto adding = mLimit->get_resource(RESOURCETYPES(i)) - mResources[RESOURCETYPES(i)];
+		//skip if over full already
+		if (adding <= 0) continue;
+		adding = std::min(adding, source->get_resource(RESOURCETYPES(i)));
 		this->add(RESOURCETYPES(i), source->get_resource(RESOURCETYPES(i)));
 		source->sub(RESOURCETYPES(i), adding);
 	}
 
 	return source->is_empty();
+}
+
+bool Resources::transfer(const RESOURCETYPES type, int *r)
+{
+	if (this->mLimit == nullptr)
+	{
+		this->add(type, *r);
+		*r = 0;
+		return true;
+	}
+
+	const auto adding = mLimit->get_resource(type) - mResources[type];
+	if (adding > 0)
+	{
+		this->add(type, *r);
+		*r -= adding;
+	}
+
+	return *r == 0;
+}
+
+std::string Resources::get_name(const RESOURCETYPES type)
+{
+	//TODO: locale stuff monkaS
+	switch (type) {
+	case GOLD:
+		return "Gold";
+	case WOOD:
+		return "Wood";
+	case FOOD:
+		return "Food";
+	case IRON:
+		return "Iron";
+	case STONE:
+		return "Stone";
+	case WATER:
+		return "Water";
+	case ENERGY:
+		return "Energy";
+	default:
+		return "Unknown Resource";
+	}
 }

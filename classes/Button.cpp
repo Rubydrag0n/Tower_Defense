@@ -5,18 +5,18 @@
 #include "ButtonObject.h"
 #include "BuildingWindow.h"
 
-Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int button_id) : mClips{}, mButtonSprite{}, mButton_id{ button_id }
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, const int button_id) : mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mButton_id{ button_id }
 {
-	auto section = "button/" + button_name;
-
-	mButton_name = button_name;
+	const auto section = "button/" + button_name;
+	
+	
 
 	this->mButtonSprite = gTextures->get_texture(gConfig_file->Value(section, "path"));
 
 	//initialize the clips
-	int clip_width = gConfig_file->Value(section, "clip_width");
-	int clip_height = gConfig_file->Value(section, "clip_height");
-	for (auto i = 0; i < LClickableState::STATES_TOTAL; i++)
+	const int clip_width = gConfig_file->value(section, "clip_width");
+	const int clip_height = gConfig_file->value(section, "clip_height");
+	for (auto i = 0; i < L_CLICKABLE_STATE::STATES_TOTAL; i++)
 	{
 		this->mClips[i].x = i*clip_width;
 		this->mClips[i].y = 0;
@@ -25,21 +25,16 @@ Button::Button(std::string button_name, SDL_Rect dim, ButtonObject* obj, int but
 	}
 
 	this->set_clickable_space(dim);
-	this->set_dimension(dim);
-
-	this->mObject_to_notify = obj;
 }
 
-Button::~Button()
-{
-}
+Button::~Button() = default;
 
-void Button::set_dimension(SDL_Rect dim)
+void Button::set_dimension(const SDL_Rect dim)
 {
 	this->mButton_dimensions = dim;
 }
 
-SDL_Rect Button::get_dimension()
+SDL_Rect Button::get_dimension() const
 {
 	return mButton_dimensions;
 }
@@ -47,7 +42,7 @@ SDL_Rect Button::get_dimension()
 
 void Button::set_sprite_clips(SDL_Rect * clips)
 {
-	for (auto i = 0; i < LClickableState::STATES_TOTAL; i++)
+	for (auto i = 0; i < L_CLICKABLE_STATE::STATES_TOTAL; i++)
 	{
 		mClips[i] = clips[i];
 	}
@@ -56,7 +51,7 @@ void Button::set_sprite_clips(SDL_Rect * clips)
 void Button::render()
 {
 	//Show current button sprite
-	gLayer_handler->render_to_layer(mButtonSprite, LAYERS::OVERLAY, &mClips[this->get_state()], &mButton_dimensions);
+	gLayer_handler->render_to_layer(mButton_sprite, LAYERS::OVERLAY, &mClips[this->get_state()], &mButton_dimensions);
 }
 
 void Button::on_click(int mouse_x, int mouse_y)
