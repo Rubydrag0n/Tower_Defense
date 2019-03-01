@@ -4,14 +4,20 @@
 #include <set>
 #include "ConfigFile.h"
 
-Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{ unit_name }, mSource(source), mDrain(drain), mCurrent_activity(GETTING_IDLE), mLevel(level)
+Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{unit_name},
+                                                                                                    mSource(source),
+                                                                                                    mDrain(drain),
+                                                                                                    mTransporting(drain),
+                                                                                                    mCurrent_activity(
+	                                                                                                    GETTING_IDLE),
+                                                                                                    mLevel(level)
 {
 	this->mCurrent_resources = new Resources();
 
 	if (mSource != nullptr)
 	{
-		mPosition.x = mSource->get_coords().x;
-		mPosition.y = mSource->get_coords().y;
+		mPosition.x = mSource->get_coords().x + TILE_WIDTH / 2;
+		mPosition.y = mSource->get_coords().y + TILE_HEIGHT / 2;
 	}
 
 	auto section = unit_name + "/stats";
@@ -40,6 +46,7 @@ void Carriage::set_source(Building* b)
 void Carriage::set_drain(Building* b)
 {
 	this->mDrain = b;
+	this->mTransporting.update(this->mDrain);
 }
 
 Building* Carriage::get_source() const
@@ -94,7 +101,7 @@ void Carriage::move()
 		if (mCheckpoints.empty())
 		{
 			//carriage arrived
-			this->mSource->transfer_resources_out(this->mCurrent_resources);
+			this->mSource->transfer_resources(this->mCurrent_resources, &mTransporting, true);
 			this->mCurrent_activity = DELIVERING_IDLE;
 			break;
 		}
@@ -115,7 +122,7 @@ void Carriage::move()
 		if (mCheckpoints.empty())
 		{
 			//carriage arrived
-			this->mDrain->transfer_resources_in(this->mCurrent_resources);
+			this->mDrain->transfer_resources(this->mCurrent_resources, &mTransporting, false);
 			this->mCurrent_activity = GETTING_IDLE;
 			break;
 		}

@@ -177,7 +177,7 @@ Resources Resources::get_display_resources()
 	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
 		auto r = RESOURCETYPES(i);
 		this->mDisplay[r] += float(mResources[r] - mDisplay[r]) / 100.f;
-		//if (mResources[r] - mDisplay[r] <= 2) mDisplay[r] = mResources[r];
+		if (mResources[r] - mDisplay[r] < 1.f) mDisplay[r] = mResources[r];
 		res.set_resource(r, int(mDisplay[r]));
 	}
 	return res;

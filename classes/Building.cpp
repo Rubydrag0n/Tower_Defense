@@ -277,22 +277,28 @@ bool Building::transfer_resources_out(Resources * r) const
 	return r->transfer(this->mCurrent_resources);
 }
 
-void Building::transfer_resources(Resources* r) const
+void Building::transfer_resources(Resources* r, Production* production, bool reverse) const
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; i++)
 	{
-		switch(mProducing->at(RESOURCETYPES(i)))
+		switch(production->at(RESOURCETYPES(i)))
 		{
 		case NONE:
 			//do nothing
 			break;
 		case PRODUCING:
-			//this building is producing the resource, so transfer into r
-			r->transfer(RESOURCETYPES(i), mCurrent_resources->get_resource_pointer(RESOURCETYPES(i)));
+			//if not reversed, transfer into r
+			if (!reverse)
+				r->transfer(RESOURCETYPES(i), mCurrent_resources->get_resource_pointer(RESOURCETYPES(i)));
+			else
+				mCurrent_resources->transfer(RESOURCETYPES(i), r->get_resource_pointer(RESOURCETYPES(i)));
 			break;
 		case CONSUMING:
-			//this building is consuming the resource, so transfer into building
-			mCurrent_resources->transfer(RESOURCETYPES(i), r->get_resource_pointer(RESOURCETYPES(i)));
+			//if not reversed, transfer into building
+			if (!reverse)
+				mCurrent_resources->transfer(RESOURCETYPES(i), r->get_resource_pointer(RESOURCETYPES(i)));
+			else
+				r->transfer(RESOURCETYPES(i), mCurrent_resources->get_resource_pointer(RESOURCETYPES(i)));
 			break;
 		default: 
 			;	//shouldn't get here

@@ -25,8 +25,8 @@ Menu::Menu(Level *level)
 		= new Button("TowerButton", dim, this, BUILDINGTYPE::INDUSTRIAL_BUILDING);
 
 	dim.x = 1500;
-	mButtons[BUILDINGTYPE::LOGISTICS_BUILDING]
-		= new Button("TowerButton", dim, this, BUILDINGTYPE::LOGISTICS_BUILDING);
+	mButtons[BUILDINGTYPE::WAREHOUSE]
+		= new Button("TowerButton", dim, this, BUILDINGTYPE::WAREHOUSE);
 
 	dim.x = 1600;
 	mButtons[BUILDINGTYPE::STREET]

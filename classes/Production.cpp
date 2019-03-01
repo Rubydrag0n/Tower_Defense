@@ -14,17 +14,17 @@ Production::Production(Building* building)
 
 void Production::initialize()
 {
-	for (int i = 0; i < RESOURCES_TOTAL; i++) {
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
 		(*this)[RESOURCETYPES(i)] = NONE;
 	}
 }
 
 void Production::update(Building* building)
 {
-	Resources* maintenance = building->get_maintenance();
-	Resources* produce = building->get_produce();
+	auto maintenance = building->get_maintenance();
+	auto produce = building->get_produce();
 
-	for (int i = 0; i < RESOURCES_TOTAL; i++) {
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
 		//consuming has priority over the others
 		//if a building is both consuming and producing a resource it will still get it delivered
 		if (maintenance->get_resource(RESOURCETYPES(i)) != 0) {	//needs this resource

@@ -59,7 +59,7 @@ public:
 	//returns true if this building is empty afterwards
 	bool transfer_resources_out(Resources* r) const;
 
-	void transfer_resources(Resources* r) const;
+	void transfer_resources(Resources* r, Production* production, bool reverse) const;
 
 	void on_click(int mouse_x, int mouse_y) override;
 

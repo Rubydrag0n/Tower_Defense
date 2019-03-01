@@ -2,6 +2,7 @@
 #include "Unit.h"
 #include "Building.h"
 #include "Resources.h"
+#include "Production.h"
 
 class Carriage final
 	: public Unit
@@ -31,6 +32,9 @@ private:
 
 	//total capacity
 	Resources* mCurrent_resources;
+
+	//what will be transported, saved as what the drain is consuming
+	Production mTransporting;
 
 	ACTIVITY mCurrent_activity;
 
