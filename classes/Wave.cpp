@@ -2,12 +2,11 @@
 #include "ConfigFile.h"
 #include "Level.h"
 
-
 Wave::Wave(const std::string& wave_number, Level* level) : mLevel(level)
 {
 	const auto section = "wave" + mLevel->get_level_number() + "_" + wave_number;
 
-	mMonster_group_count = gConfig_file->value(section, "monster_group_count");//number of monster groups in the wave
+	//mMonster_group_count = gConfig_file->value(section, "monster_group_count");//number of monster groups in the wave
 
 	//create all monstergroups in this wave and insert them in the vector mMonster_groups
 	for(auto i = 1; ; i++)
@@ -37,10 +36,7 @@ bool Wave::is_dead() const
 	return mMonster_groups.empty();
 }
 
-
 std::vector<MonsterGroup*>* Wave::get_monster_groups()
 {
 	return &mMonster_groups;
 }
-
-

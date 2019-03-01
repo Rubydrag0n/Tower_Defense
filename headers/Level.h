@@ -42,7 +42,6 @@ private:
 	std::vector<Wave*> mWaves;
 	int mLives;
 	Resources mStart_resources;
-	int mWaves_count;
 	TILETYPES** mMap_matrix;
 	Building*** mMap_buildings;
 

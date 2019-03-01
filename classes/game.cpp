@@ -37,8 +37,6 @@ Game::Game() : mMouse_position()
 	mCurrent_level = mLevels.at(0);
 
 
-	
-
 	mMap = new Map(const_cast<char*>("level/Level1.FMP"));
 
 	gLayer_handler = new LayerHandler();
@@ -47,7 +45,7 @@ Game::Game() : mMouse_position()
 	p.x = 896;
 	p.y = 448;
 
-	auto tower = new HomingTower("archer", p, mLevel);
+	auto tower = new HomingTower("archer", p, mCurrent_level);
 
 	p.x += 64;
 	new Path("path", p, mCurrent_level);
@@ -72,16 +70,16 @@ Game::Game() : mMouse_position()
 	p.x = 896;
 	p.y = 448;
 
-	new HomingTower("archer", p, mLevel);
+	new HomingTower("archer", p, mCurrent_level);
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
-	mLevel->get_main_building()->add_resources(r);
+	mCurrent_level->get_main_building()->add_resources(r);
 }
 
 Game::~Game()
 {
 	delete mMenu;
-	for(auto i =0; i<mLevels.size(); i++)
+	for(auto i = 0; i < mLevels.size(); i++)
 	{
 		delete mLevels.at(i);
 	}
@@ -125,7 +123,7 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
-		if (mLevel->is_dead() || mLevel->no_lives())
+		if (mCurrent_level->is_dead() || mCurrent_level->no_lives())
 		{
 			SDL_Delay(10000);
 			break;

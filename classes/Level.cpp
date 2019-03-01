@@ -11,11 +11,9 @@ const int MATRIX_HEIGHT = 16;
 
 Level::Level(std::string level_number) : mLevel_number(std::move(level_number)), mMain_building()
 {
-	mLevel_number = level_number;
-	mLives = gConfig_file->value_or_zero("level" + mLevel_number, "lives");
-
+	//mLevel_number = level_number;
+	auto level_section = "level" + mLevel_number;
 	mLives = gConfig_file->value_or_zero(level_section, "lives");
-	mWaves_count = gConfig_file->value(level_section, "waves_count");
 
 	//set the start-resources in this level
 	mStart_resources.set_resources(gConfig_file->value_or_zero("level" + mLevel_number, "gold"),
@@ -30,7 +28,7 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 	for (auto i = 1; ; i++)
 	{
 		auto wave_number = std::to_string(i);
-		if(!gConfig_file->value_exists("wave" + level_number + "_" + wave_number, "exists"))
+		if(!gConfig_file->value_exists("wave" + mLevel_number + "_" + wave_number, "exists"))
 		{
 			break;
 		}
@@ -88,6 +86,8 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 	warehouse_coord.x = TILE_WIDTH * gConfig_file->value(level_section, "main_building_x");
 	warehouse_coord.y = TILE_HEIGHT * gConfig_file->value(level_section, "main_building_y");
 	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this);
+
+	new Menu(this);
 }
 
 Level::~Level()

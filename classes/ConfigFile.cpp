@@ -64,12 +64,8 @@ bool ConfigFile::value_exists(std::string const& section, std::string const& ent
 
 bool ConfigFile::section_exists(std::string const& section)
 {
-	const auto ci = content_.find(section + '/');
-	if (ci == content_.end())
-	{
-		return false;
-	}
-	return true;
+	const auto ci = mContent_.find(section + '/');
+	return ci != mContent_.end();
 }
 
 
