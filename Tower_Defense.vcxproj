@@ -189,6 +189,7 @@
     </ClCompile>
     <ClCompile Include="classes\Shot.cpp" />
     <ClCompile Include="classes\Textures.cpp" />
+    <ClCompile Include="classes\Timer.cpp" />
     <ClCompile Include="classes\Tower.cpp" />
     <ClCompile Include="classes\TowerWindow.cpp" />
     <ClCompile Include="classes\Unit.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="headers\SDL_setup.h" />
     <ClInclude Include="headers\Shot.h" />
     <ClInclude Include="headers\Textures.h" />
+    <ClInclude Include="headers\Timer.h" />
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\TowerWindow.h" />
     <ClInclude Include="headers\Unit.h" />

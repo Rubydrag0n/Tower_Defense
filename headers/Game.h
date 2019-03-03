@@ -20,7 +20,6 @@ public:
 private:
 	std::vector<Tower*> mAll_towers;
 	std::vector<IndustrialBuilding*> mAll_industrial_buildings;
-	Menu* mMenu;
 	std::vector<Level*> mLevels;
 	Level* mCurrent_level;
 	Map* mMap;

@@ -19,6 +19,7 @@ TTF_Font* gFont = nullptr;
 int* gActual_screen_width = nullptr;
 int* gActual_screen_height = nullptr;
 int* gFrame_rate = nullptr;
+int* gTicks_per_frame = nullptr;
 
 SDL_Texture* load_texture(const std::string& path)
 {
@@ -53,6 +54,8 @@ bool init_graphics()
 	auto success = true;
 
 	gFrame_rate = new int(60);
+	gTicks_per_frame = new int(1000 / *gFrame_rate);
+
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -94,8 +97,7 @@ bool init_graphics()
 			//Create renderer for window
 			//SDL_RENDERER_PRESENTVSYNC locks frame rate to the monitors' frame rate
 
-			//TODO: don't just use vsync with 60fps
-			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
+			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 			if (gRenderer == nullptr)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());

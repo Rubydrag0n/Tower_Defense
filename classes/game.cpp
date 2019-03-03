@@ -18,6 +18,7 @@
 #include "Carriage.h"
 #include "WareHouse.h"
 #include "Path.h"
+#include "Timer.h"
 
 Game::Game() : mMouse_position()
 {
@@ -78,7 +79,6 @@ Game::Game() : mMouse_position()
 
 Game::~Game()
 {
-	delete mMenu;
 	for(auto i = 0; i < mLevels.size(); i++)
 	{
 		delete mLevels.at(i);
@@ -106,8 +106,22 @@ void Game::start_game()
 
 	SDL_RenderPresent(gRenderer);
 
-	for (auto game_tick = 0; game_tick < 300000; game_tick++)
+	//loop flag
+	auto quit = false;
+
+	//frames per second timer
+	Timer fps_timer;
+
+	//the frames per second cap timer
+	Timer cap_timer;
+
+	const auto counted_frames = 0;
+	fps_timer.start();
+
+	while (!quit)
 	{
+		cap_timer.start();
+
 		//also renders the hover window
 		//mouse handler update needs to happen first
 		gMouse_handler->update();
@@ -115,7 +129,16 @@ void Game::start_game()
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			gMouse_handler->handle_event(&e);
+
+			if (e.type == SDL_QUIT)
+			{
+				quit = true;
+			}
 		}
+
+		//Calculate and correct fps
+		auto avg_fps = counted_frames / (fps_timer.get_ticks() / 1000.f);
+		if (avg_fps > 2000000) avg_fps = 0;
 
 		gEntity_handler->update();
 		mCurrent_level->on_tick();
@@ -126,7 +149,15 @@ void Game::start_game()
 		if (mCurrent_level->is_dead() || mCurrent_level->no_lives())
 		{
 			SDL_Delay(10000);
-			break;
+			quit = true;
+		}
+
+		//if frame finished early
+		const auto frame_ticks = cap_timer.get_ticks();
+		if (frame_ticks < *gTicks_per_frame)
+		{
+			//wait remaining time
+			SDL_Delay(*gTicks_per_frame - frame_ticks);
 		}
 	}
 }
