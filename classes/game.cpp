@@ -71,7 +71,7 @@ Game::Game() : mMouse_position()
 	p.x = 896;
 	p.y = 448;
 
-	new HomingTower("archer", p, mCurrent_level);
+	//new HomingTower("archer", p, mCurrent_level);
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	mCurrent_level->get_main_building()->add_resources(r);

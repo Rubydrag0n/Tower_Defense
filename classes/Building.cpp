@@ -68,9 +68,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 	mCurrent_resources->set_empty();
 	mCurrent_resources->set_limit(resource_limit);
 
-	mBuilding_level = 0;
-	mBuilding_max_level = gConfig_file->value(building_stats_section, "maxLevel");
-	mCount_of_little_upgrade = 0;
+	mBuilding_level = "";
+	mCount_of_little_upgrades = 0;
 
 	mElapsed_ticks = 0;
 
@@ -125,8 +124,6 @@ void Building::demolish() const
 
 void Building::upgrade(const std::string& building_upgrade_section)
 {
-	//mBuilding_level++;
-
 	const auto plus_maintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
 		gConfig_file->value_or_zero(building_upgrade_section, "stoneMain"),
@@ -136,7 +133,7 @@ void Building::upgrade(const std::string& building_upgrade_section)
 		gConfig_file->value_or_zero(building_upgrade_section, "foodMain"));
 	mMaintenance->add(plus_maintenance);
 
-	const auto upgrade_cost_multiplier = mCount_of_little_upgrade * 2 + 1;
+	const auto upgrade_cost_multiplier = mCount_of_little_upgrades * 2 + 1;
 	const auto plus_construction = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "woodcosts") * upgrade_cost_multiplier,
 		gConfig_file->value_or_zero(building_upgrade_section, "stonecosts") * upgrade_cost_multiplier,
@@ -161,22 +158,25 @@ void Building::render()
 	gLayer_handler->render_to_layer(mSprite, LAYERS::BUILDINGS, nullptr, &dest);
 
 	if(this->is_clicked())
-	{
-		if (get_building_level() < get_building_max_level())
+	{		
+		for (auto& button : mWindow->get_upgrade_buttons())
 		{
-			mWindow->get_upgrade_button()->set_rendering_enabled(true);
-			mWindow->get_upgrade_button()->enable();
-		}
+			button->set_rendering_enabled(true);
+			button->enable();
+		}		
 		mWindow->get_demolish_button()->set_rendering_enabled(true);
 		mWindow->get_demolish_button()->enable();
 		mWindow->set_rendering_enabled(true);
 	}
 	else
 	{
+		for (auto& button : mWindow->get_upgrade_buttons())
+		{
+			button->set_rendering_enabled(false);
+			button->disable();
+		}
 		mWindow->set_rendering_enabled(false);
 		mWindow->get_demolish_button()->disable();
-		mWindow->get_upgrade_button()->set_rendering_enabled(false);
-		mWindow->get_upgrade_button()->disable();
 		mWindow->get_demolish_button()->set_rendering_enabled(false);
 	}
 }
@@ -321,15 +321,21 @@ void Building::set_neighbor(const BUILDINGDIRECTION dir, Building* building)
 	this->mSurrounding_buildings[dir] = building;
 }
 
-int Building::get_building_level() const
+std::string Building::get_building_level() const
 {
 	return mBuilding_level;
 }
 
-int Building::get_building_max_level() const
+void Building::set_building_level(std::string building_level)
 {
-	return mBuilding_max_level;
+	mBuilding_level = building_level;
 }
+
+int Building::get_count_of_little_upgrades()
+{
+	return mCount_of_little_upgrades;
+}
+
 
 std::string Building::get_name() const
 {

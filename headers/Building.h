@@ -37,8 +37,9 @@ public:
 	void set_coords(SDL_Point coords);
 	void set_idle(bool value);
 	bool get_idle() const;
-	int get_building_level() const;
-	int get_building_max_level() const;
+	void set_building_level(std::string building_level);
+	std::string get_building_level() const;
+	int get_count_of_little_upgrades();
 	std::string get_name() const;
 
 	ENTITYTYPE get_type() override;
@@ -87,7 +88,6 @@ protected:
 	Resources* mCurrent_resources;
 	Production* mProducing;
 
-	int mBuilding_level; //level of the building, can be raised by upgrades
-	int mBuilding_max_level; //max level of this building
-	int mCount_of_little_upgrade; //count of the little upgrades as a requirement for big upgrades
+	std::string mBuilding_level; //level of the building, can be changed by GUpgrades
+	int mCount_of_little_upgrades; //count of the little upgrades as a requirement for big upgrades
 };

@@ -18,7 +18,7 @@ public:
 	void show_tab(BUILDINGTYPE open_tab);
 	void add_menu_item(MenuItem* menu_item, BUILDINGTYPE tab);
 
-	void on_button_press(int button_id) override;
+	void on_button_press(int button_id, Button* button) override;
 	void render() override; //shows lives and resources
 
 private:

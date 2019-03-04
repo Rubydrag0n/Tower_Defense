@@ -79,7 +79,7 @@ void Menu::show_tab(const BUILDINGTYPE open_tab)
 	}
 }
 
-void Menu::on_button_press(int button_id)
+void Menu::on_button_press(int button_id, Button* button)
 {
 	this->show_tab(BUILDINGTYPE(button_id));
 }

@@ -80,6 +80,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 				if (e->button.button == 1) {
 					it->set_state(MOUSE_DOWN_LEFT);
 					it->on_click(x, y);
+					return;
 				}
 				else if (e->button.button == 2)
 				{

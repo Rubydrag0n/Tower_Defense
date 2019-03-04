@@ -197,6 +197,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="classes\EntityHandler.cpp" />
+    <ClCompile Include="classes\UpgradeButton.cpp" />
     <ClCompile Include="classes\WareHouse.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
@@ -250,6 +251,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="headers\EntityHandler.h" />
+    <ClInclude Include="headers\UpgradeButton.h" />
     <ClInclude Include="headers\WareHouse.h" />
     <ClInclude Include="headers\Wave.h" />
     <ClInclude Include="headers\Window.h" />

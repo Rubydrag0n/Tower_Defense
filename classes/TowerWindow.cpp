@@ -5,8 +5,8 @@
 TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim, tower)
 {
 	SDL_Rect button_dim;
-	button_dim.x = dim.x + 170;
-	button_dim.y = dim.y;
+	button_dim.x = mDim.x + 170;
+	button_dim.y = mDim.y;
 	button_dim.w = 26;
 	button_dim.h = 26;
 	mUpgrade_damage_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
@@ -46,12 +46,12 @@ void TowerWindow::upgrade_attackspeed() const
 	dynamic_cast<Tower*>(mBuilding)->upgrade_attack_speed();
 }
 
-void TowerWindow::on_button_press(const int button_id)
+void TowerWindow::on_button_press(const int button_id, Button* button)
 {
 	if (button_id == UPGRADE_DAMAGE_BUTTON) this->upgrade_damage();
 	if (button_id == UPGRADE_RANGE_BUTTON) this->upgrade_range();
 	if (button_id == UPGRADE_ATTACKSPEED_BUTTON) this->upgrade_attackspeed();
-	BuildingWindow::on_button_press(button_id);
+	BuildingWindow::on_button_press(button_id, button);
 }
 
 Button* TowerWindow::get_upgrade_damage_button() const

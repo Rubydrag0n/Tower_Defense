@@ -102,9 +102,9 @@ void Tower::upgrade(const std::string& tower_upgrade_section)
 		gConfig_file->value_or_zero(tower_upgrade_section, "water"),
 		gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
 
-	mRange = gConfig_file->value_or_zero(tower_upgrade_section, "range");
-	mAttack_speed = gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
-	mProjectile_speed = gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
+	mRange += gConfig_file->value_or_zero(tower_upgrade_section, "range");
+	mAttack_speed += gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
+	mProjectile_speed += gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
 	mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
 	mAttack_cooldown = 60 / mAttack_speed;
 }
@@ -118,7 +118,7 @@ void Tower::upgrade_damage()
 		gConfig_file->value_or_zero(tower_upgrade_section, "fire"),
 		gConfig_file->value_or_zero(tower_upgrade_section, "water"),
 		gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-	mCount_of_little_upgrade++;
+	mCount_of_little_upgrades++;
 }
 
 void Tower::upgrade_range()
@@ -126,7 +126,7 @@ void Tower::upgrade_range()
 	const auto tower_upgrade_section = mTower_name + "/upgradeRange";
 	Building::upgrade(tower_upgrade_section);
 	mRange += gConfig_file->value(tower_upgrade_section, "range");
-	mCount_of_little_upgrade++;
+	mCount_of_little_upgrades++;
 }
 
 void Tower::upgrade_attack_speed()
@@ -134,7 +134,8 @@ void Tower::upgrade_attack_speed()
 	const auto tower_upgrade_section = mTower_name + "/upgradeAttackspeed";
 	Building::upgrade(tower_upgrade_section);
 	mAttack_speed += gConfig_file->value(tower_upgrade_section, "attackspeed");
-	mCount_of_little_upgrade++;
+	mAttack_cooldown = 60 / mAttack_speed;
+	mCount_of_little_upgrades++;
 }
 
 bool Tower::enemy_in_range(Enemy* enemy, const double radius, const SDL_Point center)

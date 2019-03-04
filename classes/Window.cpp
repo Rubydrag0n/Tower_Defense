@@ -6,7 +6,7 @@
 
 Window::Window(const SDL_Rect dim, const STYLE style) : mDim(dim), mStyle(style), mR(0), mG(0), mB(0)
 {
-	this->set_clickable_space(dim);
+	
 	const auto category = "frames/" + std::to_string(int(style));
 	mBottom_left_corner = gTextures->get_texture(gConfig_file->value(category, "blcpath"));
 	mBottom_right_corner = gTextures->get_texture(gConfig_file->value(category, "brcpath"));

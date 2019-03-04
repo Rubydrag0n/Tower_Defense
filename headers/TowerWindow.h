@@ -10,7 +10,7 @@ public:
 	~TowerWindow();
 
 	void render() override;
-	void on_button_press(int button_id) override;
+	void on_button_press(int button_id, Button* button) override;
 
 	void upgrade_damage() const;
 	void upgrade_range() const;

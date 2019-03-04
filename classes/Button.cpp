@@ -25,7 +25,10 @@ Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject*
 	this->set_clickable_space(dim);
 }
 
-Button::~Button() = default;
+Button::~Button()
+{
+	
+}
 
 void Button::set_dimension(const SDL_Rect dim)
 {
@@ -54,5 +57,5 @@ void Button::render()
 
 void Button::on_click(int mouse_x, int mouse_y)
 {
-	this->mObject_to_notify->on_button_press(this->mButton_id);
+	this->mObject_to_notify->on_button_press(this->mButton_id, this);
 }

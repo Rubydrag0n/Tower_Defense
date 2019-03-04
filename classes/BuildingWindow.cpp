@@ -4,70 +4,53 @@
 #include "Enums.h"
 
 #include <iostream>
+#include "ConfigFile.h"
+#include "UpgradeButton.h"
 
 
 void BuildingWindow::demolish_building() const
 {
 	mBuilding->demolish();
-	std::cout << "dem";
 	delete mBuilding;
 }
 
-void BuildingWindow::upgrade_building() const
+void BuildingWindow::upgrade_building(Button* button)
 {
-	std::cout << "up";
-	const auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + std::to_string(mBuilding->get_building_level()+1);
+	const auto building_upgrade_section = mBuilding->get_name() + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
+	if (gConfig_file->value_or_zero(building_upgrade_section, "count_of_little_upgrades") > mBuilding->get_count_of_little_upgrades())
+	{
+		return;
+	}
 	mBuilding->upgrade(building_upgrade_section);
+	mBuilding->set_building_level(dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() + ".");
+	update_great_upgrade_buttons();
 }
 
 
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
 {
 	//correct position of the window, so it does not collide with the border
-	dim.x = building->get_coords().x;
-	dim.y = building->get_coords().y - 200;
 	if (building->get_coords().y < 200)
 	{
-		dim.y = building->get_coords().y + building->get_dimensions().h;
+		mDim.y = building->get_coords().y + building->get_dimensions().h;
 	}
 	if (building->get_coords().x > 1080)
 	{
-		dim.x = building->get_coords().x + 64 - 200;
+		mDim.x = building->get_coords().x + 64 - 200;
 	}
-	dim.w = 200;
-	dim.h = 200;
-	set_dim(dim);
 	mBuilding = building;
 
 	SDL_Rect button_dim;
 	mButton_offset.x = 0;
-	mButton_offset.y = 140;
-	button_dim.x = static_cast<int>(dim.x + mButton_offset.x);
-	button_dim.y = static_cast<int>(dim.y + mButton_offset.y);
+	mButton_offset.y = 0;
+	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
+	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
 	button_dim.w = 26;
 	button_dim.h = 26;
 
-	std::string upgrade_section;
-	/*for(auto i = 1; ; i++)
-	{
-		upgrade_section = std::to_string(i);
-		if(!gConfig_file->value_exists(mBuilding->get_name() + "/upgrade" + upgrade_section, "exists"))
-		{
-			break;
-		}
-		auto new_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_BUTTON);
-		mUpgrade_buttons.insert(std::make_pair(new_button, upgrade_section));
-	}*/
-	mUpgrade_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_BUTTON);
-	button_dim.y += 20;
 	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
-	mUpgrade_button->disable();
-	mUpgrade_button->set_rendering_enabled(false);
-	if(building->get_building_max_level() == 0)
-	{
-		mUpgrade_button->disable();
-		mUpgrade_button->set_rendering_enabled(false);
-	}
+
+	update_great_upgrade_buttons();
 
 	//initialize map for text lines
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
@@ -80,7 +63,10 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 BuildingWindow::~BuildingWindow()
 {
 	delete mDemolish_button;
-	delete mUpgrade_button;
+	for (auto& button : mUpgrade_buttons)
+	{
+		delete button;
+	}
 }
 
 void BuildingWindow::render()
@@ -111,22 +97,48 @@ void BuildingWindow::render()
 	}
 }
 
-void BuildingWindow::on_button_press(const int button_id)
+void BuildingWindow::update_great_upgrade_buttons()
+{
+	//first delete old buttons
+	if(!mUpgrade_buttons.empty())
+	{
+		for (auto& button : mUpgrade_buttons)
+		{
+			delete button;
+		}
+		mUpgrade_buttons.clear();
+	}
+
+	//then create new buttons
+	SDL_Rect button_dim;
+	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
+	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
+	button_dim.w = 26;
+	button_dim.h = 26;
+	
+	for(auto i = 1; ; i++)
+	{
+		button_dim.y += 30;
+		auto upgrade_section = mBuilding->get_building_level() + std::to_string(i);
+		if(!gConfig_file->value_exists(mBuilding->get_name() + "/upgrade" + upgrade_section, "exists"))
+		{
+			break;
+		}
+		auto new_button = new UpgradeButton("testbutton", button_dim, this, upgrade_section, BUILDINGWINDOWBUTTONIDS::UPGRADE_BUTTON);
+		mUpgrade_buttons.push_back(new_button);
+	}
+}
+
+void BuildingWindow::on_button_press(const int button_id, Button* button)
 {
 	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
-	if (button_id == UPGRADE_BUTTON) this->upgrade_building();
+	if (button_id == UPGRADE_BUTTON) this->upgrade_building(button);
 }
 
 Button* BuildingWindow::get_demolish_button() const
 {
 	return mDemolish_button;
 }
-
-Button* BuildingWindow::get_upgrade_button() const
-{
-	return mUpgrade_button;
-}
-
 
 CoordinatesInDouble BuildingWindow::get_button_offset() const
 {
@@ -138,3 +150,7 @@ Building* BuildingWindow::get_building() const
 	return mBuilding;
 }
 
+std::vector<Button*> BuildingWindow::get_upgrade_buttons()
+{
+	return mUpgrade_buttons;
+}

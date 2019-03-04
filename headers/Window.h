@@ -9,7 +9,7 @@
 /*
  * This class implements a window of given dimensions
  */
-class Window : public Clickable, public Renderable
+class Window : public Renderable
 {
 public:
 	explicit Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);
@@ -20,9 +20,6 @@ public:
 	SDL_Rect get_dim() const;
 
 private:
-	//the dimensions of the window
-	SDL_Rect mDim;
-
 	//the style of the window
 	STYLE mStyle;
 
@@ -42,4 +39,8 @@ private:
 	int mR;
 	int mG;
 	int mB;
+
+protected:
+	//the dimensions of the window
+	SDL_Rect mDim;
 };

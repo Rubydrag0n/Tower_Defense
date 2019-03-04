@@ -5,7 +5,7 @@
 #include "Renderable.h"
 #include "ButtonObject.h"
 
-class Button final
+class Button
 	: public Clickable, public Renderable
 {
 public:
