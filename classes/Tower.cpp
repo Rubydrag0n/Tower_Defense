@@ -47,12 +47,12 @@ void Tower::render()
 	if(is_clicked())
 	{
 		SDL_Rect dest;
-		const auto offset = mRange / 800;
+		//const auto offset = mRange / 800;
 
-		dest.x = int(get_coords().x - 400 * offset);
-		dest.y = int(get_coords().y - 400 * offset);
-		dest.h = 0;
-		dest.w = 0;
+		dest.x = int(get_coords().x - mRange/2 + TILE_WIDTH/2);
+		dest.y = int(get_coords().y - mRange/2 + TILE_HEIGHT/2);
+		dest.w = int(mRange);
+		dest.h = int(mRange);
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::WINDOWS, nullptr, &dest);
 
 		temp_window->get_upgrade_damage_button()->enable();

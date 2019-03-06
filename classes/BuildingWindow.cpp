@@ -76,8 +76,8 @@ void BuildingWindow::render()
 	SDL_Rect dest;
 	dest.x = get_dim().x + 20;
 	dest.y = get_dim().y + 20;
-	dest.w = get_dim().w;
-	dest.h = get_dim().h;
+	dest.w = 0;	//setting these to 0 will not scale anything
+	dest.h = 0;
 	const SDL_Color text_color = { 0, 0, 0, 0 };
 
 	//render headline

@@ -25,11 +25,11 @@ void Window::render()
 {
 	//draw the inner color of the window (background of the window)
 	SDL_Rect dest;
-	dest.w = mDim.w;
-	dest.h = mDim.h;
-
 	dest.x = mDim.x;
 	dest.y = mDim.y;
+	dest.w = 0; //set this to 0 so the corners aren't scaled
+	dest.h = 0;
+
 
 	gLayer_handler->render_to_layer(mBackground, LAYERS::WINDOWS, nullptr, &dest);
 
@@ -44,33 +44,32 @@ void Window::render()
 
 	//draw the borders
 	//horizontal top:
+	dest.x = mDim.x + mCorner_width;
 	dest.y = mDim.y;
-	dest.w = 1;
+	dest.w = mDim.w - 2*mCorner_width;
 	dest.h = mBorder_thickness;
-	for (dest.x = mDim.x + mCorner_width; dest.x < mDim.x + mDim.w - mCorner_width; dest.x++)
-	{
-		gLayer_handler->render_to_layer(mHorizontal_border, LAYERS::WINDOWS, nullptr, &dest);
-	}
+	
+	gLayer_handler->render_to_layer(mHorizontal_border, LAYERS::WINDOWS, nullptr, &dest);
+	
 	//horizontal bottom:
 	dest.y = mDim.y + mDim.h - mBorder_thickness;
-	for (dest.x = mDim.x + mCorner_width; dest.x < mDim.x + mDim.w - mCorner_width; dest.x++)
-	{
-		gLayer_handler->render_to_layer(mHorizontal_border, LAYERS::WINDOWS, nullptr, &dest);
-	}
+	//width, height and x stay the same
+
+	gLayer_handler->render_to_layer(mHorizontal_border, LAYERS::WINDOWS, nullptr, &dest);
+	
 	//vertical left:
 	dest.x = mDim.x;
+	dest.y = mDim.y + mCorner_height;
 	dest.w = mBorder_thickness;
-	dest.h = 1;
-	for (dest.y = mDim.y + mCorner_height; dest.y < mDim.y + mDim.h - mCorner_height; dest.y++)
-	{
-		gLayer_handler->render_to_layer(mVertical_border, LAYERS::WINDOWS, nullptr, &dest);
-	}
+	dest.h = mDim.h - 2*mCorner_height;
+	
+	gLayer_handler->render_to_layer(mVertical_border, LAYERS::WINDOWS, nullptr, &dest);
+	
 	//vertical right
 	dest.x = mDim.x + mDim.w - mBorder_thickness;
-	for (dest.y = mDim.y + mCorner_height; dest.y < mDim.y + mDim.h - mCorner_height; dest.y++)
-	{
-		gLayer_handler->render_to_layer(mVertical_border, LAYERS::WINDOWS, nullptr, &dest);
-	}
+	//width, height and y stay the same
+	
+	gLayer_handler->render_to_layer(mVertical_border, LAYERS::WINDOWS, nullptr, &dest);
 }
 
 void Window::set_dim(const SDL_Rect dim)
