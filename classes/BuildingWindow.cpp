@@ -2,7 +2,6 @@
 #include "LayerHandler.h"
 #include "Building.h"
 #include "Enums.h"
-
 #include <iostream>
 #include "ConfigFile.h"
 #include "UpgradeButton.h"
@@ -10,13 +9,17 @@
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
 {
 	//correct position of the window, so it does not collide with the border
-	if (building->get_coords().y < 200)
+	if (building->get_coords().y < mDim.h/3)
 	{
-		mDim.y = building->get_coords().y + building->get_dimensions().h;
+		mDim.y += mDim.h/3 - building->get_coords().y;
 	}
-	if (building->get_coords().x > 1080)
+	if (building->get_coords().y > 1024 - mDim.h * 2/3)
 	{
-		mDim.x = building->get_coords().x + 64 - 200;
+		mDim.y += 1024 - building->get_coords().y - mDim.h * 2/3;
+	}
+	if (building->get_coords().x > 1280 - mDim.w)
+	{
+		mDim.x += -building->get_dimensions().w - mDim.w;
 	}
 	mBuilding = building;
 
