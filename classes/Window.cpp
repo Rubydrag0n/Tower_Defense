@@ -27,12 +27,15 @@ void Window::render()
 	SDL_Rect dest;
 	dest.x = mDim.x;
 	dest.y = mDim.y;
-	dest.w = 0; //set this to 0 so the corners aren't scaled
-	dest.h = 0;
+	dest.w = mDim.w;
+	dest.h = mDim.h;
 
 
 	gLayer_handler->render_to_layer(mBackground, LAYERS::WINDOWS, nullptr, &dest);
 
+	dest.w = 0;	//don't scale corners
+	dest.h = 0;
+	
 	//draw the four corners
 	gLayer_handler->render_to_layer(mTop_left_corner, LAYERS::WINDOWS, nullptr, &dest);
 	dest.x = mDim.x + mDim.w - mCorner_width;
