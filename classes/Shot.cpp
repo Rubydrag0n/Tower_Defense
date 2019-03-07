@@ -67,6 +67,8 @@ void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double
 	center->y = mSprite_dimensions.h / 2;
 	dest->x = mCoords.x - mSprite_dimensions.w / 2;
 	dest->y = mCoords.y - mSprite_dimensions.h / 2;
+	dest->w = 0;
+	dest->h = 0;
 }
 
 bool Shot::follow(const SDL_Point target)

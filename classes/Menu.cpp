@@ -141,8 +141,8 @@ void Menu::render()
 	SDL_Rect dest;
 	dest.x = 0;
 	dest.y = 1050;
-	dest.w = this->mMenu_texture->get_width();
-	dest.h = this->mMenu_texture->get_height();
+	dest.w = 0;	//setting to 0 doesn't scale anything
+	dest.h = 0;
 
 	gLayer_handler->render_to_layer(this->mMenu_texture, WINDOWS, nullptr, &dest);
 }

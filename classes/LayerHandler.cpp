@@ -113,7 +113,7 @@ void LayerHandler::present()
 				src = &r->src_rect;
 			}
 
-			r->texture->render(r->dst_rect.x, r->dst_rect.y, src, r->angle, &r->center, r->flip);
+			r->texture->render(&r->dst_rect, src, r->angle, &r->center, r->flip);
 			delete r;
 		}
 		x->clear();

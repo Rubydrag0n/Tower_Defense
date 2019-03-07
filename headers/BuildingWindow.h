@@ -31,14 +31,14 @@ private:
 	CoordinatesInDouble mButton_offset;
 
 	//the textures can't be immediately deleted, so they are reused instead
-	std::map<RESOURCETYPES, LTexture*> mText;
+	LTexture** mText;
 	LTexture* mHeadline;
+
+	SDL_Color mText_color;
 
 protected:
 	Building* mBuilding;
 
 	//map with the buttons that can be used to make great upgrades on the current building level; the string marks the upgrade(for example: 1.3.4.1)
 	std::vector<Button*> mUpgrade_buttons; 
-
-
 };

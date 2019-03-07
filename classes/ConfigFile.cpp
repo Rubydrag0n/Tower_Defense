@@ -81,8 +81,6 @@ Chameleon ConfigFile::value_or_zero(std::string const& section, std::string cons
 	return ci->second;
 }
 
-
-
 Chameleon const& ConfigFile::value(std::string const& section, std::string const& entry, const double value) {
 	try {
 		return this->value(section, entry);
