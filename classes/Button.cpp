@@ -21,7 +21,6 @@ Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject*
 		this->mClips[i].w = clip_width;
 		this->mClips[i].h = clip_height;	
 	}
-
 	this->set_clickable_space(dim);
 }
 

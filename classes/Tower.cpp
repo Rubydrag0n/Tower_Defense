@@ -29,10 +29,10 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	mRange_indicator_sprite = gTextures->get_texture(sprite_path);
 
 	SDL_Rect rect;
-	rect.x = mCoords.x;
+	rect.x = mCoords.x + mSprite_dimensions.w;
 	rect.y = mCoords.y - 200;
 	rect.w = 200;
-	rect.h = 200;
+	rect.h = 600;
 	mWindow = new TowerWindow(rect, this);
 
 	new Carriage("carriage", mLevel, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
@@ -47,10 +47,9 @@ void Tower::render()
 	if(is_clicked())
 	{
 		SDL_Rect dest;
-		//const auto offset = mRange / 800;
 
-		dest.x = int(get_coords().x - mRange/2 + TILE_WIDTH/2);
-		dest.y = int(get_coords().y - mRange/2 + TILE_HEIGHT/2);
+		dest.x = int(get_coords().x - mRange/2 + mSprite_dimensions.w/2);
+		dest.y = int(get_coords().y - mRange/2 + mSprite_dimensions.h/2);
 		dest.w = int(mRange);
 		dest.h = int(mRange);
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::WINDOWS, nullptr, &dest);

@@ -341,3 +341,5 @@ std::string Building::get_name() const
 {
 	return mName;
 }
+
+
