@@ -20,6 +20,8 @@ public:
 	void set_elec_dmg(double elec);
 	double get_elec_dmg() const;
 
+	double get_dmg_sum() const;
+
 private:
 	double mPhys_dmg;
 	double mMagic_dmg;

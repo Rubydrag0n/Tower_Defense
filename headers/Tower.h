@@ -25,6 +25,9 @@ public:
 	void upgrade_range();
 	void upgrade_attack_speed();
 
+	double get_attack_speed() const;
+	double get_range() const;
+
 	BUILDINGTYPE get_building_type() override;
 	
 	//checks if an enemy is in range of the tower

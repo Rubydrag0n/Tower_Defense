@@ -88,7 +88,7 @@ void BuildingWindow::render()
 
 	SDL_Rect dest;
 	dest.x = get_dim().x + 20;
-	dest.y = get_dim().y + 20;
+	dest.y = get_dim().y + 420;
 	dest.w = 0;	//setting these to 0 will not scale anything
 	dest.h = 0;
 

@@ -47,11 +47,11 @@ void Tower::render()
 	if(is_clicked())
 	{
 		SDL_Rect dest;
-
-		dest.x = int(get_coords().x - mRange/2 + mSprite_dimensions.w/2);
-		dest.y = int(get_coords().y - mRange/2 + mSprite_dimensions.h/2);
-		dest.w = int(mRange);
-		dest.h = int(mRange);
+		//range is radius not diameter
+		dest.x = int(get_coords().x - mRange + mSprite_dimensions.w/2);
+		dest.y = int(get_coords().y - mRange + mSprite_dimensions.h/2);
+		dest.w = int(mRange*2);
+		dest.h = int(mRange*2);
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::WINDOWS, nullptr, &dest);
 
 		temp_window->get_upgrade_damage_button()->enable();
@@ -164,3 +164,14 @@ BUILDINGTYPE Tower::get_building_type()
 {
 	return BUILDINGTYPE::TOWER;
 }
+
+double Tower::get_attack_speed() const
+{
+	return mAttack_speed;
+}
+
+double Tower::get_range() const
+{
+	return mRange;
+}
+

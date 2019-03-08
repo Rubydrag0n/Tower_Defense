@@ -86,3 +86,8 @@ double Damage::get_elec_dmg() const
 {
 	return mElec_dmg;
 }
+
+double Damage::get_dmg_sum() const
+{
+	return mPhys_dmg + mMagic_dmg + mFire_dmg + mWater_dmg + mElec_dmg;
+}
