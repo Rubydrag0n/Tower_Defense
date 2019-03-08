@@ -34,11 +34,11 @@ private:
 	LTexture** mText;
 	LTexture* mHeadline;
 
-	SDL_Color mText_color;
+	
 
 protected:
 	Building* mBuilding;
-
+	SDL_Color mText_color;
 	//map with the buttons that can be used to make great upgrades on the current building level; the string marks the upgrade(for example: 1.3.4.1)
 	std::vector<Button*> mUpgrade_buttons; 
 };

@@ -127,7 +127,7 @@ bool init_graphics()
 				}
 
 				//TODO: Needs Error handling
-				gFont = TTF_OpenFont("resources/GROBOLD.ttf", 28);
+				gFont = TTF_OpenFont("resources/GROBOLD.ttf", 15);
 
 			}
 		}

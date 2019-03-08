@@ -24,4 +24,10 @@ private:
 	Button* mUpgrade_damage_button;
 	Button* mUpgrade_range_button;
 	Button* mUpgrade_attackspeed_button;
+	LTexture* mDmg_text;
+	LTexture* mAs_text;
+	LTexture* mRange_text;
+	LTexture* mDamage_distribution_headline;
+	LTexture* mDamage_distribution_text;
+	
 };
