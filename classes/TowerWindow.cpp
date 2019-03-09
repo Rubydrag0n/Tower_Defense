@@ -2,7 +2,6 @@
 #include "Tower.h"
 #include <iostream>
 #include "LayerHandler.h"
-#include "SDL_setup.h"
 #include "UpgradeButton.h"
 #include "ConfigFile.h"
 
@@ -32,6 +31,7 @@ TowerWindow::~TowerWindow()
 	delete mUpgrade_range_button;
 	delete mUpgrade_attackspeed_button;
 }
+
 
 void TowerWindow::render()
 {

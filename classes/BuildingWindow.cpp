@@ -46,7 +46,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	mText_color = { 0, 0, 0, 0 };
 
 	mHeadline = new LTexture();
-	mHeadline->load_from_rendered_text("Storage", mText_color);
+	mHeadline->load_from_rendered_text("Storage      Maintenance", mText_color);
 }
 
 BuildingWindow::~BuildingWindow()
@@ -101,7 +101,9 @@ void BuildingWindow::render()
 		mText[i]->load_from_rendered_text(
 			Resources::get_name(RESOURCETYPES(i)) 
 				+ ": \t" 
-				+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i))), 
+				+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i))) 
+				+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i)))
+				+ "     " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), 
 			mText_color);
 		dest.y += 20;
 		gLayer_handler->render_to_layer(mText[i], WINDOWS, nullptr, &dest);

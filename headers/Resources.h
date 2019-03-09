@@ -41,6 +41,7 @@ public:
 	Resources operator/(const int &d);
 	//sets new limit, current resources will not change
 	void set_limit(Resources* limit);
+	Resources* get_limit() const;
 
 	//transfers all the resources it can into this object taking into account the limit
 	//the source is emptied during this

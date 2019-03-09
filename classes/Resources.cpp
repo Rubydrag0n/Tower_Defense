@@ -130,6 +130,12 @@ void Resources::set_limit(Resources * limit)
 	this->mLimit = new Resources(limit);
 }
 
+Resources* Resources::get_limit() const
+{
+	return mLimit;
+}
+
+
 bool Resources::transfer(Resources *source)
 {
 	if (this->mLimit == nullptr) {
