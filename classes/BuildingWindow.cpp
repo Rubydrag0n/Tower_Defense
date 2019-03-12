@@ -26,8 +26,8 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	mText = new LTexture*[RESOURCES_TOTAL];
 
 	SDL_Rect button_dim;
-	mButton_offset.x = 0;
-	mButton_offset.y = 0;
+	mButton_offset.x = 150;
+	mButton_offset.y = 110;
 	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
 	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
 	button_dim.w = 26;

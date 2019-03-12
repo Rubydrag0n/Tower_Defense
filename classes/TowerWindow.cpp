@@ -8,18 +8,21 @@
 TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim, tower)
 {
 	SDL_Rect button_dim;
-	button_dim.x = mDim.x + 170;
-	button_dim.y = mDim.y;
+	button_dim.x = mDim.x + 30;
+	button_dim.y = mDim.y + 20;
 	button_dim.w = 26;
 	button_dim.h = 26;
-	mUpgrade_damage_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
-	button_dim.y += 30;
-	mUpgrade_range_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
-	button_dim.y += 30;
-	mUpgrade_attackspeed_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
+	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
+	button_dim.x += 56;
+	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
+	button_dim.x += 56;
+	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
 	mDmg_text = new LTexture();
 	mAs_text = new LTexture();
 	mRange_text = new LTexture();
+	mDamage_upgrade_number_texture = new LTexture();
+	mAttackspeed_upgrade_number_texture = new LTexture();
+	mRange_upgrade_number_texture = new LTexture();
 	mDamage_distribution_headline = new LTexture();
 	mDamage_distribution_headline->load_from_rendered_text("Damagedistribution: ", mText_color);
 	mDamage_distribution_text = new LTexture();
@@ -37,8 +40,8 @@ void TowerWindow::render()
 {
 	BuildingWindow::render();
 	SDL_Rect dest;
-	dest.x = get_dim().x + 10;
-	dest.y = get_dim().y + 220;
+	dest.x = mDim.x + 20;
+	dest.y = mDim.y + 260;
 	dest.w = 0;	//setting these to 0 will not scale anything
 	dest.h = 0;
 
@@ -54,22 +57,15 @@ void TowerWindow::render()
 	for (auto& button : mUpgrade_buttons)
 	{
 		if (button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		{
-			const auto tower_upgrade_section = mBuilding->get_name() + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
-			dmg_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys")
-				+ gConfig_file->value_or_zero(tower_upgrade_section, "magic")
-				+ gConfig_file->value_or_zero(tower_upgrade_section, "fire")
-				+ gConfig_file->value_or_zero(tower_upgrade_section, "water")
-				+ gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-			as_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed"));
-			range_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "range"));
-			dmg_distribution_text = "P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys"))
-				+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))
-				+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "fire"))
-				+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
-					+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg()))  +" + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-		}
+			set_stat_strings_for_upgrade_buttons(button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);	
 	}
+
+	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
+	if (mUpgrade_attackspeed_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
+	if (mUpgrade_range_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
 
 	mDmg_text->load_from_rendered_text(dmg_text, mText_color);
 	gLayer_handler->render_to_layer(mDmg_text, WINDOWS, nullptr, &dest);
@@ -88,23 +84,59 @@ void TowerWindow::render()
 	dest.y += 30;
 	mDamage_distribution_text->load_from_rendered_text(dmg_distribution_text, mText_color);
 	gLayer_handler->render_to_layer(mDamage_distribution_text, WINDOWS, nullptr, &dest);	
+
+	dest.x = mUpgrade_damage_button->get_dimension().x;
+	dest.y = mUpgrade_damage_button->get_dimension().y + 30;
+	mDamage_upgrade_number_texture->load_from_rendered_text(std::to_string(mNumber_of_damage_upgrades), mText_color);
+	gLayer_handler->render_to_layer(mDamage_upgrade_number_texture, WINDOWS, nullptr, &dest);
+
+	dest.x = mUpgrade_attackspeed_button->get_dimension().x;
+	dest.y = mUpgrade_attackspeed_button->get_dimension().y + 30;
+	mAttackspeed_upgrade_number_texture->load_from_rendered_text(std::to_string(mNumber_of_attackspeed_upgrades), mText_color);
+	gLayer_handler->render_to_layer(mAttackspeed_upgrade_number_texture, WINDOWS, nullptr, &dest);
+
+	dest.x = mUpgrade_range_button->get_dimension().x;
+	dest.y = mUpgrade_range_button->get_dimension().y + 30;
+	mRange_upgrade_number_texture->load_from_rendered_text(std::to_string(mNumber_of_range_upgrades), mText_color);
+	gLayer_handler->render_to_layer(mRange_upgrade_number_texture, WINDOWS, nullptr, &dest);
 }
 
-void TowerWindow::upgrade_damage() const
+void TowerWindow::set_stat_strings_for_upgrade_buttons(Button* button, std::string* dmg_text, std::string* as_text, std::string* range_text, std::string* dmg_distribution_text) const
+{
+	const auto tower_upgrade_section = mBuilding->get_name() + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
+	*dmg_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "magic")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "fire")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "water")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+	*as_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed"));
+	*range_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "range"));
+	*dmg_distribution_text = "P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys"))
+		+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))
+		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "fire"))
+		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
+		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+}
+
+
+void TowerWindow::upgrade_damage() 
 {
 	std::cout << "dmg";
+	mNumber_of_damage_upgrades++;
 	dynamic_cast<Tower*>(mBuilding)->upgrade_damage();
 }
 
-void TowerWindow::upgrade_range() const
+void TowerWindow::upgrade_range() 
 {
 	std::cout << "range";
+	mNumber_of_range_upgrades++;
 	dynamic_cast<Tower*>(mBuilding)->upgrade_range();
 }
 
-void TowerWindow::upgrade_attackspeed() const
+void TowerWindow::upgrade_attackspeed() 
 {
 	std::cout << "speed";
+	mNumber_of_attackspeed_upgrades++;
 	dynamic_cast<Tower*>(mBuilding)->upgrade_attack_speed();
 }
 
