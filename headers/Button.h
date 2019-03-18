@@ -26,9 +26,6 @@ public:
 	void on_click(int mouse_x, int mouse_y) override;
 
 private:
-	//Dimensions of the Button
-	SDL_Rect mButton_dimensions;
-
 	//The Position of the Clips
 	SDL_Rect mClips[STATES_TOTAL];
 
@@ -42,4 +39,8 @@ private:
 	int mButton_id;
 
 	std::string mButton_name;
+
+protected:
+	//Dimensions of the Button
+	SDL_Rect mButton_dimensions;
 };

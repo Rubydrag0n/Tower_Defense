@@ -5,6 +5,7 @@
 #include <iostream>
 #include "ConfigFile.h"
 #include "UpgradeButton.h"
+#include "BigUpgradeButton.h"
 
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
 {
@@ -24,6 +25,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	mBuilding = building;
 
 	mText = new LTexture*[RESOURCES_TOTAL];
+	
 
 	SDL_Rect button_dim;
 	mButton_offset.x = 150;
@@ -37,6 +39,8 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 
 	update_great_upgrade_buttons();
 
+
+	
 	//initialize map for text lines
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
@@ -115,11 +119,11 @@ void BuildingWindow::update_great_upgrade_buttons()
 	//first delete old buttons
 	if(!mUpgrade_buttons.empty())
 	{
-		for (auto& button : mUpgrade_buttons)
+		for (auto i = 0; i< mUpgrade_buttons.size(); i++)
 		{
-			delete button;
+			delete mUpgrade_buttons.at(i);
 		}
-		mUpgrade_buttons.clear();
+		mUpgrade_buttons.clear();	
 	}
 
 	//then create new buttons
@@ -137,8 +141,8 @@ void BuildingWindow::update_great_upgrade_buttons()
 		{
 			break;
 		}
-		
-		mUpgrade_buttons.push_back(new UpgradeButton("testbutton", button_dim, this, upgrade_section, UPGRADE_BUTTON));
+		auto button = new BigUpgradeButton(mBuilding->get_name(), "testbutton", button_dim, this, upgrade_section, UPGRADE_BUTTON);
+		mUpgrade_buttons.push_back(button);
 	}
 }
 
@@ -163,7 +167,7 @@ Building* BuildingWindow::get_building() const
 	return mBuilding;
 }
 
-std::vector<Button*> BuildingWindow::get_upgrade_buttons()
+std::vector<UpgradeButton*> BuildingWindow::get_upgrade_buttons()
 {
 	return mUpgrade_buttons;
 }

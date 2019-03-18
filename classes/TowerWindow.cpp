@@ -53,13 +53,13 @@ void TowerWindow::render()
 		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg()))
 		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg()))
 		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg()));
-
+	
+	//changes string if a upgradebutton is hovered
 	for (auto& button : mUpgrade_buttons)
 	{
 		if (button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
 			set_stat_strings_for_upgrade_buttons(button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);	
 	}
-
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
 		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
 	if (mUpgrade_attackspeed_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
@@ -81,6 +81,7 @@ void TowerWindow::render()
 	dest.y += 40;
 	gLayer_handler->render_to_layer(mDamage_distribution_headline, WINDOWS, nullptr, &dest);
 
+	//displays number of little upgrades
 	dest.y += 30;
 	mDamage_distribution_text->load_from_rendered_text(dmg_distribution_text, mText_color);
 	gLayer_handler->render_to_layer(mDamage_distribution_text, WINDOWS, nullptr, &dest);	
