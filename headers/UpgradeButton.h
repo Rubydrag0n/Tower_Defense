@@ -8,6 +8,10 @@ public:
 	~UpgradeButton();
 
 	std::string get_upgrade_section();
+
+	void render() override;
+
 private:
 	std::string mUpgrade_section;
+
 };

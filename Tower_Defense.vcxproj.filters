@@ -228,6 +228,9 @@
     <ClCompile Include="classes\UpgradeButton.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="classes\BigUpgradeButton.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -375,6 +378,9 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\UpgradeButton.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\BigUpgradeButton.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
   </ItemGroup>
