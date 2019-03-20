@@ -61,8 +61,8 @@ public:
 	static std::string get_name(RESOURCETYPES type);
 
 private:
-	std::map<RESOURCETYPES, int> mResources;
-	std::map<RESOURCETYPES, float> mDisplay;
+	int mResources[RESOURCES_TOTAL];
+	float mDisplay[RESOURCES_TOTAL];
 
 	void set_display_zero();
 

@@ -1,23 +1,23 @@
 #include "Resources.h"
 #include <algorithm>
 
-Resources::Resources()
+Resources::Resources() : mResources{ 0 }, mDisplay{ 0.0 }
 {
 	this->set_empty();
 	this->mLimit = nullptr;
 	this->set_display_zero();
 }
 
-Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
+Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food) : mResources { 0 }, mDisplay{ 0.0 }
 {
 	this->set_resources(gold, wood, stone, iron, energy, water, food);
 	this->mLimit = nullptr;
 	this->set_display_zero();
 }
 
-Resources::Resources(Resources* resource, Resources* limit)
+Resources::Resources(Resources* resource, Resources* limit) : mResources{ 0 }, mDisplay{ 0.0 }
 {
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
 		this->set_resource(RESOURCETYPES(i), resource->get_resource(RESOURCETYPES(i)));
 	}
 	if (limit == nullptr) this->mLimit = nullptr;
@@ -60,15 +60,17 @@ int* Resources::get_resource_pointer(const RESOURCETYPES type)
 
 void Resources::set_empty()
 {
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
-		this->set_resource(RESOURCETYPES(i), 0);
+	for (auto& resource : mResources)
+	{
+		resource = 0;
 	}
 }
 
 bool Resources::is_empty()
 {
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
-		if (mResources[RESOURCETYPES(i)] != 0) return false;
+	for (auto resource : mResources)
+	{
+		if (resource != 0) return false;
 	}
 	return true;
 }
@@ -96,20 +98,20 @@ bool Resources::sub(const RESOURCETYPES type, const int res)
 //Returns true if the subtracting succeeded, false if there wasn't enough resources
 bool Resources::sub(Resources *cost)
 {
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
-		if (mResources[RESOURCETYPES(i)] - cost->get_resource(RESOURCETYPES(i)) < 0) {
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
+		if (mResources[i] - cost->get_resource(RESOURCETYPES(i)) < 0) {
 			return false;
 		}
 	}
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
-		mResources[RESOURCETYPES(i)] -= cost->get_resource(RESOURCETYPES(i));
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
+		mResources[i] -= cost->get_resource(RESOURCETYPES(i));
 	}
 	return true;
 }
 
 void Resources::add(Resources *income)
 {
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
 		this->add(RESOURCETYPES(i), income->get_resource(RESOURCETYPES(i)));
 	}
 }
@@ -118,13 +120,13 @@ Resources Resources::operator/(const int &d)
 {
 	Resources r;
 
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
-		r.set_resource(RESOURCETYPES(i), this->get_resource(RESOURCETYPES(i)) / 2);
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
+		r.set_resource(RESOURCETYPES(i), this->get_resource(RESOURCETYPES(i)) / d);
 	}
 	return r;
 }
 
-void Resources::set_limit(Resources * limit)
+void Resources::set_limit(Resources* limit)
 {
 	delete mLimit;
 	this->mLimit = new Resources(limit);
@@ -160,9 +162,10 @@ bool Resources::transfer(const RESOURCETYPES type, int *r)
 		return true;
 	}
 
-	const auto adding = mLimit->get_resource(type) - mResources[type];
+	auto adding = mLimit->get_resource(type) - mResources[type];
 	if (adding > 0)
 	{
+		adding = std::min(adding, *r);
 		this->add(type, *r);
 		*r -= adding;
 	}
@@ -174,11 +177,10 @@ Resources Resources::get_display_resources()
 {
 	Resources res;
 
-	for (auto i = 0; i < RESOURCETYPES::RESOURCES_TOTAL; i++) {
-		auto r = RESOURCETYPES(i);
-		this->mDisplay[r] += float(mResources[r] - mDisplay[r]) / 100.f;
-		if (mResources[r] - mDisplay[r] < 1.f) mDisplay[r] = mResources[r];
-		res.set_resource(r, int(mDisplay[r]));
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
+		this->mDisplay[i] += float(mResources[i] - mDisplay[i]) / 100.f;
+		if (mResources[i] - mDisplay[i] < 1.f) mDisplay[i] = mResources[i];
+		res.set_resource(RESOURCETYPES(i), int(mDisplay[i]));
 	}
 	return res;
 }

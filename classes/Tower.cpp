@@ -52,7 +52,7 @@ void Tower::render()
 		dest.y = int(get_coords().y - mRange + mSprite_dimensions.h/2);
 		dest.w = int(mRange*2);
 		dest.h = int(mRange*2);
-		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mRange_indicator_sprite, WINDOWS, nullptr, &dest);
 
 		temp_window->get_upgrade_damage_button()->enable();
 		temp_window->get_upgrade_damage_button()->set_rendering_enabled(true);

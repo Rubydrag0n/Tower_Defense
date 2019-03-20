@@ -277,7 +277,7 @@ bool Building::transfer_resources_out(Resources * r) const
 	return r->transfer(this->mCurrent_resources);
 }
 
-void Building::transfer_resources(Resources* r, Production* production, bool reverse) const
+void Building::transfer_resources(Resources* r, Production* production, const bool reverse) const
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; i++)
 	{
