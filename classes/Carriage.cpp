@@ -63,12 +63,21 @@ bool Carriage::move_towards(const SDL_Point target)
 {
 	const auto move_dist = mMove_speed / 60.0;
 
-	const auto x_d = target.x - mPosition.x;
+	const auto x_d = int(target.x - mPosition.x);
 	const auto x_d_abs = abs(x_d); //take the absolute value for further calculations
-	const auto y_d = target.y - mPosition.y;
+	const auto y_d = int(target.y - mPosition.y);
 	const auto y_d_abs = abs(y_d); //same as above
 
 	const auto distance_to_target = sqrt(x_d * x_d + y_d * y_d);
+
+	if (x_d > 0)
+		mDirection = RIGHT;
+	else if (x_d < 0)
+		mDirection = LEFT;
+	if (y_d > 0)
+		mDirection = DOWN;
+	else if (y_d < 0)
+		mDirection = UP;
 
 	if (move_dist > distance_to_target)
 	{
@@ -77,8 +86,8 @@ bool Carriage::move_towards(const SDL_Point target)
 		return true;
 	}
 
-	mPosition.x += move_dist * (x_d / (x_d_abs + y_d_abs));
-	mPosition.y += move_dist * (y_d / (x_d_abs + y_d_abs));
+	mPosition.x += move_dist * (double(x_d) / (x_d_abs + y_d_abs));
+	mPosition.y += move_dist * (double(y_d) / (x_d_abs + y_d_abs));
 
 	return false;
 }
