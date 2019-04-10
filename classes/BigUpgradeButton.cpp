@@ -22,7 +22,7 @@ void BigUpgradeButton::render()
 	dest.x -= 130; //upgradename is left of the upgrade button
 	dest.w = 0;
 	dest.h = 0;
-	gLayer_handler->render_to_layer(mUpgrade_name, WINDOWS, nullptr, &dest);
+	gLayer_handler->render_to_layer(mUpgrade_name, WINDOWBUTTONS, nullptr, &dest);
 }
 
 
