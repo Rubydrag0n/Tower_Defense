@@ -168,13 +168,23 @@ void Building::render()
 		{
 			button->set_rendering_enabled(true);
 			button->enable();
-		}		
+		}
+		for (auto& button : mWindow->get_show_more_buttons())
+		{
+			button->set_rendering_enabled(true);
+			button->enable();
+		}
 		mWindow->get_demolish_button()->set_rendering_enabled(true);
 		mWindow->get_demolish_button()->enable();
 		mWindow->set_rendering_enabled(true);
 	}
 	else
 	{
+		for (auto& button : mWindow->get_show_more_buttons())
+		{
+			button->set_rendering_enabled(false);
+			button->disable();
+		}
 		for (auto& button : mWindow->get_upgrade_buttons())
 		{
 			button->set_rendering_enabled(false);

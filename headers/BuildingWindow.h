@@ -19,10 +19,12 @@ public:
 	
 	void demolish_building() const;
 	void upgrade_building(Button* button);//button must be from class UpgradeButton
+	void show_more(Button* button); //
 	void update_great_upgrade_buttons();
 
 	Button* get_demolish_button() const;
 	std::vector<UpgradeButton*> get_upgrade_buttons();
+	std::vector<Button*> get_show_more_buttons();
 	CoordinatesInDouble get_button_offset() const;
 	Building* get_building() const;
 
@@ -40,6 +42,6 @@ private:
 protected:
 	Building* mBuilding;
 	SDL_Color mText_color;
-	//map with the buttons that can be used to make great upgrades on the current building level; the string marks the upgrade(for example: 1.3.4.1)
 	std::vector<UpgradeButton*> mUpgrade_buttons; 
+	std::vector<Button*> mShow_more_buttons;
 };

@@ -28,8 +28,8 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	
 
 	SDL_Rect button_dim;
-	mButton_offset.x = 150;
-	mButton_offset.y = 110;
+	mButton_offset.x = 160;
+	mButton_offset.y = 70;
 	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
 	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
 	button_dim.w = 26;
@@ -86,6 +86,33 @@ void BuildingWindow::upgrade_building(Button* button)
 	update_great_upgrade_buttons();
 }
 
+void BuildingWindow::show_more(Button* button)
+{
+	
+	if (!mUpgrade_buttons.empty())
+	{
+		for (auto i = 0; i < mUpgrade_buttons.size(); i++)
+		{
+			SDL_Rect dim;
+			if(mUpgrade_buttons.at(i)->get_dimension().y > button->get_dimension().y)
+			{
+				dim = mUpgrade_buttons.at(i)->get_dimension();
+				dim.y += 60;
+				mUpgrade_buttons.at(i)->set_dimension(dim);
+				mUpgrade_buttons.at(i)->set_clickable_space(dim);
+			}
+			if (mShow_more_buttons.at(i)->get_dimension().y > button->get_dimension().y)
+			{
+				dim = mShow_more_buttons.at(i)->get_dimension();
+				dim.y += 60;
+				mShow_more_buttons.at(i)->set_dimension(dim);
+				mShow_more_buttons.at(i)->set_clickable_space(dim);
+			}
+		}
+	}
+}
+
+
 void BuildingWindow::render()
 {
 	Window::render();
@@ -122,27 +149,35 @@ void BuildingWindow::update_great_upgrade_buttons()
 		for (auto i = 0; i< mUpgrade_buttons.size(); i++)
 		{
 			delete mUpgrade_buttons.at(i);
+			delete mShow_more_buttons.at(i);
 		}
-		mUpgrade_buttons.clear();	
+		mUpgrade_buttons.clear();
+		mShow_more_buttons.clear();
 	}
 
 	//then create new buttons
-	SDL_Rect button_dim;
-	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
-	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
-	button_dim.w = 26;
-	button_dim.h = 26;
+	SDL_Rect upgrade_button_dim;
+	upgrade_button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
+	upgrade_button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
+	upgrade_button_dim.w = 26;
+	upgrade_button_dim.h = 26;
+	auto show_more_button_dim = upgrade_button_dim;
+	show_more_button_dim.x -= 160;
+
 	
 	for(auto i = 1; ; i++)
 	{
-		button_dim.y += 30;
+		upgrade_button_dim.y += 30;
+		show_more_button_dim.y += 30;
 		auto upgrade_section = mBuilding->get_building_level() + std::to_string(i);
 		if(!gConfig_file->value_exists(mBuilding->get_name() + "/upgrade" + upgrade_section, "exists"))
 		{
 			break;
 		}
-		auto button = new BigUpgradeButton(mBuilding->get_name(), "testbutton", button_dim, this, upgrade_section, UPGRADE_BUTTON);
-		mUpgrade_buttons.push_back(button);
+		auto upgrade_button = new BigUpgradeButton(mBuilding->get_name(), "testbutton", upgrade_button_dim, this, upgrade_section, UPGRADE_BUTTON);
+		mUpgrade_buttons.push_back(upgrade_button);
+		auto show_more_button = new Button("testbutton", show_more_button_dim, this, SHOW_MORE_BUTTON);
+		mShow_more_buttons.push_back(show_more_button);
 	}
 }
 
@@ -150,6 +185,7 @@ void BuildingWindow::on_button_press(const int button_id, Button* button)
 {
 	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
 	if (button_id == UPGRADE_BUTTON) this->upgrade_building(button);
+	if (button_id == SHOW_MORE_BUTTON) this->show_more(button);
 }
 
 Button* BuildingWindow::get_demolish_button() const
@@ -170,4 +206,9 @@ Building* BuildingWindow::get_building() const
 std::vector<UpgradeButton*> BuildingWindow::get_upgrade_buttons()
 {
 	return mUpgrade_buttons;
+}
+
+std::vector<Button*> BuildingWindow::get_show_more_buttons()
+{
+	return mShow_more_buttons;
 }
