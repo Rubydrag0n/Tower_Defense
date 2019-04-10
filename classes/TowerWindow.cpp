@@ -13,10 +13,13 @@ TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim,
 	button_dim.w = 26;
 	button_dim.h = 26;
 	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
+	mUpgrade_damage_button->set_depth(CL_WINDOW);
 	button_dim.x += 56;
 	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
+	mUpgrade_range_button->set_depth(CL_WINDOW);
 	button_dim.x += 56;
 	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
+	mUpgrade_attackspeed_button->set_depth(CL_WINDOW);
 	mDmg_text = new LTexture();
 	mAs_text = new LTexture();
 	mRange_text = new LTexture();
@@ -24,7 +27,7 @@ TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim,
 	mAttackspeed_upgrade_number_texture = new LTexture();
 	mRange_upgrade_number_texture = new LTexture();
 	mDamage_distribution_headline = new LTexture();
-	mDamage_distribution_headline->load_from_rendered_text("Damagedistribution: ", mText_color);
+	mDamage_distribution_headline->load_from_rendered_text("Damage distribution: ", mText_color);
 	mDamage_distribution_text = new LTexture();
 }
 

@@ -30,6 +30,9 @@ public:
 	bool is_clicked() const;
 	void set_clicked(bool value);
 
+	void set_depth(unsigned depth);
+	unsigned get_depth() const;
+
 	//enables the object to be clicked
 	void enable();
 
@@ -50,5 +53,9 @@ private:
 	bool mClicked; 
 
 	//only if this is true the functions will be called
-	bool mEnabled; 
+	bool mEnabled;
+
+	//determines the order of stuff on the screens in terms of which will be clicked
+	//low = background, high = foreground
+	unsigned  mDepth;
 };

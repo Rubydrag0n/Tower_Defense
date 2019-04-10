@@ -94,6 +94,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 
 	//initialize what this building is producing and consuming
 	mProducing = new Production(this);
+
+	set_depth(CL_BUILDINGS);
 }
 
 Building::~Building()

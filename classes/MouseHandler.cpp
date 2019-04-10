@@ -3,18 +3,30 @@
 
 #include "MouseHandler.h"
 #include "SDL_setup.h"
+#include <algorithm>
 
 MouseHandler* gMouse_handler = nullptr;
+
+struct Compare
+{
+	bool operator()(Clickable *a, Clickable *b) const
+	{
+		return a->get_depth() > b->get_depth();		//this will sort reverse, so biggest numbers come first -> descending
+	}
+};
 
 MouseHandler::MouseHandler() : mCurrent_mouse_position{0, 0}
 {
 	mItem_on_mouse = nullptr;
+	mSorted = false;
 }
 
 void MouseHandler::add_clickable(Clickable* c)
 {
 	if (c != nullptr) 
 		this->mClickables.push_back(c);
+
+	set_sorted(false);
 }
 
 void MouseHandler::del_clickable(Clickable* c)
@@ -63,6 +75,9 @@ void MouseHandler::handle_event(SDL_Event *e)
 	auto end = this->mClickables.end();
 	const auto x = e->button.x;
 	const auto y = e->button.y;
+
+	auto clicked_on_something = false;	//may only click on one thing with each event.
+
 	for (std::size_t i = 0; i < mClickables.size(); ++i)  // NOLINT(modernize-loop-convert)
 	{
 		auto it = mClickables.at(i);
@@ -77,10 +92,10 @@ void MouseHandler::handle_event(SDL_Event *e)
 			switch (e->type)
 			{
 			case SDL_MOUSEBUTTONDOWN:
-				if (e->button.button == 1) {
+				if (e->button.button == 1 && !clicked_on_something) {
 					it->set_state(MOUSE_DOWN_LEFT);
 					it->on_click(x, y);
-					return;
+					clicked_on_something = true;
 				}
 				else if (e->button.button == 2)
 				{
@@ -130,4 +145,23 @@ void MouseHandler::get_mouse_position(int *x, int *y) const
 {
 	*x = this->mCurrent_mouse_position.x;
 	*y = this->mCurrent_mouse_position.y;
+}
+
+bool MouseHandler::is_sorted() const
+{
+	return mSorted;
+}
+
+void MouseHandler::set_sorted(const bool sorted)
+{
+	mSorted = sorted;
+}
+
+void MouseHandler::sort_clickables()
+{
+	if (!mSorted)
+	{
+		std::sort(mClickables.begin(), mClickables.end(), Compare());
+		mSorted = true;
+	}
 }

@@ -26,7 +26,14 @@ public:
 	void set_mouse_position(int x, int y);
 	void get_mouse_position(int *x, int *y) const;
 
+	bool is_sorted() const;
+	void set_sorted(bool sorted);
+
+	void sort_clickables();
+
 private:
+	bool mSorted;
+
 	std::vector<Clickable*> mClickables;
 	MouseItem* mItem_on_mouse;
 
