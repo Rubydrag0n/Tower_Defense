@@ -7,7 +7,8 @@
 Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{unit_name},
                                                                                                     mSource(source),
                                                                                                     mDrain(drain),
-                                                                                                    mTransporting(drain),
+                                                                                                    mDelivering(drain),
+																									mRemoving(source),
                                                                                                     mCurrent_activity(
 	                                                                                                    GETTING_IDLE),
                                                                                                     mLevel(level)
@@ -16,8 +17,8 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 
 	if (mSource != nullptr)
 	{
-		mPosition.x = mSource->get_coords().x + TILE_WIDTH / 2;
-		mPosition.y = mSource->get_coords().y + TILE_HEIGHT / 2;
+		mPosition.x = mSource->get_coords().x + TILE_WIDTH / 2.;
+		mPosition.y = mSource->get_coords().y + TILE_HEIGHT / 2.;
 	}
 
 	auto section = unit_name + "/stats";
@@ -31,6 +32,8 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 			gConfig_file->value_or_zero(section, "foodcapacity"));
 	
 	this->mCurrent_resources->set_limit(&limit);
+
+	update_transportation();
 }
 
 void Carriage::on_tick()
@@ -41,12 +44,15 @@ void Carriage::on_tick()
 void Carriage::set_source(Building* b)
 {
 	this->mSource = b;
+	this->mRemoving.update(this->mSource);
+	update_transportation();
 }
 
 void Carriage::set_drain(Building* b)
 {
 	this->mDrain = b;
-	this->mTransporting.update(this->mDrain);
+	this->mDelivering.update(this->mDrain);
+	update_transportation();
 }
 
 Building* Carriage::get_source() const
@@ -57,6 +63,23 @@ Building* Carriage::get_source() const
 Building* Carriage::get_drain() const
 {
 	return this->mDrain;
+}
+
+void Carriage::update_transportation()
+{
+	for (auto i = 0; i < RESOURCES_TOTAL; i++)
+	{
+		auto ir = RESOURCETYPES(i);
+		if (mDelivering[ir] != NONE)
+			mTransporting[ir] = mDelivering[ir];
+		else if (mRemoving[ir] == CONSUMING)
+			mTransporting[ir] = PRODUCING;
+		else if (mRemoving[ir] == PRODUCING)
+			mTransporting[ir] = CONSUMING;
+		else
+			mTransporting[ir] = NONE;
+
+	}
 }
 
 bool Carriage::move_towards(const SDL_Point target)
@@ -178,7 +201,7 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 				if (neighbor == nullptr) continue;
 
 				if (visited.find(neighbor) == visited.end() &&
-					(neighbor->get_building_type() == BUILDINGTYPE::STREET || neighbor == source))
+					(neighbor->get_building_type() == STREET || neighbor == source))
 				{
 					//if this new building hasn't been visited
 					//and is either a street or the target

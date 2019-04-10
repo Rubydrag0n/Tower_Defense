@@ -18,6 +18,8 @@ public:
 	Building* get_source() const;
 	Building* get_drain() const;
 
+	void update_transportation();
+
 	bool move_towards(SDL_Point target);
 
 	void move();
@@ -33,7 +35,13 @@ private:
 	//total capacity
 	Resources* mCurrent_resources;
 
-	//what will be transported, saved as what the drain is consuming
+	//what will be delivered to the drain, saved as what the drain is consuming/producing
+	Production mDelivering;
+
+	//what will be removed from the source, saved as what the source is consuming/producing
+	Production mRemoving;
+
+	//what will be transported, saved from the drain's perspective
 	Production mTransporting;
 
 	ACTIVITY mCurrent_activity;
