@@ -7,11 +7,13 @@
 #include "LayerHandler.h"
 #include "MouseHandler.h"
 #include "Production.h"
+#include "Carriage.h"
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level) : mCoords{coords}, mSprite_dimensions{},
                                                                                 mLevel{level},
                                                                                 mName{std::move(building_name)},
-                                                                                mWindow{nullptr}
+                                                                                mWindow{nullptr},
+																				mCarriage{nullptr}
 {
 	auto building_sprite_section = mName + "/sprite";
 	auto building_stats_section = mName + "/stats";
@@ -101,6 +103,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 Building::~Building()
 {
 	delete mWindow;
+	delete mCarriage;
 	//don't destroy texture, handled by texture class
 }
 

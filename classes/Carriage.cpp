@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include <set>
 #include "ConfigFile.h"
+#include "WareHouse.h"
 
 Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{unit_name},
                                                                                                     mSource(source),
@@ -21,7 +22,7 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 		mPosition.y = mSource->get_coords().y + TILE_HEIGHT / 2.;
 	}
 
-	auto section = unit_name + "/stats";
+	const auto section = unit_name + "/stats";
 	Resources limit;
 	limit.set_resources(gConfig_file->value_or_zero(section, "goldcapacity"),
 			gConfig_file->value_or_zero(section, "woodcapacity"),
@@ -34,6 +35,12 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 	this->mCurrent_resources->set_limit(&limit);
 
 	update_transportation();
+}
+
+Carriage::~Carriage()
+{
+	//put the resources left in the carriage back into the warehouse
+	mLevel->get_main_building()->add_resources(mCurrent_resources);
 }
 
 void Carriage::on_tick()

@@ -35,7 +35,7 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	rect.h = 600;
 	mWindow = new TowerWindow(rect, this);
 
-	new Carriage("carriage", mLevel, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
+	mCarriage = new Carriage("carriage", mLevel, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
 }
 
 void Tower::render()

@@ -9,6 +9,7 @@ class Carriage final
 {
 public:
 	explicit Carriage(const std::string& unit_name, Level* level, Building* source = nullptr, Building* drain = nullptr);
+	~Carriage();
 
 	void on_tick() override;
 
