@@ -85,7 +85,6 @@ void Carriage::update_transportation()
 			mTransporting[ir] = CONSUMING;
 		else
 			mTransporting[ir] = NONE;
-
 	}
 }
 
@@ -100,6 +99,7 @@ bool Carriage::move_towards(const SDL_Point target)
 
 	const auto distance_to_target = sqrt(x_d * x_d + y_d * y_d);
 
+	//set direction for rendering
 	if (x_d > 0)
 		mDirection = RIGHT;
 	else if (x_d < 0)
@@ -179,6 +179,8 @@ void Carriage::move()
 //if path exists returns true and sets the path into mCheckpoints, otherwise returns false
 bool Carriage::update_checkpoints_to(Building * source, Building * target)
 {
+	mCheckpoints.clear();
+
 	if (source == nullptr || target == nullptr) return false;
 
 	//if already there

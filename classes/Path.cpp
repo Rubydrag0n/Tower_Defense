@@ -2,7 +2,7 @@
 #include "Building.h"
 #include "Menu.h"
 
-Path::Path(std::string path_name, SDL_Point coords, Level* level) : Building(std::move(path_name), coords, level), mSpeed_multiplier()
+Path::Path(std::string path_name, const SDL_Point coords, Level* level) : Building(std::move(path_name), coords, level), mSpeed_multiplier()
 {
 	SDL_Rect rect;
 	rect.x = mCoords.x;
@@ -14,7 +14,7 @@ Path::Path(std::string path_name, SDL_Point coords, Level* level) : Building(std
 
 BUILDINGTYPE Path::get_building_type()
 {
-	return BUILDINGTYPE::STREET;
+	return STREET;
 }
 
 double Path::get_speed_multiplier() const

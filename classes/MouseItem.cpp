@@ -100,3 +100,30 @@ void MouseItem::on_right_click(int mouse_x, int mouse_y)
 {
 	gMouse_handler->set_item_on_mouse(nullptr);
 }
+
+void MouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
+{
+	if (mouse_x < 1280 && this->get_state() == MOUSE_DOWN_LEFT)
+	{
+		SDL_Point p;
+		const auto grid_offset_x = mouse_x % TILE_WIDTH;
+		const auto grid_offset_y = mouse_y % TILE_HEIGHT;
+		p.x = mouse_x - grid_offset_x;
+		p.y = mouse_y - grid_offset_y;
+		const auto tile_x = mouse_x / 64;
+		const auto tile_y = mouse_y / 64;
+		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
+		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
+		if (tile_type == mTile_to_build_on)
+		{
+			if (kind_of_object == "path")
+			{
+				if (mLevel->get_resources()->sub(&mConstruction_costs))
+				{
+					new Path(this->mName_of_object, p, mLevel);
+					mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
+				}
+			}
+		}
+	}
+}

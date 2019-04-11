@@ -16,6 +16,7 @@ public:
 
 	void on_click(int mouse_x, int mouse_y) override;
 	void on_right_click(int mouse_x, int mouse_y) override;
+	void on_mouse_over(int mouse_x, int mouse_y) override;
 
 	void render() const;
 
