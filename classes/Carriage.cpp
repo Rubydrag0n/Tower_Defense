@@ -128,6 +128,11 @@ void Carriage::move()
 	const auto y_tile = static_cast<int>(this->mPosition.y / TILE_HEIGHT);
 	const auto here = mLevel->get_building_matrix(x_tile, y_tile);
 
+	//getting the building that's at the next checkpoint for later use
+	Building* next_building = nullptr;
+	if (!mCheckpoints.empty())
+		next_building = mLevel->get_building_matrix(mCheckpoints[0].x / TILE_WIDTH, mCheckpoints[0].y / TILE_HEIGHT);
+
 	switch (this->mCurrent_activity)
 	{
 	case GETTING_IDLE:		
@@ -142,6 +147,16 @@ void Carriage::move()
 			//carriage arrived
 			this->mSource->transfer_resources(this->mCurrent_resources, &mTransporting, true);
 			this->mCurrent_activity = DELIVERING_IDLE;
+			break;
+		}
+
+		//check if there's still a path where we're going (and we're not going to the last building, which is never a path)
+		if (next_building == nullptr 
+			|| (next_building->get_building_type() != STREET
+			&& mCheckpoints.size() >= 2))
+		{
+			//if not, recalculate path
+			update_checkpoints_to(here, mSource);
 			break;
 		}
 
@@ -165,6 +180,17 @@ void Carriage::move()
 			this->mCurrent_activity = GETTING_IDLE;
 			break;
 		}
+
+		//check if there's still a path where we're going (and we're not going to the last building, which is never a path)
+		if (next_building == nullptr
+			|| (next_building->get_building_type() != STREET
+			&& mCheckpoints.size() >= 2))
+		{
+			//if not, recalculate path
+			update_checkpoints_to(here, mDrain);
+			break;
+		}
+
 		if (this->move_towards(mCheckpoints[0]))
 		{
 			//delete first checkpoint
