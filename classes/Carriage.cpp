@@ -4,6 +4,7 @@
 #include <set>
 #include "ConfigFile.h"
 #include "WareHouse.h"
+#include "Path.h"
 
 Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{unit_name},
                                                                                                     mSource(source),
@@ -90,7 +91,12 @@ void Carriage::update_transportation()
 
 bool Carriage::move_towards(const SDL_Point target)
 {
-	const auto move_dist = mMove_speed / 60.0;
+	//building under the carriage (probably a path)
+	const auto here = mLevel->get_building_matrix(mPosition.x / TILE_WIDTH, mPosition.y / TILE_WIDTH);
+
+	const auto speed_multiplier = (here->get_building_type() == STREET) ? dynamic_cast<Path*>(here)->get_speed_multiplier() : 1.;
+
+	const auto move_dist = mMove_speed / 60.0 * speed_multiplier;
 
 	const auto x_d = int(target.x - mPosition.x);
 	const auto x_d_abs = abs(x_d); //take the absolute value for further calculations

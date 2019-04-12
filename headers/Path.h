@@ -7,7 +7,7 @@ class Path final
 	: public Building
 {
 public:
-	Path(std::string path_name, SDL_Point coords, Level* level);
+	Path(const std::string& path_name, SDL_Point coords, Level* level);
 
 	BUILDINGTYPE get_building_type() override;
 
