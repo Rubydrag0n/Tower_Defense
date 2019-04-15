@@ -89,6 +89,8 @@ void MouseHandler::handle_event(SDL_Event *e)
 		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h
 			&& it->is_enabled())
 		{
+			auto const state = SDL_GetMouseState(nullptr, nullptr);
+
 			switch (e->type)
 			{
 			case SDL_MOUSEBUTTONDOWN:
@@ -109,7 +111,16 @@ void MouseHandler::handle_event(SDL_Event *e)
 				}
 				break;
 			case SDL_MOUSEMOTION:
-				it->set_state(MOUSE_OVER);
+
+				//get current state of mouse button to pass through to the clickable
+				if (state & SDL_BUTTON(SDL_BUTTON_LEFT))
+					it->set_state(MOUSE_DOWN_LEFT);
+				else if (state & SDL_BUTTON(SDL_BUTTON_RIGHT))
+					it->set_state(MOUSE_DOWN_RIGHT);
+				else if (state & SDL_BUTTON(SDL_BUTTON_MIDDLE))
+					it->set_state(MOUSE_DOWN_MIDDLE);
+				else
+					it->set_state(MOUSE_OVER);
 				it->on_mouse_over(x, y);
 				break;
 			default:

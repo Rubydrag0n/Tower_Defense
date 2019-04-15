@@ -3,7 +3,7 @@
 #include "SDL_setup.h"
 #include "Carriage.h"
 
-IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL_Point coords, Level* level) : Building(
+IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, const SDL_Point coords, Level* level) : Building(
 	std::move(industrial_building_name), coords, level)
 {
 	SDL_Rect rect;
@@ -13,10 +13,10 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, SDL
 	rect.h = 200;
 	mWindow = new BuildingWindow(rect, this);
 
-	new Carriage("carriage", mLevel, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
+	mCarriage = new Carriage("carriage", mLevel, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
 }
 
 BUILDINGTYPE IndustrialBuilding::get_building_type()
 {
-	return BUILDINGTYPE::INDUSTRIAL_BUILDING;
+	return INDUSTRIAL_BUILDING;
 }

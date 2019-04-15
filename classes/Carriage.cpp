@@ -3,6 +3,7 @@
 #include "SDL_setup.h"
 #include <set>
 #include "ConfigFile.h"
+#include "WareHouse.h"
 
 Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{unit_name},
                                                                                                     mSource(source),
@@ -21,7 +22,7 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 		mPosition.y = mSource->get_coords().y + TILE_HEIGHT / 2.;
 	}
 
-	auto section = unit_name + "/stats";
+	const auto section = unit_name + "/stats";
 	Resources limit;
 	limit.set_resources(gConfig_file->value_or_zero(section, "goldcapacity"),
 			gConfig_file->value_or_zero(section, "woodcapacity"),
@@ -34,6 +35,12 @@ Carriage::Carriage(const std::string& unit_name, Level* level, Building* source,
 	this->mCurrent_resources->set_limit(&limit);
 
 	update_transportation();
+}
+
+Carriage::~Carriage()
+{
+	//put the resources left in the carriage back into the warehouse
+	mLevel->get_main_building()->add_resources(mCurrent_resources);
 }
 
 void Carriage::on_tick()
@@ -78,7 +85,6 @@ void Carriage::update_transportation()
 			mTransporting[ir] = CONSUMING;
 		else
 			mTransporting[ir] = NONE;
-
 	}
 }
 
@@ -93,6 +99,7 @@ bool Carriage::move_towards(const SDL_Point target)
 
 	const auto distance_to_target = sqrt(x_d * x_d + y_d * y_d);
 
+	//set direction for rendering
 	if (x_d > 0)
 		mDirection = RIGHT;
 	else if (x_d < 0)
@@ -121,6 +128,11 @@ void Carriage::move()
 	const auto y_tile = static_cast<int>(this->mPosition.y / TILE_HEIGHT);
 	const auto here = mLevel->get_building_matrix(x_tile, y_tile);
 
+	//getting the building that's at the next checkpoint for later use
+	Building* next_building = nullptr;
+	if (!mCheckpoints.empty())
+		next_building = mLevel->get_building_matrix(mCheckpoints[0].x / TILE_WIDTH, mCheckpoints[0].y / TILE_HEIGHT);
+
 	switch (this->mCurrent_activity)
 	{
 	case GETTING_IDLE:		
@@ -135,6 +147,16 @@ void Carriage::move()
 			//carriage arrived
 			this->mSource->transfer_resources(this->mCurrent_resources, &mTransporting, true);
 			this->mCurrent_activity = DELIVERING_IDLE;
+			break;
+		}
+
+		//check if there's still a path where we're going (and we're not going to the last building, which is never a path)
+		if (next_building == nullptr 
+			|| (next_building->get_building_type() != STREET
+			&& mCheckpoints.size() >= 2))
+		{
+			//if not, recalculate path
+			update_checkpoints_to(here, mSource);
 			break;
 		}
 
@@ -158,6 +180,17 @@ void Carriage::move()
 			this->mCurrent_activity = GETTING_IDLE;
 			break;
 		}
+
+		//check if there's still a path where we're going (and we're not going to the last building, which is never a path)
+		if (next_building == nullptr
+			|| (next_building->get_building_type() != STREET
+			&& mCheckpoints.size() >= 2))
+		{
+			//if not, recalculate path
+			update_checkpoints_to(here, mDrain);
+			break;
+		}
+
 		if (this->move_towards(mCheckpoints[0]))
 		{
 			//delete first checkpoint
@@ -172,6 +205,8 @@ void Carriage::move()
 //if path exists returns true and sets the path into mCheckpoints, otherwise returns false
 bool Carriage::update_checkpoints_to(Building * source, Building * target)
 {
+	mCheckpoints.clear();
+
 	if (source == nullptr || target == nullptr) return false;
 
 	//if already there

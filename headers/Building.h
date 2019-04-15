@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "Enums.h"
 
+class Carriage;
 class Level;
 class Resources;
 class Window;
@@ -90,4 +91,6 @@ protected:
 
 	std::string mBuilding_level; //level of the building, can be changed by GUpgrades
 	int mCount_of_little_upgrades; //count of the little upgrades as a requirement for big upgrades
+
+	Carriage* mCarriage;
 };
