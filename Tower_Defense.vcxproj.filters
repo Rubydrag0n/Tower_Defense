@@ -228,8 +228,14 @@
     <ClCompile Include="classes\UpgradeButton.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="classes\BigUpgradeButton.cpp">
+    <ClCompile Include="classes\BigUpgrade.cpp">
       <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ShowMoreButton.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Text.cpp">
+      <Filter>Source Files\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,8 +386,14 @@
     <ClInclude Include="headers\UpgradeButton.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
-    <ClInclude Include="headers\BigUpgradeButton.h">
+    <ClInclude Include="headers\BigUpgrade.h">
       <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ShowMoreButton.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Text.h">
+      <Filter>Header Files\Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

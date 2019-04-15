@@ -5,7 +5,7 @@
 #include "ButtonObject.h"
 #include "BuildingWindow.h"
 
-Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, const int button_id) : mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mButton_id{ button_id }
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, const int button_id) : mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mTexture_to_render_on(texture_to_render_on), mButton_id{ button_id }
 {
 	const auto section = "button/" + button_name;
 	
@@ -34,9 +34,24 @@ void Button::set_dimension(const SDL_Rect dim)
 	this->mButton_dimensions = dim;
 }
 
+void Button::add_x_dimension(int x)
+{
+	mButton_dimensions.x += x;
+}
+
+void Button::add_y_dimension(int y)
+{
+	mButton_dimensions.y = y;
+}
+
 SDL_Rect Button::get_dimension() const
 {
 	return mButton_dimensions;
+}
+
+Renderable* Button::get_texture_to_render_on()
+{
+	return mTexture_to_render_on;
 }
 
 
@@ -51,7 +66,17 @@ void Button::set_sprite_clips(SDL_Rect * clips)
 void Button::render()
 {
 	//Show current button sprite
-	gLayer_handler->render_to_layer(mButton_sprite, LAYERS::WINDOWBUTTONS, &mClips[this->get_state()], &mButton_dimensions);
+	if(mTexture_to_render_on != nullptr)
+	{
+		if(mTexture_to_render_on->is_rendering_enabled())
+		{
+			gLayer_handler->render_to_layer(mButton_sprite, LAYERS::WINDOWBUTTONS, &mClips[this->get_state()], &mButton_dimensions);
+		}
+	}
+	else
+	{
+		gLayer_handler->render_to_layer(mButton_sprite, LAYERS::WINDOWBUTTONS, &mClips[this->get_state()], &mButton_dimensions);
+	}
 }
 
 void Button::on_click(int mouse_x, int mouse_y)

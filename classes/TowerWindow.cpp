@@ -12,13 +12,13 @@ TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim,
 	button_dim.y = mDim.y + 20;
 	button_dim.w = 26;
 	button_dim.h = 26;
-	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
+	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
 	mUpgrade_damage_button->set_depth(CL_WINDOW);
 	button_dim.x += 56;
-	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
+	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
 	mUpgrade_range_button->set_depth(CL_WINDOW);
 	button_dim.x += 56;
-	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
+	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
 	mUpgrade_attackspeed_button->set_depth(CL_WINDOW);
 	mDmg_text = new LTexture();
 	mAs_text = new LTexture();
@@ -58,10 +58,10 @@ void TowerWindow::render()
 		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg()));
 	
 	//changes string if a upgradebutton is hovered
-	for (auto& button : mUpgrade_buttons)
+	for (auto& upgrade : mBig_upgrades)
 	{
-		if (button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-			set_stat_strings_for_upgrade_buttons(button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);	
+		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button(), &dmg_text, &as_text, &range_text, &dmg_distribution_text);	
 	}
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
 		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);

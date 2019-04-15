@@ -161,35 +161,19 @@ void Building::render()
 
 	if(this->is_clicked())
 	{		
-		for (auto& button : mWindow->get_upgrade_buttons())
+		for (auto& upgrade : mWindow->get_big_upgrades())
 		{
-			button->set_rendering_enabled(true);
-			button->enable();
+			upgrade->get_upgrade_name()->set_rendering_enabled(true);
 		}
-		for (auto& button : mWindow->get_show_more_buttons())
-		{
-			button->set_rendering_enabled(true);
-			button->enable();
-		}
-		mWindow->get_demolish_button()->set_rendering_enabled(true);
-		mWindow->get_demolish_button()->enable();
 		mWindow->set_rendering_enabled(true);
 	}
 	else
 	{
-		for (auto& button : mWindow->get_show_more_buttons())
+		for (auto& upgrade : mWindow->get_big_upgrades())
 		{
-			button->set_rendering_enabled(false);
-			button->disable();
-		}
-		for (auto& button : mWindow->get_upgrade_buttons())
-		{
-			button->set_rendering_enabled(false);
-			button->disable();
+			upgrade->get_upgrade_name()->set_rendering_enabled(false);
 		}
 		mWindow->set_rendering_enabled(false);
-		mWindow->get_demolish_button()->disable();
-		mWindow->get_demolish_button()->set_rendering_enabled(false);
 	}
 }
 

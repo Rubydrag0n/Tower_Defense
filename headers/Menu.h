@@ -4,6 +4,7 @@
 #include "Button.h"
 #include "ButtonObject.h"
 #include "Enums.h"
+#include "Text.h"
 
 class MenuItem;
 
@@ -23,7 +24,7 @@ public:
 
 private:
 	Level* mLevel;
-	LTexture* mMenu_texture;
+	Text* mMenu_texture;
 
 	std::map<BUILDINGTYPE, std::vector<MenuItem*>*> mMenu_items;
 	std::map<BUILDINGTYPE, Button*> mButtons;
