@@ -27,7 +27,10 @@ BigUpgrade::BigUpgrade(std::string obj_name, std::string upgrade_section, Upgrad
 
 BigUpgrade::~BigUpgrade()
 {
-	
+	delete mBig_upgrade_button;
+	delete mShow_more_button;
+	delete mUpgrade_name;
+	delete mUpgrade_description;
 }
 
 void BigUpgrade::shift(int v)

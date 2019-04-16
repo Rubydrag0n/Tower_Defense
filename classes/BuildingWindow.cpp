@@ -113,6 +113,14 @@ void BuildingWindow::show_more(Button* button)
 void BuildingWindow::render()
 {
 	Window::render();
+	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		mText[i]->set_text(Resources::get_name(RESOURCETYPES(i))
+			+ ": \t"
+			+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i)))
+			+ "     " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))));
+	}
 }
 
 void BuildingWindow::update_great_upgrades()

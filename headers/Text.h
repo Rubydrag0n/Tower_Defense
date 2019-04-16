@@ -12,12 +12,15 @@ public:
 
 	void add_y_dim(int y);
 
+	void set_text(std::string text);
+
 	void render() override;
 
 private:
 	LTexture* mText_texture = new LTexture();
 
 	std::string mText;
+	SDL_Color mText_color;
 
 	SDL_Rect mDim;
 	LAYERS mLayer;
