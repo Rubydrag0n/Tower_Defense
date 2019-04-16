@@ -10,6 +10,8 @@ public:
 	Text(std::string text, SDL_Rect dim, LAYERS layer, SDL_Color text_color, Renderable* texture_to_render_on);
 	~Text();
 
+	void add_y_dim(int y);
+
 	void render() override;
 
 private:

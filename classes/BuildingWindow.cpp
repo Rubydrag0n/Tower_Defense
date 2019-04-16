@@ -94,20 +94,18 @@ void BuildingWindow::upgrade_building(Button* button)
 
 void BuildingWindow::show_more(Button* button)
 {
-	
+	auto value_to_shift = 60; // y-direction-shift
 	if (!mBig_upgrades.empty())
 	{
 		for (auto i = 0; i < mBig_upgrades.size(); i++)
 		{
-			auto big_upgrade_button = mBig_upgrades.at(i)->get_big_upgrade_button();
-			auto show_more_button = mBig_upgrades.at(i)->get_show_more_button();
-			if(big_upgrade_button->get_dimension().y > button->get_dimension().y)
-			{
-				big_upgrade_button->add_y_dimension(60);
-				big_upgrade_button->set_clickable_space(big_upgrade_button->get_dimension());
-				show_more_button->add_y_dimension(60);
-				show_more_button->set_clickable_space(show_more_button->get_dimension());
-			}
+			auto big_upgrade = mBig_upgrades.at(i);
+		
+			if (big_upgrade->is_upgrade_description_shown()) big_upgrade->set_upgrade_description_shown(false);
+			if (big_upgrade->get_show_more_button() == button) big_upgrade->set_upgrade_description_shown(true);
+
+			if (big_upgrade->is_shifted_down())	big_upgrade->shift(-value_to_shift);
+			if(big_upgrade->get_show_more_button()->get_dimension().y > button->get_dimension().y) big_upgrade->shift(value_to_shift);
 		}
 	}
 }

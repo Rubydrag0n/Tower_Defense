@@ -41,7 +41,7 @@ void Button::add_x_dimension(int x)
 
 void Button::add_y_dimension(int y)
 {
-	mButton_dimensions.y = y;
+	mButton_dimensions.y += y;
 }
 
 SDL_Rect Button::get_dimension() const

@@ -28,3 +28,9 @@ void Text::render()
 	}
 }
 
+void Text::add_y_dim(int y)
+{
+	mDim.y += y;
+}
+
+
