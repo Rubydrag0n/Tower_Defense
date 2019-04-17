@@ -34,7 +34,9 @@ private:
 	CoordinatesInDouble mButton_offset;
 
 	//the textures can't be immediately deleted, so they are reused instead
-	Text** mText;
+	Text** mResource_names;
+	Text** mStorage_values;
+	Text** mMaintenance_values;
 	Text* mHeadline;
 
 protected:

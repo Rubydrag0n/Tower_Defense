@@ -23,7 +23,9 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	}
 	mBuilding = building;
 
-	mText = new Text*[RESOURCES_TOTAL];
+	mResource_names = new Text*[RESOURCES_TOTAL];
+	mStorage_values = new Text*[RESOURCES_TOTAL];
+	mMaintenance_values = new Text*[RESOURCES_TOTAL];
 	
 	SDL_Rect button_dim;
 	mButton_offset.x = 160;
@@ -44,18 +46,18 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	headline_dest.w = 0;	//setting these to 0 will not scale anything
 	headline_dest.h = 0;
 
-	mHeadline = new Text("Storage      Maintenance", headline_dest, WINDOWBUTTONS, mText_color, this);
+	mHeadline = new Text("       Storage   Mainten", headline_dest, WINDOWBUTTONS, mText_color, this);
 	
 	//initialize map for text lines
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		headline_dest.y += 20;
-		mText[i] = new Text(Resources::get_name(RESOURCETYPES(i))
-			+ ": \t"
-			+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
-			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i)))
-			+ "     " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), 
-			headline_dest, WINDOWS, mText_color, this);
+		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), headline_dest, WINDOWS, mText_color, this);
+		mStorage_values[i] = new Text(std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWBUTTONS, mText_color, this);
+		mStorage_values[i]->add_x_dim(60);
+		mMaintenance_values[i] = new Text(std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWBUTTONS, mText_color, this);
+		mMaintenance_values[i]->add_x_dim(130);
 	}
 }
 
@@ -69,9 +71,13 @@ BuildingWindow::~BuildingWindow()
 
 	for (auto i = 0; i < RESOURCES_TOTAL; i++)
 	{
-		delete mText[i];
+		delete mResource_names[i];
+		delete mStorage_values[i];
+		delete mMaintenance_values[i];
 	}
-	delete[] mText;
+	delete[] mResource_names;
+	delete[] mStorage_values;
+	delete[] mMaintenance_values;
 }
 
 void BuildingWindow::demolish_building() const
@@ -115,11 +121,10 @@ void BuildingWindow::render()
 	Window::render();
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
-		mText[i]->set_text(Resources::get_name(RESOURCETYPES(i))
-			+ ": \t"
-			+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
-			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i)))
-			+ "     " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))));
+		mResource_names[i]->set_text(Resources::get_name(RESOURCETYPES(i)));
+		mStorage_values[i]->set_text(std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i))));
+		mMaintenance_values[i]->set_text(std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))));
 	}
 }
 

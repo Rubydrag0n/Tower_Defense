@@ -34,6 +34,10 @@ void Text::add_y_dim(int y)
 	mDim.y += y;
 }
 
+void Text::add_x_dim(int x)
+{
+	mDim.x += x;
+}
 
 void Text::set_text(std::string text)
 {

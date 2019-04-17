@@ -164,18 +164,10 @@ void Building::render()
 
 	if(this->is_clicked())
 	{		
-		for (auto& upgrade : mWindow->get_big_upgrades())
-		{
-			upgrade->get_upgrade_name()->set_rendering_enabled(true);
-		}
 		mWindow->set_rendering_enabled(true);
 	}
 	else
 	{
-		for (auto& upgrade : mWindow->get_big_upgrades())
-		{
-			upgrade->get_upgrade_name()->set_rendering_enabled(false);
-		}
 		mWindow->set_rendering_enabled(false);
 	}
 }

@@ -11,6 +11,7 @@ public:
 	~Text();
 
 	void add_y_dim(int y);
+	void add_x_dim(int x);
 
 	void set_text(std::string text);
 
