@@ -22,11 +22,11 @@ Menu::Menu(Level *level)
 
 	dim.x = 1400;
 	mButtons[BUILDINGTYPE::INDUSTRIAL_BUILDING]
-		= new Button("TowerButton", dim, this, BUILDINGTYPE::INDUSTRIAL_BUILDING);
+		= new Button("ResourceButton", dim, this, BUILDINGTYPE::INDUSTRIAL_BUILDING);
 
 	dim.x = 1500;
 	mButtons[BUILDINGTYPE::WAREHOUSE]
-		= new Button("TowerButton", dim, this, BUILDINGTYPE::WAREHOUSE);
+		= new Button("BuildingsButton", dim, this, BUILDINGTYPE::WAREHOUSE);
 
 	dim.x = 1600;
 	mButtons[BUILDINGTYPE::STREET]
