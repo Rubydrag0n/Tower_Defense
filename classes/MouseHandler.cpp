@@ -83,7 +83,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 		auto it = mClickables.at(i);
 		if (e->button.button == 1 && e->button.state == SDL_PRESSED)
 		{
-			it->set_clicked(false);
+			//it->set_clicked(false);
 		}
 		const auto rect = it->get_clickable_space();
 		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h

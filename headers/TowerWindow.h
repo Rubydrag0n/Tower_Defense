@@ -31,13 +31,16 @@ private:
 	int mNumber_of_damage_upgrades = 0;
 	int mNumber_of_attackspeed_upgrades = 0;
 	int mNumber_of_range_upgrades = 0;
-	LTexture* mDmg_text;
-	LTexture* mAs_text;
-	LTexture* mRange_text;
-	LTexture* mDamage_distribution_headline;
-	LTexture* mDamage_distribution_text;
-	LTexture* mDamage_upgrade_number_texture;
-	LTexture* mAttackspeed_upgrade_number_texture;
-	LTexture* mRange_upgrade_number_texture;
+	Text* mDmg_text;
+	Text* mDmg_value;
+	Text* mAs_text;
+	Text* mAs_value;
+	Text* mRange_text;
+	Text* mRange_value;
+	Text* mDamage_distribution_headline;
+	Text* mDamage_distribution_text;
+	Text* mDamage_upgrade_number_texture;
+	Text* mAttackspeed_upgrade_number_texture;
+	Text* mRange_upgrade_number_texture;
 	
 };

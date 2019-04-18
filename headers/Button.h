@@ -10,12 +10,15 @@ class Button
 {
 public:
 	//creates a button with dimensions (and position) dim and a function onclick that gets called when the button is clicked on
-	Button(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, int button_id = 0);
+	Button(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, int button_id = 0);
 	~Button();
 
 	//Sets dimension of the button on the screen
 	void set_dimension(SDL_Rect dim);
+	void add_x_dimension(int x);
+	void add_y_dimension(int y);
 	SDL_Rect get_dimension() const;
+	Renderable* get_texture_to_render_on();
 
 	//Sets the Clips
 	void set_sprite_clips(SDL_Rect *clips);
@@ -39,6 +42,9 @@ private:
 	int mButton_id;
 
 	std::string mButton_name;
+
+	//if this obj is not rendered then the button is also not rendered(can be null)
+	Renderable* mTexture_to_render_on;
 
 protected:
 	//Dimensions of the Button

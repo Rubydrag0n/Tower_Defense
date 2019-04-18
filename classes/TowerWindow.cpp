@@ -12,23 +12,58 @@ TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim,
 	button_dim.y = mDim.y + 20;
 	button_dim.w = 26;
 	button_dim.h = 26;
-	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
+	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
 	mUpgrade_damage_button->set_depth(CL_WINDOW);
 	button_dim.x += 56;
-	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
+	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
 	mUpgrade_range_button->set_depth(CL_WINDOW);
 	button_dim.x += 56;
-	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
+	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
 	mUpgrade_attackspeed_button->set_depth(CL_WINDOW);
-	mDmg_text = new LTexture();
-	mAs_text = new LTexture();
-	mRange_text = new LTexture();
-	mDamage_upgrade_number_texture = new LTexture();
-	mAttackspeed_upgrade_number_texture = new LTexture();
-	mRange_upgrade_number_texture = new LTexture();
-	mDamage_distribution_headline = new LTexture();
-	mDamage_distribution_headline->load_from_rendered_text("Damage distribution: ", mText_color);
-	mDamage_distribution_text = new LTexture();
+
+	SDL_Rect dest;
+	dest.h = 0;
+	dest.w = 0;
+	//number of little upgrades displayed
+	dest.x = mUpgrade_damage_button->get_dimension().x;
+	dest.y = mUpgrade_damage_button->get_dimension().y + 30;
+	mDamage_upgrade_number_texture = new Text(std::to_string(mNumber_of_damage_upgrades), dest, WINDOWS, mText_color, this);
+
+	dest.x = mUpgrade_attackspeed_button->get_dimension().x;
+	dest.y = mUpgrade_attackspeed_button->get_dimension().y + 30;
+	mAttackspeed_upgrade_number_texture = new Text(std::to_string(mNumber_of_attackspeed_upgrades), dest, WINDOWS, mText_color, this);
+
+	dest.x = mUpgrade_range_button->get_dimension().x;
+	dest.y = mUpgrade_range_button->get_dimension().y + 30;
+	mRange_upgrade_number_texture = new Text(std::to_string(mNumber_of_range_upgrades), dest, WINDOWS, mText_color, this);
+
+	//turret stats-text displayed(const)
+	dest.x = mDim.x + 20;
+	dest.y = mDim.y + 260;
+	dest.w = 0;	//setting these to 0 will not scale anything
+	dest.h = 0;
+	mDmg_text = new Text("Dmg: ", dest, WINDOWS, mText_color, this);
+	dest.y += 30;
+	mAs_text = new Text("AS: ", dest, WINDOWS, mText_color, this);
+	dest.y += 30;
+	mRange_text = new Text("Range: ", dest, WINDOWS, mText_color, this);
+	dest.y += 30;
+	mDamage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, mText_color, this);
+	dest.y += 30;
+	mDamage_distribution_text = new Text("P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg()))
+		+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg()))
+		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg()))
+		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg()))
+		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg())), dest, WINDOWS, mText_color, this);
+
+	//turret stats-numbers displayed(dynamic)
+	dest.x = mDim.x + 80;
+	dest.y = mDim.y + 260;
+	mDmg_value = new Text(std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_dmg_sum())), dest, WINDOWS, mText_color, this);
+	dest.y += 30;
+	mAs_value = new Text(std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_attack_speed())), dest, WINDOWS, mText_color, this);
+	dest.y += 30;
+	mRange_value = new Text(std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_range())), dest, WINDOWS, mText_color, this);
 }
 
 TowerWindow::~TowerWindow()
@@ -42,67 +77,41 @@ TowerWindow::~TowerWindow()
 void TowerWindow::render()
 {
 	BuildingWindow::render();
-	SDL_Rect dest;
-	dest.x = mDim.x + 20;
-	dest.y = mDim.y + 260;
-	dest.w = 0;	//setting these to 0 will not scale anything
-	dest.h = 0;
 
-	auto dmg_text = "Dmg: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_dmg_sum()));
-	auto as_text = "AS: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_attack_speed()));
-	auto range_text = "Range: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_range()));
+	//updates texture: number of little upgrades
+	mDamage_upgrade_number_texture->set_text(std::to_string(mNumber_of_damage_upgrades));
+	mAttackspeed_upgrade_number_texture->set_text(std::to_string(mNumber_of_attackspeed_upgrades));
+	mRange_upgrade_number_texture->set_text(std::to_string(mNumber_of_range_upgrades));
+
+	//updates texture: stat-values for tower
+	auto dmg_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_dmg_sum()));
+	auto as_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_attack_speed()));
+	auto range_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_range()));
 	auto dmg_distribution_text = "P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg()))
 		+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg()))
 		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg()))
 		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg()))
 		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg()));
-	
+
 	//changes string if a upgradebutton is hovered
-	for (auto& button : mUpgrade_buttons)
+	for (auto& upgrade : mBig_upgrades)
 	{
-		if (button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-			set_stat_strings_for_upgrade_buttons(button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);	
+		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button(), &dmg_value, &as_value, &range_value, &dmg_distribution_text);	
 	}
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
+		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button, &dmg_value, &as_value, &range_value, &dmg_distribution_text);
 	if (mUpgrade_attackspeed_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
+		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button, &dmg_value, &as_value, &range_value, &dmg_distribution_text);
 	if (mUpgrade_range_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button, &dmg_text, &as_text, &range_text, &dmg_distribution_text);
+		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button, &dmg_value, &as_value, &range_value, &dmg_distribution_text);
 
-	mDmg_text->load_from_rendered_text(dmg_text, mText_color);
-	gLayer_handler->render_to_layer(mDmg_text, WINDOWS, nullptr, &dest);
+	mDmg_value->set_text(dmg_value);
+	mAs_value->set_text(as_value);
+	mRange_value->set_text(range_value);
+	mDamage_distribution_text->set_text(dmg_distribution_text);
 
-	dest.y += 30;
-	mAs_text->load_from_rendered_text(as_text, mText_color);
-	gLayer_handler->render_to_layer(mAs_text, WINDOWS, nullptr, &dest);
 
-	dest.y += 30;
-	mRange_text->load_from_rendered_text(range_text, mText_color);
-	gLayer_handler->render_to_layer(mRange_text, WINDOWS, nullptr, &dest);
-
-	dest.y += 40;
-	gLayer_handler->render_to_layer(mDamage_distribution_headline, WINDOWS, nullptr, &dest);
-
-	//displays number of little upgrades
-	dest.y += 30;
-	mDamage_distribution_text->load_from_rendered_text(dmg_distribution_text, mText_color);
-	gLayer_handler->render_to_layer(mDamage_distribution_text, WINDOWS, nullptr, &dest);	
-
-	dest.x = mUpgrade_damage_button->get_dimension().x;
-	dest.y = mUpgrade_damage_button->get_dimension().y + 30;
-	mDamage_upgrade_number_texture->load_from_rendered_text(std::to_string(mNumber_of_damage_upgrades), mText_color);
-	gLayer_handler->render_to_layer(mDamage_upgrade_number_texture, WINDOWS, nullptr, &dest);
-
-	dest.x = mUpgrade_attackspeed_button->get_dimension().x;
-	dest.y = mUpgrade_attackspeed_button->get_dimension().y + 30;
-	mAttackspeed_upgrade_number_texture->load_from_rendered_text(std::to_string(mNumber_of_attackspeed_upgrades), mText_color);
-	gLayer_handler->render_to_layer(mAttackspeed_upgrade_number_texture, WINDOWS, nullptr, &dest);
-
-	dest.x = mUpgrade_range_button->get_dimension().x;
-	dest.y = mUpgrade_range_button->get_dimension().y + 30;
-	mRange_upgrade_number_texture->load_from_rendered_text(std::to_string(mNumber_of_range_upgrades), mText_color);
-	gLayer_handler->render_to_layer(mRange_upgrade_number_texture, WINDOWS, nullptr, &dest);
 }
 
 void TowerWindow::set_stat_strings_for_upgrade_buttons(Button* button, std::string* dmg_text, std::string* as_text, std::string* range_text, std::string* dmg_distribution_text) const

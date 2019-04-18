@@ -5,7 +5,6 @@
 #include <iostream>
 #include "ConfigFile.h"
 #include "UpgradeButton.h"
-#include "BigUpgradeButton.h"
 
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
 {
@@ -24,9 +23,10 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	}
 	mBuilding = building;
 
-	mText = new LTexture*[RESOURCES_TOTAL];
+	mResource_names = new Text*[RESOURCES_TOTAL];
+	mStorage_values = new Text*[RESOURCES_TOTAL];
+	mMaintenance_values = new Text*[RESOURCES_TOTAL];
 	
-
 	SDL_Rect button_dim;
 	mButton_offset.x = 160;
 	mButton_offset.y = 70;
@@ -35,37 +35,49 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	button_dim.w = 26;
 	button_dim.h = 26;
 
-	mDemolish_button = new Button("testbutton", button_dim, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
+	mDemolish_button = new Button("testbutton", button_dim, this, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
 
-	update_great_upgrade_buttons();
+	update_great_upgrades();
 
+	mText_color = { 0, 0, 0, 0 };
+	SDL_Rect headline_dest;
+	headline_dest.x = get_dim().x + 20;
+	headline_dest.y = get_dim().y + 420;
+	headline_dest.w = 0;	//setting these to 0 will not scale anything
+	headline_dest.h = 0;
 
+	mHeadline = new Text("       Storage   Mainten", headline_dest, WINDOWBUTTONS, mText_color, this);
 	
 	//initialize map for text lines
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
-		mText[i] = new LTexture();
+		headline_dest.y += 20;
+		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), headline_dest, WINDOWS, mText_color, this);
+		mStorage_values[i] = new Text(std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWBUTTONS, mText_color, this);
+		mStorage_values[i]->add_x_dim(60);
+		mMaintenance_values[i] = new Text(std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWBUTTONS, mText_color, this);
+		mMaintenance_values[i]->add_x_dim(130);
 	}
-
-	mText_color = { 0, 0, 0, 0 };
-
-	mHeadline = new LTexture();
-	mHeadline->load_from_rendered_text("Storage      Maintenance", mText_color);
 }
 
 BuildingWindow::~BuildingWindow()
 {
 	delete mDemolish_button;
-	for (auto& button : mUpgrade_buttons)
+	for (auto& upgrade : mBig_upgrades)
 	{
-		delete button;
+		delete upgrade;
 	}
 
 	for (auto i = 0; i < RESOURCES_TOTAL; i++)
 	{
-		delete mText[i];
+		delete mResource_names[i];
+		delete mStorage_values[i];
+		delete mMaintenance_values[i];
 	}
-	delete[] mText;
+	delete[] mResource_names;
+	delete[] mStorage_values;
+	delete[] mMaintenance_values;
 }
 
 void BuildingWindow::demolish_building() const
@@ -83,101 +95,74 @@ void BuildingWindow::upgrade_building(Button* button)
 	}
 	mBuilding->upgrade(building_upgrade_section);
 	mBuilding->set_building_level(dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() + ".");
-	update_great_upgrade_buttons();
+	update_great_upgrades();
 }
 
 void BuildingWindow::show_more(Button* button)
 {
-	
-	if (!mUpgrade_buttons.empty())
+	auto value_to_shift = 60; // y-direction-shift
+	if (!mBig_upgrades.empty())
 	{
-		for (auto i = 0; i < mUpgrade_buttons.size(); i++)
+		for (auto i = 0; i < mBig_upgrades.size(); i++)
 		{
-			SDL_Rect dim;
-			if(mUpgrade_buttons.at(i)->get_dimension().y > button->get_dimension().y)
-			{
-				dim = mUpgrade_buttons.at(i)->get_dimension();
-				dim.y += 60;
-				mUpgrade_buttons.at(i)->set_dimension(dim);
-				mUpgrade_buttons.at(i)->set_clickable_space(dim);
-			}
-			if (mShow_more_buttons.at(i)->get_dimension().y > button->get_dimension().y)
-			{
-				dim = mShow_more_buttons.at(i)->get_dimension();
-				dim.y += 60;
-				mShow_more_buttons.at(i)->set_dimension(dim);
-				mShow_more_buttons.at(i)->set_clickable_space(dim);
-			}
+			auto big_upgrade = mBig_upgrades.at(i);
+		
+			if (big_upgrade->is_upgrade_description_shown()) big_upgrade->set_upgrade_description_shown(false);
+			if (big_upgrade->get_show_more_button() == button) big_upgrade->set_upgrade_description_shown(true);
+
+			if (big_upgrade->is_shifted_down())	big_upgrade->shift(-value_to_shift);
+			if(big_upgrade->get_show_more_button()->get_dimension().y > button->get_dimension().y) big_upgrade->shift(value_to_shift);
 		}
 	}
 }
-
 
 void BuildingWindow::render()
 {
 	Window::render();
-
-	SDL_Rect dest;
-	dest.x = get_dim().x + 20;
-	dest.y = get_dim().y + 420;
-	dest.w = 0;	//setting these to 0 will not scale anything
-	dest.h = 0;
-
-	//render headline
-	gLayer_handler->render_to_layer(mHeadline, WINDOWS, nullptr, &dest);
-
-	//render all the single resource lines
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
-		mText[i]->load_from_rendered_text(
-			Resources::get_name(RESOURCETYPES(i)) 
-				+ ": \t" 
-				+ std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i))) 
-				+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i)))
-				+ "     " + std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), 
-			mText_color);
-		dest.y += 20;
-		gLayer_handler->render_to_layer(mText[i], WINDOWS, nullptr, &dest);
+		mResource_names[i]->set_text(Resources::get_name(RESOURCETYPES(i)));
+		mStorage_values[i]->set_text(std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i))));
+		mMaintenance_values[i]->set_text(std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))));
 	}
 }
 
-void BuildingWindow::update_great_upgrade_buttons()
+void BuildingWindow::update_great_upgrades()
 {
 	//first delete old buttons
-	if(!mUpgrade_buttons.empty())
+	if(!mBig_upgrades.empty())
 	{
-		for (auto i = 0; i< mUpgrade_buttons.size(); i++)
+		for (auto i = 0; i< mBig_upgrades.size(); i++)
 		{
-			delete mUpgrade_buttons.at(i);
-			delete mShow_more_buttons.at(i);
+			delete mBig_upgrades.at(i);
 		}
-		mUpgrade_buttons.clear();
-		mShow_more_buttons.clear();
+		mBig_upgrades.clear();
 	}
 
 	//then create new buttons
-	SDL_Rect upgrade_button_dim;
-	upgrade_button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
-	upgrade_button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
-	upgrade_button_dim.w = 26;
-	upgrade_button_dim.h = 26;
-	auto show_more_button_dim = upgrade_button_dim;
-	show_more_button_dim.x -= 160;
-
+	SDL_Rect button_dim;
+	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
+	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
+	button_dim.w = 26;
+	button_dim.h = 26;
 	
 	for(auto i = 1; ; i++)
 	{
-		upgrade_button_dim.y += 30;
-		show_more_button_dim.y += 30;
+		const auto gap_between_to_upgrades = 30;
+		const auto y_difference = -160; // how much the Show-More-Button is away from the Big-Upgrade-Button on the y-Axis
+		button_dim.y += gap_between_to_upgrades;
 		auto upgrade_section = mBuilding->get_building_level() + std::to_string(i);
 		if(!gConfig_file->value_exists(mBuilding->get_name() + "/upgrade" + upgrade_section, "exists"))
 		{
 			break;
 		}
-		auto upgrade_button = new BigUpgradeButton(mBuilding->get_name(), "testbutton", upgrade_button_dim, this, upgrade_section, UPGRADE_BUTTON);
-		mUpgrade_buttons.push_back(upgrade_button);
-		auto show_more_button = new Button("testbutton", show_more_button_dim, this, SHOW_MORE_BUTTON);
-		mShow_more_buttons.push_back(show_more_button);
+		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, this, upgrade_section, UPGRADE_BUTTON);
+		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, this, SHOW_MORE_BUTTON);
+		show_more_button->add_x_dimension(y_difference);
+		show_more_button->set_clickable_space(show_more_button->get_dimension());
+		auto big_upgrade = new BigUpgrade(mBuilding->get_name(), upgrade_section, big_upgrade_button, show_more_button);
+		mBig_upgrades.push_back(big_upgrade);
 	}
 }
 
@@ -203,12 +188,7 @@ Building* BuildingWindow::get_building() const
 	return mBuilding;
 }
 
-std::vector<UpgradeButton*> BuildingWindow::get_upgrade_buttons()
+std::vector<BigUpgrade*> BuildingWindow::get_big_upgrades()
 {
-	return mUpgrade_buttons;
-}
-
-std::vector<Button*> BuildingWindow::get_show_more_buttons()
-{
-	return mShow_more_buttons;
+	return mBig_upgrades;
 }

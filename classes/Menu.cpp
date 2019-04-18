@@ -1,8 +1,6 @@
 #include <SDL.h>
 #include <functional>
-
 #include "Menu.h"
-#include "LTexture.h"
 #include "LayerHandler.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
@@ -10,7 +8,6 @@
 Menu::Menu(Level *level)
 {
 	this->mLevel = level;
-	this->mMenu_texture = nullptr;
 	this->mOpen_tab = TOWER;
 	SDL_Rect dim;
 	dim.x = 1300;
@@ -18,19 +15,19 @@ Menu::Menu(Level *level)
 	dim.w = 100;
 	dim.h = 40;
 	mButtons[BUILDINGTYPE::TOWER]
-		= new Button("TowerButton", dim, this, BUILDINGTYPE::TOWER);
+		= new Button("TowerButton", dim, this, nullptr, BUILDINGTYPE::TOWER);
 
 	dim.x = 1400;
 	mButtons[BUILDINGTYPE::INDUSTRIAL_BUILDING]
-		= new Button("ResourceButton", dim, this, BUILDINGTYPE::INDUSTRIAL_BUILDING);
+		= new Button("ResourceButton", dim, this, nullptr, BUILDINGTYPE::INDUSTRIAL_BUILDING);
 
 	dim.x = 1500;
 	mButtons[BUILDINGTYPE::WAREHOUSE]
-		= new Button("BuildingsButton", dim, this, BUILDINGTYPE::WAREHOUSE);
+		= new Button("BuildingsButton", dim, this, nullptr, BUILDINGTYPE::WAREHOUSE);
 
 	dim.x = 1600;
 	mButtons[BUILDINGTYPE::STREET]
-		= new Button("TowerButton", dim, this, BUILDINGTYPE::STREET);
+		= new Button("TowerButton", dim, this, nullptr, BUILDINGTYPE::STREET);
 
 
 	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
@@ -39,6 +36,22 @@ Menu::Menu(Level *level)
 
 	this->sort_items_into_menu();
 	this->show_tab(BUILDINGTYPE::TOWER);
+
+	const SDL_Color text_color = { 0, 0, 255, 0 };
+	SDL_Rect dest;
+	dest.x = 0;
+	dest.y = 1050;
+	dest.w = 0;	//setting to 0 doesn't scale anything
+	dest.h = 0;
+	mMenu_texture = new Text("lives: " + std::to_string(mLevel->get_lives()) +
+		" \tgold: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(GOLD)) +
+		" \twood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WOOD)) +
+		" \tstone: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(STONE)) +
+		" \tiron: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(IRON)) +
+		" \tenergy: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(ENERGY)) +
+		" \twater: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WATER)) +
+		" \tfood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(FOOD)),
+		dest, WINDOWS, text_color, nullptr);
 }
 
 Menu::~Menu()
@@ -117,34 +130,7 @@ void Menu::sort_items_into_menu()
 
 void Menu::render()
 {
-	const SDL_Color text_color = { 0, 0, 255, 0};
 
-	//if there is a texture from last time, delete it
-	if (mMenu_texture != nullptr)
-	{
-		mMenu_texture->free();
-		delete mMenu_texture;
-	}
-
-	this->mMenu_texture = new LTexture();
-	
-	mMenu_texture->load_from_rendered_text("lives: " + std::to_string(mLevel->get_lives()) + 
-		" \tgold: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(GOLD)) +
-		" \twood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WOOD)) +
-		" \tstone: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(STONE)) +
-		" \tiron: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(IRON)) +
-		" \tenergy: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(ENERGY)) +
-		" \twater: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WATER)) +
-		" \tfood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(FOOD)), 
-		text_color);
-	
-	SDL_Rect dest;
-	dest.x = 0;
-	dest.y = 1050;
-	dest.w = 0;	//setting to 0 doesn't scale anything
-	dest.h = 0;
-
-	gLayer_handler->render_to_layer(this->mMenu_texture, WINDOWS, nullptr, &dest);
 }
 
 void Menu::add_menu_item(MenuItem* menu_item, const BUILDINGTYPE tab)

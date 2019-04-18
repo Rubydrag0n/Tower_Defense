@@ -53,22 +53,6 @@ void Tower::render()
 		dest.w = int(mRange*2);
 		dest.h = int(mRange*2);
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, WINDOWS, nullptr, &dest);
-
-		temp_window->get_upgrade_damage_button()->enable();
-		temp_window->get_upgrade_damage_button()->set_rendering_enabled(true);
-		temp_window->get_upgrade_range_button()->enable();
-		temp_window->get_upgrade_range_button()->set_rendering_enabled(true);
-		temp_window->get_upgrade_attackspeed_button()->enable();
-		temp_window->get_upgrade_attackspeed_button()->set_rendering_enabled(true);
-	}
-	else
-	{
-		temp_window->get_upgrade_damage_button()->disable();
-		temp_window->get_upgrade_damage_button()->set_rendering_enabled(false);
-		temp_window->get_upgrade_range_button()->disable();
-		temp_window->get_upgrade_range_button()->set_rendering_enabled(false);
-		temp_window->get_upgrade_attackspeed_button()->disable();
-		temp_window->get_upgrade_attackspeed_button()->set_rendering_enabled(false);
 	}
 }
 
