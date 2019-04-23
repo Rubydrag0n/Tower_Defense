@@ -1,7 +1,7 @@
 #include "Text.h"
 #include "LayerHandler.h"
 
-Text::Text(std::string text, SDL_Rect dim, LAYERS layer, SDL_Color text_color, Renderable* texture_to_render_on) : mText(text), mDim(dim), mLayer(layer), mTexture_to_render_on(texture_to_render_on)
+Text::Text(std::string text, SDL_Rect dim, LAYERS render_layer, SDL_Color text_color, Renderable* texture_to_render_on) : Renderable(render_layer), mText(text), mDim(dim), mTexture_to_render_on(texture_to_render_on)
 {
 	mText_texture->load_from_rendered_text(text, text_color);
 	mText_color = text_color;
@@ -20,12 +20,12 @@ void Text::render()
 	{
 		if (mTexture_to_render_on->is_rendering_enabled())
 		{
-			gLayer_handler->render_to_layer(mText_texture, mLayer, nullptr, &mDim);
+			gLayer_handler->render_to_layer(mText_texture, mRender_layer, nullptr, &mDim);
 		}
 	}
 	else
 	{
-		gLayer_handler->render_to_layer(mText_texture, mLayer, nullptr, &mDim);
+		gLayer_handler->render_to_layer(mText_texture, mRender_layer, nullptr, &mDim);
 	}
 }
 

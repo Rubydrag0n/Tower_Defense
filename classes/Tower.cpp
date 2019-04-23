@@ -11,7 +11,7 @@
 #include "Carriage.h"
 
 
-Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level) : Building(tower_name, coords, level), mTower_name(tower_name)
+Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : Building(tower_name, coords, level, click_layer, render_layer), mTower_name(tower_name)
 {
 	const auto tower_stats_section = mTower_name + "/stats";
 	mDamage.set_damages(gConfig_file->value_or_zero(tower_stats_section, "phys"),
@@ -37,7 +37,7 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	mWindow->set_rendering_enabled(false);
 	mWindow->disable();
 
-	mCarriage = new Carriage("carriage", mLevel, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
+	mCarriage = new Carriage("carriage", mLevel, LAYERS::ENEMIES, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
 }
 
 void Tower::render()
@@ -54,7 +54,7 @@ void Tower::render()
 		dest.y = int(get_coords().y - mRange + mSprite_dimensions.h/2);
 		dest.w = int(mRange*2);
 		dest.h = int(mRange*2);
-		gLayer_handler->render_to_layer(mRange_indicator_sprite, WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::OVERLAY, nullptr, &dest);
 	}
 }
 

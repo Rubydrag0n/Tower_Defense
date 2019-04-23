@@ -10,7 +10,7 @@ class Button
 {
 public:
 	//creates a button with dimensions (and position) dim and a function onclick that gets called when the button is clicked on
-	Button(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, int button_id = 0);
+	Button(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, LAYERS click_layer, LAYERS render_layer, int button_id = 0);
 	~Button();
 
 	//Sets dimension of the button on the screen

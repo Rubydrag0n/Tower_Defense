@@ -12,7 +12,7 @@ class Menu final
 	: public Renderable, public ButtonObject
 {
 public:
-	explicit Menu(Level *level);
+	explicit Menu(Level *level, LAYERS render_layer);
 	~Menu();
 
 	void sort_items_into_menu();

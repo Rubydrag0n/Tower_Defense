@@ -9,7 +9,7 @@
 #include "HomingShot.h"
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(const std::string& monster_name, const int way, Level* level) : Unit(monster_name), mDead(false), mLevel(level), mHealth_bar_dimensions()
+Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYERS render_layer) : Unit(monster_name, render_layer), mDead(false), mLevel(level), mHealth_bar_dimensions()
 {
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	const auto s_way = std::to_string(way);

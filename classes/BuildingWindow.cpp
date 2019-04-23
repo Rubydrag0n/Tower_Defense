@@ -6,7 +6,7 @@
 #include "ConfigFile.h"
 #include "UpgradeButton.h"
 
-BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), mBuilding(building)
+BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, WINDOWS, WINDOWS), mBuilding(building)
 {
 	//correct position of the window, so it does not collide with the border
 	if (building->get_coords().y < mDim.h/3)
@@ -35,7 +35,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim), 
 	button_dim.w = 26;
 	button_dim.h = 26;
 
-	mDemolish_button = new Button("testbutton", button_dim, this, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
+	mDemolish_button = new Button("testbutton", button_dim, this, this, WINDOWBUTTONS, WINDOWBUTTONS, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
 
 	update_great_upgrades();
 
@@ -157,8 +157,8 @@ void BuildingWindow::update_great_upgrades()
 		{
 			break;
 		}
-		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, this, upgrade_section, UPGRADE_BUTTON);
-		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, this, SHOW_MORE_BUTTON);
+		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, this, upgrade_section, WINDOWBUTTONS, WINDOWBUTTONS, UPGRADE_BUTTON);
+		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, this, WINDOWBUTTONS, WINDOWBUTTONS, SHOW_MORE_BUTTON);
 		show_more_button->add_x_dimension(y_difference);
 		show_more_button->set_clickable_space(show_more_button->get_dimension());
 		auto big_upgrade = new BigUpgrade(mBuilding->get_name(), upgrade_section, big_upgrade_button, show_more_button);

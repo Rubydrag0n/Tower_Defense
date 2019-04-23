@@ -9,7 +9,7 @@
 #include "WareHouse.h"
 #include "Path.h"
 
-MouseItem::MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, const Resources& construction_costs)
+MouseItem::MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, const Resources& construction_costs, LAYERS click_layer) : Clickable(click_layer)
 {
 	this->mName_of_object = name_of_object;
 	SDL_Rect clickable;
@@ -47,7 +47,7 @@ void MouseItem::render() const
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
 
-	gLayer_handler->render_to_layer(this->mSprite, LAYERS::WINDOWS, nullptr, &dest);
+	gLayer_handler->render_to_layer(this->mSprite, mClick_layer, nullptr, &dest);
 	
 	dest.x = 0;
 	dest.y = 0;
@@ -85,11 +85,11 @@ void MouseItem::on_click(const int mouse_x, const int mouse_y)
 			//don't combine these with && since we only want to sub resources when we can actually build
 			if (mLevel->get_resources()->sub(&mConstruction_costs))
 			{
-				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel);
-				if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel);
-				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel);
-				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel);
-				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel);
+				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
+				if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
+				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
+				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
+				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
 				mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
 			}
 		}
@@ -120,7 +120,7 @@ void MouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
 			{
 				if (mLevel->get_resources()->sub(&mConstruction_costs))
 				{
-					new Path(this->mName_of_object, p, mLevel);
+					new Path(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
 					mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
 				}
 			}

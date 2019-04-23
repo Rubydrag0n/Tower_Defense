@@ -5,7 +5,7 @@
 #include "IndustrialBuilding.h"
 #include "MouseHandler.h"
 
-MenuItem::MenuItem(const std::string& name_of_object, Level *level, const SDL_Point coords): mCoords(coords), mLevel(level)
+MenuItem::MenuItem(const std::string& name_of_object, Level *level, const SDL_Point coords, LAYERS click_layer, LAYERS render_layer): Clickable(click_layer), Renderable(render_layer), mCoords(coords), mLevel(level)
 {
 	mName_of_object = name_of_object;
 	mSprite = gTextures->get_texture(gConfig_file->value(name_of_object + "/sprite", "path"));
@@ -38,7 +38,7 @@ void MenuItem::render()
 	dest.w = mSprite->get_width();
 	dest.h = mSprite->get_height();
 	this->set_clickable_space(dest);
-	gLayer_handler->render_to_layer(mSprite, LAYERS::OVERLAY, nullptr, &dest);
+	gLayer_handler->render_to_layer(mSprite, mRender_layer, nullptr, &dest);
 	if(gMouse_handler->get_item_on_mouse() != nullptr)
 	{
 		if (this->mName_of_object == gMouse_handler->get_item_on_mouse()->get_name_of_object())
@@ -61,7 +61,7 @@ void MenuItem::delete_clickable_space()
 
 void MenuItem::on_click(int mouse_x, int mouse_y)
 {
-	gMouse_handler->set_item_on_mouse(new MouseItem(mName_of_object, mSprite, mLevel, mConstruction_costs));
+	gMouse_handler->set_item_on_mouse(new MouseItem(mName_of_object, mSprite, mLevel, mConstruction_costs, LAYERS::OVERLAY));
 }
 
 LTexture* MenuItem::get_sprite() const

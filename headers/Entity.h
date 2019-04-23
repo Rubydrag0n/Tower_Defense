@@ -6,7 +6,7 @@ class Entity :
 	public Renderable
 {
 public:
-	Entity();
+	Entity(LAYERS render_layer);
 	virtual ~Entity();
 
 	virtual void on_tick() = 0;

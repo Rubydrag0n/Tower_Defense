@@ -5,7 +5,7 @@
 #include "ButtonObject.h"
 #include "BuildingWindow.h"
 
-Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, const int button_id) : mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mTexture_to_render_on(texture_to_render_on), mButton_id{ button_id }
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, LAYERS click_layer, LAYERS render_layer, const int button_id) : Clickable(click_layer), Renderable(render_layer), mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mTexture_to_render_on(texture_to_render_on), mButton_id{ button_id }
 {
 	const auto section = "button/" + button_name;
 	
@@ -70,12 +70,12 @@ void Button::render()
 	{
 		if(mTexture_to_render_on->is_rendering_enabled())
 		{
-			gLayer_handler->render_to_layer(mButton_sprite, LAYERS::WINDOWBUTTONS, &mClips[this->get_state()], &mButton_dimensions);
+			gLayer_handler->render_to_layer(mButton_sprite, mRender_layer, &mClips[this->get_state()], &mButton_dimensions);
 		}
 	}
 	else
 	{
-		gLayer_handler->render_to_layer(mButton_sprite, LAYERS::WINDOWBUTTONS, &mClips[this->get_state()], &mButton_dimensions);
+		gLayer_handler->render_to_layer(mButton_sprite, mRender_layer, &mClips[this->get_state()], &mButton_dimensions);
 	}
 }
 

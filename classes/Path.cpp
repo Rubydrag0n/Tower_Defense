@@ -3,7 +3,7 @@
 #include "Menu.h"
 #include "ConfigFile.h"
 
-Path::Path(const std::string& path_name, const SDL_Point coords, Level* level) : Building(path_name, coords, level), mSpeed_multiplier()
+Path::Path(const std::string& path_name, const SDL_Point coords, Level* level, LAYERS click_layer, LAYERS render_layer) : Building(path_name, coords, level, click_layer, render_layer), mSpeed_multiplier()
 {
 	SDL_Rect rect;
 	rect.x = mCoords.x;

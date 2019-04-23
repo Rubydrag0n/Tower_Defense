@@ -7,7 +7,7 @@
 #include "LayerHandler.h"
 #include "Particles.h"
 
-Shot::Shot(Tower* tower) : mCoords(), mSprite(), mSprite_dimensions(), mTarget()
+Shot::Shot(Tower* tower) : Entity(LAYERS::SHOTS), mCoords(), mSprite(), mSprite_dimensions(), mTarget()
 {
 	mSprite = gTextures->get_texture(gConfig_file->value(tower->get_projectile_name() + "/sprite", "path"));
 	mSprite_dimensions.w = gConfig_file->value(tower->get_projectile_name() + "/sprite", "image_width");
@@ -36,7 +36,7 @@ void Shot::render()
 	const auto flip = SDL_FLIP_NONE;
 	this->points_projectile_to_target(&dest, &center, &angle_in_deg);
 
-	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::SHOTS, nullptr, &dest, angle_in_deg, &center, flip);
+	gLayer_handler->renderex_to_layer(this->mSprite, mRender_layer, nullptr, &dest, angle_in_deg, &center, flip);
 }
 
 void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle) const

@@ -6,7 +6,7 @@
 #include "WareHouse.h"
 #include "Path.h"
 
-Carriage::Carriage(const std::string& unit_name, Level* level, Building* source, Building* drain) : Unit{unit_name},
+Carriage::Carriage(const std::string& unit_name, Level* level, LAYERS render_layer, Building* source, Building* drain) : Unit{unit_name, render_layer},
                                                                                                     mSource(source),
                                                                                                     mDrain(drain),
                                                                                                     mDelivering(drain),

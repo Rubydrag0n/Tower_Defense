@@ -11,7 +11,7 @@ class MenuItem final :
 	public Clickable, public Renderable
 {
 public:
-	MenuItem(const std::string& name_of_object, Level *level, SDL_Point coords);
+	MenuItem(const std::string& name_of_object, Level *level, SDL_Point coords, LAYERS click_layer, LAYERS render_layer);
 	~MenuItem();
 
 	void render() override;

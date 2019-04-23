@@ -9,7 +9,7 @@
 #include "Production.h"
 #include "Carriage.h"
 
-Building::Building(std::string building_name, SDL_Point coords, Level* level) : mCoords{coords}, mSprite_dimensions{},
+Building::Building(std::string building_name, SDL_Point coords, Level* level, LAYERS click_layer, LAYERS render_layer) : Entity(render_layer), Clickable(click_layer), mCoords{coords}, mSprite_dimensions{},
                                                                                 mLevel{level},
                                                                                 mName{std::move(building_name)},
                                                                                 mWindow{nullptr},
@@ -97,7 +97,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level) : 
 	//initialize what this building is producing and consuming
 	mProducing = new Production(this);
 
-	set_depth(CL_BUILDINGS);
 }
 
 Building::~Building()
@@ -151,7 +150,7 @@ void Building::render()
 	dest.w = mSprite_dimensions.w;
 	dest.h = mSprite_dimensions.h;
 	
-	gLayer_handler->render_to_layer(mSprite, LAYERS::BUILDINGS, nullptr, &dest);
+	gLayer_handler->render_to_layer(mSprite, mRender_layer, nullptr, &dest);
 
 	if(this->is_clicked())
 	{		

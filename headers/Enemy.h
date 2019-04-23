@@ -11,7 +11,7 @@ class Enemy final :
 	public Unit
 {
 public:
-	Enemy(const std::string& monster_name, int way, Level* level);
+	Enemy(const std::string& monster_name, int way, Level* level, LAYERS render_layer);
 	~Enemy();
 
 	void on_tick() override;

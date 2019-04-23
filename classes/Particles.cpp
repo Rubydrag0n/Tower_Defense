@@ -4,7 +4,7 @@
 #include "LayerHandler.h"
 
 Particle::Particle(const std::string& particle_name, const CoordinatesInDouble& pos, const CoordinatesInDouble& dir, const float rot, const float rot_speed)
-	: mCurrent_clip(), mCurrent_rotation{ rot }, mRotation_speed{ rot_speed }, mPosition { pos }, mSpeed_and_direction{ dir }
+	: Entity(PARTICLES), mCurrent_clip(), mCurrent_rotation{ rot }, mRotation_speed{ rot_speed }, mPosition { pos }, mSpeed_and_direction{ dir }
 {
 	const auto section = "animation/" + particle_name;
 
@@ -62,7 +62,7 @@ void Particle::render()
 	SDL_Point center;
 	center.x = static_cast<int>(mCurrent_clip.w / 2.);
 	center.y = static_cast<int>(mCurrent_clip.h / 2.);
-	gLayer_handler->renderex_to_layer(this->mTexture, LAYERS::PARTICLES, &this->mCurrent_clip, &dest, this->mCurrent_rotation, &center, this->mFlip);
+	gLayer_handler->renderex_to_layer(this->mTexture, mRender_layer, &this->mCurrent_clip, &dest, this->mCurrent_rotation, &center, this->mFlip);
 }
 
 void Particle::on_tick()

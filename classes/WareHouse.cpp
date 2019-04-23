@@ -2,8 +2,8 @@
 #include "Menu.h"
 #include "Production.h"
 
-Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Level *level) : 
-	Building{std::move(logistics_building_name), coords, level}
+Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : 
+	Building{std::move(logistics_building_name), coords, level, click_layer, render_layer}
 {
 	SDL_Rect rect;
 	rect.x = mCoords.x;

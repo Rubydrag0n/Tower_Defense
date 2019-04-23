@@ -24,7 +24,6 @@ private:
 	SDL_Color mText_color;
 
 	SDL_Rect mDim;
-	LAYERS mLayer;
 
 	//if this obj is not rendered then the button is also not rendered(can be null)
 	Renderable* mTexture_to_render_on;

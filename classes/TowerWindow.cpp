@@ -12,14 +12,11 @@ TowerWindow::TowerWindow(const SDL_Rect dim, Tower* tower) : BuildingWindow(dim,
 	button_dim.y = mDim.y + 20;
 	button_dim.w = 26;
 	button_dim.h = 26;
-	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, this, "Damage", BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
-	mUpgrade_damage_button->set_depth(CL_WINDOW);
+	mUpgrade_damage_button = new UpgradeButton("testbutton", button_dim, this, this, "Damage", WINDOWBUTTONS, WINDOWBUTTONS, BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
 	button_dim.x += 56;
-	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, this, "Range", BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
-	mUpgrade_range_button->set_depth(CL_WINDOW);
+	mUpgrade_range_button = new UpgradeButton("testbutton", button_dim, this, this, "Range", WINDOWBUTTONS, WINDOWBUTTONS, BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
 	button_dim.x += 56;
-	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, this, "Attackspeed", BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
-	mUpgrade_attackspeed_button->set_depth(CL_WINDOW);
+	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", button_dim, this, this, "Attackspeed", WINDOWBUTTONS, WINDOWBUTTONS, BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
 
 	SDL_Rect dest;
 	dest.h = 0;

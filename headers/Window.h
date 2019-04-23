@@ -12,7 +12,7 @@
 class Window : public Renderable, public Clickable
 {
 public:
-	explicit Window(SDL_Rect dim, STYLE style = STYLE::STANDARD);
+	explicit Window(SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, STYLE style = STYLE::STANDARD);
 
 	void render() override;
 	void on_click(int mouse_x, int mouse_y) override;

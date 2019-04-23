@@ -5,7 +5,7 @@
 #include "MouseHandler.h"
 
 
-Window::Window(const SDL_Rect dim, const STYLE style) : mDim(dim), mStyle(style), mR(0), mG(0), mB(0)
+Window::Window(const SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, const STYLE style) : Clickable(click_layer), Renderable(render_layer), mDim(dim), mStyle(style), mR(0), mG(0), mB(0)
 {
 	
 	const auto category = "frames/" + std::to_string(int(style));
@@ -37,19 +37,19 @@ void Window::render()
 		dest.h = mDim.h;
 
 
-		gLayer_handler->render_to_layer(mBackground, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mBackground, mRender_layer, nullptr, &dest);
 
 		dest.w = 0;	//don't scale corners
 		dest.h = 0;
 
 		//draw the four corners
-		gLayer_handler->render_to_layer(mTop_left_corner, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mTop_left_corner, mRender_layer, nullptr, &dest);
 		dest.x = mDim.x + mDim.w - mCorner_width;
-		gLayer_handler->render_to_layer(mTop_right_corner, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mTop_right_corner, mRender_layer, nullptr, &dest);
 		dest.y = mDim.y + mDim.h - mCorner_height;
-		gLayer_handler->render_to_layer(mBottom_right_corner, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mBottom_right_corner, mRender_layer, nullptr, &dest);
 		dest.x = mDim.x;
-		gLayer_handler->render_to_layer(mBottom_left_corner, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mBottom_left_corner, mRender_layer, nullptr, &dest);
 
 		//draw the borders
 		//horizontal top:
@@ -58,13 +58,13 @@ void Window::render()
 		dest.w = mDim.w - 2 * mCorner_width;
 		dest.h = mBorder_thickness;
 
-		gLayer_handler->render_to_layer(mHorizontal_border, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mHorizontal_border, mRender_layer, nullptr, &dest);
 
 		//horizontal bottom:
 		dest.y = mDim.y + mDim.h - mBorder_thickness;
 		//width, height and x stay the same
 
-		gLayer_handler->render_to_layer(mHorizontal_border, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mHorizontal_border, mRender_layer, nullptr, &dest);
 
 		//vertical left:
 		dest.x = mDim.x;
@@ -72,13 +72,13 @@ void Window::render()
 		dest.w = mBorder_thickness;
 		dest.h = mDim.h - 2 * mCorner_height;
 
-		gLayer_handler->render_to_layer(mVertical_border, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mVertical_border, mRender_layer, nullptr, &dest);
 
 		//vertical right
 		dest.x = mDim.x + mDim.w - mBorder_thickness;
 		//width, height and y stay the same
 
-		gLayer_handler->render_to_layer(mVertical_border, LAYERS::WINDOWS, nullptr, &dest);
+		gLayer_handler->render_to_layer(mVertical_border, mRender_layer, nullptr, &dest);
 	}
 	else
 	{
@@ -100,6 +100,5 @@ SDL_Rect Window::get_dim() const
 
 void Window::on_click(int mouse_x, int mouse_y)
 {
-	//set_rendering_enabled(true);
 	set_clicked(true);
 }

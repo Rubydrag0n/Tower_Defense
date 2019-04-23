@@ -6,7 +6,7 @@
 class Clickable
 {
 public:
-	Clickable();
+	Clickable(LAYERS click_layer);
 	virtual ~Clickable();
 
 	//gets called when the object is clicked
@@ -30,8 +30,8 @@ public:
 	bool is_clicked() const;
 	void set_clicked(bool value);
 
-	void set_depth(unsigned depth);
-	unsigned get_depth() const;
+	void set_click_layer(LAYERS layer);
+	LAYERS get_click_layer() const;
 
 	//enables the object to be clicked
 	void enable();
@@ -55,7 +55,8 @@ private:
 	//only if this is true the functions will be called
 	bool mEnabled;
 
+protected:
 	//determines the order of stuff on the screens in terms of which will be clicked
 	//low = background, high = foreground
-	unsigned  mDepth;
+	LAYERS  mClick_layer;
 };

@@ -11,7 +11,7 @@ struct Compare
 {
 	bool operator()(Clickable *a, Clickable *b) const
 	{
-		return a->get_depth() > b->get_depth();		//this will sort reverse, so biggest numbers come first -> descending
+		return a->get_click_layer() > b->get_click_layer();		//this will sort reverse, so biggest numbers come first -> descending
 	}
 };
 

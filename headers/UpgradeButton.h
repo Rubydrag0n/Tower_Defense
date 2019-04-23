@@ -4,7 +4,7 @@
 class UpgradeButton : public Button
 {
 public:
-	UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, std::string upgrade_section, int button_id = 0);
+	UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, int button_id = 0);
 	~UpgradeButton();
 
 	std::string get_upgrade_section();

@@ -5,7 +5,7 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 
-Menu::Menu(Level *level)
+Menu::Menu(Level *level, LAYERS render_layer) : Renderable(render_layer)
 {
 	this->mLevel = level;
 	this->mOpen_tab = TOWER;
@@ -15,19 +15,19 @@ Menu::Menu(Level *level)
 	dim.w = 100;
 	dim.h = 40;
 	mButtons[BUILDINGTYPE::TOWER]
-		= new Button("TowerButton", dim, this, nullptr, BUILDINGTYPE::TOWER);
+		= new Button("TowerButton", dim, this, nullptr, BUILDINGS, BUILDINGS, BUILDINGTYPE::TOWER);
 
 	dim.x = 1400;
 	mButtons[BUILDINGTYPE::INDUSTRIAL_BUILDING]
-		= new Button("ResourceButton", dim, this, nullptr, BUILDINGTYPE::INDUSTRIAL_BUILDING);
+		= new Button("ResourceButton", dim, this, nullptr, BUILDINGS, BUILDINGS, BUILDINGTYPE::INDUSTRIAL_BUILDING);
 
 	dim.x = 1500;
 	mButtons[BUILDINGTYPE::WAREHOUSE]
-		= new Button("BuildingsButton", dim, this, nullptr, BUILDINGTYPE::WAREHOUSE);
+		= new Button("BuildingsButton", dim, this, nullptr, BUILDINGS, BUILDINGS, BUILDINGTYPE::WAREHOUSE);
 
 	dim.x = 1600;
 	mButtons[BUILDINGTYPE::STREET]
-		= new Button("TowerButton", dim, this, nullptr, BUILDINGTYPE::STREET);
+		= new Button("TowerButton", dim, this, nullptr, BUILDINGS, BUILDINGS, BUILDINGTYPE::STREET);
 
 
 	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
@@ -122,7 +122,7 @@ void Menu::sort_items_into_menu()
 				break;
 			}
 			name_of_object.assign(gConfig_file->value(types.at(j), std::to_string(i)));
-			const auto new_item = new MenuItem(name_of_object, mLevel, coords);
+			const auto new_item = new MenuItem(name_of_object, mLevel, coords, WINDOWBUTTONS, WINDOWBUTTONS);
 			this->add_menu_item(new_item, BUILDINGTYPE(j));
 		}
 	}

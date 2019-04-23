@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "EntityHandler.h"
 
-Entity::Entity()
+Entity::Entity(LAYERS render_layer) : Renderable(render_layer)
 {
 	gEntity_handler->add_entity(this);
 }

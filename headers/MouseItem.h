@@ -9,7 +9,7 @@ class Level;
 class MouseItem final : public Clickable
 {
 public:
-	MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, const Resources& construction_costs);
+	MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, const Resources& construction_costs, LAYERS click_layer);
 
 	void set_name_of_object(const std::string& name);
 	std::string get_name_of_object() const;

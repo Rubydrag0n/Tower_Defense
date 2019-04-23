@@ -30,7 +30,7 @@ void MonsterGroup::update()
 	//whenever elapsed ticks is zero spawn new enemy copy
 	if (mElapsed_ticks == 0 && mCurrent_monster_count < mMax_monster_count)
 	{
-		const auto new_enemy = new Enemy(mMonster_name, mWay, mLevel);
+		const auto new_enemy = new Enemy(mMonster_name, mWay, mLevel, ENEMIES);
 		mMonsters.push_back(new_enemy);
 		mCurrent_monster_count++;
 	}

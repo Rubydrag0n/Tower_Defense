@@ -46,20 +46,20 @@ Game::Game() : mMouse_position()
 	p.x = 896;
 	p.y = 448;
 
-	auto tower = new HomingTower("archer", p, mCurrent_level);
+	auto tower = new HomingTower("archer", p, mCurrent_level, BUILDINGS, BUILDINGS);
 
 	p.x += 64;
-	new Path("path", p, mCurrent_level);
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
 	p.x += 64;
-	new Path("path", p, mCurrent_level);
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
 	p.x += 64;
-	new Path("path", p, mCurrent_level);
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
 	p.x += 64;
-	new Path("path", p, mCurrent_level);
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
 	p.y += 64;
-	new Path("path", p, mCurrent_level);
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
 	p.y += 64;
-	new Path("path", p, mCurrent_level);
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
 
 	/*
 	p.x = 1152;

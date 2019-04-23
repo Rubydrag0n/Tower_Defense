@@ -85,9 +85,9 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 	SDL_Point warehouse_coord;
 	warehouse_coord.x = TILE_WIDTH * gConfig_file->value(level_section, "main_building_x");
 	warehouse_coord.y = TILE_HEIGHT * gConfig_file->value(level_section, "main_building_y");
-	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this);
+	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this, BUILDINGS, BUILDINGS);
 
-	new Menu(this);
+	new Menu(this, LAYERS::BACKGROUND);
 }
 
 Level::~Level()

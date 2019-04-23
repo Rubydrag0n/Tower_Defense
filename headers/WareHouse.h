@@ -6,7 +6,7 @@ class Warehouse final
 	: public Building
 {
 public:
-	Warehouse(std::string logistics_building_name, SDL_Point coords, Level *level);
+	Warehouse(std::string logistics_building_name, SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer);
 
 	void on_tick() override;
 	void render() override;

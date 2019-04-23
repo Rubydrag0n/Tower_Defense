@@ -18,7 +18,7 @@ class Production;
 class Building : public Clickable, public Entity
 {
 public:
-	Building(std::string building_name, SDL_Point coords, Level *level);
+	Building(std::string building_name, SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer);
 	~Building();
 
 	void render() override; //render the picture of the building

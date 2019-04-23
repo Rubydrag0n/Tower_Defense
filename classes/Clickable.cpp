@@ -2,7 +2,7 @@
 #include "Clickable.h"
 #include <SDL.h>
 
-Clickable::Clickable() : mClickable_space{}, mClicked{false}, mEnabled{true}, mDepth{0}
+Clickable::Clickable(LAYERS click_layer) : mClickable_space{}, mClicked{false}, mEnabled{true}, mClick_layer{click_layer}
 {
 	//add this object to the list of clickable objects
 	gMouse_handler->add_clickable(this);
@@ -45,14 +45,14 @@ void Clickable::set_clicked(const bool value)
 	mClicked = value;
 }
 
-void Clickable::set_depth(const unsigned depth)
+void Clickable::set_click_layer(const LAYERS layer)
 {
-	mDepth = depth;
+	mClick_layer = layer;
 }
 
-unsigned Clickable::get_depth() const
+LAYERS Clickable::get_click_layer() const
 {
-	return mDepth;
+	return mClick_layer;
 }
 
 void Clickable::enable()

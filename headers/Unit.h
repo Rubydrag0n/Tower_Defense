@@ -16,7 +16,7 @@
 class Unit : public Entity
 {
 public:
-	explicit Unit(const std::string& unit_name);
+	explicit Unit(const std::string& unit_name, LAYERS render_layer);
 
 	void render() override;
 

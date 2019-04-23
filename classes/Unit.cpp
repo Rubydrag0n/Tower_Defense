@@ -5,7 +5,7 @@
 #include "LayerHandler.h"
 
 
-Unit::Unit(const std::string& unit_name) : mCenter(), mCurrent_clip(), mSprite_dimensions()
+Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_layer), mCenter(), mCurrent_clip(), mSprite_dimensions()
 {
 	const auto sprite_section = unit_name + "/sprite";
 	const auto stats_section = unit_name + "/stats";
@@ -75,7 +75,7 @@ void Unit::render()
 	dest.y = static_cast<int>(mPosition.y - mCenter.y);
 	dest.w = mCurrent_clip.w;
 	dest.h = mCurrent_clip.h;
-	gLayer_handler->renderex_to_layer(this->mSprite, LAYERS::ENEMIES, &this->mCurrent_clip, &dest, this->get_rotation_angle(), &this->mCenter, SDL_FLIP_NONE);
+	gLayer_handler->renderex_to_layer(this->mSprite, mRender_layer, &this->mCurrent_clip, &dest, this->get_rotation_angle(), &this->mCenter, SDL_FLIP_NONE);
 }
 
 double Unit::get_rotation_angle() const
