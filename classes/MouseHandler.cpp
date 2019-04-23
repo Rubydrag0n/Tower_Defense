@@ -51,6 +51,7 @@ void MouseHandler::update()
 	this->set_mouse_position(mouse_x, mouse_y);
 	this->get_mouse_position(&mouse_x, &mouse_y);
 
+	auto const state = SDL_GetMouseState(nullptr, nullptr);
 	const auto end = this->mClickables.end();
 
 	for (auto it = this->mClickables.begin(); it != end; ++it)
@@ -60,8 +61,17 @@ void MouseHandler::update()
 			mouse_y > rect.y && mouse_y < rect.y + rect.h && 
 			(*it)->is_enabled())
 		{
-			(*it)->on_mouse_over(mouse_x, mouse_y);
-			(*it)->set_state(MOUSE_OVER);
+			(*it)->on_mouse_over(mouse_x, mouse_y);				
+			
+			//get current state of mouse button to pass through to the clickable
+			if (state & SDL_BUTTON(SDL_BUTTON_LEFT))
+				(*it)->set_state(MOUSE_DOWN_LEFT);
+			else if (state & SDL_BUTTON(SDL_BUTTON_RIGHT))
+				(*it)->set_state(MOUSE_DOWN_RIGHT);
+			else if (state & SDL_BUTTON(SDL_BUTTON_MIDDLE))
+				(*it)->set_state(MOUSE_DOWN_MIDDLE);
+			else
+				(*it)->set_state(MOUSE_OVER);
 		} 
 		else 
 		{
