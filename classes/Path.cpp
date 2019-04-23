@@ -11,6 +11,7 @@ Path::Path(const std::string& path_name, const SDL_Point coords, Level* level) :
 	rect.w = 200;
 	rect.h = 200;
 	mWindow = new BuildingWindow(rect, this);
+	mWindow->set_rendering_enabled(false);
 
 	mSpeed_multiplier = gConfig_file->value(path_name + "/stats", "speed_multiplier");
 }

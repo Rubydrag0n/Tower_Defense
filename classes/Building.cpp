@@ -112,15 +112,6 @@ void Building::demolish() const
 	auto refund = *mConstruction_costs / 2;
 	mLevel->get_resources()->add(&refund);
 
-	//this whole stuff isn't used? what's it for? TODO
-	/*
-	*SDL_Point p;
-	const auto grid_offset_x = (mCoords.x) % TILE_WIDTH;
-	const auto grid_offset_y = (mCoords.y) % TILE_HEIGHT;
-	p.x = mCoords.x - grid_offset_x;
-	p.y = mCoords.y - grid_offset_y;
-	*/
-
 	const auto tile_x = mCoords.x / 64;
 	const auto tile_y = mCoords.y / 64;
 	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
@@ -165,10 +156,12 @@ void Building::render()
 	if(this->is_clicked())
 	{		
 		mWindow->set_rendering_enabled(true);
+		mWindow->enable();
+		mWindow->set_clicked(true);
 	}
 	else
 	{
-		mWindow->set_rendering_enabled(false);
+		//mWindow->set_rendering_enabled(false);
 	}
 }
 

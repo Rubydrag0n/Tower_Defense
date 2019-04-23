@@ -12,6 +12,7 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 	rect.w = 200;
 	rect.h = 200;
 	mWindow = new BuildingWindow(rect, this);
+	mWindow->set_rendering_enabled(false);
 
 	mCarriage = new Carriage("carriage", mLevel, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
 }

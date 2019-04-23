@@ -34,6 +34,8 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	rect.w = 200;
 	rect.h = 600;
 	mWindow = new TowerWindow(rect, this);
+	mWindow->set_rendering_enabled(false);
+	mWindow->disable();
 
 	mCarriage = new Carriage("carriage", mLevel, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
 }
@@ -44,7 +46,7 @@ void Tower::render()
 
 	const auto temp_window = dynamic_cast<TowerWindow*>(mWindow);
 
-	if(is_clicked())
+	if(is_clicked() || mWindow->is_clicked())
 	{
 		SDL_Rect dest;
 		//range is radius not diameter
