@@ -41,6 +41,6 @@ private:
 
 protected:
 	Building* mBuilding;
-	SDL_Color mText_color;
+	SDL_Color mText_color{} {};
 	std::vector<BigUpgrade*> mBig_upgrades; 
 };

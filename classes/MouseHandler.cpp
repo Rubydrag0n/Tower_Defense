@@ -51,6 +51,8 @@ void MouseHandler::update()
 	this->set_mouse_position(mouse_x, mouse_y);
 	this->get_mouse_position(&mouse_x, &mouse_y);
 
+	this->sort_clickables();
+
 	auto const state = SDL_GetMouseState(nullptr, nullptr);
 	const auto end = this->mClickables.end();
 

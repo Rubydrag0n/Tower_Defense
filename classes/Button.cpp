@@ -5,7 +5,14 @@
 #include "ButtonObject.h"
 #include "BuildingWindow.h"
 
-Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, LAYERS click_layer, LAYERS render_layer, const int button_id) : Clickable(click_layer), Renderable(render_layer), mButton_dimensions(dim), mClips{}, mButton_sprite{}, mObject_to_notify(obj), mTexture_to_render_on(texture_to_render_on), mButton_id{ button_id }
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on,
+               const LAYERS click_layer, const LAYERS render_layer, const int button_id) : Clickable(click_layer),
+                                                                               Renderable(render_layer),
+                                                                               mClips{}, mButton_sprite{},
+                                                                               mObject_to_notify(obj), mButton_id{button_id},
+                                                                               mTexture_to_render_on(
+	                                                                               texture_to_render_on),
+                                                                               mButton_dimensions(dim)
 {
 	const auto section = "button/" + button_name;
 	
@@ -24,22 +31,19 @@ Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject*
 	this->set_clickable_space(dim);
 }
 
-Button::~Button()
-{
-	
-}
+Button::~Button() = default;
 
 void Button::set_dimension(const SDL_Rect dim)
 {
 	this->mButton_dimensions = dim;
 }
 
-void Button::add_x_dimension(int x)
+void Button::add_x_dimension(const int x)
 {
 	mButton_dimensions.x += x;
 }
 
-void Button::add_y_dimension(int y)
+void Button::add_y_dimension(const int y)
 {
 	mButton_dimensions.y += y;
 }
@@ -49,11 +53,10 @@ SDL_Rect Button::get_dimension() const
 	return mButton_dimensions;
 }
 
-Renderable* Button::get_texture_to_render_on()
+Renderable* Button::get_texture_to_render_on() const
 {
 	return mTexture_to_render_on;
 }
-
 
 void Button::set_sprite_clips(SDL_Rect * clips)
 {

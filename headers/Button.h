@@ -18,7 +18,7 @@ public:
 	void add_x_dimension(int x);
 	void add_y_dimension(int y);
 	SDL_Rect get_dimension() const;
-	Renderable* get_texture_to_render_on();
+	Renderable* get_texture_to_render_on() const;
 
 	//Sets the Clips
 	void set_sprite_clips(SDL_Rect *clips);

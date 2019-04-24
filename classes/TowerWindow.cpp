@@ -70,7 +70,6 @@ TowerWindow::~TowerWindow()
 	delete mUpgrade_attackspeed_button;
 }
 
-
 void TowerWindow::render()
 {
 	BuildingWindow::render();
@@ -107,8 +106,6 @@ void TowerWindow::render()
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
 	mDamage_distribution_text->set_text(dmg_distribution_text);
-
-
 }
 
 void TowerWindow::set_stat_strings_for_upgrade_buttons(Button* button, std::string* dmg_text, std::string* as_text, std::string* range_text, std::string* dmg_distribution_text) const
@@ -127,7 +124,6 @@ void TowerWindow::set_stat_strings_for_upgrade_buttons(Button* button, std::stri
 		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
 		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
 }
-
 
 void TowerWindow::upgrade_damage() 
 {
@@ -172,4 +168,3 @@ Button* TowerWindow::get_upgrade_attackspeed_button() const
 {
 	return mUpgrade_attackspeed_button;
 }
-

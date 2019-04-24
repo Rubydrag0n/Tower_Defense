@@ -2,7 +2,7 @@
 #include "Clickable.h"
 #include <SDL.h>
 
-Clickable::Clickable(LAYERS click_layer) : mClickable_space{}, mClicked{false}, mEnabled{true}, mClick_layer{click_layer}
+Clickable::Clickable(const LAYERS click_layer) : mClickable_space{}, mClicked{false}, mEnabled{true}, mClick_layer{click_layer}
 {
 	//add this object to the list of clickable objects
 	gMouse_handler->add_clickable(this);
