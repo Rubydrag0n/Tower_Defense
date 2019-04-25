@@ -58,6 +58,8 @@ void MouseHandler::update()
 
 	for (auto it = this->mClickables.begin(); it != end; ++it)
 	{
+		if (*it == nullptr) continue;
+
 		const auto rect = (*it)->get_clickable_space();
 		if (mouse_x > rect.x && mouse_x < rect.x + rect.w && 
 			mouse_y > rect.y && mouse_y < rect.y + rect.h && 
