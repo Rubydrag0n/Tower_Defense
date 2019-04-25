@@ -81,6 +81,7 @@ BuildingWindow::~BuildingWindow()
 	delete[] mResource_names;
 	delete[] mStorage_values;
 	delete[] mMaintenance_values;
+	delete mHeadline;
 }
 
 void BuildingWindow::demolish_building() const

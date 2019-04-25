@@ -69,6 +69,17 @@ TowerWindow::~TowerWindow()
 	delete mUpgrade_damage_button;
 	delete mUpgrade_range_button;
 	delete mUpgrade_attackspeed_button;
+	delete mDmg_text;
+	delete mDmg_value;
+	delete mAs_text;
+	delete mAs_value;
+	delete mRange_text;
+	delete mRange_value;
+	delete mDamage_distribution_headline;
+	delete mDamage_distribution_text;
+	delete mDamage_upgrade_number_texture;
+	delete mAttackspeed_upgrade_number_texture;
+	delete mRange_upgrade_number_texture;
 }
 
 void TowerWindow::render()
