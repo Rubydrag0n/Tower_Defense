@@ -21,6 +21,7 @@ private:
 	LTexture* mText_texture = new LTexture();
 
 	std::string mText;
+
 	SDL_Color mText_color;
 
 	SDL_Rect mDim;

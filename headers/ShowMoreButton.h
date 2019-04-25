@@ -1,10 +1,12 @@
 #pragma once
 #include "Button.h"
+#include "BuildingWindow.h"
+#include "WindowButton.h"
 
-class ShowMoreButton : public Button
+class ShowMoreButton : public WindowButton
 {
 public:
-	ShowMoreButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, LAYERS click_layer, LAYERS render_layers, int button_id);
+	ShowMoreButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, LAYERS click_layer, LAYERS render_layers, Window* window, int button_id);
 	~ShowMoreButton();
 
 private:

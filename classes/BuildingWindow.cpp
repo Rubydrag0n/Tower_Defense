@@ -5,6 +5,8 @@
 #include <iostream>
 #include "ConfigFile.h"
 #include "UpgradeButton.h"
+#include "ShowMoreButton.h"
+#include "BigUpgrade.h"
 
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, WINDOWS, WINDOWS), mBuilding(building)
 {
@@ -21,6 +23,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, W
 	{
 		mDim.x += -building->get_dimensions().w - mDim.w;
 	}
+	set_clickable_space(mDim);
 	mBuilding = building;
 
 	mResource_names = new Text*[RESOURCES_TOTAL];
@@ -35,7 +38,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, W
 	button_dim.w = 26;
 	button_dim.h = 26;
 
-	mDemolish_button = new Button("testbutton", button_dim, this, this, WINDOWBUTTONS, WINDOWBUTTONS, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
+	mDemolish_button = new WindowButton("testbutton", button_dim, this, WINDOWBUTTONS, WINDOWBUTTONS, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
 
 	update_great_upgrades();
 
@@ -78,6 +81,7 @@ BuildingWindow::~BuildingWindow()
 	delete[] mResource_names;
 	delete[] mStorage_values;
 	delete[] mMaintenance_values;
+	delete mHeadline;
 }
 
 void BuildingWindow::demolish_building() const
@@ -157,8 +161,8 @@ void BuildingWindow::update_great_upgrades()
 		{
 			break;
 		}
-		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, this, upgrade_section, WINDOWBUTTONS, WINDOWBUTTONS, UPGRADE_BUTTON);
-		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, this, WINDOWBUTTONS, WINDOWBUTTONS, SHOW_MORE_BUTTON);
+		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, upgrade_section, WINDOWBUTTONS, WINDOWBUTTONS, this, UPGRADE_BUTTON);
+		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWBUTTONS, WINDOWBUTTONS, this, SHOW_MORE_BUTTON);
 		show_more_button->add_x_dimension(y_difference);
 		show_more_button->set_clickable_space(show_more_button->get_dimension());
 		auto big_upgrade = new BigUpgrade(mBuilding->get_name(), upgrade_section, big_upgrade_button, show_more_button);

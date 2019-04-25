@@ -3,15 +3,12 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 #include "ButtonObject.h"
-#include "BuildingWindow.h"
 
-Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on,
+Button::Button(const std::string& button_name, const SDL_Rect dim, ButtonObject* obj,
                const LAYERS click_layer, const LAYERS render_layer, const int button_id) : Clickable(click_layer),
                                                                                Renderable(render_layer),
                                                                                mClips{}, mButton_sprite{},
                                                                                mObject_to_notify(obj), mButton_id{button_id},
-                                                                               mTexture_to_render_on(
-	                                                                               texture_to_render_on),
                                                                                mButton_dimensions(dim)
 {
 	const auto section = "button/" + button_name;
@@ -53,11 +50,6 @@ SDL_Rect Button::get_dimension() const
 	return mButton_dimensions;
 }
 
-Renderable* Button::get_texture_to_render_on() const
-{
-	return mTexture_to_render_on;
-}
-
 void Button::set_sprite_clips(SDL_Rect * clips)
 {
 	for (auto i = 0; i < L_CLICKABLE_STATE::STATES_TOTAL; i++)
@@ -69,17 +61,7 @@ void Button::set_sprite_clips(SDL_Rect * clips)
 void Button::render()
 {
 	//Show current button sprite
-	if(mTexture_to_render_on != nullptr)
-	{
-		if(mTexture_to_render_on->is_rendering_enabled())
-		{
-			gLayer_handler->render_to_layer(mButton_sprite, mRender_layer, &mClips[this->get_state()], &mButton_dimensions);
-		}
-	}
-	else
-	{
-		gLayer_handler->render_to_layer(mButton_sprite, mRender_layer, &mClips[this->get_state()], &mButton_dimensions);
-	}
+	gLayer_handler->render_to_layer(mButton_sprite, mRender_layer, &mClips[this->get_state()], &mButton_dimensions);
 }
 
 void Button::on_click(int mouse_x, int mouse_y)

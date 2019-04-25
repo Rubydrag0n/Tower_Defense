@@ -1,15 +1,14 @@
 #pragma once
 #include "Button.h"
+#include "WindowButton.h"
 
-class UpgradeButton : public Button
+class UpgradeButton : public WindowButton
 {
 public:
-	UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, Renderable* texture_to_render_on, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, int button_id = 0);
+	UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, Window* window, int button_id = 0);
 	~UpgradeButton();
 
 	std::string get_upgrade_section();
-
-	void render() override;
 
 private:
 	std::string mUpgrade_section;

@@ -80,7 +80,7 @@ void MouseItem::on_click(const int mouse_x, const int mouse_y)
 		const auto tile_y = mouse_y / TILE_HEIGHT;
 		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
 		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
-		if(tile_type == mTile_to_build_on)
+		if(tile_type == mTile_to_build_on && mLevel->get_building_matrix(tile_x, tile_y) == nullptr)
 		{
 			//don't combine these with && since we only want to sub resources when we can actually build
 			if (mLevel->get_resources()->sub(&mConstruction_costs))
@@ -90,7 +90,6 @@ void MouseItem::on_click(const int mouse_x, const int mouse_y)
 				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
 				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
 				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
-				mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
 			}
 		}
 	}
@@ -114,14 +113,13 @@ void MouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
 		const auto tile_y = mouse_y / TILE_HEIGHT;
 		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
 		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
-		if (tile_type == mTile_to_build_on)
+		if (tile_type == mTile_to_build_on && mLevel->get_building_matrix(tile_x, tile_y) == nullptr)
 		{
 			if (kind_of_object == "path")
 			{
 				if (mLevel->get_resources()->sub(&mConstruction_costs))
 				{
 					new Path(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
-					mLevel->set_map_matrix(tile_x, tile_y, BUILDINGTILE);
 				}
 			}
 		}
