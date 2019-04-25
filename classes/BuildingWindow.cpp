@@ -23,6 +23,7 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, W
 	{
 		mDim.x += -building->get_dimensions().w - mDim.w;
 	}
+	set_clickable_space(mDim);
 	mBuilding = building;
 
 	mResource_names = new Text*[RESOURCES_TOTAL];
