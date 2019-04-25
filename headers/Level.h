@@ -30,7 +30,7 @@ public:
 	TILETYPES** get_map_matrix() const;
 	void set_map_matrix(int x, int y, TILETYPES type) const;
 
-	void set_building_matrix(int x, int y, Building* building) const;
+	void set_building_matrix(int x, int y, Building* building, int x_size = 1, int y_size = 1) const;
 	Building* get_building_matrix(int x, int y) const;
 
 	Warehouse* get_main_building() const;

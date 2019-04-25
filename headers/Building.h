@@ -40,16 +40,15 @@ public:
 	bool get_idle() const;
 	void set_building_level(std::string building_level);
 	std::string get_building_level() const;
-	int get_count_of_little_upgrades();
+	int get_count_of_little_upgrades() const;
 	std::string get_name() const;
 
 	ENTITYTYPE get_type() override;
 	virtual BUILDINGTYPE get_building_type() = 0;
 
-	//returns the building in the neighboring tile or nullptr if it doesn't exist
-	Building* get_neighbor(BUILDINGDIRECTION dir);
-	//sets the building in the given direction to building
-	void set_neighbor(BUILDINGDIRECTION dir, Building* building);
+	//returns the buildings neighboring this one
+	std::vector<Building*> get_neighbors() const;
+	void update_neighbors();
 
 	Resources* get_current_resources() const;
 	void add_resources(Resources* r) const;
@@ -67,6 +66,7 @@ public:
 
 protected:
 	SDL_Point mCoords;
+	SDL_Point mBuilding_dimensions;
 	Resources* mMaintenance;
 	Resources* mProduce;
 	LTexture *mSprite; //texture
@@ -81,9 +81,8 @@ protected:
 	TILETYPES mTile_to_build_on;
 	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 
-	//this map holds pointers to the neighboring buildings or nullptr
-	//it is kept up to date by the level
-	std::map<BUILDINGDIRECTION, Building*> mSurrounding_buildings;
+	//a vector holding the neighbors of this building
+	std::vector<Building*> mSurrounding_buildings;
 
 	//how many resources the building has
 	Resources* mCurrent_resources;

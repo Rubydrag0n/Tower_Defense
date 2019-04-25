@@ -235,12 +235,9 @@ bool Carriage::update_checkpoints_to(Building * source, Building * target)
 		if (depth_search[depth].empty()) break;
 		for (auto it = depth_search[depth].begin(); it != depth_search[depth].end(); ++it) {	//iterating through each depth
 
-			auto current = it->first;
-			
-			for (auto dir = 0; dir != BUILDINGDIRECTIONS_TOTAL; dir++) { //iterating through 
-				auto neighbor = current->get_neighbor(BUILDINGDIRECTION(dir));
-				if (neighbor == nullptr) continue;
+			auto neighbors = it->first->get_neighbors();
 
+			for (auto neighbor : neighbors) { //iterating through 
 				if (visited.find(neighbor) == visited.end() &&
 					(neighbor->get_building_type() == STREET || neighbor == source))
 				{
