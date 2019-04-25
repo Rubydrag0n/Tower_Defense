@@ -56,18 +56,12 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 				mMap_matrix[x][y] = TILETYPES::EMPTY;
 				break;
 			case '1':
-				mMap_matrix[x][y] = TILETYPES::BUILDINGTILE;
-				break;
-			case '2':
-				mMap_matrix[x][y] = TILETYPES::STREETTILE;
-				break;
-			case '3':
 				mMap_matrix[x][y] = TILETYPES::MONSTERPATH;
 				break;
-			case '4':
+			case '2':
 				mMap_matrix[x][y] = TILETYPES::WOODTILE;
 				break;
-			case '5':
+			case '3':
 				mMap_matrix[x][y] = TILETYPES::IRONTILE;
 				break;
 			default:
