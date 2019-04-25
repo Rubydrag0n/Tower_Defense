@@ -9,14 +9,16 @@
 #include "Production.h"
 #include "Carriage.h"
 
-Building::Building(std::string building_name, SDL_Point coords, Level* level, LAYERS click_layer, LAYERS render_layer) : Entity(render_layer), Clickable(click_layer), mCoords{coords}, mSprite_dimensions{},
-                                                                                mLevel{level},
-                                                                                mName{std::move(building_name)},
-                                                                                mWindow{nullptr},
-																				mCarriage{nullptr}
+Building::Building(std::string building_name, SDL_Point coords, Level* level, const LAYERS click_layer,
+                   const LAYERS render_layer) : Clickable(click_layer), Entity(render_layer), mCoords{coords},
+                                                mSprite_dimensions{},
+                                                mLevel{level},
+                                                mName{std::move(building_name)},
+                                                mWindow{nullptr},
+												mCarriage{nullptr}
 {
-	auto building_sprite_section = mName + "/sprite";
-	auto building_stats_section = mName + "/stats";
+	const auto building_sprite_section = mName + "/sprite";
+	const auto building_stats_section = mName + "/stats";
 	mSprite_path = std::string(gConfig_file->value(building_sprite_section, "path"));
 
 	//load texture and the size of the image from the config file
@@ -88,15 +90,19 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, LA
 	int i = gConfig_file->value(building_stats_section, "tile");
 	mTile_to_build_on = static_cast<TILETYPES>(i);
 
-	for (auto j = 0; BUILDINGDIRECTION(j) < BUILDINGDIRECTION::BUILDINGDIRECTIONS_TOTAL; j++)
-	{
-		this->mSurrounding_buildings[BUILDINGDIRECTION(j)] = nullptr;
-	}
-	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, this);
+	//set the size of the building in tiles
+	this->mBuilding_dimensions.x = gConfig_file->value_or_zero(building_stats_section, "size_x");
+	this->mBuilding_dimensions.y = gConfig_file->value_or_zero(building_stats_section, "size_y");
+	if (this->mBuilding_dimensions.x <= 0) mBuilding_dimensions.x = 1;
+	if (this->mBuilding_dimensions.y <= 0) mBuilding_dimensions.y = 1;
+
+	//make entry in the building matrix for this building
+	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, this, mBuilding_dimensions.x, mBuilding_dimensions.y);
+
+	this->update_neighbors();
 
 	//initialize what this building is producing and consuming
 	mProducing = new Production(this);
-
 }
 
 Building::~Building()
@@ -294,14 +300,64 @@ void Building::set_idle(const bool value)
 	this->mIdle = value;
 }
 
-Building* Building::get_neighbor(const BUILDINGDIRECTION dir)
+std::vector<Building*> Building::get_neighbors() const
 {
-	return this->mSurrounding_buildings[dir];
+	return this->mSurrounding_buildings;
 }
 
-void Building::set_neighbor(const BUILDINGDIRECTION dir, Building* building)
+void Building::update_neighbors()
 {
-	this->mSurrounding_buildings[dir] = building;
+	this->mSurrounding_buildings.clear();
+
+	const auto x = mCoords.x / TILE_WIDTH;
+	const auto y = mCoords.y / TILE_HEIGHT;
+
+	const auto x_size = mBuilding_dimensions.x;
+	const auto y_size = mBuilding_dimensions.y;
+
+	//up side
+	if (y > 0)
+	{
+		for (auto x_i = 0; x_i < x_size; x_i++)
+		{
+			auto building = mLevel->get_building_matrix(x + x_i, y - 1);
+			if (building != nullptr)
+				mSurrounding_buildings.push_back(building);
+		}
+	}
+
+	//bottom side
+	if (y < MATRIX_HEIGHT - y_size)
+	{
+		for (auto x_i = 0; x_i < x_size; x_i++)
+		{
+			auto building = mLevel->get_building_matrix(x + x_i, y + y_size);
+			if (building != nullptr)
+				mSurrounding_buildings.push_back(building);
+		}
+	}
+
+	//left side
+	if (x > 0)
+	{
+		for (auto y_i = 0; y_i < y_size; y_i++)
+		{
+			auto building = mLevel->get_building_matrix(x - 1, y + y_i);
+			if (building != nullptr)
+				mSurrounding_buildings.push_back(building);
+		}
+	}
+
+	//right side
+	if (x < MATRIX_WIDTH - x_size)
+	{
+		for (auto y_i = 0; y_i < y_size; y_i++)
+		{
+			auto building = mLevel->get_building_matrix(x + x_size, y + y_i);
+			if (building != nullptr)
+				mSurrounding_buildings.push_back(building);
+		}
+	}
 }
 
 std::string Building::get_building_level() const
@@ -314,7 +370,7 @@ void Building::set_building_level(std::string building_level)
 	mBuilding_level = building_level;
 }
 
-int Building::get_count_of_little_upgrades()
+int Building::get_count_of_little_upgrades() const
 {
 	return mCount_of_little_upgrades;
 }

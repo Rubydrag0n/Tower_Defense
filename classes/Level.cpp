@@ -6,9 +6,6 @@
 #include <utility>
 #include "SDL_setup.h"
 
-const int MATRIX_WIDTH = 20;
-const int MATRIX_HEIGHT = 16;
-
 Level::Level(std::string level_number) : mLevel_number(std::move(level_number)), mMain_building()
 {
 	//mLevel_number = level_number;
@@ -123,7 +120,6 @@ int Level::get_lives() const
 	return mLives;
 }
 
-
 std::vector<Wave*> Level::get_waves()
 {
 	return mWaves;
@@ -159,31 +155,60 @@ void Level::set_map_matrix(const int x, const int y, const TILETYPES type) const
 	mMap_matrix[x][y] = type;
 }
 
-void Level::set_building_matrix(const int x, const int y, Building* building) const
+void Level::set_building_matrix(const int x, const int y, Building* building, const int x_size, const int y_size) const
 {
-	this->mMap_buildings[x][y] = building;
+	if (x < 0 || x + x_size > MATRIX_WIDTH || y < 0 || y + y_size > MATRIX_HEIGHT) return;
 
-	//set the neighbors of all buildings that change
-	if (x > 0) {
-		if (building != nullptr) building->set_neighbor(WEST, mMap_buildings[x - 1][y]);
-		if (mMap_buildings[x - 1][y] != nullptr) mMap_buildings[x - 1][y]->set_neighbor(EAST, building);
+	//set all the fields occupied
+	for (auto x_i = 0; x_i < x_size; x_i++)
+		for (auto y_i = 0; y_i < y_size; y_i++)
+			this->mMap_buildings[x + x_i][y + y_i] = building;
+
+	//update building's neighbors
+	//up side
+	if (y > 0)
+	{
+		for (auto x_i = 0; x_i < x_size; x_i++)
+		{
+			if (get_building_matrix(x + x_i, y - 1) != nullptr)
+				get_building_matrix(x + x_i, y - 1)->update_neighbors();
+		}
 	}
-	if (y > 0) {
-		if (building != nullptr) building->set_neighbor(NORTH, mMap_buildings[x][y - 1]);
-		if (mMap_buildings[x][y - 1] != nullptr) mMap_buildings[x][y - 1]->set_neighbor(SOUTH, building);
+
+	//bottom side
+	if (y < MATRIX_HEIGHT - y_size)
+	{
+		for (auto x_i = 0; x_i < x_size; x_i++)
+		{
+			if (get_building_matrix(x + x_i, y + y_size) != nullptr)
+				get_building_matrix(x + x_i, y + y_size)->update_neighbors();
+		}
 	}
-	if (x < MATRIX_WIDTH - 1) {
-		if (building != nullptr) building->set_neighbor(EAST, mMap_buildings[x + 1][y]);
-		if (mMap_buildings[x + 1][y] != nullptr) mMap_buildings[x + 1][y]->set_neighbor(WEST, building);
+
+	//left side
+	if (x > 0)
+	{
+		for (auto y_i = 0; y_i < y_size; y_i++)
+		{
+			if (get_building_matrix(x - 1, y + y_i) != nullptr)
+				get_building_matrix(x - 1, y + y_i)->update_neighbors();
+		}
 	}
-	if (y < MATRIX_HEIGHT - 1) {
-		if (building != nullptr) building->set_neighbor(SOUTH, mMap_buildings[x][y + 1]);
-		if (mMap_buildings[x][y + 1] != nullptr) mMap_buildings[x][y + 1]->set_neighbor(NORTH, building);
+
+	//right side
+	if (x < MATRIX_WIDTH - x_size)
+	{
+		for (auto y_i = 0; y_i < y_size; y_i++)
+		{
+			if (get_building_matrix(x + x_size, y + y_i) != nullptr)
+				get_building_matrix(x + x_size, y + y_i)->update_neighbors();
+		}
 	}
 }
 
 Building* Level::get_building_matrix(const int x, const int y) const
 {
+	if (x < 0 || x >= MATRIX_WIDTH || y < 0 || y >= MATRIX_HEIGHT) return nullptr;
 	return this->mMap_buildings[x][y];
 }
 

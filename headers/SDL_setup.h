@@ -9,6 +9,9 @@ const int LOGICAL_SCREEN_HEIGHT = 1080;
 const int TILE_HEIGHT = 64;
 const int TILE_WIDTH = 64;
 
+const int MATRIX_HEIGHT = 16;
+const int MATRIX_WIDTH = 20;
+
 extern int* gActual_screen_width;
 extern int* gActual_screen_height;
 
