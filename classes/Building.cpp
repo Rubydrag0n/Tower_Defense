@@ -117,8 +117,8 @@ void Building::demolish() const
 	auto refund = *mConstruction_costs / 2;
 	mLevel->get_resources()->add(&refund);
 
-	const auto tile_x = mCoords.x / 64;
-	const auto tile_y = mCoords.y / 64;
+	const auto tile_x = mCoords.x / TILE_WIDTH;
+	const auto tile_y = mCoords.y / TILE_HEIGHT;
 	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
 	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
 }
