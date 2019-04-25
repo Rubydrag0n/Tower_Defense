@@ -94,7 +94,7 @@ bool Carriage::move_towards(const SDL_Point target)
 	//building under the carriage (probably a path)
 	const auto here = mLevel->get_building_matrix(mPosition.x / TILE_WIDTH, mPosition.y / TILE_WIDTH);
 
-	const auto speed_multiplier = (here->get_building_type() == STREET) ? dynamic_cast<Path*>(here)->get_speed_multiplier() : 1.;
+	const auto speed_multiplier = (here == nullptr) ? 1. : (here->get_building_type() == STREET) ? dynamic_cast<Path*>(here)->get_speed_multiplier() : 1.;
 
 	const auto move_dist = mMove_speed / 60.0 * speed_multiplier;
 
