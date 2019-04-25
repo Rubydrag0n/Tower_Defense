@@ -205,6 +205,7 @@
     <ClCompile Include="classes\WareHouse.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
+    <ClCompile Include="classes\WindowButton.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +263,7 @@
     <ClInclude Include="headers\WareHouse.h" />
     <ClInclude Include="headers\Wave.h" />
     <ClInclude Include="headers\Window.h" />
+    <ClInclude Include="headers\WindowButton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

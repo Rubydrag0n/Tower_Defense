@@ -151,17 +151,6 @@ void Building::render()
 	dest.h = mSprite_dimensions.h;
 	
 	gLayer_handler->render_to_layer(mSprite, mRender_layer, nullptr, &dest);
-
-	if(this->is_clicked())
-	{		
-		mWindow->set_rendering_enabled(true);
-		mWindow->enable();
-		mWindow->set_clicked(true);
-	}
-	else
-	{
-		//mWindow->set_rendering_enabled(false);
-	}
 }
 
 void Building::on_tick()
@@ -185,12 +174,19 @@ void Building::on_click(int mouse_x, int mouse_y)
 		if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
 		{
 			this->set_clicked(true);
+			mWindow->set_rendering_enabled(true);
+			mWindow->enable();
+			mWindow->set_clicked(true);
 		}
 	}
 	else
 	{
 		this->set_clicked(true);
+		mWindow->set_rendering_enabled(true);
+		mWindow->enable();
+		mWindow->set_clicked(true);
 	}
+
 }
 
 void Building::set_maintenance(Resources* maintenance)

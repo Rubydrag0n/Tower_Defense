@@ -3,10 +3,11 @@
 #include "Button.h"
 #include "CoordinatesInDouble.h"
 #include <vector>
-#include "UpgradeButton.h"
-#include "BigUpgrade.h"
+#include "Text.h"
+
 
 class Building;
+class BigUpgrade;
 
 class BuildingWindow
 	: public Window, public ButtonObject
@@ -41,6 +42,6 @@ private:
 
 protected:
 	Building* mBuilding;
-	SDL_Color mText_color{} {};
+	SDL_Color mText_color{};
 	std::vector<BigUpgrade*> mBig_upgrades; 
 };
