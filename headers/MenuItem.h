@@ -1,13 +1,14 @@
 #pragma once
-#include "Clickable.h"
 #include "Renderable.h"
 #include <string>
+#include <SDL.h>
 #include "LTexture.h"
-#include "Resources.h"
+#include "Clickable.h"
+
 
 class Level;
 
-class MenuItem final :
+class MenuItem :
 	public Clickable, public Renderable
 {
 public:
@@ -15,19 +16,15 @@ public:
 	~MenuItem();
 
 	void render() override;
-	void delete_clickable_space();
 
 	void on_click(int mouse_x, int mouse_y) override;
 
-
 	LTexture* get_sprite() const;
 	SDL_Point get_coords() const;
-	Resources get_construction_costs() const;
 
-private:
+protected:
 	SDL_Point mCoords; //coordinates, where the item is placed in the menu
 	LTexture* mSprite;
-	Resources mConstruction_costs;
 	std::string mName_of_object; // for example the tower name
-	Level *mLevel;
+	Level* mLevel;
 };

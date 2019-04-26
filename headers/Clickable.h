@@ -43,9 +43,6 @@ public:
 	bool is_enabled() const;
 
 private:
-	//the space that can be clicked on to trigger an event
-	SDL_Rect mClickable_space;
-
 	//the state that the clickable is in right now. Is handled by the MouseHandler
 	L_CLICKABLE_STATE mState;
 
@@ -59,4 +56,7 @@ protected:
 	//determines the order of stuff on the screens in terms of which will be clicked
 	//low = background, high = foreground
 	LAYERS  mClick_layer;
+
+	//the space that can be clicked on to trigger an event
+	SDL_Rect mClickable_space;
 };

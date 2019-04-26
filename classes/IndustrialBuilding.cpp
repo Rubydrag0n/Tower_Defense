@@ -7,10 +7,10 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 	std::move(industrial_building_name), coords, level, click_layer, render_layer)
 {
 	SDL_Rect rect;
-	rect.x = mCoords.x;
+	rect.x = mCoords.x + mSprite_dimensions.w;
 	rect.y = mCoords.y - 200;
 	rect.w = 200;
-	rect.h = 200;
+	rect.h = 600;
 	mWindow = new BuildingWindow(rect, this);
 	mWindow->set_rendering_enabled(false);
 

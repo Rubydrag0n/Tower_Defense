@@ -153,6 +153,8 @@
     <ClCompile Include="classes\AoeTower.cpp" />
     <ClCompile Include="classes\BigUpgrade.cpp" />
     <ClCompile Include="classes\Building.cpp" />
+    <ClCompile Include="classes\BuildingMenuItem.cpp" />
+    <ClCompile Include="classes\BuildingMouseItem.cpp" />
     <ClCompile Include="classes\BuildingWindow.cpp" />
     <ClCompile Include="classes\Button.cpp" />
     <ClCompile Include="classes\ButtonObject.cpp" />
@@ -163,6 +165,8 @@
     <ClCompile Include="classes\CoordinatesInDouble.cpp" />
     <ClCompile Include="classes\Damage.cpp" />
     <ClCompile Include="classes\Defense.cpp" />
+    <ClCompile Include="classes\DemolishTool.cpp" />
+    <ClCompile Include="classes\DemolishToolMouseItem.cpp" />
     <ClCompile Include="classes\Enemy.cpp" />
     <ClCompile Include="classes\Game.cpp" />
     <ClCompile Include="classes\HomingShot.cpp" />
@@ -213,6 +217,8 @@
     <ClInclude Include="headers\AoeTower.h" />
     <ClInclude Include="headers\BigUpgrade.h" />
     <ClInclude Include="headers\Building.h" />
+    <ClInclude Include="headers\BuildingMenuItem.h" />
+    <ClInclude Include="headers\BuildingMouseItem.h" />
     <ClInclude Include="headers\BuildingWindow.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\ButtonObject.h" />
@@ -223,6 +229,8 @@
     <ClInclude Include="headers\CoordinatesInDouble.h" />
     <ClInclude Include="headers\Damage.h" />
     <ClInclude Include="headers\Defense.h" />
+    <ClInclude Include="headers\DemolishTool.h" />
+    <ClInclude Include="headers\DemolishToolMouseItem.h" />
     <ClInclude Include="headers\Enemy.h" />
     <ClInclude Include="headers\Enums.h" />
     <ClInclude Include="headers\Game.h" />

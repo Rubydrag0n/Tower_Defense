@@ -2,32 +2,24 @@
 #include "LayerHandler.h"
 #include "ConfigFile.h"
 #include "IndustrialBuilding.h"
-#include "AoeTower.h"
-#include "HomingTower.h"
 #include "MouseHandler.h"
 #include "SDL_setup.h"
 #include "WareHouse.h"
-#include "Path.h"
 
-MouseItem::MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, const Resources& construction_costs, LAYERS click_layer) : Clickable(click_layer)
+MouseItem::MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, LAYERS click_layer) : Clickable(click_layer), Renderable(click_layer)
 {
 	this->mName_of_object = name_of_object;
-	SDL_Rect clickable;
-	clickable.x = 0;
-	clickable.y = 0;
-	clickable.w = 1920;
-	clickable.h = 1050;
-	this->set_clickable_space(clickable);
+	mClickable_space.x = 0;
+	mClickable_space.y = 0;
+	mClickable_space.w = 1920;
+	mClickable_space.h = 1050;
 	mSprite = sprite;
 	mLevel = level;
-	mConstruction_costs = construction_costs;
 	mGrid_sprite_path = std::string(gConfig_file->value("grid", "path"));
 	mGrid_sprite = gTextures->get_texture(mGrid_sprite_path);
-	int i = gConfig_file->value(name_of_object + "/stats", "tile");
-	mTile_to_build_on = static_cast<TILETYPES>(i);
 }
 
-void MouseItem::render() const
+void MouseItem::render()
 {
 	SDL_Rect dest;
 	int mouse_x;
@@ -69,30 +61,7 @@ void MouseItem::set_name_of_object(const std::string& name)
 
 void MouseItem::on_click(const int mouse_x, const int mouse_y)
 {
-	if(mouse_x < 1280)
-	{
-		SDL_Point p;
-		const auto grid_offset_x = mouse_x % TILE_WIDTH;
-		const auto grid_offset_y = mouse_y % TILE_HEIGHT;
-		p.x = mouse_x - grid_offset_x;
-		p.y = mouse_y - grid_offset_y;
-		const auto tile_x = mouse_x / TILE_WIDTH;
-		const auto tile_y = mouse_y / TILE_HEIGHT;
-		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
-		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
-		if(tile_type == mTile_to_build_on && mLevel->get_building_matrix(tile_x, tile_y) == nullptr)
-		{
-			//don't combine these with && since we only want to sub resources when we can actually build
-			if (mLevel->get_resources()->sub(&mConstruction_costs))
-			{
-				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
-				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
-			}
-		}
-	}
+
 }
 
 void MouseItem::on_right_click(int mouse_x, int mouse_y)
@@ -102,26 +71,5 @@ void MouseItem::on_right_click(int mouse_x, int mouse_y)
 
 void MouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
 {
-	if (mouse_x < 1280 && this->get_state() == MOUSE_DOWN_LEFT)
-	{
-		SDL_Point p;
-		const auto grid_offset_x = mouse_x % TILE_WIDTH;
-		const auto grid_offset_y = mouse_y % TILE_HEIGHT;
-		p.x = mouse_x - grid_offset_x;
-		p.y = mouse_y - grid_offset_y;
-		const auto tile_x = mouse_x / 64;
-		const auto tile_y = mouse_y / 64;
-		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
-		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
-		if (tile_type == mTile_to_build_on && mLevel->get_building_matrix(tile_x, tile_y) == nullptr)
-		{
-			if (kind_of_object == "path")
-			{
-				if (mLevel->get_resources()->sub(&mConstruction_costs))
-				{
-					new Path(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
-				}
-			}
-		}
-	}
+
 }

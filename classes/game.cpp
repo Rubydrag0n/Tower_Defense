@@ -42,6 +42,19 @@ Game::Game() : mMouse_position()
 
 	gLayer_handler = new LayerHandler();
 
+	SDL_Point p;
+	p.x = 1088;
+	p.y = 448;
+
+	auto tower = new HomingTower("archer", p, mCurrent_level, BUILDINGS, BUILDINGS);
+
+	p.x += 64;
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+	p.y += 64;
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+	p.y += 64;
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	mCurrent_level->get_main_building()->add_resources(r);
 }

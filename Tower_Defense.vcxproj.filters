@@ -240,6 +240,18 @@
     <ClCompile Include="classes\WindowButton.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="classes\DemolishTool.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\BuildingMenuItem.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\BuildingMouseItem.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\DemolishToolMouseItem.cpp">
+      <Filter>Source Files\Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -399,6 +411,18 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\WindowButton.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\DemolishTool.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\BuildingMenuItem.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\BuildingMouseItem.h">
+      <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\DemolishToolMouseItem.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
   </ItemGroup>

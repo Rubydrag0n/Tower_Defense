@@ -4,6 +4,8 @@
 #include "LayerHandler.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
+#include "DemolishTool.h"
+#include "BuildingMenuItem.h"
 
 Menu::Menu(Level *level, LAYERS render_layer) : Renderable(render_layer)
 {
@@ -31,7 +33,7 @@ Menu::Menu(Level *level, LAYERS render_layer) : Renderable(render_layer)
 
 
 	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
-		this->mMenu_items[BUILDINGTYPE(i)] = new std::vector<MenuItem*>();
+		this->mBuilding_menu_items[BUILDINGTYPE(i)] = new std::vector<BuildingMenuItem*>();
 	}
 
 	this->sort_items_into_menu();
@@ -75,7 +77,7 @@ void Menu::show_tab(const BUILDINGTYPE open_tab)
 	//enable all the items in the opened tab, disable all the items in the not opened tabs
 	for (auto j = 0; j < BUILDINGTYPES_TOTAL; j++) {
 		if (BUILDINGTYPE(j) == open_tab) {
-			for (auto& i : *mMenu_items[open_tab])
+			for (auto& i : *mBuilding_menu_items[open_tab])
 			{
 				i->set_rendering_enabled(true);
 				i->enable();
@@ -83,10 +85,10 @@ void Menu::show_tab(const BUILDINGTYPE open_tab)
 		}
 		else
 		{
-			for (unsigned i = 0; i < mMenu_items[BUILDINGTYPE(j)]->size(); i++)
+			for (unsigned i = 0; i < mBuilding_menu_items[BUILDINGTYPE(j)]->size(); i++)
 			{
-				mMenu_items[BUILDINGTYPE(j)]->at(i)->set_rendering_enabled(false);
-				mMenu_items[BUILDINGTYPE(j)]->at(i)->disable();
+				mBuilding_menu_items[BUILDINGTYPE(j)]->at(i)->set_rendering_enabled(false);
+				mBuilding_menu_items[BUILDINGTYPE(j)]->at(i)->disable();
 			}
 		}
 	}
@@ -122,10 +124,14 @@ void Menu::sort_items_into_menu()
 				break;
 			}
 			name_of_object.assign(gConfig_file->value(types.at(j), std::to_string(i)));
-			const auto new_item = new MenuItem(name_of_object, mLevel, coords, WINDOWBUTTONS, WINDOWBUTTONS);
+			const auto new_item = new BuildingMenuItem(name_of_object, mLevel, coords, WINDOWBUTTONS, WINDOWBUTTONS);
 			this->add_menu_item(new_item, BUILDINGTYPE(j));
 		}
 	}
+
+	coords.x = 1300;
+	coords.y = 600;
+	new DemolishTool(mLevel, coords);
 }
 
 void Menu::render()
@@ -133,7 +139,7 @@ void Menu::render()
 
 }
 
-void Menu::add_menu_item(MenuItem* menu_item, const BUILDINGTYPE tab)
+void Menu::add_menu_item(BuildingMenuItem* building_menu_item, const BUILDINGTYPE tab)
 {
-	this->mMenu_items[tab]->push_back(menu_item);
+	this->mBuilding_menu_items[tab]->push_back(building_menu_item);
 }

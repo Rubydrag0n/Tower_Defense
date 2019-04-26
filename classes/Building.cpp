@@ -180,17 +180,23 @@ void Building::on_click(int mouse_x, int mouse_y)
 		if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
 		{
 			this->set_clicked(true);
-			mWindow->set_rendering_enabled(true);
-			mWindow->enable();
-			mWindow->set_clicked(true);
+			if(mWindow != nullptr)
+			{
+				mWindow->set_rendering_enabled(true);
+				mWindow->enable();
+				mWindow->set_clicked(true);
+			}
 		}
 	}
 	else
 	{
 		this->set_clicked(true);
-		mWindow->set_rendering_enabled(true);
-		mWindow->enable();
-		mWindow->set_clicked(true);
+		if (mWindow != nullptr)
+		{
+			mWindow->set_rendering_enabled(true);
+			mWindow->enable();
+			mWindow->set_clicked(true);
+		}
 	}
 
 }
