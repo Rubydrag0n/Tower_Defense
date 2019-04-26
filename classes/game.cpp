@@ -50,10 +50,17 @@ Game::Game() : mMouse_position()
 
 	p.x += 64;
 	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 64;
+	p.y += 32;
 	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 64;
+	p.y += 32;
 	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
+
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	mCurrent_level->get_main_building()->add_resources(r);
