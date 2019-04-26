@@ -7,7 +7,7 @@
 #include "DemolishTool.h"
 #include "BuildingMenuItem.h"
 
-Menu::Menu(Level *level, LAYERS render_layer) : Renderable(render_layer)
+Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer)
 {
 	this->mLevel = level;
 	this->mOpen_tab = TOWER;
@@ -116,8 +116,8 @@ void Menu::sort_items_into_menu()
 	for (auto j = 0; j < BUILDINGTYPE::BUILDINGTYPES_TOTAL; j++) {
 		for (auto i = 0; ; i++)
 		{
-			coords.x = 1300 + (i % number_of_items_per_row) * TILE_WIDTH;
-			coords.y = 64 + (i / number_of_items_per_row) * TILE_HEIGHT;
+			coords.x = 1300 + (i % number_of_items_per_row) * MENU_ITEM_WIDTH;
+			coords.y = 64 + (i / number_of_items_per_row) * MENU_ITEM_HEIGHT;
 
 			if(!gConfig_file->value_exists(types.at(j), std::to_string(i)))
 			{
