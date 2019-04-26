@@ -119,8 +119,8 @@ void Building::demolish() const
 
 	const auto tile_x = mCoords.x / TILE_WIDTH;
 	const auto tile_y = mCoords.y / TILE_HEIGHT;
-	mLevel->set_map_matrix(tile_x, tile_y, mTile_to_build_on);
-	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr);
+
+	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr, mBuilding_dimensions.x, mBuilding_dimensions.y);
 }
 
 void Building::upgrade(const std::string& building_upgrade_section)
