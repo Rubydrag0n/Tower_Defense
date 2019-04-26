@@ -303,6 +303,9 @@
   <ItemGroup>
     <Font Include="resources\lazy.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="level\Level1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

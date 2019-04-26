@@ -56,30 +56,32 @@ void MouseHandler::update()
 	auto const state = SDL_GetMouseState(nullptr, nullptr);
 	const auto end = this->mClickables.end();
 
-	for (auto it = this->mClickables.begin(); it != end; ++it)
-	{
-		if (*it == nullptr) continue;
 
-		const auto rect = (*it)->get_clickable_space();
+	for (auto i = 0; i < mClickables.size(); ++i)  // NOLINT(modernize-loop-convert)
+	{
+		auto it = mClickables.at(i);
+		if (it == nullptr) continue;
+
+		const auto rect = (it)->get_clickable_space();
 		if (mouse_x > rect.x && mouse_x < rect.x + rect.w && 
 			mouse_y > rect.y && mouse_y < rect.y + rect.h && 
-			(*it)->is_enabled())
+			it->is_enabled())
 		{
-			(*it)->on_mouse_over(mouse_x, mouse_y);				
+			it->on_mouse_over(mouse_x, mouse_y);				
 			
 			//get current state of mouse button to pass through to the clickable
 			if (state & SDL_BUTTON(SDL_BUTTON_LEFT))
-				(*it)->set_state(MOUSE_DOWN_LEFT);
+				it->set_state(MOUSE_DOWN_LEFT);
 			else if (state & SDL_BUTTON(SDL_BUTTON_RIGHT))
-				(*it)->set_state(MOUSE_DOWN_RIGHT);
+				it->set_state(MOUSE_DOWN_RIGHT);
 			else if (state & SDL_BUTTON(SDL_BUTTON_MIDDLE))
-				(*it)->set_state(MOUSE_DOWN_MIDDLE);
+				it->set_state(MOUSE_DOWN_MIDDLE);
 			else
-				(*it)->set_state(MOUSE_OVER);
+				it->set_state(MOUSE_OVER);
 		} 
 		else 
 		{
-			(*it)->set_state(MOUSE_OUT);
+			it->set_state(MOUSE_OUT);
 		}
 	}
 }

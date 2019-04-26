@@ -66,7 +66,7 @@ public:
 
 protected:
 	SDL_Point mCoords;
-	SDL_Point mBuilding_dimensions;
+	SDL_Point mBuilding_dimensions{};
 	Resources* mMaintenance;
 	Resources* mProduce;
 	LTexture *mSprite; //texture
