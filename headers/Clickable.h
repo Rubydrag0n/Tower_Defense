@@ -21,6 +21,9 @@ public:
 	//gets called when the object is clicked with the middle mouse button
 	virtual void on_middle_click(int mouse_x, int mouse_y) {};
 
+	//gets called when the mouse isnt over the object
+	virtual void on_mouse_out(int mouse_x, int mouse_y) {};
+
 	SDL_Rect get_clickable_space() const;
 	void set_clickable_space(SDL_Rect clickable_space);
 

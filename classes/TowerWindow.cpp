@@ -91,50 +91,47 @@ void TowerWindow::render()
 	mAttackspeed_upgrade_number_texture->set_text(std::to_string(mNumber_of_attackspeed_upgrades));
 	mRange_upgrade_number_texture->set_text(std::to_string(mNumber_of_range_upgrades));
 
-	//updates texture: stat-values for tower
-	auto dmg_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_dmg_sum()));
-	auto as_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_attack_speed()));
-	auto range_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_range()));
-	auto dmg_distribution_text = "P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg()))
-		+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg()))
-		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg()))
-		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg()))
-		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg()));
-
 	//changes string if a upgradebutton is hovered
 	for (auto& upgrade : mBig_upgrades)
 	{
 		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button(), &dmg_value, &as_value, &range_value, &dmg_distribution_text);	
+			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button());	
 	}
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button, &dmg_value, &as_value, &range_value, &dmg_distribution_text);
+		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button);
 	if (mUpgrade_attackspeed_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button, &dmg_value, &as_value, &range_value, &dmg_distribution_text);
+		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button);
 	if (mUpgrade_range_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button, &dmg_value, &as_value, &range_value, &dmg_distribution_text);
+		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button);
+
+
+}
+
+void TowerWindow::set_stat_strings_for_upgrade_buttons(Button* button)
+{
+	//updates texture: stat-values for tower
+	auto dmg_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_dmg_sum()));
+	auto as_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_attack_speed()));
+	auto range_value = std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_range()));
+	
+	const auto tower_upgrade_section = mBuilding->get_name() + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
+	dmg_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "magic")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "fire")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "water")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+	as_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed"));
+	range_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "range"));
+	auto dmg_distribution_text = "P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys"))
+		+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))
+		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "fire"))
+		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
+		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
 
 	mDmg_value->set_text(dmg_value);
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
 	mDamage_distribution_text->set_text(dmg_distribution_text);
-}
-
-void TowerWindow::set_stat_strings_for_upgrade_buttons(Button* button, std::string* dmg_text, std::string* as_text, std::string* range_text, std::string* dmg_distribution_text) const
-{
-	const auto tower_upgrade_section = mBuilding->get_name() + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
-	*dmg_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "magic")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "fire")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "water")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-	*as_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed"));
-	*range_text += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "range"));
-	*dmg_distribution_text = "P: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_phys_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys"))
-		+ " M: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_magic_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))
-		+ " F: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_fire_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "fire"))
-		+ " W: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_water_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
-		+ " E: " + std::to_string(int(dynamic_cast<Tower*>(mBuilding)->get_damage().get_elec_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
 }
 
 void TowerWindow::upgrade_damage() 

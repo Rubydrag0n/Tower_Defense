@@ -143,6 +143,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 		else //if the click wasn't inside the object set state and set clicked
 		{
 			it->set_state(MOUSE_OUT); 
+			it->on_mouse_out(x, y);
 			if (e->button.button == 1 && e->button.state == SDL_PRESSED)
 			{
 				it->set_clicked(false);

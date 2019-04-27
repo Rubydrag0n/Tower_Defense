@@ -22,7 +22,7 @@ public:
 	Button* get_upgrade_attackspeed_button() const;
 
 	//if an upgradebutton is hovered this function is called and sets the strings with the stats for the upgrade, that are shown in the window
-	void set_stat_strings_for_upgrade_buttons(Button* button, std::string* dmg_text, std::string* as_text, std::string* range_text, std::string* dmg_distribution_text) const;
+	void set_stat_strings_for_upgrade_buttons(Button* button);
 
 private:
 	UpgradeButton* mUpgrade_damage_button;

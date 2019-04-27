@@ -16,5 +16,7 @@ public:
 	Window* get_window();
 
 private:
+
+protected:
 	Window* mWindow; //window where the button is rendered on
 };

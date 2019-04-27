@@ -30,9 +30,6 @@ public:
 	CoordinatesInDouble get_button_offset() const;
 	Building* get_building() const;
 
-	Text** get_resource_names();
-	Text** get_storage_values();
-
 private:
 	Button* mDemolish_button;
 	CoordinatesInDouble mButton_offset;

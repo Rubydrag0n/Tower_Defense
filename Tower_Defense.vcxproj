@@ -207,6 +207,7 @@
     </ClCompile>
     <ClCompile Include="classes\EntityHandler.cpp" />
     <ClCompile Include="classes\UpgradeButton.cpp" />
+    <ClCompile Include="classes\UpgradeWindow.cpp" />
     <ClCompile Include="classes\WareHouse.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
@@ -270,6 +271,7 @@
     </ClInclude>
     <ClInclude Include="headers\EntityHandler.h" />
     <ClInclude Include="headers\UpgradeButton.h" />
+    <ClInclude Include="headers\UpgradeWindow.h" />
     <ClInclude Include="headers\WareHouse.h" />
     <ClInclude Include="headers\Wave.h" />
     <ClInclude Include="headers\Window.h" />

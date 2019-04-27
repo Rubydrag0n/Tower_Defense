@@ -79,6 +79,18 @@
     <Filter Include="Header Files\Units">
       <UniqueIdentifier>{afbf9d64-3a4b-40f6-80b8-84263980ff3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Menus\Windows">
+      <UniqueIdentifier>{7936a8fe-0ecc-4795-bdb6-40c525cc5902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menus\Buttons">
+      <UniqueIdentifier>{df10dc17-051f-4066-a436-28ff10623543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menus\Buttons">
+      <UniqueIdentifier>{2d1b1648-ffa9-43e1-8dc0-15730bed2f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menus\Windows">
+      <UniqueIdentifier>{9afa88d8-2db3-4099-9dec-97a49107f728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classes\Game.cpp">
@@ -95,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="classes\Building.cpp">
       <Filter>Source Files\Buildings</Filter>
-    </ClCompile>
-    <ClCompile Include="classes\Button.cpp">
-      <Filter>Source Files\Menus</Filter>
     </ClCompile>
     <ClCompile Include="classes\Chameleon.cpp">
       <Filter>Source Files\Handlers</Filter>
@@ -162,9 +171,6 @@
     <ClCompile Include="classes\Wave.cpp">
       <Filter>Source Files\Level</Filter>
     </ClCompile>
-    <ClCompile Include="classes\Window.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="classes\LayerHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
@@ -195,12 +201,6 @@
     <ClCompile Include="classes\MouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\BuildingWindow.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
-    <ClCompile Include="classes\ButtonObject.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="classes\WareHouse.cpp">
       <Filter>Source Files\Buildings\Logistics buildings</Filter>
     </ClCompile>
@@ -216,29 +216,17 @@
     <ClCompile Include="classes\Path.cpp">
       <Filter>Source Files\Buildings\Logistics buildings</Filter>
     </ClCompile>
-    <ClCompile Include="classes\TowerWindow.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Production.cpp">
       <Filter>Source Files\Data structures</Filter>
     </ClCompile>
     <ClCompile Include="classes\Timer.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\UpgradeButton.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="classes\BigUpgrade.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
-    <ClCompile Include="classes\ShowMoreButton.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
     <ClCompile Include="classes\Text.cpp">
       <Filter>Source Files\Handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="classes\WindowButton.cpp">
-      <Filter>Source Files\Menus</Filter>
     </ClCompile>
     <ClCompile Include="classes\DemolishTool.cpp">
       <Filter>Source Files\Menus</Filter>
@@ -252,8 +240,35 @@
     <ClCompile Include="classes\DemolishToolMouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="classes\Button.cpp">
+      <Filter>Source Files\Menus\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ButtonObject.cpp">
+      <Filter>Source Files\Menus\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\UpgradeButton.cpp">
+      <Filter>Source Files\Menus\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ShowMoreButton.cpp">
+      <Filter>Source Files\Menus\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\WindowButton.cpp">
+      <Filter>Source Files\Menus\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\TowerWindow.cpp">
+      <Filter>Source Files\Menus\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Window.cpp">
+      <Filter>Source Files\Menus\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\BuildingWindow.cpp">
+      <Filter>Source Files\Menus\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="classes\IndustrialBuildingWindow.cpp">
-      <Filter>Source Files\Menus</Filter>
+      <Filter>Source Files\Menus\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\UpgradeWindow.cpp">
+      <Filter>Source Files\Menus\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,13 +341,7 @@
     <ClInclude Include="headers\CoordinatesInDouble.h">
       <Filter>Header Files\Data structures</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Window.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Menu.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Button.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="headers\Chameleon.h">
@@ -368,12 +377,6 @@
     <ClInclude Include="headers\MouseItem.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="headers\BuildingWindow.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\ButtonObject.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="headers\WareHouse.h">
       <Filter>Header Files\Buildings\Logistics buildings</Filter>
     </ClInclude>
@@ -392,29 +395,17 @@
     <ClInclude Include="headers\Enums.h">
       <Filter>Header Files\Data structures</Filter>
     </ClInclude>
-    <ClInclude Include="headers\TowerWindow.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Production.h">
       <Filter>Header Files\Data structures</Filter>
     </ClInclude>
     <ClInclude Include="headers\Timer.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="headers\UpgradeButton.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="headers\BigUpgrade.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\ShowMoreButton.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="headers\Text.h">
       <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\WindowButton.h">
-      <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="headers\DemolishTool.h">
       <Filter>Header Files\Menus</Filter>
@@ -428,8 +419,35 @@
     <ClInclude Include="headers\DemolishToolMouseItem.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="headers\BuildingWindow.h">
+      <Filter>Header Files\Menus\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="headers\IndustrialBuildingWindow.h">
-      <Filter>Header Files\Menus</Filter>
+      <Filter>Header Files\Menus\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Window.h">
+      <Filter>Header Files\Menus\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Button.h">
+      <Filter>Header Files\Menus\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ButtonObject.h">
+      <Filter>Header Files\Menus\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ShowMoreButton.h">
+      <Filter>Header Files\Menus\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\UpgradeButton.h">
+      <Filter>Header Files\Menus\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\WindowButton.h">
+      <Filter>Header Files\Menus\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\TowerWindow.h">
+      <Filter>Header Files\Menus\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\UpgradeWindow.h">
+      <Filter>Header Files\Menus\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
