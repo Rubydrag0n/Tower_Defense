@@ -252,6 +252,9 @@
     <ClCompile Include="classes\DemolishToolMouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="classes\IndustrialBuildingWindow.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -423,6 +426,9 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\DemolishToolMouseItem.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\IndustrialBuildingWindow.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
   </ItemGroup>

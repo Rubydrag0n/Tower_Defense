@@ -30,17 +30,21 @@ public:
 	CoordinatesInDouble get_button_offset() const;
 	Building* get_building() const;
 
+	Text** get_resource_names();
+	Text** get_storage_values();
+
 private:
 	Button* mDemolish_button;
 	CoordinatesInDouble mButton_offset;
 
 	//the textures can't be immediately deleted, so they are reused instead
-	Text** mResource_names;
+	
 	Text** mStorage_values;
 	Text** mMaintenance_values;
 	Text* mHeadline;
 
 protected:
+	Text** mResource_names;
 	Building* mBuilding;
 	SDL_Color mText_color{};
 	std::vector<BigUpgrade*> mBig_upgrades; 

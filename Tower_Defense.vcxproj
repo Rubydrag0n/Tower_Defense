@@ -172,6 +172,7 @@
     <ClCompile Include="classes\HomingShot.cpp" />
     <ClCompile Include="classes\HomingTower.cpp" />
     <ClCompile Include="classes\IndustrialBuilding.cpp" />
+    <ClCompile Include="classes\IndustrialBuildingWindow.cpp" />
     <ClCompile Include="classes\LayerHandler.cpp" />
     <ClCompile Include="classes\Level.cpp" />
     <ClCompile Include="classes\LTexture.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="headers\HomingShot.h" />
     <ClInclude Include="headers\HomingTower.h" />
     <ClInclude Include="headers\IndustrialBuilding.h" />
+    <ClInclude Include="headers\IndustrialBuildingWindow.h" />
     <ClInclude Include="headers\LayerHandler.h" />
     <ClInclude Include="headers\Level.h" />
     <ClInclude Include="headers\LTexture.h" />

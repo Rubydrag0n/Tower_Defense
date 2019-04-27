@@ -30,22 +30,15 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, W
 	mStorage_values = new Text*[RESOURCES_TOTAL];
 	mMaintenance_values = new Text*[RESOURCES_TOTAL];
 	
-	SDL_Rect button_dim;
 	mButton_offset.x = 160;
 	mButton_offset.y = 70;
-	button_dim.x = static_cast<int>(mDim.x + mButton_offset.x);
-	button_dim.y = static_cast<int>(mDim.y + mButton_offset.y);
-	button_dim.w = 26;
-	button_dim.h = 26;
-
-	mDemolish_button = new WindowButton("testbutton", button_dim, this, WINDOWBUTTONS, WINDOWBUTTONS, this, BUILDINGWINDOWBUTTONIDS::DEMOLISH_BUTTON);
 
 	update_great_upgrades();
 
 	mText_color = { 0, 0, 0, 0 };
 	SDL_Rect headline_dest;
-	headline_dest.x = get_dim().x + 20;
-	headline_dest.y = get_dim().y + 420;
+	headline_dest.x = mDim.x + 20;
+	headline_dest.y = mDim.y + mDim.h - 180;
 	headline_dest.w = 0;	//setting these to 0 will not scale anything
 	headline_dest.h = 0;
 
