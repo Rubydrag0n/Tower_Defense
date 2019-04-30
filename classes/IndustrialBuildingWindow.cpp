@@ -10,13 +10,14 @@ IndustrialBuildingWindow::IndustrialBuildingWindow(SDL_Rect dim, IndustrialBuild
 	dest.y = mDim.y + 130;
 
 	mProduction_values = new Text*[RESOURCES_TOTAL];
+	mResource_names_prod = new Text*[RESOURCES_TOTAL];
 
-	mProduction_headline = new Text("        Production", dest, WINDOWBUTTONS, mText_color, this);
+	mProduction_headline = new Text("        Production", dest, WINDOWCONTENT, mText_color, this);
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		dest.y += 20;
-		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWS, mText_color, this);
-		mProduction_values[i] = new Text(std::to_string(mBuilding->get_produce()->get_display_resources().get_resource(RESOURCETYPES(i))), dest, WINDOWBUTTONS, mText_color, this);
+		mResource_names_prod[i] = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWS, mText_color, this);
+		mProduction_values[i] = new Text(std::to_string(mBuilding->get_produce()->get_display_resources().get_resource(RESOURCETYPES(i))), dest, WINDOWCONTENT, mText_color, this);
 		mProduction_values[i]->add_x_dim(60);
 	}
 }
@@ -26,8 +27,11 @@ IndustrialBuildingWindow::~IndustrialBuildingWindow()
 	for (auto i = 0; i < RESOURCES_TOTAL; i++)
 	{
 		delete mProduction_values[i];
+		delete mResource_names_prod[i];
 	}
+	delete[] mResource_names_prod;
 	delete[] mProduction_values;
+	delete mProduction_headline;
 }
 
 void IndustrialBuildingWindow::render()

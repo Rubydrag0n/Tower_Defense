@@ -5,7 +5,7 @@
 #include "LayerHandler.h"
 
 
-Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_layer), mCenter(), mCurrent_clip(), mSprite_dimensions()
+Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_layer), Clickable(render_layer), mCenter(), mCurrent_clip(), mSprite_dimensions()
 {
 	const auto sprite_section = unit_name + "/sprite";
 	const auto stats_section = unit_name + "/stats";
@@ -47,13 +47,14 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 	mDirection = DIRECTION::DOWN;
 
 	mMove_speed = gConfig_file->value(stats_section, "movementspeed");
-	mDefense.set_defenses(double(int(gConfig_file->value_or_zero(stats_section, "health"))),
+	mDefense = new Defense();
+	mDefense->set_defenses(double(int(gConfig_file->value_or_zero(stats_section, "health"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "armor"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "magicres"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "fireres"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "waterres"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "elecres"))));
-	mDefense.set_immunities(bool(int(gConfig_file->value_or_zero(stats_section, "physimm"))),
+	mDefense->set_immunities(bool(int(gConfig_file->value_or_zero(stats_section, "physimm"))),
 							bool(int(gConfig_file->value_or_zero(stats_section, "magicimm"))),
 							bool(int(gConfig_file->value_or_zero(stats_section, "fireimm"))),
 							bool(int(gConfig_file->value_or_zero(stats_section, "waterimm"))),
@@ -62,11 +63,33 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 	mSprite->set_blend_mode(SDL_BLENDMODE_BLEND);
 
 	update_animation_clip();
+
+	mClickable_space.x = mPosition.x;
+	mClickable_space.y = mPosition.y;
+	mClickable_space.w = mSprite_dimensions.w;
+	mClickable_space.h = mSprite_dimensions.h;
+	SDL_Rect dim;
+	dim.x = 1080;
+	dim.y = 824;
+	dim.w = 200;
+	dim.h = 200;
+	mUnit_window = new UnitWindow(dim, this);
+	mUnit_window->set_rendering_enabled(false);
+	mUnit_window->disable();
 }
+
+Unit::~Unit()
+{
+	delete mUnit_window;
+}
+
 
 
 void Unit::render()
 {
+	mClickable_space.x = mPosition.x;
+	mClickable_space.y = mPosition.y;
+	
 	update_animation_clip();
 
 	SDL_Rect dest;
@@ -105,3 +128,23 @@ void Unit::update_animation_clip()
 
 	mCurrent_clip = mClips.at(index);
 }
+
+void Unit::on_click(int mouse_x, int mouse_y)
+{
+	mUnit_window->set_rendering_enabled(true);
+	mUnit_window->enable();
+	mUnit_window->set_clicked(true);
+}
+
+Defense* Unit::get_defense()
+{
+	return mDefense;
+}
+
+double Unit::get_move_speed()
+{
+	return mMove_speed;
+}
+
+
+

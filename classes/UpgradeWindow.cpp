@@ -3,7 +3,7 @@
 #include "ConfigFile.h"
 #include <iostream>
 
-UpgradeWindow::UpgradeWindow(SDL_Rect dim, std::string building_upgrade_section) : Window(dim, WINDOWS, WINDOWS)
+UpgradeWindow::UpgradeWindow(SDL_Rect dim, std::string building_upgrade_section) : Window(dim, UPGRADEWINDOW, UPGRADEWINDOW)
 {
 	mUpgrade_costs = new Resources();
 	mUpgrade_costs->set_resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts"),
@@ -23,19 +23,26 @@ UpgradeWindow::UpgradeWindow(SDL_Rect dim, std::string building_upgrade_section)
 	dest.y = mDim.y + mDim.h - 180;
 	dest.w = 0;	
 	dest.h = 0;
-	mHeadline = new Text("Upgradecosts", dest, WINDOWBUTTONS, text_color, this);
+	mHeadline = new Text("Upgradecosts", dest, UPGRADEWINDOWCONTENT, text_color, this);
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		dest.y += 20;
-		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWS, text_color, this);
-		mUpgrade_cost_values[i] = new Text(std::to_string(mUpgrade_costs->get_resource(RESOURCETYPES(i))), dest, WINDOWBUTTONS, text_color, this);
+		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), dest, UPGRADEWINDOWCONTENT, text_color, this);
+		mUpgrade_cost_values[i] = new Text(std::to_string(mUpgrade_costs->get_resource(RESOURCETYPES(i))), dest, UPGRADEWINDOWCONTENT, text_color, this);
 		mUpgrade_cost_values[i]->add_x_dim(60);
 	}
 }
 
 UpgradeWindow::~UpgradeWindow()
 {
-
+	for (auto i = 0; i < RESOURCES_TOTAL; i++)
+	{
+		delete mResource_names[i];
+		delete mUpgrade_cost_values[i];
+	}
+	delete[] mUpgrade_cost_values;
+	delete[] mResource_names;
+	delete mHeadline;
 }
 
 void UpgradeWindow::render()

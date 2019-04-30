@@ -21,7 +21,6 @@ public:
 	//and sets itself to dead
 	void move();
 	void got_through();
-	Defense get_defense() const;
 	SDL_Point get_position() const;
 	bool take_damage(Damage *dmg);
 	//is called once on death

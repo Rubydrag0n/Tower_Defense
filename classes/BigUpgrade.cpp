@@ -15,7 +15,7 @@ BigUpgrade::BigUpgrade(std::string obj_name, std::string upgrade_section, Upgrad
 
 	std::string upgrade_name;
 	upgrade_name.assign(gConfig_file->value(obj_name + "/upgrade" + upgrade_section, "name"));
-	mUpgrade_name = new Text(upgrade_name, dim_of_upgrade_name_texture, WINDOWBUTTONS, text_color, mBig_upgrade_button->get_window());
+	mUpgrade_name = new Text(upgrade_name, dim_of_upgrade_name_texture, WINDOWCONTENT, text_color, mBig_upgrade_button->get_window());
 
 	const auto y_difference = 30; // y difference between upgradename and upgradedescription
 	auto dim_of_upgrade_description = dim_of_upgrade_name_texture;
@@ -23,7 +23,7 @@ BigUpgrade::BigUpgrade(std::string obj_name, std::string upgrade_section, Upgrad
 
 	std::string upgrade_description;
 	upgrade_description.assign(gConfig_file->value(obj_name + "/upgrade" + upgrade_section, "description"));
-	mUpgrade_description = new Text(upgrade_description, dim_of_upgrade_description, WINDOWBUTTONS, text_color, mBig_upgrade_button->get_window());
+	mUpgrade_description = new Text(upgrade_description, dim_of_upgrade_description, WINDOWCONTENT, text_color, mBig_upgrade_button->get_window());
 	mUpgrade_description->set_rendering_enabled(false);
 }
 
