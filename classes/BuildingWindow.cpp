@@ -10,21 +10,26 @@
 
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, WINDOWS, WINDOWS), mBuilding(building)
 {
-	//correct position of the window, so it does not collide with the border
-	if (building->get_coords().y < mDim.h/3)
-	{
-		mDim.y += mDim.h/3 - building->get_coords().y;
-	}
-	if (building->get_coords().y > 1024 - mDim.h * 2/3)
-	{
-		mDim.y += 1024 - building->get_coords().y - mDim.h * 2/3;
-	}
-	if (building->get_coords().x > 1280 - mDim.w)
-	{
-		mDim.x += -building->get_dimensions().w - mDim.w;
-	}
-	set_clickable_space(mDim);
 	mBuilding = building;
+	
+	//correct position of the window, so it does not collide with the border, do not correct for the warehouse
+	//warehouse window has fixed coords
+	if(mBuilding->get_name() != "warehouse")
+	{
+		if (building->get_coords().y < mDim.h / 3)
+		{
+			mDim.y += mDim.h / 3 - building->get_coords().y;
+		}
+		if (building->get_coords().y > 1024 - mDim.h * 2 / 3)
+		{
+			mDim.y += 1024 - building->get_coords().y - mDim.h * 2 / 3;
+		}
+		if (building->get_coords().x > 1280 - mDim.w)
+		{
+			mDim.x += -building->get_dimensions().w - mDim.w;
+		}
+		set_clickable_space(mDim);
+	}
 
 	mResource_names = new Text*[RESOURCES_TOTAL];
 	mStorage_values = new Text*[RESOURCES_TOTAL];
@@ -42,17 +47,17 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, W
 	headline_dest.w = 0;	//setting these to 0 will not scale anything
 	headline_dest.h = 0;
 
-	mHeadline = new Text("       Storage   Mainten", headline_dest, WINDOWBUTTONS, mText_color, this);
+	mHeadline = new Text("       Storage   Mainten", headline_dest, WINDOWCONTENT, mText_color, this);
 	
 	//initialize map for text lines
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		headline_dest.y += 20;
-		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), headline_dest, WINDOWS, mText_color, this);
+		mResource_names[i] = new Text(Resources::get_name(RESOURCETYPES(i)), headline_dest, WINDOWCONTENT, mText_color, this);
 		mStorage_values[i] = new Text(std::to_string(mBuilding->get_current_resources()->get_display_resources().get_resource(RESOURCETYPES(i)))
-			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWBUTTONS, mText_color, this);
+			+ "/" + std::to_string(mBuilding->get_current_resources()->get_limit()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWCONTENT, mText_color, this);
 		mStorage_values[i]->add_x_dim(60);
-		mMaintenance_values[i] = new Text(std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWBUTTONS, mText_color, this);
+		mMaintenance_values[i] = new Text(std::to_string(mBuilding->get_maintenance()->get_resource(RESOURCETYPES(i))), headline_dest, WINDOWCONTENT, mText_color, this);
 		mMaintenance_values[i]->add_x_dim(130);
 	}
 }
@@ -153,8 +158,8 @@ void BuildingWindow::update_great_upgrades()
 		{
 			break;
 		}
-		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, upgrade_section, WINDOWBUTTONS, WINDOWBUTTONS, this, UPGRADE_BUTTON);
-		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWBUTTONS, WINDOWBUTTONS, this, SHOW_MORE_BUTTON);
+		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, upgrade_section, WINDOWCONTENT, WINDOWCONTENT, this, UPGRADE_BUTTON);
+		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWCONTENT, WINDOWCONTENT, this, SHOW_MORE_BUTTON);
 		show_more_button->add_x_dimension(y_difference);
 		show_more_button->set_clickable_space(show_more_button->get_dimension());
 		auto big_upgrade = new BigUpgrade(mBuilding->get_name(), upgrade_section, big_upgrade_button, show_more_button);
@@ -167,11 +172,6 @@ void BuildingWindow::on_button_press(const int button_id, Button* button)
 	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
 	if (button_id == UPGRADE_BUTTON) this->upgrade_building(button);
 	if (button_id == SHOW_MORE_BUTTON) this->show_more(button);
-}
-
-Button* BuildingWindow::get_demolish_button() const
-{
-	return mDemolish_button;
 }
 
 CoordinatesInDouble BuildingWindow::get_button_offset() const

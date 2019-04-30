@@ -267,8 +267,8 @@
     <ClCompile Include="classes\UpgradeWindow.cpp">
       <Filter>Source Files\Menus\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="classes\MainMenu.cpp">
-      <Filter>Source Files\Menus</Filter>
+    <ClCompile Include="classes\UnitWindow.cpp">
+      <Filter>Source Files\Menus\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,8 +446,8 @@
     <ClInclude Include="headers\UpgradeWindow.h">
       <Filter>Header Files\Menus\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="headers\MainMenu.h">
-      <Filter>Header Files\Menus</Filter>
+    <ClInclude Include="headers\UnitWindow.h">
+      <Filter>Header Files\Menus\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

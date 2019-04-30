@@ -24,14 +24,12 @@ public:
 	void show_more(Button* button); //
 	void update_great_upgrades();
 
-	Button* get_demolish_button() const;
 	std::vector<BigUpgrade*> get_big_upgrades();
 
 	CoordinatesInDouble get_button_offset() const;
 	Building* get_building() const;
 
 private:
-	Button* mDemolish_button;
 	CoordinatesInDouble mButton_offset;
 
 	//the textures can't be immediately deleted, so they are reused instead

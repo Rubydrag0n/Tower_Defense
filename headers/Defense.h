@@ -1,5 +1,8 @@
 #pragma once
 #include "Damage.h"
+#include "Enums.h"
+#include <string>
+
 /*
  * Holds all the defensive stats of a Unit: life, armor, resistances, immunities
  * Also able to directly calculate damage taken when given a Damage Object
@@ -12,6 +15,8 @@ public:
 
 	//Setting all the different defenses
 	void set_defenses(double health, double armor, double magic_res, double fire_res, double water_res, double elec_res);
+	void set_defenses(DEFENSETYPES type, int value);
+	int get_defense(DEFENSETYPES type);
 	void set_immunities(bool phys, bool magic, bool fire, bool water, bool elec);
 	void set_health(double health);
 	double get_health() const;
@@ -32,6 +37,10 @@ public:
 	//Returns true if unit got killed
 	bool take_damage(Damage *dmg);
 
+	static std::string get_name(DEFENSETYPES type);
+
+	Defense get_display_defenses();
+
 private:
 	double mHealth;
 	double mFull_health;
@@ -46,4 +55,9 @@ private:
 	bool mFire_immune;
 	bool mWater_immune;
 	bool mElec_immune;
+
+	int mDefenses[DEFENSETYPES_TOTAL];
+	float mDisplay[DEFENSETYPES_TOTAL];
+
+	void set_display_zero();
 };

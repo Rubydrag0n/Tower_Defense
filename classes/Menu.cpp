@@ -124,7 +124,7 @@ void Menu::sort_items_into_menu()
 				break;
 			}
 			name_of_object.assign(gConfig_file->value(types.at(j), std::to_string(i)));
-			const auto new_item = new BuildingMenuItem(name_of_object, mLevel, coords, WINDOWBUTTONS, WINDOWBUTTONS);
+			const auto new_item = new BuildingMenuItem(name_of_object, mLevel, coords, WINDOWCONTENT, WINDOWCONTENT);
 			this->add_menu_item(new_item, BUILDINGTYPE(j));
 		}
 	}

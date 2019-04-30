@@ -155,11 +155,6 @@ bool Enemy::is_dead() const
 	return mDead;
 }
 
-Defense Enemy::get_defense() const
-{
-	return mDefense;
-}
-
 SDL_Point Enemy::get_position() const
 {
 	return static_cast<SDL_Point>(*const_cast<CoordinatesInDouble*>(&mPosition));
@@ -167,7 +162,7 @@ SDL_Point Enemy::get_position() const
 
 bool Enemy::take_damage(Damage *dmg)
 {
-	if(mDefense.take_damage(dmg) && !this->is_dead())
+	if(mDefense->take_damage(dmg) && !this->is_dead())
 	{
 		mDead = true;
 		this->on_death();
@@ -203,7 +198,7 @@ void Enemy::render()
 	full_health.h = mHealth_bar_dimensions.h;
 
 	auto current_health = full_health;
-	current_health.w = static_cast<int>(mHealth_bar_dimensions.w * (this->get_defense().get_health() / this->get_defense().get_full_health()));
+	current_health.w = static_cast<int>(mHealth_bar_dimensions.w * (get_defense()->get_health() / get_defense()->get_full_health()));
 	auto src_current_health = current_health;
 	src_current_health.x = 0;
 	src_current_health.y = 0;

@@ -12,6 +12,7 @@ public:
 	void render() override;
 
 private:
+	Text** mResource_names_prod;
 	Text** mProduction_values;
 	Text* mProduction_headline;
 };

@@ -6,7 +6,7 @@ Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Leve
 	Building{std::move(logistics_building_name), coords, level, click_layer, render_layer}
 {
 	SDL_Rect rect;
-	rect.x = 1610;
+	rect.x = 1280;
 	rect.y = 824;
 	rect.w = 200;
 	rect.h = 200;

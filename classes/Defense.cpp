@@ -1,6 +1,6 @@
 #include "Defense.h"
 
-Defense::Defense()
+Defense::Defense() : mDefenses{0}, mDisplay { 0.0 }
 {
 	mFull_health = 0.0;
 	mHealth = 0.0;
@@ -14,10 +14,12 @@ Defense::Defense()
 	mFire_immune = false;
 	mWater_immune = false;
 	mElec_immune = false;
+
+	set_display_zero();
 }
 
 Defense::Defense(const double health, const double armor, const double magic_res, const double fire_res,
-                 const double water_res, const double elec_res)
+                 const double water_res, const double elec_res) : mDefenses{ 0 }, mDisplay{ 0.0 }
 {
 	mFull_health = health;
 	mHealth = health;
@@ -31,6 +33,15 @@ Defense::Defense(const double health, const double armor, const double magic_res
 	mFire_immune = false;
 	mWater_immune = false;
 	mElec_immune = false;
+
+	mDefenses[HEALTH] = health;
+	mDefenses[ARMOR] = armor;
+	mDefenses[MAGIC_RES] = magic_res;
+	mDefenses[FIRE_RES] = fire_res;
+	mDefenses[WATER_RES] = water_res;
+	mDefenses[ELEC_RES] = elec_res;
+
+	set_display_zero();
 }
 
 void Defense::set_defenses(const double health, const double armor, const double magic_res, const double fire_res,
@@ -43,6 +54,22 @@ void Defense::set_defenses(const double health, const double armor, const double
 	mFire_res = fire_res;
 	mWater_res = water_res;
 	mElec_res = elec_res;
+	mDefenses[HEALTH] = health;
+	mDefenses[ARMOR] = armor;
+	mDefenses[MAGIC_RES] = magic_res;
+	mDefenses[FIRE_RES] = fire_res;
+	mDefenses[WATER_RES] = water_res;
+	mDefenses[ELEC_RES] = elec_res;
+}
+
+void Defense::set_defenses(DEFENSETYPES type, int value)
+{
+	mDefenses[type] = value;
+}
+
+int Defense::get_defense(DEFENSETYPES type)
+{
+	return mDefenses[type];
 }
 
 void Defense::set_immunities(const bool phys, const bool magic, const bool fire, const bool water, const bool elec)
@@ -155,4 +182,46 @@ bool Defense::take_damage(Damage *dmg)
 		mHealth -= total_dmg;
 	}
 	return killed;
+}
+
+std::string Defense::get_name(DEFENSETYPES type)
+{
+	switch (type)
+	{
+	case HEALTH:
+		return "Health";
+	case ARMOR:
+		return "Armor";
+	case MAGIC_RES:
+		return "Magic Resist";
+	case FIRE_RES:
+		return "Fire Resist";
+	case WATER_RES:
+		return "Water Resist";
+	case ELEC_RES:
+		return "Elec Resist";
+	default:
+		return "Unknown Resource";
+	}
+}
+
+Defense Defense::get_display_defenses()
+{
+	Defense def;
+
+	for(auto i = 0; i < DEFENSETYPES_TOTAL; i++)
+	{
+		mDisplay[i] += float(mDefenses[i] - mDisplay[i]) / 100.f;
+		if (mDefenses[i] - mDisplay[i] < 1.f) mDisplay[i] = mDefenses[i];
+		def.set_defenses(DEFENSETYPES(i), int(mDisplay[i]));
+	}
+	return def;
+}
+
+void Defense::set_display_zero()
+{
+	for (auto i = 0; i < DEFENSETYPES_TOTAL; i++)
+	{
+		mDisplay[DEFENSETYPES(i)] = 0;
+	}
 }
