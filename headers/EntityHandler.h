@@ -12,6 +12,8 @@ public:
 	void add_entity(Entity* u);
 	void del_entity(Entity* u);
 
+	void delete_all_entities();
+
 	void update();
 
 	const std::vector<Entity*>* get_entities_of_type(ENTITYTYPE type);

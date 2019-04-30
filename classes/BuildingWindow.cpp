@@ -59,7 +59,6 @@ BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, W
 
 BuildingWindow::~BuildingWindow()
 {
-	delete mDemolish_button;
 	for (auto& upgrade : mBig_upgrades)
 	{
 		delete upgrade;

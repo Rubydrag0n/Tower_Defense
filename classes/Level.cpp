@@ -5,6 +5,10 @@
 #include <fstream>
 #include <utility>
 #include "SDL_setup.h"
+#include "Map.h"
+#include "HomingTower.h"
+#include "Path.h"
+#include "EntityHandler.h"
 
 Level::Level(std::string level_number) : mLevel_number(std::move(level_number)), mMain_building()
 {
@@ -79,6 +83,31 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this, BUILDINGS, BUILDINGS);
 
 	new Menu(this, LAYERS::BACKGROUND);
+
+	mMap = new Map(const_cast<char*>("level/Level1.FMP"));
+
+	SDL_Point p;
+	p.x = 1088;
+	p.y = 448;
+
+	auto tower = new HomingTower("archer", p, this, BUILDINGS, BUILDINGS);
+
+	p.x += 64;
+	new Path("path", p, this, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, this, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, this, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, this, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, this, BUILDINGS, BUILDINGS);
+	p.y += 32;
+	new Path("path", p, this, BUILDINGS, BUILDINGS);
+
+
+	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	this->get_main_building()->add_resources(r);
 }
 
 Level::~Level()
@@ -88,6 +117,10 @@ Level::~Level()
 		delete this->mMap_matrix[i];
 	}
 	delete this->mMap_matrix;
+
+	gEntity_handler->delete_all_entities();
+
+
 }
 
 void Level::on_tick()
@@ -211,7 +244,8 @@ Warehouse* Level::get_main_building() const
 	return this->mMain_building;
 }
 
-void Level::set_main_building(Warehouse *main_building) {
+void Level::set_main_building(Warehouse *main_building) 
+{
 	this->mMain_building = main_building;
 	this->mMain_building->get_current_resources()->set_empty();
 	this->mMain_building->get_current_resources()->add(&this->mStart_resources);

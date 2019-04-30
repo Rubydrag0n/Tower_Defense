@@ -36,6 +36,15 @@ void EntityHandler::del_entity(Entity* u)
 	}
 }
 
+void EntityHandler::delete_all_entities()
+{
+	for (auto const& it : mEntities)
+	{
+		delete it;
+	}
+	mEntities.clear();
+}
+
 void EntityHandler::update()
 {
 	//can't use an iterator here because the particles will sometimes suicide and invalidate the iterator

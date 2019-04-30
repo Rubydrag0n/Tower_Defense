@@ -7,6 +7,10 @@
 #include "SDL_setup.h"
 #include "ConfigFile.h"
 #include "Textures.h"
+#include "RenderableHandler.h"
+#include "EntityHandler.h"
+#include "MouseHandler.h"
+#include "LayerHandler.h"
 
 SDL_Renderer* gRenderer = nullptr;
 
@@ -135,6 +139,12 @@ bool init_graphics()
 
 	//initialize Textures Object
 	gTextures = new Textures();
+
+	//initialize handlers
+	gMouse_handler = new MouseHandler();
+	gEntity_handler = new EntityHandler();
+	gRenderables_handler = new RenderableHandler();
+	gLayer_handler = new LayerHandler();
 
 	return success;
 }

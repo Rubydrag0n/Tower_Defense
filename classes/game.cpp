@@ -7,72 +7,22 @@
 #include "Map.h"
 #include "Tower.h"
 #include "Level.h"
-#include "Menu.h"
 #include "IndustrialBuilding.h"
-#include "HomingTower.h"
 #include "MouseHandler.h"
 #include "LayerHandler.h"
 #include "EntityHandler.h"
 #include "RenderableHandler.h"
 #include "ConfigFile.h"
-#include "Carriage.h"
-#include "WareHouse.h"
-#include "Path.h"
 #include "Timer.h"
 
-Game::Game() : mMouse_position()
+Game::Game() : mState(STATE::MAIN_MENU), mMouse_position()
 {
-	gMouse_handler = new MouseHandler();
-	gEntity_handler = new EntityHandler();
-	gRenderables_handler = new RenderableHandler();
-
-	for(auto i = 1; ; i++)
-	{
-		if(!gConfig_file->value_exists("level" + std::to_string(i), "exists"))
-		{
-			break;
-		}
-		auto new_level = new Level(std::to_string(i));
-		mLevels.push_back(new_level);
-	}
-	mCurrent_level = mLevels.at(0);
-
-
-	mMap = new Map(const_cast<char*>("level/Level1.FMP"));
-
-	gLayer_handler = new LayerHandler();
-
-	SDL_Point p;
-	p.x = 1088;
-	p.y = 448;
-
-	auto tower = new HomingTower("archer", p, mCurrent_level, BUILDINGS, BUILDINGS);
-
-	p.x += 64;
-	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, mCurrent_level, BUILDINGS, BUILDINGS);
-
-
-	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
-	mCurrent_level->get_main_building()->add_resources(r);
+	mMain_menu = new MainMenu(this);
+	mCurrent_level = nullptr;
 }
 
 Game::~Game()
 {
-	for(auto i = 0; i < mLevels.size(); i++)
-	{
-		delete mLevels.at(i);
-	}
-	delete mMap;
 	for (auto& tower : mAll_towers)
 	{
 		delete tower;
@@ -81,12 +31,12 @@ Game::~Game()
 	{
 		delete building;
 	}
+	delete mCurrent_level;
 }
 
 void Game::render_all() const
 {
 	gRenderables_handler->render();
-	mMap->render();
 }
 
 void Game::start_game()
@@ -111,6 +61,10 @@ void Game::start_game()
 	{
 		cap_timer.start();
 
+		//Calculate and correct fps
+		auto avg_fps = counted_frames / (fps_timer.get_ticks() / 1000.f);
+		if (avg_fps > 2000000) avg_fps = 0;
+
 		//also renders the hover window
 		//mouse handler update needs to happen first
 		gMouse_handler->update();
@@ -125,21 +79,28 @@ void Game::start_game()
 			}
 		}
 
-		//Calculate and correct fps
-		auto avg_fps = counted_frames / (fps_timer.get_ticks() / 1000.f);
-		if (avg_fps > 2000000) avg_fps = 0;
-
 		gEntity_handler->update();
-		mCurrent_level->on_tick();
+
+		switch(mState)
+		{
+		case STATE::MAIN_MENU:
+			break;
+		case STATE::PLAYING:
+			mCurrent_level->on_tick();
+
+			if (mCurrent_level->is_dead() || mCurrent_level->no_lives())
+			{
+				mState = STATE::MAIN_MENU;
+				delete mCurrent_level;
+			}
+			break;
+		default: ;
+		}
+
 		this->render_all();
 
 		gLayer_handler->present();
 
-		if (mCurrent_level->is_dead() || mCurrent_level->no_lives())
-		{
-			SDL_Delay(10000);
-			quit = true;
-		}
 
 		//if frame finished early
 		const auto frame_ticks = cap_timer.get_ticks();
@@ -159,4 +120,29 @@ void Game::add_tower(Tower* tower)
 void Game::add_industrial_building(IndustrialBuilding* industrial_building)
 {
 	mAll_industrial_buildings.push_back(industrial_building);
+}
+
+void Game::load_level(const int level_number)
+{
+	if (!gConfig_file->value_exists("level" + std::to_string(level_number), "exists"))
+	{
+		printf("Could not load level, doesn't exist in config file!\n");
+		return;
+	}
+	mCurrent_level = new Level(std::to_string(level_number));
+}
+
+void Game::set_state(const Game::STATE state)
+{
+	mState = state;
+	switch(state)
+	{
+	case STATE::MAIN_MENU:
+		mMain_menu->set_enabled(true);
+		break;
+	case STATE::PLAYING: 
+		mMain_menu->set_enabled(false);
+		break;
+	default: ;
+	}
 }

@@ -4,6 +4,7 @@
 #include "Wave.h"
 #include "Resources.h"
 #include "Enums.h"
+#include "Map.h"
 
 class Building;
 class Warehouse;
@@ -46,4 +47,6 @@ private:
 	Building*** mMap_buildings;
 
 	Warehouse* mMain_building;
+
+	Map* mMap;
 };

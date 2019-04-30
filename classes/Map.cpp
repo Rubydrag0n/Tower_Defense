@@ -2,7 +2,7 @@
 #include "ConfigFile.h"
 #include "LayerHandler.h"
 
-Map::Map(char *map_path)
+Map::Map(char *map_path): Renderable(BACKGROUND)
 {
 	mOffset_left = gConfig_file->value("map", "offset_left");
 	mOffset_top = gConfig_file->value("map", "offset_top");
@@ -32,9 +32,9 @@ int Map::get_width() const
 	return mWidth;
 }
 
-void Map::render() const
+void Map::render()
 {
-	gLayer_handler->render_to_layer(mMap_texture, LAYERS::BACKGROUND, nullptr, nullptr);
+	gLayer_handler->render_to_layer(mMap_texture, this->get_render_layer(), nullptr, nullptr);
 }
 
 void Map::update_map_texture() const

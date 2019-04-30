@@ -195,9 +195,6 @@
     <ClCompile Include="classes\RenderableHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\MainMenu.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="classes\MouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
@@ -269,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="classes\UpgradeWindow.cpp">
       <Filter>Source Files\Menus\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\MainMenu.cpp">
+      <Filter>Source Files\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,9 +371,6 @@
     <ClInclude Include="headers\RenderableHandler.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="headers\MainMenu.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="headers\MouseItem.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
@@ -448,6 +445,9 @@
     </ClInclude>
     <ClInclude Include="headers\UpgradeWindow.h">
       <Filter>Header Files\Menus\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MainMenu.h">
+      <Filter>Header Files\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

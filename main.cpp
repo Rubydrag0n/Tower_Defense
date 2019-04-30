@@ -9,7 +9,6 @@
 #include "SDL_setup.h"
 #include "Game.h"
 #include "ConfigFile.h"
-#include "MouseHandler.h"
 #include <fstream>
 
 #undef main
@@ -28,8 +27,9 @@ int main( int argc, char* argv[] )
 		srand(static_cast<unsigned>(time(nullptr)));
 
 		auto game = new Game();
+
 		game->start_game();
-		
+
 		delete game;
 	}
 	

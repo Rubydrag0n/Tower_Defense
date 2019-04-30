@@ -2,8 +2,7 @@
 #include <vector>
 #include "Tower.h"
 #include "IndustrialBuilding.h"
-#include "Menu.h"
-#include "Map.h"
+#include "MainMenu.h"
 
 class Game 
 {
@@ -17,11 +16,24 @@ public:
 	void add_tower(Tower* tower);
 	void add_industrial_building(IndustrialBuilding* industrial_building);
 
+	void load_level(int level_number);
+
+	enum class STATE
+	{
+		MAIN_MENU,
+		PLAYING
+	} mState;
+
+public:
+	void set_state(Game::STATE state);
+
 private:
+
 	std::vector<Tower*> mAll_towers;
 	std::vector<IndustrialBuilding*> mAll_industrial_buildings;
-	std::vector<Level*> mLevels;
+	
 	Level* mCurrent_level;
-	Map* mMap;
+	MainMenu* mMain_menu;
+
 	SDL_Point mMouse_position;
 };

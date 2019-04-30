@@ -1,8 +1,9 @@
 #pragma once
 #include "SDLMappy.h"
 #include "LTexture.h"
+#include "Renderable.h"
 
-class Map
+class Map : Renderable
 {
 public:
 	explicit Map(char *map_path);
@@ -11,7 +12,7 @@ public:
 	int get_height() const;
 	int get_width() const;
 
-	void render() const;
+	void render() override;
 
 private:
 	void update_map_texture() const;
