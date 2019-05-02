@@ -17,6 +17,8 @@ public:
 private:
 	Text** mDefense_names;
 	Text** mDefense_values;
+	Text* mHealth_name;
+	Text* mHealth_value;
 	Text* mMove_speed_name;
 	Text* mMove_speed_value;
 
