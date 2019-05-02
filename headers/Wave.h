@@ -17,4 +17,6 @@ public:
 private:
 	std::vector<MonsterGroup*> mMonster_groups;
 	Level* mLevel;
+	int mSpawn_delay;
+	int mElapsed_ticks; //increments every tick as soon as the level started
 };

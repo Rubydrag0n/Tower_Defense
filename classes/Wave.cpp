@@ -1,10 +1,15 @@
 #include "Wave.h"
 #include "ConfigFile.h"
 #include "Level.h"
+#include "SDL_setup.h"
 
 Wave::Wave(const std::string& wave_number, Level* level) : mLevel(level)
 {
 	const auto section = "wave" + mLevel->get_level_number() + "_" + wave_number;
+
+	mSpawn_delay = gConfig_file->value(section, "spawn_delay");
+	mSpawn_delay *=	*gFrame_rate;
+	mElapsed_ticks = 0;
 
 	//mMonster_group_count = gConfig_file->value(section, "monster_group_count");//number of monster groups in the wave
 
@@ -23,12 +28,21 @@ Wave::Wave(const std::string& wave_number, Level* level) : mLevel(level)
 
 void Wave::update()
 {
-	mMonster_groups.at(0)->update();
-	if(mMonster_groups.at(0)->is_dead())
+	if(mElapsed_ticks >= mSpawn_delay)
+	{
+		for(auto i = 0; i < mMonster_groups.size(); i++)
+		{
+			mMonster_groups.at(i)->update();
+		}
+	}
+	
+	/*if(mMonster_groups.at(0)->is_dead())
 	{
 		delete mMonster_groups[0];
 		mMonster_groups.erase(mMonster_groups.begin());
-	}
+	}*/
+
+	mElapsed_ticks++;
 }
 
 bool Wave::is_dead() const

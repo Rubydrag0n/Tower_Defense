@@ -14,7 +14,7 @@ UnitWindow::UnitWindow(SDL_Rect dim, Unit* unit) : Window(dim, WINDOWS, WINDOWS)
 	dest.w = 0;
 	dest.h = 0;
 	mHealth_name = new Text("Health", dest, WINDOWCONTENT, text_color, this);
-	mHealth_value = new Text(std::to_string((int)mUnit->get_defense()->get_full_health()), dest, WINDOWCONTENT, text_color, this);
+	mHealth_value = new Text(std::to_string(int(mUnit->get_defense()->get_full_health())), dest, WINDOWCONTENT, text_color, this);
 	mHealth_value->add_x_dim(100);
 	for(auto i = 0; i < RESISTANCES_TOTAL; i++)
 	{
@@ -25,7 +25,7 @@ UnitWindow::UnitWindow(SDL_Rect dim, Unit* unit) : Window(dim, WINDOWS, WINDOWS)
 	}
 	dest.y += 20;
 	mMove_speed_name = new Text("Move Speed", dest, WINDOWCONTENT, text_color, this);
-	mMove_speed_value = new Text(std::to_string((int)mUnit->get_move_speed()), dest, WINDOWCONTENT, text_color, this);
+	mMove_speed_value = new Text(std::to_string(int(mUnit->get_move_speed())), dest, WINDOWCONTENT, text_color, this);
 	mMove_speed_value->add_x_dim(100);
 }
 
@@ -51,5 +51,6 @@ void UnitWindow::render()
 	{
 		mDefense_values[i]->set_text(std::to_string(mUnit->get_defense()->get_display_defenses().get_resistance(RESISTANCES(i))));
 	}
-	mMove_speed_value->set_text(std::to_string((int)mUnit->get_move_speed()));
+	mMove_speed_value->set_text(std::to_string(int(mUnit->get_move_speed())));
+	mHealth_value->set_text(std::to_string(int(mUnit->get_defense()->get_health())));
 }
