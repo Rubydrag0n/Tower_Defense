@@ -30,10 +30,11 @@ private:
 	//to load the right stats etc. for the monsters
 	std::string mMonster_name;
 	int mWay;
-	//the delay between each new monster of this group
-	int mDelay_ticks;
-	int mElapsed_ticks;
+	//the spawn delay between each new monster of this group
+	int mDelay_ticks_between_monsters;
+	int mElapsed_ticks; //increments as soon as the wave for this monstergroup starts
 	//vector actually storing the generated monsters
 	std::vector<Enemy*> mMonsters;
 	Level* mLevel;
+	int mSpawn_delay;
 };

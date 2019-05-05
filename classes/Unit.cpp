@@ -15,6 +15,8 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 
 	mSprite_dimensions.w = mSprite->get_width();
 	mSprite_dimensions.h = mSprite->get_height();
+	//mSprite_dimensions.w = gConfig_file->value(sprite_section, "clip_width");
+	//mSprite_dimensions.h = gConfig_file->value(sprite_section, "clip_height");
 	mSprite_dimensions.x = 0;
 	mSprite_dimensions.y = 0;
 	int clip_width = gConfig_file->value(sprite_section, "clip_width");
@@ -48,8 +50,9 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 
 	mMove_speed = gConfig_file->value(stats_section, "movementspeed");
 	mDefense = new Defense();
-	mDefense->set_defenses(double(int(gConfig_file->value_or_zero(stats_section, "health"))),
-						  double(int(gConfig_file->value_or_zero(stats_section, "armor"))),
+	mDefense->set_health(double(int(gConfig_file->value_or_zero(stats_section, "health"))));
+	mDefense->set_full_health(double(int(gConfig_file->value_or_zero(stats_section, "health"))));
+	mDefense->set_resistances(double(int(gConfig_file->value_or_zero(stats_section, "armor"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "magicres"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "fireres"))),
 						  double(int(gConfig_file->value_or_zero(stats_section, "waterres"))),
@@ -66,8 +69,8 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 
 	mClickable_space.x = mPosition.x;
 	mClickable_space.y = mPosition.y;
-	mClickable_space.w = mSprite_dimensions.w;
-	mClickable_space.h = mSprite_dimensions.h;
+	mClickable_space.w = gConfig_file->value(sprite_section, "clip_width");
+	mClickable_space.h = gConfig_file->value(sprite_section, "clip_height");
 	SDL_Rect dim;
 	dim.x = 1080;
 	dim.y = 824;
@@ -87,8 +90,8 @@ Unit::~Unit()
 
 void Unit::render()
 {
-	mClickable_space.x = mPosition.x;
-	mClickable_space.y = mPosition.y;
+	mClickable_space.x = mPosition.x - mCenter.x;
+	mClickable_space.y = mPosition.y - mCenter.y;
 	
 	update_animation_clip();
 

@@ -14,7 +14,7 @@
 Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(level_number)), mMain_building(), mDeleting(false), mGame(game)
 {
 	//mLevel_number = level_number;
-	auto level_section = "level" + mLevel_number;
+	const auto level_section = "level" + mLevel_number;
 	mLives = gConfig_file->value_or_zero(level_section, "lives");
 
 	//set the start-resources in this level
@@ -130,10 +130,13 @@ Level::~Level()
 
 void Level::on_tick()
 {
-	mWaves.at(0)->update();
-	if(mWaves.at(0)->is_dead())
+	for (auto wave : mWaves)
 	{
-		mWaves.erase(mWaves.begin());
+		wave->update();
+		if (wave->is_dead())
+		{
+			delete wave;
+		}
 	}
 }
 
