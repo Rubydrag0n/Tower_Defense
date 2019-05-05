@@ -129,7 +129,7 @@ void Game::load_level(const int level_number)
 		printf("Could not load level, doesn't exist in config file!\n");
 		return;
 	}
-	mCurrent_level = new Level(std::to_string(level_number));
+	mCurrent_level = new Level(std::to_string(level_number), this);
 }
 
 void Game::set_state(const Game::STATE state)

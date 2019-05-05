@@ -41,7 +41,8 @@ Carriage::Carriage(const std::string& unit_name, Level* level, LAYERS render_lay
 Carriage::~Carriage()
 {
 	//put the resources left in the carriage back into the warehouse
-	mLevel->get_main_building()->add_resources(mCurrent_resources);
+	if (mLevel->get_main_building() != nullptr)
+		mLevel->get_main_building()->add_resources(mCurrent_resources);
 }
 
 void Carriage::on_tick()

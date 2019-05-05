@@ -8,11 +8,12 @@
 
 class Building;
 class Warehouse;
+class Game;
 
 class Level
 {
 public:
-	explicit Level(std::string level_number);
+	explicit Level(std::string level_number, Game* game);
 	~Level();
 
 	//at the moment: update the first wave in the vector, if this wave is dead spawn the next wave
@@ -49,4 +50,8 @@ private:
 	Warehouse* mMain_building;
 
 	Map* mMap;
+
+	bool mDeleting;
+
+	Game* mGame;
 };

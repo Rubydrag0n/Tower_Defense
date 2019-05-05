@@ -38,9 +38,10 @@ void EntityHandler::del_entity(Entity* u)
 
 void EntityHandler::delete_all_entities()
 {
-	for (auto const& it : mEntities)
+	//do it this way because some entities also delete others with them
+	while (!mEntities.empty())
 	{
-		delete it;
+		delete mEntities.at(0);
 	}
 	mEntities.clear();
 }

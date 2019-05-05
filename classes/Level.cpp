@@ -9,8 +9,9 @@
 #include "HomingTower.h"
 #include "Path.h"
 #include "EntityHandler.h"
+#include "Game.h"
 
-Level::Level(std::string level_number) : mLevel_number(std::move(level_number)), mMain_building()
+Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(level_number)), mMain_building(), mDeleting(false), mGame(game)
 {
 	//mLevel_number = level_number;
 	auto level_section = "level" + mLevel_number;
@@ -112,6 +113,8 @@ Level::Level(std::string level_number) : mLevel_number(std::move(level_number)),
 
 Level::~Level()
 {
+	mDeleting = true;
+
 	for (auto i = 0; i < MATRIX_WIDTH; i++)
 	{
 		delete this->mMap_matrix[i];
@@ -120,7 +123,9 @@ Level::~Level()
 
 	gEntity_handler->delete_all_entities();
 
+	delete mMap;
 
+	mGame->set_state(Game::STATE::MAIN_MENU);
 }
 
 void Level::on_tick()
@@ -241,7 +246,7 @@ Building* Level::get_building_matrix(const int x, const int y) const
 
 Warehouse* Level::get_main_building() const
 {
-	return this->mMain_building;
+	return mDeleting ? nullptr : this->mMain_building;
 }
 
 void Level::set_main_building(Warehouse *main_building) 
