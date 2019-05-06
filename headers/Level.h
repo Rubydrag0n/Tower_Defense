@@ -41,6 +41,8 @@ public:
 private:
 	std::string mLevel_number;
 
+	int mWave_number; //next wave to create
+
 	std::vector<Wave*> mWaves;
 	int mLives;
 	Resources mStart_resources;

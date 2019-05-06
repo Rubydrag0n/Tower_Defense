@@ -3,7 +3,7 @@
 #include "Level.h"
 #include "SDL_setup.h"
 
-Wave::Wave(const std::string& wave_number, Level* level) : mLevel(level)
+Wave::Wave(const std::string& wave_number, Level* level) : mLevel(level), mWave_number(wave_number)
 {
 	const auto section = "wave" + mLevel->get_level_number() + "_" + wave_number;
 
@@ -36,7 +36,7 @@ void Wave::update()
 			if (monster_group->is_dead())
 			{
 				delete monster_group;
-				//mMonster_groups.erase(mMonster_groups.begin());
+				mMonster_groups.erase(mMonster_groups.begin());
 			}
 		}
 	}
@@ -51,4 +51,19 @@ bool Wave::is_dead() const
 std::vector<MonsterGroup*>* Wave::get_monster_groups()
 {
 	return &mMonster_groups;
+}
+
+int Wave::get_spawn_delay()
+{
+	return mSpawn_delay;
+}
+
+int Wave::get_elapsed_ticks()
+{
+	return mElapsed_ticks;
+}
+
+std::string Wave::get_wave_number()
+{
+	return mWave_number;
 }

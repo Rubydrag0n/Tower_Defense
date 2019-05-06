@@ -26,17 +26,10 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 		gConfig_file->value_or_zero(level_section, "water"),
 		gConfig_file->value_or_zero(level_section, "food"));
 
-	//create all waves in the level and insert them in the vector mWaves
-	for (auto i = 1; ; i++)
-	{
-		auto wave_number = std::to_string(i);
-		if(!gConfig_file->value_exists("wave" + mLevel_number + "_" + wave_number, "exists"))
-		{
-			break;
-		}
-		auto new_wave = new Wave(wave_number, this);
-		mWaves.push_back(new_wave);
-	}
+	mWave_number = 1;
+	auto first_wave = new Wave(std::to_string(mWave_number), this);
+	mWaves.push_back(first_wave);
+	mWave_number++;
 
 	//create Level-Matrix
 	std::ifstream file("level/Level1.txt");
@@ -130,13 +123,23 @@ Level::~Level()
 
 void Level::on_tick()
 {
+	auto last_wave_did_start = true; //is set true, if the wave before is spawning their monsters, otherwise it is false; for the first wave always true
+
 	for (auto wave : mWaves)
 	{
-		wave->update();
-		if (wave->is_dead())
+		if(last_wave_did_start) wave->update();
+
+		last_wave_did_start = wave->get_elapsed_ticks() >= wave->get_spawn_delay();
+
+		if(last_wave_did_start && gConfig_file->value_exists("wave" + mLevel_number + "_" + std::to_string(mWave_number), "exists")
+			&& wave->get_wave_number() == std::to_string(mWave_number-1))
 		{
-			delete wave;
+			auto new_wave = new Wave(std::to_string(mWave_number), this);
+			mWaves.push_back(new_wave);
+			mWave_number++;
 		}
+
+		if (wave->is_dead()) delete wave;
 	}
 }
 

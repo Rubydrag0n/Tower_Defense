@@ -14,9 +14,15 @@ public:
 
 	std::vector<MonsterGroup*>* get_monster_groups();
 
+	int get_spawn_delay();
+	int get_elapsed_ticks();
+
+	std::string get_wave_number();
+
 private:
 	std::vector<MonsterGroup*> mMonster_groups;
 	Level* mLevel;
 	int mSpawn_delay;
 	int mElapsed_ticks; //increments every tick as soon as the level started
+	std::string mWave_number;
 };
