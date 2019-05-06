@@ -30,18 +30,16 @@ void Wave::update()
 {
 	if(mElapsed_ticks >= mSpawn_delay)
 	{
-		for(auto i = 0; i < mMonster_groups.size(); i++)
+		for(auto monster_group : mMonster_groups)
 		{
-			mMonster_groups.at(i)->update();
+			monster_group->update();
+			if (monster_group->is_dead())
+			{
+				delete monster_group;
+				//mMonster_groups.erase(mMonster_groups.begin());
+			}
 		}
 	}
-	
-	/*if(mMonster_groups.at(0)->is_dead())
-	{
-		delete mMonster_groups[0];
-		mMonster_groups.erase(mMonster_groups.begin());
-	}*/
-
 	mElapsed_ticks++;
 }
 

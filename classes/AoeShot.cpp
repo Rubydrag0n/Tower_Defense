@@ -23,6 +23,7 @@ void AoeShot::on_tick()
 			if (Tower::enemy_in_range(dynamic_cast<Enemy*>(*it), mExplosive_radius, this->get_coords()))
 			{
 				dynamic_cast<Enemy*>(*it)->take_damage(&mDamage);
+				if (dynamic_cast<Enemy*>(*it)->is_dead()) delete dynamic_cast<Enemy*>(*it);
 			}
 		}
 		delete this;

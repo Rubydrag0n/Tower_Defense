@@ -45,21 +45,18 @@ void MonsterGroup::update()
 		{
 			monster->move();
 		}
-
-		//updating the current tick
 	}
+	//updating the current tick
 	mElapsed_ticks++;
 }
 
 bool MonsterGroup::is_dead() const
 {
-	for (auto monster : mMonsters)
+	if(mCurrent_monster_count < mMax_monster_count)
 	{
-		if (!monster->is_dead()) {
-			return false;
-		}
+		return false;
 	}
-	return true;
+	return mMonsters.empty();
 }
 
 std::vector<Enemy*> MonsterGroup::get_monsters() const

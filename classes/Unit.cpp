@@ -84,6 +84,7 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 Unit::~Unit()
 {
 	delete mUnit_window;
+	delete mDefense;
 }
 
 
