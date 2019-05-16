@@ -44,8 +44,6 @@ void Tower::render()
 {
 	Building::render();
 
-	const auto temp_window = dynamic_cast<TowerWindow*>(mWindow);
-
 	if(is_clicked() || mWindow->is_clicked())
 	{
 		SDL_Rect dest;
@@ -96,7 +94,7 @@ void Tower::upgrade(const std::string& tower_upgrade_section)
 
 void Tower::upgrade_damage()
 {
-	const auto tower_upgrade_section = mTower_name + "/upgradeDamage";
+	const auto tower_upgrade_section = "Tower/upgradeDamage";
 	Building::upgrade(tower_upgrade_section);
 	mDamage.add(gConfig_file->value_or_zero(tower_upgrade_section, "phys"),
 		gConfig_file->value_or_zero(tower_upgrade_section, "magic"),
@@ -108,7 +106,7 @@ void Tower::upgrade_damage()
 
 void Tower::upgrade_range()
 {
-	const auto tower_upgrade_section = mTower_name + "/upgradeRange";
+	const auto tower_upgrade_section = "Tower/upgradeRange";
 	Building::upgrade(tower_upgrade_section);
 	mRange += gConfig_file->value(tower_upgrade_section, "range");
 	mCount_of_little_upgrades++;
@@ -116,7 +114,7 @@ void Tower::upgrade_range()
 
 void Tower::upgrade_attack_speed()
 {
-	const auto tower_upgrade_section = mTower_name + "/upgradeAttackspeed";
+	const auto tower_upgrade_section = "Tower/upgradeAttackspeed";
 	Building::upgrade(tower_upgrade_section);
 	mAttack_speed += gConfig_file->value(tower_upgrade_section, "attackspeed");
 	mAttack_cooldown = 60 / mAttack_speed;
