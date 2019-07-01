@@ -48,8 +48,8 @@ void Tower::render()
 	{
 		SDL_Rect dest;
 		//range is radius not diameter
-		dest.x = int(get_coords().x - mRange + mSprite_dimensions.w/2);
-		dest.y = int(get_coords().y - mRange + mSprite_dimensions.h/2);
+		dest.x = int(get_coords().x - mRange + mSprite_dimensions.w/2.);
+		dest.y = int(get_coords().y - mRange + mSprite_dimensions.h/2.);
 		dest.w = int(mRange*2);
 		dest.h = int(mRange*2);
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::OVERLAY, nullptr, &dest);
@@ -89,7 +89,7 @@ void Tower::upgrade(const std::string& tower_upgrade_section)
 	mAttack_speed += gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
 	mProjectile_speed += gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
 	mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
-	mAttack_cooldown = 60 / mAttack_speed;
+	mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
 }
 
 void Tower::upgrade_damage()
@@ -117,7 +117,7 @@ void Tower::upgrade_attack_speed()
 	const auto tower_upgrade_section = "Tower/upgradeAttackspeed";
 	Building::upgrade(tower_upgrade_section);
 	mAttack_speed += gConfig_file->value(tower_upgrade_section, "attackspeed");
-	mAttack_cooldown = 60 / mAttack_speed;
+	mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
 	mCount_of_little_upgrades++;
 }
 

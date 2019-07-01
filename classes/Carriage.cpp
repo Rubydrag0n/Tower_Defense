@@ -93,7 +93,7 @@ void Carriage::update_transportation()
 bool Carriage::move_towards(const SDL_Point target)
 {
 	//building under the carriage (probably a path)
-	const auto here = mLevel->get_building_matrix(mPosition.x / TILE_WIDTH, mPosition.y / TILE_WIDTH);
+	const auto here = mLevel->get_building_matrix(int(mPosition.x / TILE_WIDTH), int(mPosition.y / TILE_WIDTH));
 
 	const auto speed_multiplier = (here == nullptr) ? 1. : (here->get_building_type() == STREET) ? dynamic_cast<Path*>(here)->get_speed_multiplier() : 1.;
 

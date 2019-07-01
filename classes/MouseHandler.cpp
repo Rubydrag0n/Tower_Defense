@@ -57,7 +57,7 @@ void MouseHandler::update()
 	const auto end = this->mClickables.end();
 
 
-	for (auto i = 0; i < mClickables.size(); ++i)  // NOLINT(modernize-loop-convert)
+	for (unsigned i = 0; i < mClickables.size(); ++i)  // NOLINT(modernize-loop-convert)
 	{
 		auto it = mClickables.at(i);
 		if (it == nullptr) continue;

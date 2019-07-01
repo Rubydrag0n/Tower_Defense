@@ -67,8 +67,8 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 
 	update_animation_clip();
 
-	mClickable_space.x = mPosition.x;
-	mClickable_space.y = mPosition.y;
+	mClickable_space.x = int(mPosition.x);
+	mClickable_space.y = int(mPosition.y);
 	mClickable_space.w = gConfig_file->value(sprite_section, "clip_width");
 	mClickable_space.h = gConfig_file->value(sprite_section, "clip_height");
 	SDL_Rect dim;
@@ -91,8 +91,8 @@ Unit::~Unit()
 
 void Unit::render()
 {
-	mClickable_space.x = mPosition.x - mCenter.x;
-	mClickable_space.y = mPosition.y - mCenter.y;
+	mClickable_space.x = int(mPosition.x) - mCenter.x;
+	mClickable_space.y = int(mPosition.y) - mCenter.y;
 	
 	update_animation_clip();
 

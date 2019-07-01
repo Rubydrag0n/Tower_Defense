@@ -16,7 +16,7 @@ public:
 	//Setting all the different defenses
 	void set_resistances(double armor, double magic_res, double fire_res, double water_res, double elec_res);
 	void set_resistances(RESISTANCES type, int value);
-	int get_resistance(RESISTANCES type);
+	double get_resistance(RESISTANCES type);
 	void set_immunities(bool phys, bool magic, bool fire, bool water, bool elec);
 	void set_health(double health);
 	double get_health() const;
@@ -35,9 +35,9 @@ private:
 	double mHealth;
 	double mFull_health;
 
-	int mResistances[RESISTANCES_TOTAL];
+	double mResistances[RESISTANCES_TOTAL];
 	bool mImmunities[RESISTANCES_TOTAL];
-	float mDisplay[RESISTANCES_TOTAL];
+	double mDisplay[RESISTANCES_TOTAL];
 
 	void set_display_zero();
 };

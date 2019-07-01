@@ -1,29 +1,18 @@
 #include "Defense.h"
 
-Defense::Defense() : mResistances{0}, mDisplay { 0.0 }
+Defense::Defense() : mResistances{ 0. }, mImmunities{ false }, mDisplay{ 0. }
 {
 	mFull_health = 0.0;
 	mHealth = 0.0;
-
-	for(auto i = 0; i < RESISTANCES_TOTAL; i++)
-	{
-		mResistances[i] = 0.0;
-		mImmunities[i] = false;
-	}
 
 	set_display_zero();
 }
 
 Defense::Defense(const double health, const double armor, const double magic_res, const double fire_res,
-                 const double water_res, const double elec_res) : mResistances{ 0 }, mDisplay{ 0.0 }
+	const double water_res, const double elec_res) : mResistances{ 0. }, mImmunities{ false }, mDisplay{ 0. }
 {
 	mFull_health = health;
 	mHealth = health;
-
-	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
-	{
-		mImmunities[i] = false;
-	}
 
 	mResistances[ARMOR] = armor;
 	mResistances[MAGIC_RES] = magic_res;
@@ -44,12 +33,12 @@ void Defense::set_resistances(const double armor, const double magic_res, const 
 	mResistances[ELEC_RES] = elec_res;
 }
 
-void Defense::set_resistances(RESISTANCES type, int value)
+void Defense::set_resistances(const RESISTANCES type, const int value)
 {
 	mResistances[type] = value;
 }
 
-int Defense::get_resistance(RESISTANCES type)
+double Defense::get_resistance(const RESISTANCES type)
 {
 	return mResistances[type];
 }
@@ -116,7 +105,7 @@ bool Defense::take_damage(Damage *dmg)
 	return killed;
 }
 
-std::string Defense::get_name(RESISTANCES type)
+std::string Defense::get_name(const RESISTANCES type)
 {
 	switch (type)
 	{

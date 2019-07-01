@@ -22,8 +22,8 @@ TTF_Font* gFont = nullptr;
 
 int* gActual_screen_width = nullptr;
 int* gActual_screen_height = nullptr;
-int* gFrame_rate = nullptr;
-int* gTicks_per_frame = nullptr;
+unsigned* gFrame_rate = nullptr;
+unsigned* gTicks_per_frame = nullptr;
 
 SDL_Texture* load_texture(const std::string& path)
 {
@@ -57,8 +57,8 @@ bool init_graphics()
 	//Initialization flag
 	auto success = true;
 
-	gFrame_rate = new int(60);
-	gTicks_per_frame = new int(1000 / *gFrame_rate);
+	gFrame_rate = new unsigned(60);
+	gTicks_per_frame = new unsigned(1000 / *gFrame_rate);
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

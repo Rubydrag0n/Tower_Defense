@@ -1,6 +1,9 @@
 #include "Map.h"
 #include "ConfigFile.h"
 #include "LayerHandler.h"
+#include <fstream>
+#include <sstream>
+#include "SDL_setup.h"
 
 Map::Map(char *map_path): Renderable(BACKGROUND)
 {
@@ -30,6 +33,53 @@ int Map::get_height() const
 int Map::get_width() const
 {
 	return mWidth;
+}
+
+bool Map::deserialize(std::string& path)
+{
+	std::ifstream file(path);
+	if (!file.is_open())
+	{
+		return false;
+	}
+
+	std::string content;
+
+	//reading tile sizes
+	std::getline(file, content);
+	this->mTile_size_x = std::stoi(content);
+	std::getline(file, content);
+	this->mTile_size_y = std::stoi(content);
+
+	//reading the tiles
+	std::getline(file, content);
+	while (content != "endtiles")
+	{
+		char tile_char;
+		std::string tile_path;
+		std::stringstream ss;
+		ss >> tile_char;
+		ss >> tile_path;
+
+		//TODO: Error handling
+		auto tile_texture = gTextures->get_texture(tile_path);
+
+		mTiles.insert(std::pair<char, LTexture*>(tile_char, tile_texture));
+
+		std::getline(file, content);
+	}
+
+	SDL_Texture* b;
+
+	SDL_Renderer* renderer;
+
+
+	SDL_RenderCopy()
+	
+	//read the background and render it to an LTexture
+	//mTiles['a']->render()
+
+	return false;
 }
 
 void Map::render()

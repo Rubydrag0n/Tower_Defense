@@ -62,8 +62,10 @@ void Game::start_game()
 		cap_timer.start();
 
 		//Calculate and correct fps
+		/* Not used right now
 		auto avg_fps = counted_frames / (fps_timer.get_ticks() / 1000.f);
 		if (avg_fps > 2000000) avg_fps = 0;
+		*/
 
 		//also renders the hover window
 		//mouse handler update needs to happen first

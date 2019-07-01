@@ -101,13 +101,11 @@ void BuildingWindow::upgrade_building(Button* button)
 
 void BuildingWindow::show_more(Button* button)
 {
-	auto value_to_shift = 60; // y-direction-shift
+	const auto value_to_shift = 60; // y-direction-shift
 	if (!mBig_upgrades.empty())
 	{
-		for (auto i = 0; i < mBig_upgrades.size(); i++)
+		for (auto big_upgrade : mBig_upgrades)
 		{
-			auto big_upgrade = mBig_upgrades.at(i);
-		
 			if (big_upgrade->is_upgrade_description_shown()) big_upgrade->set_upgrade_description_shown(false);
 			if (big_upgrade->get_show_more_button() == button) big_upgrade->set_upgrade_description_shown(true);
 
@@ -134,9 +132,9 @@ void BuildingWindow::update_great_upgrades()
 	//first delete old buttons
 	if(!mBig_upgrades.empty())
 	{
-		for (auto i = 0; i< mBig_upgrades.size(); i++)
+		for (auto& big_upgrade : mBig_upgrades)
 		{
-			delete mBig_upgrades.at(i);
+			delete big_upgrade;
 		}
 		mBig_upgrades.clear();
 	}
@@ -158,7 +156,7 @@ void BuildingWindow::update_great_upgrades()
 		{
 			break;
 		}
-		auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, upgrade_section, WINDOWCONTENT, WINDOWCONTENT, this, UPGRADE_BUTTON);
+		const auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, upgrade_section, WINDOWCONTENT, WINDOWCONTENT, this, UPGRADE_BUTTON);
 		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWCONTENT, WINDOWCONTENT, this, SHOW_MORE_BUTTON);
 		show_more_button->add_x_dimension(y_difference);
 		show_more_button->set_clickable_space(show_more_button->get_dimension());

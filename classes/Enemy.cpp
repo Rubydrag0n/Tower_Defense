@@ -174,7 +174,7 @@ bool Enemy::take_damage(Damage *dmg)
 void Enemy::on_death()
 {
 	mLevel->get_resources()->add(&mLoot_resources);
-	new Particle("zombie_death", mPosition, CoordinatesInDouble(), this->get_rotation_angle(), 0.0);
+	new Particle("zombie_death", mPosition, CoordinatesInDouble(), float(this->get_rotation_angle()), 0.f);
 	if (!mFollowed_by.empty()) {
 		for (int i = mFollowed_by.size() - 1; i >= 0; i--)
 		{

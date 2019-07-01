@@ -40,8 +40,8 @@ bool AoeShot::follow()
 		coordinates.y = mLocation_to_shoot.y + (rand() % 7 - 3);
 		direction.x = (rand() % 31 - 15) / 40.0;
 		direction.y = (rand() % 31 - 15) / 40.0;
-		const auto rotation_speed = (rand() % 31 - 15) / 40.0;
-		const double rotation = rand() % 360;
+		const auto rotation_speed = (rand() % 31 - 15) / 40.f;
+		const auto rotation = float(rand() % 360);
 		new Particle("explosion", coordinates, direction, rotation, rotation_speed);
 	}
 	return enemy_hit;

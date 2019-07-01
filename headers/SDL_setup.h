@@ -18,8 +18,8 @@ const int MATRIX_WIDTH = 40;
 extern int* gActual_screen_width;
 extern int* gActual_screen_height;
 
-extern int* gFrame_rate;
-extern int* gTicks_per_frame;
+extern unsigned* gFrame_rate;
+extern unsigned* gTicks_per_frame;
 
 extern SDL_Window* gWindow;
 extern SDL_Renderer* gRenderer;
