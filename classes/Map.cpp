@@ -74,7 +74,7 @@ bool Map::deserialize(std::string& path)
 	SDL_Renderer* renderer;
 
 
-	SDL_RenderCopy()
+	//SDL_RenderCopy()
 	
 	//read the background and render it to an LTexture
 	//mTiles['a']->render()
