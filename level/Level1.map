@@ -1,1 +1,29 @@
-tile_size_x = 
+64
+64
+0 resources/tiles/towerDefense_tile157.png
+1 resources/tiles/towerDefense_tile103.png
+2 resources/tiles/towerDefense_tile079.png
+3 resources/tiles/towerDefense_tile081.png
+4 resources/tiles/towerDefense_tile125.png
+5 resources/tiles/towerDefense_tile127.png
+6 resources/tiles/towerDefense_tile080.png
+7 resources/tiles/towerDefense_tile102.png
+8 resources/tiles/towerDefense_tile104.png
+9 resources/tiles/towerDefense_tile126.png
+endtiles
+00000000000000000000
+00000000000000000000
+11111111111111111000
+00000000000000001000
+00000000000000001000
+00000000000000001000
+00000111111110001000
+00000100000011111000
+00000100000000000000
+00000100000000000000
+00000100000000000000
+00000100000000000000
+00000111111111111111
+00000000000000000000
+00000000000000000000
+00000000000000000000

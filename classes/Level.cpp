@@ -78,7 +78,7 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 
 	new Menu(this, LAYERS::BACKGROUND);
 
-	mMap = new Map(const_cast<char*>("level/Level1.FMP"));
+	mMap = new Map("level/Level1.map");
 
 	SDL_Point p;
 	p.x = 1088;

@@ -25,8 +25,11 @@ LTexture* Textures::get_texture(std::string path)
 	//if not yet loaded -> load now
 
 	auto tex = new LTexture();
-	tex->load_from_file(path);
-
+	if (!tex->load_from_file(path))
+	{
+		printf("Couldn't load texture at %s!\n", path.c_str());
+	}
+	
 	mContent.insert(std::pair<std::string, LTexture*>(path, tex));	//insert key and value in the map
 
 	return tex;

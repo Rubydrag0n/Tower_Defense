@@ -4,19 +4,28 @@
 #include <fstream>
 #include <sstream>
 #include "SDL_setup.h"
+#include <SDL.h>
 
-Map::Map(char *map_path): Renderable(BACKGROUND)
+Map::Map(std::string map_path): Renderable(BACKGROUND)
 {
+	mTile_size_x = 0;
+	mTile_size_y = 0;
+
 	mOffset_left = gConfig_file->value("map", "offset_left");
 	mOffset_top = gConfig_file->value("map", "offset_top");
 	mWidth = gConfig_file->value("map", "width");
 	mHeight = gConfig_file->value("map", "height");
 	mLayer_count = gConfig_file->value("map", "layer_count");
+
+	mBackground_texture = gTextures->get_texture("resources/background.bmp");
+
 	mMap = new SDLMappy;
-	if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
-		printf("Could not load %s\n", map_path);
+
+	/*if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
+		printf("Could not load %s\n", map_path);*/
 	mMap_texture = new LTexture();
-	update_map_texture();
+
+	this->deserialize(map_path);
 }
 
 Map::~Map()
@@ -37,6 +46,15 @@ int Map::get_width() const
 
 bool Map::deserialize(std::string& path)
 {
+	static const auto tiles_x = 20;
+	static const auto tiles_y = 16;
+
+	mMap_tiles.resize(tiles_x);
+	for (unsigned x = 0; x < mMap_tiles.size(); ++x)
+	{
+		mMap_tiles.at(x).resize(tiles_y);
+	}
+
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
@@ -58,6 +76,7 @@ bool Map::deserialize(std::string& path)
 		char tile_char;
 		std::string tile_path;
 		std::stringstream ss;
+		ss << content;
 		ss >> tile_char;
 		ss >> tile_path;
 
@@ -69,26 +88,79 @@ bool Map::deserialize(std::string& path)
 		std::getline(file, content);
 	}
 
-	SDL_Texture* b;
+   	const auto map_width = mTile_size_x * tiles_x;
+	const auto map_height = mTile_size_y * tiles_y;
 
-	SDL_Renderer* renderer;
+	if (!mMap_texture->create_blank(map_width, map_height, SDL_TEXTUREACCESS_TARGET))
+	{
+		printf("Failed to create target texture!\n");
+		file.close();
+		return false;
+	}
 
+	mMap_texture->set_as_render_target();
 
-	//SDL_RenderCopy()
-	
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(gRenderer);
+
+	SDL_Rect dest;
+	dest.x = 0;
+	dest.y = 0;
+	dest.w = mTile_size_x;
+	dest.h = mTile_size_y;
+
 	//read the background and render it to an LTexture
-	//mTiles['a']->render()
+	for (auto y = 0; y < tiles_y; ++y)
+	{
+		std::getline(file, content);
+		char tile;
+		std::stringstream ss;
+		ss << content;
+		
+		for (auto x = 0; x < tiles_x; ++x)
+		{
+			ss >> tile;
 
-	return false;
+			//TODO: figure out why the rendering isn't working!!
+			mTiles[tile]->render(&dest);
+
+			mMap_tiles.at(x).at(y) = mTiles[tile];
+			dest.x += dest.w;
+		}
+
+		dest.x = 0;
+		dest.y += dest.h;
+	}
+
+	return true;
 }
 
 void Map::render()
 {
+	gLayer_handler->render_to_layer(mBackground_texture, this->get_render_layer(), nullptr, nullptr);
+	
 	gLayer_handler->render_to_layer(mMap_texture, this->get_render_layer(), nullptr, nullptr);
+
+	//while the above doesn't work...
+	SDL_Rect dest;
+	dest.w = 64;
+	dest.h = 64;
+
+	for (auto x = 0; x < 20; ++x)
+	{
+		dest.x = x * 64;
+		for (auto y = 0; y < 16; ++y)
+		{
+			dest.y = y * 64;
+			gLayer_handler->render_to_layer(mMap_tiles[x][y], this->get_render_layer(), nullptr, &dest);
+		}
+	}
 }
 
 void Map::update_map_texture() const
 {
+	//old code using old implementation of SDL_Mappy, isn't used anymore
+
 	mMap->map_move_to(mOffset_left, mOffset_top);
 	mMap->map_change_layer(0);	//Background first
 	const auto s = SDL_LoadBMP("resources/background.bmp");

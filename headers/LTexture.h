@@ -22,7 +22,7 @@ public:
 #endif
 	
 	//Creates blank texture 
-	bool create_blank( int width, int height, SDL_TextureAccess = SDL_TEXTUREACCESS_STREAMING ); 
+	bool create_blank( int width, int height, SDL_TextureAccess = SDL_TEXTUREACCESS_STREAMING );
 	
 	//Creates image from SDL_Surface. The surface is not gonna be destroyed at the end
 	bool load_from_surface(SDL_Surface* surface);

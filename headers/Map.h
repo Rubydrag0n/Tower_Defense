@@ -8,7 +8,7 @@
 class Map : Renderable
 {
 public:
-	explicit Map(char *map_path);
+	explicit Map(std::string map_path);
 	~Map();
 
 	int get_height() const;
@@ -36,7 +36,11 @@ private:
 
 	//a map containing the characters and their graphics
 	std::map<char, LTexture*> mTiles;
+	
+	//while I can't figure out how to render to textures this is used
+	std::vector<std::vector<LTexture*>> mMap_tiles;
 
 	//the finished texture, consisting of the backgroundlayer with added decorations
 	LTexture *mMap_texture;
+	LTexture *mBackground_texture;
 };
