@@ -19,8 +19,6 @@ Map::Map(std::string map_path): Renderable(BACKGROUND)
 
 	mBackground_texture = gTextures->get_texture("resources/background.bmp");
 
-	mMap = new SDLMappy;
-
 	/*if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
 		printf("Could not load %s\n", map_path);*/
 	mMap_texture = new LTexture();
@@ -30,7 +28,6 @@ Map::Map(std::string map_path): Renderable(BACKGROUND)
 
 Map::~Map()
 {
-	delete mMap;
 	mMap_texture->free();
 }
 
@@ -131,33 +128,4 @@ void Map::render()
 	gLayer_handler->render_to_layer(mBackground_texture, this->get_render_layer(), nullptr, nullptr);
 	
 	gLayer_handler->render_to_layer(mMap_texture, this->get_render_layer(), nullptr, nullptr);
-}
-
-void Map::update_map_texture() const
-{
-	//old code using old implementation of SDL_Mappy, isn't used anymore
-
-	mMap->map_move_to(mOffset_left, mOffset_top);
-	mMap->map_change_layer(0);	//Background first
-	const auto s = SDL_LoadBMP("resources/background.bmp");
-	if (mMap->map_draw_bg(s) == -1)
-		printf("Failed to draw background of Map!\n");
-	
-	for (auto i = 1; i < mLayer_count; i++)
-	{
-		const auto s2 = SDL_LoadBMP("resources/background.bmp");
-		mMap->map_change_layer(i);
-		if (mMap->map_draw_bgt(s2) == -1)
-			printf("Failed to draw layer %i of foreground of Map!\n", mLayer_count);
-		else
-		{
-			SDL_SetColorKey(s2, 1, 0);		//setting the transparent color for this surface to black (the 0)
-			SDL_SetSurfaceBlendMode(s2, SDL_BLENDMODE_BLEND);
-			SDL_BlitSurface(s2, nullptr, s, nullptr);		//blit the new layer on top of the total
-			SDL_FreeSurface(s2);
-		}
-	}
-	mMap_texture->load_from_surface(s);
-	mMap_texture->set_blend_mode(SDL_BLENDMODE_BLEND);
-	SDL_FreeSurface(s);
 }

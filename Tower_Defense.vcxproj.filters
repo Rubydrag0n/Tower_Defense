@@ -156,9 +156,6 @@
     <ClCompile Include="classes\SDL_setup.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\SDLMappy.cpp">
-      <Filter>Source Files\Handlers</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Shot.cpp">
       <Filter>Source Files\Shots</Filter>
     </ClCompile>
@@ -270,6 +267,9 @@
     <ClCompile Include="classes\UnitWindow.cpp">
       <Filter>Source Files\Menus\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="classes\MainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -321,9 +321,6 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\SDL_setup.h">
-      <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\SDLMappy.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="headers\Textures.h">
@@ -448,6 +445,9 @@
     </ClInclude>
     <ClInclude Include="headers\UnitWindow.h">
       <Filter>Header Files\Menus\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\MainMenu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

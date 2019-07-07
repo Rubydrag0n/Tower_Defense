@@ -1,5 +1,4 @@
 #pragma once
-#include "SDLMappy.h"
 #include "LTexture.h"
 #include "Renderable.h"
 #include <vector>
@@ -23,7 +22,6 @@ public:
 private:
 	void update_map_texture() const;
 
-	SDLMappy *mMap;
 	int mOffset_left;
 	int mOffset_top;
 	int mWidth;

@@ -189,7 +189,6 @@
     <ClCompile Include="classes\Renderable.cpp" />
     <ClCompile Include="classes\RenderableHandler.cpp" />
     <ClCompile Include="classes\Resources.cpp" />
-    <ClCompile Include="classes\SDLMappy.cpp" />
     <ClCompile Include="classes\SDL_setup.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
@@ -257,7 +256,6 @@
     <ClInclude Include="headers\Renderable.h" />
     <ClInclude Include="headers\RenderableHandler.h" />
     <ClInclude Include="headers\Resources.h" />
-    <ClInclude Include="headers\SDLMappy.h" />
     <ClInclude Include="headers\SDL_setup.h" />
     <ClInclude Include="headers\Shot.h" />
     <ClInclude Include="headers\ShowMoreButton.h" />
