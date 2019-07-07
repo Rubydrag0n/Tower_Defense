@@ -4,7 +4,6 @@
 
 #include "Game.h"
 #include "SDL_setup.h"
-#include "Map.h"
 #include "Tower.h"
 #include "Level.h"
 #include "IndustrialBuilding.h"

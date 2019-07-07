@@ -7,6 +7,8 @@
 class Map : Renderable
 {
 public:
+	//for the editor, loads an empty map
+	Map();
 	explicit Map(std::string map_path);
 	~Map();
 
@@ -19,7 +21,7 @@ public:
 
 	void render() override;
 
-private:
+protected:
 	void update_map_texture() const;
 
 	int mOffset_left;
@@ -34,6 +36,9 @@ private:
 
 	//a map containing the characters and their graphics
 	std::map<char, LTexture*> mTiles;
+
+	//a vector storing the paths to the tile textures so they can be deleted in the destructor
+	std::vector<std::string> mTile_paths;
 	
 	//the finished texture, consisting of the backgroundlayer with added decorations
 	LTexture *mMap_texture;

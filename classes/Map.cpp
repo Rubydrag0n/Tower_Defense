@@ -5,8 +5,26 @@
 #include <sstream>
 #include "SDL_setup.h"
 #include <SDL.h>
+#include <iostream>
 
-Map::Map(std::string map_path): Renderable(BACKGROUND)
+Map::Map() : Renderable(BACKGROUND)
+{
+	mTile_size_x = 0;
+	mTile_size_y = 0;
+
+	mOffset_left = 0;
+	mOffset_top = 0;
+	mWidth = 0;
+	mHeight = 0;
+	mLayer_count = 0;
+
+	mBackground_texture = gTextures->get_texture("resources/background.bmp");
+
+	mMap_texture = new LTexture();
+}
+
+
+Map::Map(std::string map_path) : Renderable(BACKGROUND)
 {
 	mTile_size_x = 0;
 	mTile_size_y = 0;
@@ -29,6 +47,12 @@ Map::Map(std::string map_path): Renderable(BACKGROUND)
 Map::~Map()
 {
 	mMap_texture->free();
+	delete mMap_texture;
+
+	for (auto &path : mTile_paths)
+	{
+		gTextures->del_texture(path);
+	}
 }
 
 int Map::get_height() const
@@ -74,7 +98,13 @@ bool Map::deserialize(std::string& path)
 		//TODO: Error handling
 		auto tile_texture = gTextures->get_texture(tile_path);
 
+		if (tile_texture == nullptr)
+		{
+			std::cout << "Couldn't load tile texture at " << tile_path << std::endl;
+		}
+
 		mTiles.insert(std::pair<char, LTexture*>(tile_char, tile_texture));
+		mTile_paths.push_back(tile_path);
 
 		std::getline(file, content);
 	}
@@ -95,13 +125,9 @@ bool Map::deserialize(std::string& path)
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
 
-	SDL_Rect dest;
-	dest.x = 0;
-	dest.y = 0;
-	dest.w = mTile_size_x;
-	dest.h = mTile_size_y;
+	SDL_Rect dest{ 0, 0, mTile_size_x, mTile_size_y };
 
-	//read the background and render it to an LTexture
+	//read the background and render it to the map texture
 	for (auto y = 0; y < tiles_y; ++y)
 	{
 		std::getline(file, content);
@@ -119,6 +145,8 @@ bool Map::deserialize(std::string& path)
 		dest.x = 0;
 		dest.y += dest.h;
 	}
+
+	file.close();
 
 	return true;
 }
