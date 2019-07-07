@@ -100,11 +100,11 @@ void LayerHandler::renderex_to_layer(LTexture* texture, const LAYERS layer, SDL_
 
 void LayerHandler::present()
 {
-	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(gRenderer);
-
 	//Reset render target
 	SDL_SetRenderTarget(gRenderer, nullptr);
+
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(gRenderer);
 
 	for (auto i = 0; i < int(LAYERS::LAYERS_TOTAL); i++)
 	{

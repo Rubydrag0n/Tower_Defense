@@ -46,14 +46,8 @@ int Map::get_width() const
 
 bool Map::deserialize(std::string& path)
 {
-	static const auto tiles_x = 20;
-	static const auto tiles_y = 16;
-
-	mMap_tiles.resize(tiles_x);
-	for (unsigned x = 0; x < mMap_tiles.size(); ++x)
-	{
-		mMap_tiles.at(x).resize(tiles_y);
-	}
+	const auto tiles_x = 20;
+	const auto tiles_y = 16;
 
 	std::ifstream file(path);
 	if (!file.is_open())
@@ -98,6 +92,7 @@ bool Map::deserialize(std::string& path)
 		return false;
 	}
 
+	//we want to render to the texture
 	mMap_texture->set_as_render_target();
 
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -120,11 +115,7 @@ bool Map::deserialize(std::string& path)
 		for (auto x = 0; x < tiles_x; ++x)
 		{
 			ss >> tile;
-
-			//TODO: figure out why the rendering isn't working!!
 			mTiles[tile]->render(&dest);
-
-			mMap_tiles.at(x).at(y) = mTiles[tile];
 			dest.x += dest.w;
 		}
 
@@ -140,21 +131,6 @@ void Map::render()
 	gLayer_handler->render_to_layer(mBackground_texture, this->get_render_layer(), nullptr, nullptr);
 	
 	gLayer_handler->render_to_layer(mMap_texture, this->get_render_layer(), nullptr, nullptr);
-
-	//while the above doesn't work...
-	SDL_Rect dest;
-	dest.w = 64;
-	dest.h = 64;
-
-	for (auto x = 0; x < 20; ++x)
-	{
-		dest.x = x * 64;
-		for (auto y = 0; y < 16; ++y)
-		{
-			dest.y = y * 64;
-			gLayer_handler->render_to_layer(mMap_tiles[x][y], this->get_render_layer(), nullptr, &dest);
-		}
-	}
 }
 
 void Map::update_map_texture() const
