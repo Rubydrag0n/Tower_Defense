@@ -40,5 +40,4 @@ void HomingShot::on_tick()
 			this->get_enemy_to_shoot()->delete_following_shot(this);
 		}
 	}
-	if (mEnemy_to_shoot->is_dead()) delete mEnemy_to_shoot;
 }

@@ -34,7 +34,7 @@ public:
 	ENTITYTYPE get_type() override;
 
 private:
-	std::vector<SDL_Point> mCheckpoints;
+	std::vector<SDL_Point> mCheckpoints{};
 	bool mDead;
 	Level* mLevel;
 	//how much life will be lost when the enemy gets through

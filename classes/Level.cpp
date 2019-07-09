@@ -125,8 +125,14 @@ void Level::on_tick()
 {
 	auto last_wave_did_start = true; //is set true, if the wave before is spawning their monsters, otherwise it is false; for the first wave always true
 
-	for (auto wave : mWaves)
+	//collecting waves to be deleted
+	std::vector<int> deleted_waves;;
+
+	//need to go through backwards so we can delete waves from the vector
+	for (auto i = 0; i < mWaves.size(); ++i)
 	{
+		auto wave = mWaves[i];
+
 		if(last_wave_did_start) wave->update();
 
 		last_wave_did_start = wave->get_elapsed_ticks() >= wave->get_spawn_delay();
@@ -139,7 +145,19 @@ void Level::on_tick()
 			mWave_number++;
 		}
 
-		if (wave->is_dead()) delete wave;
+		if (wave->is_dead())
+		{
+			delete wave;
+			deleted_waves.push_back(i);
+		}
+	}
+
+	//deleting the waves that died
+	auto count = 0;
+	for (auto wave : deleted_waves)
+	{
+		mWaves.erase(mWaves.begin() + wave - count);
+		++count;
 	}
 }
 

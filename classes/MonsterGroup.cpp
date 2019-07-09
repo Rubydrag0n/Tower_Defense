@@ -41,9 +41,20 @@ void MonsterGroup::update()
 			mCurrent_monster_count++;
 		}
 
-		for (auto& monster : mMonsters)
+		//need to go through backwards so we are able to delete things from the vector
+		for (auto i = mMonsters.size(); i > 0; --i)
 		{
-			monster->move();
+			auto monster = mMonsters[i - 1];
+
+			if (monster->is_dead())
+			{
+				delete monster;
+				mMonsters.erase(mMonsters.begin() + i - 1);
+			}
+			else 
+			{
+				monster->move();
+			}
 		}
 	}
 	//updating the current tick

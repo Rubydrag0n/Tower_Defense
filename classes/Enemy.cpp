@@ -71,12 +71,9 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYER
 
 Enemy::~Enemy()
 {
-	if (!mFollowed_by.empty()) {
-		for (auto i = mFollowed_by.size() - 1; i > 0; --i)
-		{
-			delete mFollowed_by.at(i);
-		}
-		mFollowed_by.clear();
+	for (auto followed : mFollowed_by)
+	{
+		delete followed;
 	}
 }
 
