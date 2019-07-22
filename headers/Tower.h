@@ -16,17 +16,26 @@ public:
 
 	//calls Building::render and renders all shots from the tower
 	void render() override;
+	void set_clicked(const bool value) override;
 	
 	//all projectiles, that are fired from this tower are updated, shots are fired
 	void on_tick() override;
+	void on_click(int mouse_x, int mouse_y) override;
 
-	void upgrade(const std::string& tower_upgrade_section) override;
-	void upgrade_damage();
-	void upgrade_range();
-	void upgrade_attack_speed();
+	bool upgrade(const std::string& tower_upgrade_section) override;
+	bool upgrade_damage();
+	bool upgrade_range();
+	bool upgrade_attack_speed();
 
 	double get_attack_speed() const;
 	double get_range() const;
+	int get_number_of_damage_upgrades() const;
+	int get_number_of_attackspeed_upgrades() const;
+	int get_number_of_range_upgrades() const;
+
+	void increment_number_of_damage_upgrades();
+	void increment_number_of_attackspeed_upgrades();
+	void increment_number_of_range_upgrades();
 
 	BUILDINGTYPE get_building_type() override;
 	
@@ -47,5 +56,8 @@ protected:
 	std::string mProjectile_name;
 	std::string mTower_name;
 	LTexture* mRange_indicator_sprite;
+	int mNumber_of_damage_upgrades = 0;
+	int mNumber_of_attackspeed_upgrades = 0;
+	int mNumber_of_range_upgrades = 0;
 };
 

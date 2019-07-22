@@ -28,14 +28,6 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	const auto sprite_path = std::string(gConfig_file->value("rangeindicator", "path"));
 	mRange_indicator_sprite = gTextures->get_texture(sprite_path);
 
-	SDL_Rect rect;
-	rect.x = mCoords.x + mSprite_dimensions.w;
-	rect.y = mCoords.y - 200;
-	rect.w = 200;
-	rect.h = 600;
-	mWindow = new TowerWindow(rect, this);
-	mWindow->set_rendering_enabled(false);
-	mWindow->disable();
 
 	mCarriage = new Carriage("carriage", mLevel, LAYERS::ENEMIES, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
 }
@@ -44,7 +36,7 @@ void Tower::render()
 {
 	Building::render();
 
-	if(is_clicked() || mWindow->is_clicked())
+	if(is_clicked())
 	{
 		SDL_Rect dest;
 		//range is radius not diameter
@@ -55,6 +47,13 @@ void Tower::render()
 		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::OVERLAY, nullptr, &dest);
 	}
 }
+
+void Tower::set_clicked(const bool value)
+{
+	//break;
+	Clickable::set_clicked(value);
+}
+
 
 void Tower::on_tick()
 {
@@ -76,49 +75,76 @@ void Tower::on_tick()
 	}
 }
 
-void Tower::upgrade(const std::string& tower_upgrade_section)
+void Tower::on_click(int mouse_x, int mouse_y)
 {
-	Building::upgrade(tower_upgrade_section);
-	mDamage.add(gConfig_file->value_or_zero(tower_upgrade_section, "phys"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "magic"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "fire"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "water"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-
-	mRange += gConfig_file->value_or_zero(tower_upgrade_section, "range");
-	mAttack_speed += gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
-	mProjectile_speed += gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
-	mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
-	mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
+	SDL_Rect rect;
+	rect.x = 1280;
+	rect.y = 600;
+	rect.w = 600;
+	rect.h = 200;
+	mLevel->get_menu()->set_building_window(new TowerWindow(rect, this));
+	Building::on_click(mouse_x, mouse_y);
 }
 
-void Tower::upgrade_damage()
+
+bool Tower::upgrade(const std::string& tower_upgrade_section)
+{
+	if(Building::upgrade(tower_upgrade_section))
+	{
+		mDamage.add(gConfig_file->value_or_zero(tower_upgrade_section, "phys"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "magic"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "fire"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "water"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+		mRange += gConfig_file->value_or_zero(tower_upgrade_section, "range");
+		mAttack_speed += gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
+		mProjectile_speed += gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
+		mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
+		mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
+		return true;
+	}
+	return false;
+}
+
+bool Tower::upgrade_damage()
 {
 	const auto tower_upgrade_section = "Tower/upgradeDamage";
-	Building::upgrade(tower_upgrade_section);
-	mDamage.add(gConfig_file->value_or_zero(tower_upgrade_section, "phys"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "magic"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "fire"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "water"),
-		gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-	mCount_of_little_upgrades++;
+	if(Building::upgrade(tower_upgrade_section))
+	{
+		mDamage.add(gConfig_file->value_or_zero(tower_upgrade_section, "phys"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "magic"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "fire"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "water"),
+			gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+		mCount_of_little_upgrades++;
+		return true;
+	}
+	return false;
 }
 
-void Tower::upgrade_range()
+bool Tower::upgrade_range()
 {
 	const auto tower_upgrade_section = "Tower/upgradeRange";
-	Building::upgrade(tower_upgrade_section);
-	mRange += gConfig_file->value(tower_upgrade_section, "range");
-	mCount_of_little_upgrades++;
+	if(Building::upgrade(tower_upgrade_section))
+	{
+		mRange += gConfig_file->value(tower_upgrade_section, "range");
+		mCount_of_little_upgrades++;
+		return true;
+	}
+	return false;
 }
 
-void Tower::upgrade_attack_speed()
+bool Tower::upgrade_attack_speed()
 {
 	const auto tower_upgrade_section = "Tower/upgradeAttackspeed";
-	Building::upgrade(tower_upgrade_section);
-	mAttack_speed += gConfig_file->value(tower_upgrade_section, "attackspeed");
-	mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
-	mCount_of_little_upgrades++;
+	if(Building::upgrade(tower_upgrade_section))
+	{
+		mAttack_speed += gConfig_file->value(tower_upgrade_section, "attackspeed");
+		mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
+		mCount_of_little_upgrades++;
+		return true;
+	}
+	return false;
 }
 
 bool Tower::enemy_in_range(Enemy* enemy, const double radius, const SDL_Point center)
@@ -158,4 +184,39 @@ double Tower::get_range() const
 {
 	return mRange;
 }
+
+int Tower::get_number_of_damage_upgrades() const
+{
+	return mNumber_of_damage_upgrades;
+}
+
+int Tower::get_number_of_attackspeed_upgrades() const
+{
+	return mNumber_of_attackspeed_upgrades;
+}
+
+int Tower::get_number_of_range_upgrades() const
+{
+	return mNumber_of_range_upgrades;
+}
+
+void Tower::increment_number_of_damage_upgrades()
+{
+	mNumber_of_damage_upgrades++;
+}
+
+void Tower::increment_number_of_attackspeed_upgrades()
+{
+	mNumber_of_attackspeed_upgrades++;
+}
+
+void Tower::increment_number_of_range_upgrades()
+{
+	mNumber_of_range_upgrades++;
+}
+
+
+
+
+
 

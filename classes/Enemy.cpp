@@ -2,14 +2,14 @@
 #include "Enemy.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
-#include "Level.h"
 #include "LayerHandler.h"
 #include "CoordinatesInDouble.h"
 #include "Particles.h"
 #include "HomingShot.h"
+#include "Menu.h"
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYERS render_layer) : Unit(monster_name, render_layer), mDead(false), mLevel(level), mHealth_bar_dimensions()
+Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYERS render_layer) : Unit(monster_name, level, render_layer), mDead(false), mHealth_bar_dimensions()
 {
 	//way is the index of the way the unit is to run (there can be multiple ones in one level) (starts with 0)
 	const auto s_way = std::to_string(way);
@@ -80,6 +80,12 @@ Enemy::~Enemy()
 void Enemy::on_tick()
 {
 }
+
+void Enemy::on_click(int mouse_x, int mouse_y)
+{
+	Unit::on_click(mouse_x, mouse_y);
+}
+
 
 void Enemy::move()
 {

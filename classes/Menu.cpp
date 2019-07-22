@@ -6,8 +6,9 @@
 #include "SDL_setup.h"
 #include "DemolishTool.h"
 #include "BuildingMenuItem.h"
+#include "Building.h"
 
-Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer)
+Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer), mBuilding_window(nullptr), mUnit_window(nullptr)
 {
 	this->mLevel = level;
 	this->mOpen_tab = TOWER;
@@ -54,6 +55,11 @@ Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer)
 		" \twater: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WATER)) +
 		" \tfood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(FOOD)),
 		dest, WINDOWS, text_color, nullptr);
+
+	SDL_Point coords;
+	coords.x = 1800;
+	coords.y = 100;
+	mDemolish_tool = new DemolishTool(mLevel, coords);
 }
 
 Menu::~Menu()
@@ -68,6 +74,9 @@ Menu::~Menu()
 		mMenu_items[BUILDINGTYPE(i)]->clear();
 		delete mMenu_items[BUILDINGTYPE(i)];
 	}*/
+	delete mBuilding_window; //oder so
+	delete mDemolish_tool;
+
 }
 
 void Menu::show_tab(const BUILDINGTYPE open_tab)
@@ -128,10 +137,6 @@ void Menu::sort_items_into_menu()
 			this->add_menu_item(new_item, BUILDINGTYPE(j));
 		}
 	}
-
-	coords.x = 1300;
-	coords.y = 600;
-	new DemolishTool(mLevel, coords);
 }
 
 void Menu::render()
@@ -143,3 +148,36 @@ void Menu::add_menu_item(BuildingMenuItem* building_menu_item, const BUILDINGTYP
 {
 	this->mBuilding_menu_items[tab]->push_back(building_menu_item);
 }
+
+void Menu::set_building_window(BuildingWindow* building_window)
+{
+	if (mBuilding_window != nullptr)
+	{
+		mBuilding_window->get_building()->set_window_in_menu(false);
+		delete mBuilding_window;
+	}
+	mBuilding_window = building_window;
+	mBuilding_window->get_building()->set_window_in_menu(true);
+	mBuilding_window->set_rendering_enabled(true);
+}
+
+BuildingWindow* Menu::get_building_window() const
+{
+	return mBuilding_window;
+}
+
+void Menu::set_unit_window(UnitWindow* unit_window)
+{
+	if (mUnit_window != nullptr) delete mUnit_window;
+	mUnit_window = unit_window;
+	mUnit_window->set_rendering_enabled(true);
+}
+
+UnitWindow* Menu::get_unit_window() const
+{
+	return mUnit_window;
+}
+
+
+
+

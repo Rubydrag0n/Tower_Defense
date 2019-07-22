@@ -23,14 +23,15 @@ public:
 
 	//if an upgradebutton is hovered this function is called and sets the strings with the stats for the upgrade, that are shown in the window
 	void set_stat_strings_for_upgrade_buttons(Button* button);
+	//sets strings in window so that they do not show the upgrade values of the last upgradebutton that was hovered
+	void set_stat_strings_to_normal(); 
 
 private:
 	UpgradeButton* mUpgrade_damage_button;
 	UpgradeButton* mUpgrade_range_button;
 	UpgradeButton* mUpgrade_attackspeed_button;
-	int mNumber_of_damage_upgrades = 0;
-	int mNumber_of_attackspeed_upgrades = 0;
-	int mNumber_of_range_upgrades = 0;
+	Tower* mBuilding;
+
 	Text* mDmg_text;
 	Text* mDmg_value;
 	Text* mAs_text;

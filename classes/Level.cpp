@@ -76,7 +76,7 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 	warehouse_coord.y = TILE_HEIGHT * gConfig_file->value(level_section, "main_building_y");
 	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this, BUILDINGS, BUILDINGS);
 
-	new Menu(this, LAYERS::BACKGROUND);
+	mMenu = new Menu(this, LAYERS::BACKGROUND);
 
 	mMap = new Map("level/Level1.map");
 
@@ -279,3 +279,9 @@ void Level::set_main_building(Warehouse *main_building)
 	this->mMain_building->get_current_resources()->set_empty();
 	this->mMain_building->get_current_resources()->add(&this->mStart_resources);
 }
+
+Menu* Level::get_menu() const
+{
+	return mMenu;
+}
+

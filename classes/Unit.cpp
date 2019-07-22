@@ -3,9 +3,10 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "LayerHandler.h"
+#include "Menu.h"
 
 
-Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_layer), Clickable(render_layer), mCenter(), mCurrent_clip(), mSprite_dimensions()
+Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : Entity(render_layer), Clickable(render_layer), mLevel(level), mCenter(), mCurrent_clip(), mSprite_dimensions()
 {
 	const auto sprite_section = unit_name + "/sprite";
 	const auto stats_section = unit_name + "/stats";
@@ -76,14 +77,11 @@ Unit::Unit(const std::string& unit_name, LAYERS render_layer) : Entity(render_la
 	dim.y = 824;
 	dim.w = 200;
 	dim.h = 200;
-	mUnit_window = new UnitWindow(dim, this);
-	mUnit_window->set_rendering_enabled(false);
-	mUnit_window->disable();
+
 }
 
 Unit::~Unit()
 {
-	delete mUnit_window;
 	delete mDefense;
 }
 
@@ -135,9 +133,12 @@ void Unit::update_animation_clip()
 
 void Unit::on_click(int mouse_x, int mouse_y)
 {
-	mUnit_window->set_rendering_enabled(true);
-	mUnit_window->enable();
-	mUnit_window->set_clicked(true);
+	SDL_Rect rect;
+	rect.x = 1680;
+	rect.y = 824;
+	rect.w = 200;
+	rect.h = 200;
+	mLevel->get_menu()->set_unit_window(new UnitWindow(rect, this));
 }
 
 Defense* Unit::get_defense()

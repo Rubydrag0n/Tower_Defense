@@ -19,7 +19,6 @@ public:
 	void render() override;
 	void on_button_press(int button_id, Button* button) override;
 	
-	void demolish_building() const;
 	void upgrade_building(Button* button);//button must be from class UpgradeButton
 	void show_more(Button* button); //
 	void update_great_upgrades();

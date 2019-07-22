@@ -7,7 +7,7 @@ IndustrialBuildingWindow::IndustrialBuildingWindow(SDL_Rect dim, IndustrialBuild
 	dest.h = 0;
 	dest.w = 0;
 	dest.x = mDim.x + 20;
-	dest.y = mDim.y + 130;
+	dest.y = mDim.y + 30;
 
 	mProduction_values = new Text*[RESOURCES_TOTAL];
 	mResource_names_prod = new Text*[RESOURCES_TOTAL];

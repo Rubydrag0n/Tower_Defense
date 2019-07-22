@@ -24,10 +24,12 @@ public:
 	void render() override; //render the picture of the building
 	void on_tick() override; //takes resources for maintenance
 	void demolish() const;
-	virtual void upgrade(const std::string& building_upgrade_section); //upgrades building
+	virtual bool upgrade(const std::string& building_upgrade_section); //upgrades building
 
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
+
+	void set_window_in_menu(bool b);
 
 	Resources* get_maintenance() const;
 	void set_maintenance(Resources* maintenance);
@@ -62,6 +64,7 @@ public:
 
 	void transfer_resources(Resources* r, Production* production, bool reverse) const;
 
+	//give window for building to the menu, so it can be shown there
 	void on_click(int mouse_x, int mouse_y) override;
 
 protected:
@@ -79,7 +82,6 @@ protected:
 	std::string mSprite_path;
 	Resources* mConstruction_costs;
 	TILETYPES mTile_to_build_on;
-	BuildingWindow *mWindow;	//the window in which the stats and stuff of the tower can be displayed
 
 	//a vector holding the neighbors of this building
 	std::vector<Building*> mSurrounding_buildings;
@@ -92,4 +94,6 @@ protected:
 	int mCount_of_little_upgrades; //count of the little upgrades as a requirement for big upgrades
 
 	Carriage* mCarriage;
+
+	bool mWindow_in_menu; //true as long as the window for this building is shown in the menu
 };

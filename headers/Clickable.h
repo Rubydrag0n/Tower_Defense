@@ -31,7 +31,7 @@ public:
 	void set_state(L_CLICKABLE_STATE state);
 
 	bool is_clicked() const;
-	void set_clicked(bool value);
+	virtual void set_clicked(bool value);
 
 	void set_click_layer(LAYERS layer);
 	LAYERS get_click_layer() const;

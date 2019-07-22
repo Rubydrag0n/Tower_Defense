@@ -410,9 +410,6 @@
     <ClInclude Include="headers\BuildingMouseItem.h">
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="headers\DemolishToolMouseItem.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="headers\BuildingWindow.h">
       <Filter>Header Files\Menus\Windows</Filter>
     </ClInclude>
@@ -448,6 +445,9 @@
     </ClInclude>
     <ClInclude Include="headers\MainMenu.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\DemolishToolMouseItem.h">
+      <Filter>Header Files\Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,42 +11,27 @@
 BuildingWindow::BuildingWindow(SDL_Rect dim, Building* building) : Window(dim, WINDOWS, WINDOWS), mBuilding(building)
 {
 	mBuilding = building;
+	mText_color = { 0, 0, 0, 0 };
 	
-	//correct position of the window, so it does not collide with the border, do not correct for the warehouse
-	//warehouse window has fixed coords
-	if(mBuilding->get_name() != "warehouse")
-	{
-		if (building->get_coords().y < mDim.h / 3)
-		{
-			mDim.y += mDim.h / 3 - building->get_coords().y;
-		}
-		if (building->get_coords().y > 1024 - mDim.h * 2 / 3)
-		{
-			mDim.y += 1024 - building->get_coords().y - mDim.h * 2 / 3;
-		}
-		if (building->get_coords().x > 1280 - mDim.w)
-		{
-			mDim.x += -building->get_dimensions().w - mDim.w;
-		}
-		set_clickable_space(mDim);
-	}
-
 	mResource_names = new Text*[RESOURCES_TOTAL];
 	mStorage_values = new Text*[RESOURCES_TOTAL];
 	mMaintenance_values = new Text*[RESOURCES_TOTAL];
 	
 	mButton_offset.x = 160;
-	mButton_offset.y = 70;
+	mButton_offset.y = 20;
 
 	update_great_upgrades();
 
-	mText_color = { 0, 0, 0, 0 };
 	SDL_Rect headline_dest;
 	headline_dest.x = mDim.x + 20;
-	headline_dest.y = mDim.y + mDim.h - 180;
+	headline_dest.y = mDim.y + 20;
 	headline_dest.w = 0;	//setting these to 0 will not scale anything
 	headline_dest.h = 0;
-
+	//window for the warehouse is at a different position, than the other buildingwindows
+	if(mBuilding->get_name() != "warehouse")
+	{
+		headline_dest.x += mDim.w - 200;
+	}
 	mHeadline = new Text("       Storage   Mainten", headline_dest, WINDOWCONTENT, mText_color, this);
 	
 	//initialize map for text lines
@@ -79,12 +64,6 @@ BuildingWindow::~BuildingWindow()
 	delete[] mStorage_values;
 	delete[] mMaintenance_values;
 	delete mHeadline;
-}
-
-void BuildingWindow::demolish_building() const
-{
-	mBuilding->demolish();
-	delete mBuilding;
 }
 
 void BuildingWindow::upgrade_building(Button* button)
@@ -151,7 +130,7 @@ void BuildingWindow::update_great_upgrades()
 		const auto gap_between_to_upgrades = 30;
 		const auto y_difference = -160; // how much the Show-More-Button is away from the Big-Upgrade-Button on the y-Axis
 		button_dim.y += gap_between_to_upgrades;
-		auto upgrade_section = mBuilding->get_building_level() + std::to_string(i);
+		const auto upgrade_section = mBuilding->get_building_level() + std::to_string(i);
 		if(!gConfig_file->value_exists(mBuilding->get_name() + "/upgrade" + upgrade_section, "exists"))
 		{
 			break;
@@ -167,7 +146,6 @@ void BuildingWindow::update_great_upgrades()
 
 void BuildingWindow::on_button_press(const int button_id, Button* button)
 {
-	if (button_id == DEMOLISH_BUTTON) this->demolish_building();
 	if (button_id == UPGRADE_BUTTON) this->upgrade_building(button);
 	if (button_id == SHOW_MORE_BUTTON) this->show_more(button);
 }
@@ -186,3 +164,6 @@ std::vector<BigUpgrade*> BuildingWindow::get_big_upgrades()
 {
 	return mBig_upgrades;
 }
+
+
+

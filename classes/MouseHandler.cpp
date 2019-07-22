@@ -99,7 +99,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 		auto it = mClickables.at(i);
 		
 		const auto rect = it->get_clickable_space();
-		if (x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h
+		if (x >= rect.x && x < rect.x + rect.w && y >= rect.y && y < rect.y + rect.h
 			&& it->is_enabled())
 		{
 			auto const state = SDL_GetMouseState(nullptr, nullptr);
@@ -110,6 +110,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 				if (e->button.button == 1 && !clicked_on_something) {
 					it->set_state(MOUSE_DOWN_LEFT);
 					it->on_click(x, y);
+					it->set_clicked(true);
 					clicked_on_something = true;
 				}
 				else if (e->button.button == 2)
@@ -144,7 +145,7 @@ void MouseHandler::handle_event(SDL_Event *e)
 		{
 			it->set_state(MOUSE_OUT); 
 			it->on_mouse_out(x, y);
-			if (e->button.button == 1 && e->button.state == SDL_PRESSED)
+			if (e->button.button == 1 && e->type == SDL_MOUSEBUTTONDOWN)
 			{
 				it->set_clicked(false);
 			}

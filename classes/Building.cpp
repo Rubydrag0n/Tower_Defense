@@ -14,8 +14,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
                                                 mSprite_dimensions{},
                                                 mLevel{level},
                                                 mName{std::move(building_name)},
-                                                mWindow{nullptr},
-												mCarriage{nullptr}
+												mCarriage{nullptr}, mWindow_in_menu(false)
 {
 	const auto building_sprite_section = mName + "/sprite";
 	const auto building_stats_section = mName + "/stats";
@@ -107,7 +106,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 
 Building::~Building()
 {
-	delete mWindow;
 	delete mCarriage;
 	//don't destroy texture, handled by texture class
 }
@@ -123,28 +121,29 @@ void Building::demolish() const
 	mLevel->set_building_matrix(mCoords.x / TILE_WIDTH, mCoords.y / TILE_HEIGHT, nullptr, mBuilding_dimensions.x, mBuilding_dimensions.y);
 }
 
-void Building::upgrade(const std::string& building_upgrade_section)
+bool Building::upgrade(const std::string& building_upgrade_section)
 {
-	const auto plus_maintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
-		gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
-		gConfig_file->value_or_zero(building_upgrade_section, "stoneMain"),
-		gConfig_file->value_or_zero(building_upgrade_section, "ironMain"),
-		gConfig_file->value_or_zero(building_upgrade_section, "energyMain"),
-		gConfig_file->value_or_zero(building_upgrade_section, "waterMain"),
-		gConfig_file->value_or_zero(building_upgrade_section, "foodMain"));
-	mMaintenance->add(plus_maintenance);
-
-	const auto upgrade_cost_multiplier = mCount_of_little_upgrades * 2 + 1;
-	const auto plus_construction = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts") * upgrade_cost_multiplier,
-		gConfig_file->value_or_zero(building_upgrade_section, "woodcosts") * upgrade_cost_multiplier,
-		gConfig_file->value_or_zero(building_upgrade_section, "stonecosts") * upgrade_cost_multiplier,
-		gConfig_file->value_or_zero(building_upgrade_section, "ironcosts") * upgrade_cost_multiplier,
-		gConfig_file->value_or_zero(building_upgrade_section, "energycosts") * upgrade_cost_multiplier,
-		gConfig_file->value_or_zero(building_upgrade_section, "watercosts") * upgrade_cost_multiplier,
-		gConfig_file->value_or_zero(building_upgrade_section, "foodcosts") * upgrade_cost_multiplier);
-	mConstruction_costs->add(plus_construction);
-
-	mLevel->get_resources()->sub(plus_construction);
+	const auto upgrade_cost = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "woodcosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "stonecosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "ironcosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "energycosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "watercosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "foodcosts"));
+	if(mLevel->get_resources()->sub(upgrade_cost))
+	{
+		mConstruction_costs->add(upgrade_cost);
+		const auto plus_maintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
+			gConfig_file->value_or_zero(building_upgrade_section, "woodMain"),
+			gConfig_file->value_or_zero(building_upgrade_section, "stoneMain"),
+			gConfig_file->value_or_zero(building_upgrade_section, "ironMain"),
+			gConfig_file->value_or_zero(building_upgrade_section, "energyMain"),
+			gConfig_file->value_or_zero(building_upgrade_section, "waterMain"),
+			gConfig_file->value_or_zero(building_upgrade_section, "foodMain"));
+		mMaintenance->add(plus_maintenance);
+		return true;
+	}
+	return false;
 }
 
 void Building::render()
@@ -175,30 +174,18 @@ void Building::on_tick()
 
 void Building::on_click(int mouse_x, int mouse_y)
 {
-	if(gMouse_handler->get_item_on_mouse() != nullptr)
+	/*if(gMouse_handler->get_item_on_mouse() != nullptr)
 	{
 		if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
 		{
 			this->set_clicked(true);
-			if(mWindow != nullptr)
-			{
-				mWindow->set_rendering_enabled(true);
-				mWindow->enable();
-				mWindow->set_clicked(true);
-			}
 		}
 	}
 	else
 	{
 		this->set_clicked(true);
-		if (mWindow != nullptr)
-		{
-			mWindow->set_rendering_enabled(true);
-			mWindow->enable();
-			mWindow->set_clicked(true);
-		}
-	}
-
+	}*/
+	//set_clicked(true);
 }
 
 void Building::set_maintenance(Resources* maintenance)
@@ -381,6 +368,11 @@ int Building::get_count_of_little_upgrades() const
 std::string Building::get_name() const
 {
 	return mName;
+}
+
+void Building::set_window_in_menu(bool b)
+{
+	mWindow_in_menu = b;
 }
 
 

@@ -12,4 +12,7 @@ public:
 	void render() override;
 
 	BUILDINGTYPE get_building_type() override;
+
+private:
+	BuildingWindow* mWarehouse_window;
 };

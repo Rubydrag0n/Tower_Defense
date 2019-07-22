@@ -76,12 +76,6 @@ void Window::render()
 	//width, height and y stay the same
 
 	gLayer_handler->render_to_layer(mVertical_border, mRender_layer, nullptr, &dest);
-
-	if(!is_clicked())
-	{
-		set_rendering_enabled(false);
-		disable();
-	}
 }
 
 void Window::set_dim(const SDL_Rect dim)
@@ -94,7 +88,3 @@ SDL_Rect Window::get_dim() const
 	return mDim;
 }
 
-void Window::on_click(int mouse_x, int mouse_y)
-{
-	set_clicked(true);
-}

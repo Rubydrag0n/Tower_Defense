@@ -10,6 +10,8 @@
 #include "UnitWindow.h"
 
 
+class Level;
+
 /*
  * A Unit
  * Can walk over the screen with animation
@@ -18,7 +20,7 @@
 class Unit : public Entity, public Clickable
 {
 public:
-	explicit Unit(const std::string& unit_name, LAYERS render_layer);
+	explicit Unit(const std::string& unit_name, Level* level, LAYERS render_layer);
 	~Unit();
 
 	void render() override;
@@ -48,6 +50,6 @@ protected:
 	std::vector<SDL_Rect> mClips;
 	SDL_Rect mCurrent_clip;
 	SDL_Rect mSprite_dimensions;
+	Level* mLevel;
 
-	UnitWindow* mUnit_window;
 };

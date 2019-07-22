@@ -6,6 +6,7 @@
 #include "Enums.h"
 #include "Map.h"
 
+class Menu;
 class Building;
 class Warehouse;
 class Game;
@@ -37,12 +38,14 @@ public:
 
 	Warehouse* get_main_building() const;
 	void set_main_building(Warehouse *main_building);
+
+	Menu* get_menu() const;
 	
 private:
 	std::string mLevel_number;
 
 	int mWave_number; //next wave to create
-
+	
 	std::vector<Wave*> mWaves;
 	int mLives;
 	Resources mStart_resources;
@@ -56,4 +59,6 @@ private:
 	bool mDeleting;
 
 	Game* mGame;
+
+	Menu* mMenu;
 };

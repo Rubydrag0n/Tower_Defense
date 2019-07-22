@@ -15,7 +15,6 @@ public:
 	explicit Window(SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, STYLE style = STYLE::STANDARD);
 
 	void render() override;
-	void on_click(int mouse_x, int mouse_y) override;
 
 	void set_dim(SDL_Rect dim);
 	SDL_Rect get_dim() const;

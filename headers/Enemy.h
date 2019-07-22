@@ -5,6 +5,7 @@
 #include "Resources.h"
 #include "HomingShot.h"
 
+
 class Level;
 
 class Enemy final :
@@ -15,6 +16,7 @@ public:
 	~Enemy();
 
 	void on_tick() override;
+	void on_click(int mouse_x, int mouse_y) override;
 	
 	//moves the enemy along it's assigned path
 	//if it hits the last checkpoint it calls got_through()
@@ -36,7 +38,6 @@ public:
 private:
 	std::vector<SDL_Point> mCheckpoints{};
 	bool mDead;
-	Level* mLevel;
 	//how much life will be lost when the enemy gets through
 	int mLife_cost;
 	Resources mLoot_resources;
