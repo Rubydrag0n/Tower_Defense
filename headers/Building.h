@@ -29,8 +29,6 @@ public:
 	SDL_Point get_coords() const;
 	SDL_Rect get_dimensions() const;
 
-	void set_window_in_menu(bool b);
-
 	Resources* get_maintenance() const;
 	void set_maintenance(Resources* maintenance);
 
@@ -95,5 +93,4 @@ protected:
 
 	Carriage* mCarriage;
 
-	bool mWindow_in_menu; //true as long as the window for this building is shown in the menu
 };

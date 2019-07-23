@@ -14,7 +14,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
                                                 mSprite_dimensions{},
                                                 mLevel{level},
                                                 mName{std::move(building_name)},
-												mCarriage{nullptr}, mWindow_in_menu(false)
+												mCarriage{nullptr}
 {
 	const auto building_sprite_section = mName + "/sprite";
 	const auto building_stats_section = mName + "/stats";
@@ -106,7 +106,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 
 Building::~Building()
 {
-	delete mCarriage;
+	if(mCarriage != nullptr) delete mCarriage;
 	//don't destroy texture, handled by texture class
 }
 
@@ -174,18 +174,7 @@ void Building::on_tick()
 
 void Building::on_click(int mouse_x, int mouse_y)
 {
-	/*if(gMouse_handler->get_item_on_mouse() != nullptr)
-	{
-		if (gMouse_handler->get_item_on_mouse()->get_name_of_object() != mName)
-		{
-			this->set_clicked(true);
-		}
-	}
-	else
-	{
-		this->set_clicked(true);
-	}*/
-	//set_clicked(true);
+
 }
 
 void Building::set_maintenance(Resources* maintenance)
@@ -369,10 +358,3 @@ std::string Building::get_name() const
 {
 	return mName;
 }
-
-void Building::set_window_in_menu(bool b)
-{
-	mWindow_in_menu = b;
-}
-
-
