@@ -7,7 +7,7 @@
 #include "CoordinatesInDouble.h"
 #include "Enums.h"
 #include "Clickable.h"
-#include "UnitWindow.h"
+#include "Window.h"
 
 
 class Level;
@@ -51,5 +51,10 @@ protected:
 	SDL_Rect mCurrent_clip;
 	SDL_Rect mSprite_dimensions;
 	Level* mLevel;
+
+	Window* mUnit_window;
+	Text** mDefense_values;
+	Text* mHealth_value;
+	Text* mMove_speed_value;
 
 };

@@ -10,7 +10,7 @@ Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Leve
 	rect.y = 824;
 	rect.w = 200;
 	rect.h = 200;
-	mWarehouse_window = new BuildingWindow(rect, this);
+	mWarehouse_window = new Window(rect, WINDOWS, WINDOWS);
 
 	//since this is a warehouse it needs to "consume" everything so it requests everything from producing buildings
 	for (auto i = 0; i < RESOURCES_TOTAL; i++) {

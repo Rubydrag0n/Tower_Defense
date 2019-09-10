@@ -88,3 +88,13 @@ SDL_Rect Window::get_dim() const
 	return mDim;
 }
 
+void Window::add_text_to_window(Text* text)
+{
+	mTexts.push_back(text);
+}
+
+void Window::add_button_to_window(Button* button)
+{
+	mButtons.push_back(button);
+}
+

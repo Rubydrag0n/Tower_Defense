@@ -6,7 +6,6 @@
 #include "Enums.h"
 #include "Text.h"
 #include "DemolishTool.h"
-#include "BuildingWindow.h"
 
 class BuildingMenuItem;
 class MenuItem;
@@ -25,11 +24,11 @@ public:
 
 	void render() override; //shows lives and resources
 
-	void set_building_window(BuildingWindow* building_window);
-	BuildingWindow* get_building_window() const;
+	void set_building_window(Window* building_window);
+	Window* get_building_window() const;
 
-	void set_unit_window(UnitWindow* unit_window);
-	UnitWindow* get_unit_window() const;
+	void set_unit_window(Window* unit_window);
+	Window* get_unit_window() const;
 
 private:
 	Level* mLevel;
@@ -38,8 +37,8 @@ private:
 	std::map<BUILDINGTYPE, std::vector<BuildingMenuItem*>*> mBuilding_menu_items;
 	std::map<BUILDINGTYPE, Button*> mButtons;
 
-	BuildingWindow* mBuilding_window; //window from the building that was last clicked
-	UnitWindow* mUnit_window; //window from the unit that was last clicked
+	Window* mBuilding_window; //window from the building that was last clicked
+	Window* mUnit_window; //window from the unit that was last clicked
 
 	DemolishTool* mDemolish_tool;
 

@@ -3,7 +3,7 @@
 #include "LayerHandler.h"
 #include "Building.h"
 
-UpgradeButton::UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, BuildingWindow* window, int button_id) : WindowButton(button_name, dim, obj, click_layer, render_layers, window, button_id), mUpgrade_section(upgrade_section)
+UpgradeButton::UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, std::string building_name, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, Window* window, int button_id) : WindowButton(button_name, dim, obj, click_layer, render_layers, window, button_id), mUpgrade_section(upgrade_section)
 {
 	SDL_Rect dest;
 	dest.x = 1480;
@@ -17,9 +17,36 @@ UpgradeButton::UpgradeButton(const std::string& button_name, SDL_Rect dim, Butto
 	}
 	else
 	{
-		building_upgrade_section = dynamic_cast<BuildingWindow*>(mWindow)->get_building()->get_name() + "/upgrade" + upgrade_section;
+		building_upgrade_section = building_name + "/upgrade" + upgrade_section;
 	}
-	mUpgrade_window = new UpgradeWindow(dest, building_upgrade_section);
+	mUpgrade_window = new Window(dest, WINDOWS, WINDOWS);
+
+	auto upgrade_costs = new Resources();
+	upgrade_costs->set_resources(gConfig_file->value_or_zero(building_upgrade_section, "goldcosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "woodcosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "stonecosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "ironcosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "energycosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "watercosts"),
+		gConfig_file->value_or_zero(building_upgrade_section, "foodcosts"));
+
+	SDL_Color text_color = { 0,0,0,0 };
+	dest.x = mUpgrade_window->get_dim().x + 20;
+	dest.y = mUpgrade_window->get_dim().y + mWindow->get_dim().h - 180;
+	dest.w = 0;
+	dest.h = 0;
+	auto headline = new Text("Upgradecosts", dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
+	mUpgrade_window->add_text_to_window(headline);
+	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		dest.y += 20;
+		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, UPGRADEWINDOWCONTENT, text_color, this);
+		mUpgrade_window->add_text_to_window(resource_names);
+		auto upgrade_cost_values = new Text(std::to_string(upgrade_costs->get_resource(RESOURCETYPES(i))), dest, UPGRADEWINDOWCONTENT, text_color, this);
+		upgrade_cost_values->add_x_dim(60);
+		mUpgrade_window->add_text_to_window(upgrade_cost_values);
+	}
+
 	mUpgrade_window->set_rendering_enabled(false);
 	mUpgrade_window->disable();
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include "Button.h"
-#include "BuildingWindow.h"
 #include "WindowButton.h"
 
 class ShowMoreButton : public WindowButton

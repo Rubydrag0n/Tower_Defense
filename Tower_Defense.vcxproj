@@ -155,7 +155,6 @@
     <ClCompile Include="classes\Building.cpp" />
     <ClCompile Include="classes\BuildingMenuItem.cpp" />
     <ClCompile Include="classes\BuildingMouseItem.cpp" />
-    <ClCompile Include="classes\BuildingWindow.cpp" />
     <ClCompile Include="classes\Button.cpp" />
     <ClCompile Include="classes\ButtonObject.cpp" />
     <ClCompile Include="classes\Carriage.cpp" />
@@ -172,7 +171,6 @@
     <ClCompile Include="classes\HomingShot.cpp" />
     <ClCompile Include="classes\HomingTower.cpp" />
     <ClCompile Include="classes\IndustrialBuilding.cpp" />
-    <ClCompile Include="classes\IndustrialBuildingWindow.cpp" />
     <ClCompile Include="classes\LayerHandler.cpp" />
     <ClCompile Include="classes\Level.cpp" />
     <ClCompile Include="classes\LTexture.cpp" />
@@ -199,15 +197,12 @@
     <ClCompile Include="classes\Textures.cpp" />
     <ClCompile Include="classes\Timer.cpp" />
     <ClCompile Include="classes\Tower.cpp" />
-    <ClCompile Include="classes\TowerWindow.cpp" />
     <ClCompile Include="classes\Unit.cpp" />
     <ClCompile Include="classes\Entity.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="classes\EntityHandler.cpp" />
-    <ClCompile Include="classes\UnitWindow.cpp" />
     <ClCompile Include="classes\UpgradeButton.cpp" />
-    <ClCompile Include="classes\UpgradeWindow.cpp" />
     <ClCompile Include="classes\WareHouse.cpp" />
     <ClCompile Include="classes\Wave.cpp" />
     <ClCompile Include="classes\Window.cpp" />
@@ -221,7 +216,6 @@
     <ClInclude Include="headers\Building.h" />
     <ClInclude Include="headers\BuildingMenuItem.h" />
     <ClInclude Include="headers\BuildingMouseItem.h" />
-    <ClInclude Include="headers\BuildingWindow.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\ButtonObject.h" />
     <ClInclude Include="headers\Carriage.h" />
@@ -239,7 +233,6 @@
     <ClInclude Include="headers\HomingShot.h" />
     <ClInclude Include="headers\HomingTower.h" />
     <ClInclude Include="headers\IndustrialBuilding.h" />
-    <ClInclude Include="headers\IndustrialBuildingWindow.h" />
     <ClInclude Include="headers\LayerHandler.h" />
     <ClInclude Include="headers\Level.h" />
     <ClInclude Include="headers\LTexture.h" />
@@ -263,15 +256,12 @@
     <ClInclude Include="headers\Textures.h" />
     <ClInclude Include="headers\Timer.h" />
     <ClInclude Include="headers\Tower.h" />
-    <ClInclude Include="headers\TowerWindow.h" />
     <ClInclude Include="headers\Unit.h" />
     <ClInclude Include="headers\Entity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="headers\EntityHandler.h" />
-    <ClInclude Include="headers\UnitWindow.h" />
     <ClInclude Include="headers\UpgradeButton.h" />
-    <ClInclude Include="headers\UpgradeWindow.h" />
     <ClInclude Include="headers\WareHouse.h" />
     <ClInclude Include="headers\Wave.h" />
     <ClInclude Include="headers\Window.h" />

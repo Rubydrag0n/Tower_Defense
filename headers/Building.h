@@ -1,13 +1,12 @@
 #pragma once
 #include <SDL.h>
 #include <string>
-
 #include "Clickable.h"
 #include "LTexture.h"
 #include "Entity.h"
-#include "BuildingWindow.h"
 #include "Menu.h"
 #include "Enums.h"
+#include "BigUpgrade.h"
 
 class Carriage;
 class Level;
@@ -15,7 +14,7 @@ class Resources;
 class Window;
 class Production;
 
-class Building : public Clickable, public Entity
+class Building : public Clickable, public Entity, public ButtonObject
 {
 public:
 	Building(std::string building_name, SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer);
@@ -31,9 +30,6 @@ public:
 
 	Resources* get_maintenance() const;
 	void set_maintenance(Resources* maintenance);
-
-	Resources* get_produce() const;
-	void set_produce(Resources* produce);
 
 	void set_coords(SDL_Point coords);
 	void set_idle(bool value);
@@ -53,6 +49,9 @@ public:
 	Resources* get_current_resources() const;
 	void add_resources(Resources* r) const;
 
+	Resources* get_produce() const;
+	void set_produce(Resources* produce);
+
 	//puts resources into this building from r
 	//returns true if r is empty afterwards
 	bool transfer_resources_in(Resources* r) const;
@@ -65,7 +64,11 @@ public:
 	//give window for building to the menu, so it can be shown there
 	void on_click(int mouse_x, int mouse_y) override;
 
-	static Damage get_default_stats(const std::string& name_of_object);
+	virtual void update_building_window();
+	void update_great_upgrades();
+	void on_button_press(int button_id, Button* button) override;
+	void upgrade_building(Button* button);//button must be from class UpgradeButton
+	void show_more(Button* button); //
 
 protected:
 	SDL_Point mCoords;
@@ -95,4 +98,9 @@ protected:
 
 	Carriage* mCarriage;
 
+	Window* mBuilding_window;
+	Text** mStorage_values;
+	Text** mMaintenance_values;
+	std::vector<BigUpgrade*> mBig_upgrades;
+	CoordinatesInDouble mButton_offset;
 };

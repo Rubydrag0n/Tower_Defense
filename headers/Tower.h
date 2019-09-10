@@ -47,6 +47,14 @@ public:
 
 	Damage get_damage() const;
 
+	void update_building_window() override;
+	//if an upgradebutton is hovered this function is called and sets the strings with the stats for the upgrade, that are shown in the window
+	void set_stat_strings_for_upgrade_buttons(Button* button);
+	//sets strings in window so that they do not show the upgrade values of the last upgradebutton that was hovered
+	void set_stat_strings_to_normal();
+
+	void on_button_press(int button_id, Button* button) override;
+
 protected:
 	int mAttack_cooldown; //60 / mAttackspeed
 	double mRange;
@@ -59,5 +67,17 @@ protected:
 	int mNumber_of_damage_upgrades = 0;
 	int mNumber_of_attackspeed_upgrades = 0;
 	int mNumber_of_range_upgrades = 0;
+
+	UpgradeButton* mUpgrade_damage_button;
+	UpgradeButton* mUpgrade_range_button;
+	UpgradeButton* mUpgrade_attackspeed_button;
+
+	Text* mDamage_upgrade_number_texture;
+	Text* mAttackspeed_upgrade_number_texture;
+	Text* mRange_upgrade_number_texture;
+	Text* mDmg_value;
+	Text* mAs_value;
+	Text* mRange_value;
+	Text* mDamage_distribution_text;
 };
 

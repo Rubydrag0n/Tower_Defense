@@ -41,8 +41,11 @@ void Text::add_x_dim(int x)
 
 void Text::set_text(std::string text)
 {
-	mText = text;
-	mText_texture->load_from_rendered_text(text, mText_color);
+	if(text != mText)
+	{
+		mText = text;
+		mText_texture->load_from_rendered_text(text, mText_color);
+	}
 }
 
 

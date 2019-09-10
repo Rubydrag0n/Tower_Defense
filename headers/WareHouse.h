@@ -14,5 +14,5 @@ public:
 	BUILDINGTYPE get_building_type() override;
 
 private:
-	BuildingWindow* mWarehouse_window;
+	Window* mWarehouse_window;
 };

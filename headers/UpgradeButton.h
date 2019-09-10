@@ -1,14 +1,13 @@
 #pragma once
 #include "Button.h"
 #include "WindowButton.h"
-#include "UpgradeWindow.h"
 
 class BuildingWindow;
 
 class UpgradeButton : public WindowButton
 {
 public:
-	UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, BuildingWindow* window, int button_id = 0);
+	UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, std::string building_name, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, Window* window, int button_id = 0);
 	~UpgradeButton();
 
 	std::string get_upgrade_section();
@@ -19,6 +18,6 @@ public:
 
 private:
 	std::string mUpgrade_section;
-	UpgradeWindow* mUpgrade_window;
+	Window* mUpgrade_window;
 
 };

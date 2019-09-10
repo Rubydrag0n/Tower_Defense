@@ -8,6 +8,7 @@
 #include "MouseHandler.h"
 #include "Production.h"
 #include "Carriage.h"
+#include "BigUpgrade.h"
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level, const LAYERS click_layer,
                    const LAYERS render_layer) : Clickable(click_layer), Entity(render_layer), mCoords{coords},
@@ -86,8 +87,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 
 	//set the mouse over window up with initial values
 
-	int i = gConfig_file->value(building_stats_section, "tile");
-	mTile_to_build_on = static_cast<TILETYPES>(i);
+	int tile = gConfig_file->value(building_stats_section, "tile");
+	mTile_to_build_on = static_cast<TILETYPES>(tile);
 
 	//set the size of the building in tiles
 	this->mBuilding_dimensions.x = gConfig_file->value_or_zero(building_stats_section, "size_x");
@@ -102,12 +103,131 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 
 	//initialize what this building is producing and consuming
 	mProducing = new Production(this);
+
+	//building window
+	mButton_offset.x = 160;
+	mButton_offset.y = 20;
+	SDL_Color text_color = { 0, 0, 0 ,0 };
+	SDL_Rect rect;
+	rect.x = 1280;
+	rect.y = 600;
+	rect.w = 600;
+	rect.h = 200;
+	mBuilding_window = new Window(rect, WINDOWS, WINDOWS);
+	rect.x += 20;
+	rect.y += 20;
+
+	//window for the warehouse is at a different position, than the other buildingwindows
+	if (get_name() != "warehouse")
+	{
+		rect.x += rect.w - 200;
+	}
+	auto headline = new Text("       Storage   Mainten", rect, WINDOWCONTENT, text_color, this);
+	mBuilding_window->add_text_to_window(headline);
+	mStorage_values = new Text*[RESOURCES_TOTAL];
+	mMaintenance_values = new Text*[RESOURCES_TOTAL];
+	for(auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		rect.y += 20;
+		mStorage_values[i] = new Text(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, this);
+		mStorage_values[i]->add_x_dim(60);
+		mBuilding_window->add_text_to_window(mStorage_values[i]);
+		mMaintenance_values[i] = new Text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, this);
+		mMaintenance_values[i]->add_x_dim(130);
+		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
+		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
+		mBuilding_window->add_text_to_window(resource_names);
+	}	
+	update_great_upgrades();
 }
 
 Building::~Building()
 {
 	if(mCarriage != nullptr) delete mCarriage;
 	//don't destroy texture, handled by texture class
+}
+
+void Building::update_building_window()
+{
+	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		mStorage_values[i]->set_text(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i)))
+			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))));
+		mMaintenance_values[i]->set_text(std::to_string(mCurrent_resources->get_resource(RESOURCETYPES(i))));
+	}
+}
+
+void Building::update_great_upgrades()
+{
+	//first delete old buttons
+	if (!mBig_upgrades.empty())
+	{
+		for (auto& big_upgrade : mBig_upgrades)
+		{
+			delete big_upgrade;
+		}
+		mBig_upgrades.clear();
+	}
+
+	//then create new buttons
+	SDL_Rect button_dim;
+	button_dim.x = static_cast<int>(mBuilding_window->get_dim().x + mButton_offset.x);
+	button_dim.y = static_cast<int>(mBuilding_window->get_dim().y + mButton_offset.y);
+	button_dim.w = 26;
+	button_dim.h = 26;
+
+	for (auto i = 1; ; i++)
+	{
+		const auto gap_between_to_upgrades = 30;
+		const auto y_difference = -160; // how much the Show-More-Button is away from the Big-Upgrade-Button on the y-Axis
+		button_dim.y += gap_between_to_upgrades;
+		const auto upgrade_section = get_building_level() + std::to_string(i);
+		if (!gConfig_file->value_exists(get_name() + "/upgrade" + upgrade_section, "exists"))
+		{
+			break;
+		}
+		const auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, mName, upgrade_section, WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, UPGRADE_BUTTON);
+		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, SHOW_MORE_BUTTON);
+		show_more_button->add_x_dimension(y_difference);
+		show_more_button->set_clickable_space(show_more_button->get_dimension());
+		auto big_upgrade = new BigUpgrade(mName, upgrade_section, big_upgrade_button, show_more_button);
+		mBig_upgrades.push_back(big_upgrade);
+	}
+}
+
+void Building::upgrade_building(Button* button)
+{
+	const auto building_upgrade_section = mName + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
+	if (gConfig_file->value_or_zero(building_upgrade_section, "count_of_little_upgrades") > mCount_of_little_upgrades)
+	{
+		return;
+	}
+	upgrade(building_upgrade_section);
+	set_building_level(dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() + ".");
+	update_great_upgrades();
+}
+
+void Building::show_more(Button* button)
+{
+	const auto value_to_shift = 60; // y-direction-shift
+	if (!mBig_upgrades.empty())
+	{
+		for (auto big_upgrade : mBig_upgrades)
+		{
+			if (big_upgrade->is_upgrade_description_shown()) big_upgrade->set_upgrade_description_shown(false);
+			if (big_upgrade->get_show_more_button() == button) big_upgrade->set_upgrade_description_shown(true);
+
+			if (big_upgrade->is_shifted_down())	big_upgrade->shift(-value_to_shift);
+			if (big_upgrade->get_show_more_button()->get_dimension().y > button->get_dimension().y) big_upgrade->shift(value_to_shift);
+		}
+	}
+}
+
+void Building::on_button_press(const int button_id, Button* button)
+{
+	if (button_id == UPGRADE_BUTTON) this->upgrade_building(button);
+	if (button_id == SHOW_MORE_BUTTON) this->show_more(button);
 }
 
 void Building::demolish() const
@@ -183,12 +303,6 @@ void Building::set_maintenance(Resources* maintenance)
 	mMaintenance = new Resources(maintenance);
 }
 
-void Building::set_produce(Resources* produce)
-{
-	delete mProduce;
-	mProduce = new Resources(produce);
-}
-
 void Building::set_coords(const SDL_Point coords)
 {
 	mCoords = coords;
@@ -207,11 +321,6 @@ SDL_Rect Building::get_dimensions() const
 Resources* Building::get_maintenance() const
 {
 	return this->mMaintenance;
-}
-
-Resources* Building::get_produce() const
-{
-	return this->mProduce;
 }
 
 bool Building::get_idle() const
@@ -359,7 +468,13 @@ std::string Building::get_name() const
 	return mName;
 }
 
-/*Damage Building::get_default_stats(const std::string& name_of_object)
+void Building::set_produce(Resources* produce)
 {
-	
-}*/
+	delete mProduce;
+	mProduce = new Resources(produce);
+}
+
+Resources* Building::get_produce() const
+{
+	return this->mProduce;
+}

@@ -4,6 +4,7 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 #include "Menu.h"
+#include "Window.h"
 
 
 Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : Entity(render_layer), Clickable(render_layer), mLevel(level), mCenter(), mCurrent_clip(), mSprite_dimensions()
@@ -72,12 +73,41 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	mClickable_space.y = int(mPosition.y);
 	mClickable_space.w = gConfig_file->value(sprite_section, "clip_width");
 	mClickable_space.h = gConfig_file->value(sprite_section, "clip_height");
-	SDL_Rect dim;
-	dim.x = 1080;
-	dim.y = 824;
-	dim.w = 200;
-	dim.h = 200;
 
+	SDL_Rect rect;
+	rect.x = 1680;
+	rect.y = 824;
+	rect.w = 200;
+	rect.h = 200;
+
+	mUnit_window = new Window(rect, WINDOWS, WINDOWS);
+	mDefense_values = new Text*[RESISTANCES_TOTAL];
+	SDL_Color text_color = { 0,0,0,0 };
+
+	SDL_Rect dest;
+	dest.x = mUnit_window->get_dim().x + 20;
+	dest.y = mUnit_window->get_dim().y + 20;
+	dest.w = 0;
+	dest.h = 0;
+	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, this);
+	mUnit_window->add_text_to_window(health_name);
+	mHealth_value = new Text(std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
+	mHealth_value->add_x_dim(100);
+	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
+	{
+		dest.y += 20;
+		auto defense_names = new Text(Defense::get_name(RESISTANCES(i)), dest, WINDOWCONTENT, text_color, mUnit_window);
+		mUnit_window->add_text_to_window(defense_names);
+		mDefense_values[i] = new Text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))), dest, WINDOWCONTENT, text_color, mUnit_window);
+		mDefense_values[i]->add_x_dim(100);
+		mUnit_window->add_text_to_window(mDefense_values[i]);
+	}
+	dest.y += 20;
+	auto move_speed_name = new Text("Move Speed", dest, WINDOWCONTENT, text_color, mUnit_window);
+	mUnit_window->add_text_to_window(move_speed_name);
+	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, this);
+	mMove_speed_value->add_x_dim(100);
+	mUnit_window->add_text_to_window(mMove_speed_value);
 }
 
 Unit::~Unit()
@@ -86,9 +116,15 @@ Unit::~Unit()
 }
 
 
-
 void Unit::render()
 {
+	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
+	{
+		mDefense_values[i]->set_text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))));
+	}
+	mMove_speed_value->set_text(std::to_string(int(mMove_speed)));
+	mHealth_value->set_text(std::to_string(int(mDefense->get_health())));
+	
 	mClickable_space.x = int(mPosition.x) - mCenter.x;
 	mClickable_space.y = int(mPosition.y) - mCenter.y;
 	
@@ -138,7 +174,7 @@ void Unit::on_click(int mouse_x, int mouse_y)
 	rect.y = 824;
 	rect.w = 200;
 	rect.h = 200;
-	mLevel->get_menu()->set_unit_window(new UnitWindow(rect, this));
+	mLevel->get_menu()->set_unit_window(mUnit_window);
 }
 
 Defense* Unit::get_defense()

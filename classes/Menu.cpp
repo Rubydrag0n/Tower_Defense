@@ -149,7 +149,7 @@ void Menu::add_menu_item(BuildingMenuItem* building_menu_item, const BUILDINGTYP
 	this->mBuilding_menu_items[tab]->push_back(building_menu_item);
 }
 
-void Menu::set_building_window(BuildingWindow* building_window)
+void Menu::set_building_window(Window* building_window)
 {
 	if (mBuilding_window != nullptr)
 	{
@@ -159,19 +159,19 @@ void Menu::set_building_window(BuildingWindow* building_window)
 	mBuilding_window->set_rendering_enabled(true);
 }
 
-BuildingWindow* Menu::get_building_window() const
+Window* Menu::get_building_window() const
 {
 	return mBuilding_window;
 }
 
-void Menu::set_unit_window(UnitWindow* unit_window)
+void Menu::set_unit_window(Window* unit_window)
 {
 	if (mUnit_window != nullptr) delete mUnit_window;
 	mUnit_window = unit_window;
 	mUnit_window->set_rendering_enabled(true);
 }
 
-UnitWindow* Menu::get_unit_window() const
+Window* Menu::get_unit_window() const
 {
 	return mUnit_window;
 }
