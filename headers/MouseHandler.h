@@ -35,6 +35,8 @@ private:
 	bool mSorted;
 
 	std::vector<Clickable*> mClickables;
+	std::vector<Clickable*> mClickables_to_add;
+
 	MouseItem* mItem_on_mouse;
 
 	SDL_Point mCurrent_mouse_position;
