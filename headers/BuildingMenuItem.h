@@ -2,7 +2,6 @@
 #include "MenuItem.h"
 #include "Resources.h"
 
-
 class BuildingMenuItem : public MenuItem
 {
 public:

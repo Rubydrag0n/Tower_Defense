@@ -18,6 +18,7 @@ public:
 
 	void render() override;
 	void on_button_press(int button_id, Button* button) override;
+	void on_click(int mouse_x, int mouse_y) override;
 	
 	void upgrade_building(Button* button);//button must be from class UpgradeButton
 	void show_more(Button* button); //

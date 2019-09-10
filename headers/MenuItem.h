@@ -5,10 +5,9 @@
 #include "LTexture.h"
 #include "Clickable.h"
 
-
 class Level;
 
-class MenuItem :
+class MenuItem:
 	public Clickable, public Renderable
 {
 public:

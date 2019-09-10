@@ -15,10 +15,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 		gConfig_file->value_or_zero(name_of_object + "/stats", "foodcosts"));
 }
 
-BuildingMenuItem::~BuildingMenuItem()
-{
-	
-}
+BuildingMenuItem::~BuildingMenuItem() = default;
 
 void BuildingMenuItem::render()
 {
@@ -27,6 +24,7 @@ void BuildingMenuItem::render()
 
 void BuildingMenuItem::on_click(int mouse_x, int mouse_y)
 {
+//	Building::get_default_stats(mName_of_object);
 	gMouse_handler->set_item_on_mouse(new BuildingMouseItem(mName_of_object, mSprite, mLevel, mConstruction_costs, LAYERS::OVERLAY));
 }
 

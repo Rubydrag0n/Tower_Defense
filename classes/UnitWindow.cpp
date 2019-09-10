@@ -20,7 +20,7 @@ UnitWindow::UnitWindow(SDL_Rect dim, Unit* unit) : Window(dim, WINDOWS, WINDOWS)
 	{
 		dest.y += 20;
 		mDefense_names[i] = new Text(Defense::get_name(RESISTANCES(i)), dest, WINDOWCONTENT, text_color, this);
-		mDefense_values[i] = new Text(std::to_string(mUnit->get_defense()->get_display_defenses().get_resistance(RESISTANCES(i))), dest, WINDOWCONTENT, text_color, this);
+		mDefense_values[i] = new Text(std::to_string(int (mUnit->get_defense()->get_resistance(RESISTANCES(i)))), dest, WINDOWCONTENT, text_color, this);
 		mDefense_values[i]->add_x_dim(100);
 	}
 	dest.y += 20;
@@ -49,7 +49,7 @@ void UnitWindow::render()
 	Window::render();
 	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
 	{
-		mDefense_values[i]->set_text(std::to_string(mUnit->get_defense()->get_display_defenses().get_resistance(RESISTANCES(i))));
+		mDefense_values[i]->set_text(std::to_string(int (mUnit->get_defense()->get_resistance(RESISTANCES(i)))));
 	}
 	mMove_speed_value->set_text(std::to_string(int(mUnit->get_move_speed())));
 	mHealth_value->set_text(std::to_string(int(mUnit->get_defense()->get_health())));

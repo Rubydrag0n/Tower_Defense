@@ -74,9 +74,9 @@ Menu::~Menu()
 		mMenu_items[BUILDINGTYPE(i)]->clear();
 		delete mMenu_items[BUILDINGTYPE(i)];
 	}*/
-	delete mBuilding_window; //oder so
+	delete mBuilding_window;
+	delete mUnit_window;
 	delete mDemolish_tool;
-
 }
 
 void Menu::show_tab(const BUILDINGTYPE open_tab)
@@ -153,11 +153,9 @@ void Menu::set_building_window(BuildingWindow* building_window)
 {
 	if (mBuilding_window != nullptr)
 	{
-		mBuilding_window->get_building()->set_window_in_menu(false);
 		delete mBuilding_window;
 	}
 	mBuilding_window = building_window;
-	mBuilding_window->get_building()->set_window_in_menu(true);
 	mBuilding_window->set_rendering_enabled(true);
 }
 

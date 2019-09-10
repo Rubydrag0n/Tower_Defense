@@ -23,7 +23,6 @@ void IndustrialBuilding::on_click(int mouse_x, int mouse_y)
 	rect.w = 600;
 	rect.h = 200;
 	mLevel->get_menu()->set_building_window(new IndustrialBuildingWindow(rect, this));
-	mWindow_in_menu = true;
 	Building::on_click(mouse_x, mouse_y);
 }
 

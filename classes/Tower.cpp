@@ -36,15 +36,19 @@ void Tower::render()
 {
 	Building::render();
 
-	if(is_clicked())
+	if (mLevel->get_menu()->get_building_window() != nullptr)
 	{
-		SDL_Rect dest;
-		//range is radius not diameter
-		dest.x = int(get_coords().x - mRange + mSprite_dimensions.w/2.);
-		dest.y = int(get_coords().y - mRange + mSprite_dimensions.h/2.);
-		dest.w = int(mRange*2);
-		dest.h = int(mRange*2);
-		gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::OVERLAY, nullptr, &dest);
+		if (is_clicked() ||
+			(mLevel->get_menu()->get_building_window()->get_building() == this && mLevel->get_menu()->get_building_window()->is_clicked()))
+		{
+			SDL_Rect dest;
+			//range is radius not diameter
+			dest.x = int(get_coords().x - mRange + mSprite_dimensions.w / 2.);
+			dest.y = int(get_coords().y - mRange + mSprite_dimensions.h / 2.);
+			dest.w = int(mRange * 2);
+			dest.h = int(mRange * 2);
+			gLayer_handler->render_to_layer(mRange_indicator_sprite, LAYERS::OVERLAY, nullptr, &dest);
+		}
 	}
 }
 
@@ -85,7 +89,6 @@ void Tower::on_click(int mouse_x, int mouse_y)
 	mLevel->get_menu()->set_building_window(new TowerWindow(rect, this));
 	Building::on_click(mouse_x, mouse_y);
 }
-
 
 bool Tower::upgrade(const std::string& tower_upgrade_section)
 {
@@ -214,9 +217,4 @@ void Tower::increment_number_of_range_upgrades()
 {
 	mNumber_of_range_upgrades++;
 }
-
-
-
-
-
 

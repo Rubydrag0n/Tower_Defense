@@ -84,22 +84,6 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 	p.x = 1088;
 	p.y = 448;
 
-	auto tower = new HomingTower("archer", p, this, BUILDINGS, BUILDINGS);
-
-	p.x += 64;
-	new Path("path", p, this, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, this, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, this, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, this, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, this, BUILDINGS, BUILDINGS);
-	p.y += 32;
-	new Path("path", p, this, BUILDINGS, BUILDINGS);
-
-
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	this->get_main_building()->add_resources(r);
 }
@@ -117,6 +101,9 @@ Level::~Level()
 	gEntity_handler->delete_all_entities();
 
 	delete mMap;
+
+	delete mMenu;
+	delete mMain_building;
 
 	mGame->set_state(Game::STATE::MAIN_MENU);
 }
