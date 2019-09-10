@@ -15,9 +15,7 @@ MenuItem::MenuItem(const std::string& name_of_object, Level *level, const SDL_Po
 	mClickable_space.h = mSprite->get_height();
 }
 
-MenuItem::~MenuItem()
-{
-}
+MenuItem::~MenuItem() = default;
 
 void MenuItem::render()
 {
@@ -26,7 +24,6 @@ void MenuItem::render()
 
 void MenuItem::on_click(int mouse_x, int mouse_y)
 {
-	//gMouse_handler->set_item_on_mouse(new MouseItem(mName_of_object, mSprite, mLevel, mConstruction_costs, LAYERS::OVERLAY));
 }
 
 LTexture* MenuItem::get_sprite() const

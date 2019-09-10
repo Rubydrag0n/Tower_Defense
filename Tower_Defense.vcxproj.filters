@@ -228,9 +228,6 @@
     <ClCompile Include="classes\BuildingMenuItem.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="classes\BuildingMouseItem.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="classes\DemolishToolMouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
@@ -269,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="classes\MainMenu.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\BuildingMouseItem.cpp">
+      <Filter>Source Files\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

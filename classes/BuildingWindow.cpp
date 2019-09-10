@@ -165,5 +165,11 @@ std::vector<BigUpgrade*> BuildingWindow::get_big_upgrades()
 	return mBig_upgrades;
 }
 
+void BuildingWindow::on_click(int mouse_x, int mouse_y)
+{
+	mBuilding->set_clicked(true);
+}
+
+
 
 

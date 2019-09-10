@@ -109,8 +109,8 @@ void MouseHandler::handle_event(SDL_Event *e)
 			case SDL_MOUSEBUTTONDOWN:
 				if (e->button.button == 1 && !clicked_on_something) {
 					it->set_state(MOUSE_DOWN_LEFT);
-					it->on_click(x, y);
 					it->set_clicked(true);
+					it->on_click(x, y);
 					clicked_on_something = true;
 				}
 				else if (e->button.button == 2)

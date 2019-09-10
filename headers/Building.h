@@ -65,6 +65,8 @@ public:
 	//give window for building to the menu, so it can be shown there
 	void on_click(int mouse_x, int mouse_y) override;
 
+	static Damage get_default_stats(const std::string& name_of_object);
+
 protected:
 	SDL_Point mCoords;
 	SDL_Point mBuilding_dimensions{};

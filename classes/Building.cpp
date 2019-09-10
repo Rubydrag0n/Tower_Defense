@@ -358,3 +358,8 @@ std::string Building::get_name() const
 {
 	return mName;
 }
+
+/*Damage Building::get_default_stats(const std::string& name_of_object)
+{
+	
+}*/
