@@ -74,12 +74,10 @@ bool init_graphics()
 			printf("Warning: Linear texture filtering not enabled!");
 		}
 
-		//Create window
-		ConfigFile cf("config/game.cfg");
-		const int screen_width = cf.value("video", "screen_width");
-		const int screen_height = cf.value("video", "screen_height");
+		const auto screen_width = 1920;
+		const auto screen_height = 1080;
 
-		const std::string window_flags = cf.value("video", "window_mode");
+		const std::string window_flags = "borderless";
 		Uint32 flags;
 		if (window_flags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
 		else if (window_flags == "borderless") flags = SDL_WINDOW_BORDERLESS;
