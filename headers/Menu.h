@@ -30,12 +30,16 @@ public:
 	void set_unit_window(Window* unit_window);
 	Window* get_unit_window() const;
 
+	void set_menu_item_window(Window* menu_item_window);
+	Window* get_menu_item_window() const;
+
 private:
 	Level* mLevel;
 
 	std::map<BUILDINGTYPE, std::vector<BuildingMenuItem*>*> mBuilding_menu_items;
 	std::map<BUILDINGTYPE, Button*> mButtons;
 
+	Window* mMenu_item_window; //window from the menu-item that was last clicked
 	Window* mBuilding_window; //window from the building that was last clicked
 	Window* mUnit_window; //window from the unit that was last clicked
 

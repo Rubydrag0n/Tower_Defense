@@ -4,11 +4,10 @@
 #include "IndustrialBuilding.h"
 #include "MouseHandler.h"
 #include "SDL_setup.h"
-#include "WareHouse.h"
 
 MouseItem::MouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, LAYERS click_layer) : Clickable(click_layer), Renderable(click_layer)
 {
-	this->mName_of_object = name_of_object;
+	mName_of_object = name_of_object;
 	mClickable_space.x = 0;
 	mClickable_space.y = 0;
 	mClickable_space.w = 1920;

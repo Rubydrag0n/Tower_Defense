@@ -74,6 +74,8 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	dest.y += 30;
 	auto damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(damage_distribution_headline);
+
+	//turret stats-numbers displayed(dynamic)
 	dest.y += 30;
 	mDamage_distribution_text = new Text("P: " + std::to_string(int(mDamage.get_phys_dmg()))
 		+ " M: " + std::to_string(int(mDamage.get_magic_dmg()))
@@ -81,8 +83,6 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 		+ " W: " + std::to_string(int(mDamage.get_water_dmg()))
 		+ " E: " + std::to_string(int(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mDamage_distribution_text);
-
-	//turret stats-numbers displayed(dynamic)
 	dest.x = mBuilding_window->get_dim().x + 260;
 	dest.y = mBuilding_window->get_dim().y + 20;
 	mDmg_value = new Text(std::to_string(int(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, mBuilding_window);
