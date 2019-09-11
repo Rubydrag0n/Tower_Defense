@@ -101,7 +101,7 @@ void Tower::render()
 
 	if (mLevel->get_menu()->get_building_window() != nullptr)
 	{
-		if (is_clicked())
+		if (is_clicked() || mBuilding_window->is_clicked())
 		{
 			SDL_Rect dest;
 			//range is radius not diameter

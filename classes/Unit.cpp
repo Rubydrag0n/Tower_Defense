@@ -93,8 +93,9 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	dest.h = 0;
 	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, mUnit_window);
 	mUnit_window->add_text_to_window(health_name);
-	mHealth_value = new Text(std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
+	mHealth_value = new Text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
 	mHealth_value->add_x_dim(100);
+	mUnit_window->add_text_to_window(mHealth_value);
 	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
 	{
 		dest.y += 20;
@@ -125,7 +126,7 @@ void Unit::render()
 		mDefense_values[i]->set_text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))));
 	}
 	mMove_speed_value->set_text(std::to_string(int(mMove_speed)));
-	mHealth_value->set_text(std::to_string(int(mDefense->get_health())));
+	mHealth_value->set_text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())));
 	
 	mClickable_space.x = int(mPosition.x) - mCenter.x;
 	mClickable_space.y = int(mPosition.y) - mCenter.y;
