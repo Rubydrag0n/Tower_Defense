@@ -53,6 +53,7 @@ void MouseHandler::update()
 	for (auto clickable : mClickables_to_add)
 	{
 		mClickables.push_back(clickable);
+		mSorted = false;
 	}
 	mClickables_to_add.clear();
 
