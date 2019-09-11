@@ -103,7 +103,6 @@ Level::~Level()
 	delete mMap;
 
 	delete mMenu;
-	delete mMain_building;
 
 	mGame->set_state(Game::STATE::MAIN_MENU);
 }

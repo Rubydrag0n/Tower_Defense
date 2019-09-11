@@ -144,7 +144,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 
 Building::~Building()
 {
-	if(mCarriage != nullptr) delete mCarriage;
+	delete mCarriage;
 	//don't destroy texture, handled by texture class
 }
 

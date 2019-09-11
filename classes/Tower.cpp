@@ -171,7 +171,6 @@ void Tower::set_stat_strings_to_normal()
 	mDamage_distribution_text->set_text(dmg_distribution_text);
 }
 
-
 void Tower::set_stat_strings_for_upgrade_buttons(Button* button)
 {
 	//updates texture: stat-values for tower
@@ -212,13 +211,11 @@ void Tower::on_button_press(const int button_id, Button* button)
 	Building::on_button_press(button_id, button);
 }
 
-
 void Tower::set_clicked(const bool value)
 {
 	//break;
 	Clickable::set_clicked(value);
 }
-
 
 void Tower::on_tick()
 {

@@ -66,16 +66,19 @@ Menu::~Menu()
 {
 	//TODO: fix this deconstructor, it's broken
 	//delete all the buttons and menu items
-	/*for (auto i = 0; i < BUILDINGTYPES_TOTAL; i++) {
+	
+	for (auto i = 0; i < BUILDINGTYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];
-		for (auto j = mMenu_items[BUILDINGTYPE(i)]->size(); j > 0; j--) {
-			delete mMenu_items[BUILDINGTYPE(i)]->at(j);
+		for (auto it : *mBuilding_menu_items[BUILDINGTYPE(i)]) {
+			delete it;
 		}
-		mMenu_items[BUILDINGTYPE(i)]->clear();
-		delete mMenu_items[BUILDINGTYPE(i)];
-	}*/
-	delete mBuilding_window;
+		mBuilding_menu_items[BUILDINGTYPE(i)]->clear();
+		delete mBuilding_menu_items[BUILDINGTYPE(i)];
+	}
+
+	//TODO: does the unit take care of its own window??
 	delete mUnit_window;
+
 	delete mDemolish_tool;
 }
 
@@ -151,10 +154,6 @@ void Menu::add_menu_item(BuildingMenuItem* building_menu_item, const BUILDINGTYP
 
 void Menu::set_building_window(Window* building_window)
 {
-	if (mBuilding_window != nullptr)
-	{
-		delete mBuilding_window;
-	}
 	mBuilding_window = building_window;
 	mBuilding_window->set_rendering_enabled(true);
 }
@@ -166,7 +165,7 @@ Window* Menu::get_building_window() const
 
 void Menu::set_unit_window(Window* unit_window)
 {
-	if (mUnit_window != nullptr) delete mUnit_window;
+	delete mUnit_window;
 	mUnit_window = unit_window;
 	mUnit_window->set_rendering_enabled(true);
 }
@@ -175,7 +174,3 @@ Window* Menu::get_unit_window() const
 {
 	return mUnit_window;
 }
-
-
-
-

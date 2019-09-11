@@ -93,6 +93,7 @@ void Game::start_game()
 			{
 				mState = STATE::MAIN_MENU;
 				delete mCurrent_level;
+				mCurrent_level = nullptr;
 			}
 			break;
 		default: ;
