@@ -32,7 +32,6 @@ public:
 
 private:
 	Level* mLevel;
-	Text* mMenu_texture;
 
 	std::map<BUILDINGTYPE, std::vector<BuildingMenuItem*>*> mBuilding_menu_items;
 	std::map<BUILDINGTYPE, Button*> mButtons;
