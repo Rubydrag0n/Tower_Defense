@@ -18,6 +18,7 @@ public:
 	void render() override;
 	void set_clicked(const bool value) override;
 	
+	
 	//all projectiles, that are fired from this tower are updated, shots are fired
 	void on_tick() override;
 	void on_click(int mouse_x, int mouse_y) override;

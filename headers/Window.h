@@ -16,11 +16,11 @@ class Window : public Renderable, public Clickable
 {
 public:
 	explicit Window(SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, STYLE style = STYLE::STANDARD);
+	~Window();
 
 	void render() override;
 
 	void add_text_to_window(Text* text);
-	void add_button_to_window(Button* button);
 
 	void set_dim(SDL_Rect dim);
 	SDL_Rect get_dim() const;
@@ -47,7 +47,6 @@ private:
 	int mB;
 
 	std::vector<Text*> mTexts; //Texts that are shown in the window
-	std::vector<Button*> mButtons; //Buttons that are shown in the window
 
 protected:
 	//the dimensions of the window

@@ -10,9 +10,7 @@ public:
 
 	void on_tick() override;
 	void render() override;
+	void update_building_window() override;
 
 	BUILDINGTYPE get_building_type() override;
-
-private:
-	Window* mWarehouse_window;
 };

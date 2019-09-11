@@ -73,3 +73,9 @@ void UpgradeButton::on_mouse_out(int mouse_x, int mouse_y)
 	//mUpgrade_window->set_clicked(false);
 }
 
+void UpgradeButton::on_click(int mouse_x, int mouse_y)
+{
+	WindowButton::on_click(mouse_x, mouse_y);
+}
+
+

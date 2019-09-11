@@ -16,14 +16,14 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 
 	mProduction_values = new Text*[RESOURCES_TOTAL];
 
-	auto headline = new Text("        Production", dest, WINDOWCONTENT, text_color, this);
+	auto headline = new Text("        Production", dest, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(headline);
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		dest.y += 20;
 		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWS, text_color, mBuilding_window);
 		mBuilding_window->add_text_to_window(resource_names);
-		mProduction_values[i] = new Text(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i))), dest, WINDOWCONTENT, text_color, this);
+		mProduction_values[i] = new Text(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i))), dest, WINDOWCONTENT, text_color, mBuilding_window);
 		mProduction_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mProduction_values[i]);
 	}
@@ -52,11 +52,6 @@ BUILDINGTYPE IndustrialBuilding::get_building_type()
 
 void IndustrialBuilding::on_click(int mouse_x, int mouse_y)
 {
-	SDL_Rect rect;
-	rect.x = 1280;
-	rect.y = 600;
-	rect.w = 600;
-	rect.h = 200;
 	mLevel->get_menu()->set_building_window(mBuilding_window);
 	Building::on_click(mouse_x, mouse_y);
 }

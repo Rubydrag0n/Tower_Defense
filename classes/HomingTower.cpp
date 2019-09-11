@@ -11,3 +11,16 @@ void HomingTower::create_shot(Enemy* enemy)
 	// ReSharper disable once CppNonReclaimedResourceAcquisition
 	new HomingShot(this, enemy);
 }
+
+void HomingTower::on_tick()
+{
+	update_building_window();
+	Tower::on_tick();
+}
+
+void HomingTower::update_building_window()
+{
+	Tower::update_building_window();
+}
+
+

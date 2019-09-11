@@ -15,6 +15,7 @@ public:
 	void on_mouse_over(int mouse_x, int mouse_y) override;
 
 	void on_mouse_out(int mouse_x, int mouse_y) override;
+	void on_click(int mouse_x, int mouse_y) override;
 
 private:
 	std::string mUpgrade_section;

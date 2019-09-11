@@ -81,6 +81,8 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	rect.h = 200;
 
 	mUnit_window = new Window(rect, WINDOWS, WINDOWS);
+	mUnit_window->set_rendering_enabled(false);
+	mUnit_window->disable();
 	mDefense_values = new Text*[RESISTANCES_TOTAL];
 	SDL_Color text_color = { 0,0,0,0 };
 
@@ -89,7 +91,7 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	dest.y = mUnit_window->get_dim().y + 20;
 	dest.w = 0;
 	dest.h = 0;
-	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, this);
+	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, mUnit_window);
 	mUnit_window->add_text_to_window(health_name);
 	mHealth_value = new Text(std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
 	mHealth_value->add_x_dim(100);
@@ -105,7 +107,7 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	dest.y += 20;
 	auto move_speed_name = new Text("Move Speed", dest, WINDOWCONTENT, text_color, mUnit_window);
 	mUnit_window->add_text_to_window(move_speed_name);
-	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, this);
+	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, mUnit_window);
 	mMove_speed_value->add_x_dim(100);
 	mUnit_window->add_text_to_window(mMove_speed_value);
 }
@@ -169,11 +171,6 @@ void Unit::update_animation_clip()
 
 void Unit::on_click(int mouse_x, int mouse_y)
 {
-	SDL_Rect rect;
-	rect.x = 1680;
-	rect.y = 824;
-	rect.w = 200;
-	rect.h = 200;
 	mLevel->get_menu()->set_unit_window(mUnit_window);
 }
 

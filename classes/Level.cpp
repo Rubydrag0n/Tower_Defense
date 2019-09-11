@@ -6,8 +6,6 @@
 #include <utility>
 #include "SDL_setup.h"
 #include "Map.h"
-#include "HomingTower.h"
-#include "Path.h"
 #include "EntityHandler.h"
 #include "Game.h"
 
@@ -85,7 +83,7 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 	p.y = 448;
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
-	this->get_main_building()->add_resources(r);
+	mMain_building->add_resources(r);
 }
 
 Level::~Level()

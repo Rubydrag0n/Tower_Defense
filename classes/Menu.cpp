@@ -154,8 +154,14 @@ void Menu::add_menu_item(BuildingMenuItem* building_menu_item, const BUILDINGTYP
 
 void Menu::set_building_window(Window* building_window)
 {
+	if(mBuilding_window != nullptr)
+	{
+		mBuilding_window->set_rendering_enabled(false);
+		mBuilding_window->disable();
+	}
 	mBuilding_window = building_window;
 	mBuilding_window->set_rendering_enabled(true);
+	mBuilding_window->enable();
 }
 
 Window* Menu::get_building_window() const
@@ -165,9 +171,14 @@ Window* Menu::get_building_window() const
 
 void Menu::set_unit_window(Window* unit_window)
 {
-	delete mUnit_window;
+	if(mUnit_window != nullptr)
+	{
+		mUnit_window->set_rendering_enabled(false);
+		mUnit_window->disable();
+	}
 	mUnit_window = unit_window;
 	mUnit_window->set_rendering_enabled(true);
+	mUnit_window->enable();
 }
 
 Window* Menu::get_unit_window() const

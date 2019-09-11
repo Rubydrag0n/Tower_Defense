@@ -25,6 +25,15 @@ Window::Window(const SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, cons
 
 }
 
+Window::~Window()
+{
+	for(auto& text : mTexts)
+	{
+		delete text;
+	}
+	mTexts.clear();
+}
+
 void Window::render()
 {
 	//draw the inner color of the window (background of the window)
@@ -91,10 +100,5 @@ SDL_Rect Window::get_dim() const
 void Window::add_text_to_window(Text* text)
 {
 	mTexts.push_back(text);
-}
-
-void Window::add_button_to_window(Button* button)
-{
-	mButtons.push_back(button);
 }
 

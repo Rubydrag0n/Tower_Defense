@@ -63,35 +63,35 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	dest.y = mBuilding_window->get_dim().y + 20;
 	dest.w = 0;	//setting these to 0 will not scale anything
 	dest.h = 0;
-	auto dmg_text = new Text("Dmg: ", dest, WINDOWS, text_color, this);
+	auto dmg_text = new Text("Dmg: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(dmg_text);
 	dest.y += 30;
-	auto as_text = new Text("AS: ", dest, WINDOWS, text_color, this);
+	auto as_text = new Text("AS: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(as_text);
 	dest.y += 30;
-	auto range_text = new Text("Range: ", dest, WINDOWS, text_color, this);
+	auto range_text = new Text("Range: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(range_text);
 	dest.y += 30;
-	auto damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, this);
+	auto damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(damage_distribution_headline);
 	dest.y += 30;
 	mDamage_distribution_text = new Text("P: " + std::to_string(int(mDamage.get_phys_dmg()))
 		+ " M: " + std::to_string(int(mDamage.get_magic_dmg()))
 		+ " F: " + std::to_string(int(mDamage.get_fire_dmg()))
 		+ " W: " + std::to_string(int(mDamage.get_water_dmg()))
-		+ " E: " + std::to_string(int(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, this);
+		+ " E: " + std::to_string(int(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mDamage_distribution_text);
 
 	//turret stats-numbers displayed(dynamic)
 	dest.x = mBuilding_window->get_dim().x + 260;
 	dest.y = mBuilding_window->get_dim().y + 20;
-	mDmg_value = new Text(std::to_string(int(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, this);
+	mDmg_value = new Text(std::to_string(int(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mDmg_value);
 	dest.y += 30;
-	mAs_value = new Text(std::to_string(int(mAttack_speed)), dest, WINDOWS, text_color, this);
+	mAs_value = new Text(std::to_string(int(mAttack_speed)), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mAs_value);
 	dest.y += 30;
-	mRange_value = new Text(std::to_string(int(mRange)), dest, WINDOWS, text_color, this);
+	mRange_value = new Text(std::to_string(int(mRange)), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mRange_value);
 }
 
@@ -159,7 +159,7 @@ void Tower::set_stat_strings_to_normal()
 {
 	auto dmg_value = std::to_string(int(mDamage.get_dmg_sum()));
 	auto as_value = std::to_string(int(mAttack_speed));
-	auto range_value = std::to_string(mRange);
+	auto range_value = std::to_string(int(mRange));
 	auto dmg_distribution_text = "P: " + std::to_string(int(mDamage.get_phys_dmg()))
 		+ " M: " + std::to_string(int(mDamage.get_magic_dmg()))
 		+ " F: " + std::to_string(int(mDamage.get_fire_dmg()))
@@ -239,11 +239,6 @@ void Tower::on_tick()
 
 void Tower::on_click(int mouse_x, int mouse_y)
 {
-	SDL_Rect rect;
-	rect.x = 1280;
-	rect.y = 600;
-	rect.w = 600;
-	rect.h = 200;
 	mLevel->get_menu()->set_building_window(mBuilding_window);
 	Building::on_click(mouse_x, mouse_y);
 }

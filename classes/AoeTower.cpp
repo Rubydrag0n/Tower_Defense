@@ -12,3 +12,14 @@ void AoeTower::create_shot(Enemy* enemy)
 {
 	new AoeShot(this, enemy->get_position(), mExplosive_radius);
 }
+
+void AoeTower::on_tick()
+{
+	update_building_window();
+	Tower::on_tick();
+}
+
+void AoeTower::update_building_window()
+{
+	Tower::update_building_window();
+}

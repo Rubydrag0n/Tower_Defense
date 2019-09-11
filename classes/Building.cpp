@@ -110,19 +110,28 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	SDL_Color text_color = { 0, 0, 0 ,0 };
 	SDL_Rect rect;
 	rect.x = 1280;
-	rect.y = 600;
+	rect.y = 624;
 	rect.w = 600;
 	rect.h = 200;
-	mBuilding_window = new Window(rect, WINDOWS, WINDOWS);
-	rect.x += 20;
-	rect.y += 20;
-
 	//window for the warehouse is at a different position, than the other buildingwindows
-	if (get_name() != "warehouse")
+	if (get_name() == "warehouse")
+	{
+		rect.y += 200;
+		rect.w -= 400;
+	}
+	mBuilding_window = new Window(rect, WINDOWS, WINDOWS);
+	mBuilding_window->set_rendering_enabled(false);
+	mBuilding_window->disable();
+	if (get_name() != "warehouse") //text for non-Warehouse buildings is at different position
 	{
 		rect.x += rect.w - 200;
 	}
-	auto headline = new Text("       Storage   Mainten", rect, WINDOWCONTENT, text_color, this);
+	rect.x += 20;
+	rect.y += 20;
+	rect.w = 0;//no scaling on text
+	rect.h = 0;
+
+	auto headline = new Text("       Storage   Mainten", rect, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(headline);
 	mStorage_values = new Text*[RESOURCES_TOTAL];
 	mMaintenance_values = new Text*[RESOURCES_TOTAL];
@@ -130,10 +139,10 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	{
 		rect.y += 20;
 		mStorage_values[i] = new Text(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i)))
-			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, this);
+			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, mBuilding_window);
 		mStorage_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mStorage_values[i]);
-		mMaintenance_values[i] = new Text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, this);
+		mMaintenance_values[i] = new Text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, mBuilding_window);
 		mMaintenance_values[i]->add_x_dim(130);
 		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
 		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
@@ -154,7 +163,7 @@ void Building::update_building_window()
 	{
 		mStorage_values[i]->set_text(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i)))
 			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))));
-		mMaintenance_values[i]->set_text(std::to_string(mCurrent_resources->get_resource(RESOURCETYPES(i))));
+		mMaintenance_values[i]->set_text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))));
 	}
 }
 
@@ -226,8 +235,8 @@ void Building::show_more(Button* button)
 
 void Building::on_button_press(const int button_id, Button* button)
 {
-	if (button_id == UPGRADE_BUTTON) this->upgrade_building(button);
-	if (button_id == SHOW_MORE_BUTTON) this->show_more(button);
+	if (button_id == UPGRADE_BUTTON) upgrade_building(button);
+	if (button_id == SHOW_MORE_BUTTON) show_more(button);
 }
 
 void Building::demolish() const
