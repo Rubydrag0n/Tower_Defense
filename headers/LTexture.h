@@ -57,6 +57,8 @@ public:
 	int get_pitch() const; 
 	Uint32 get_pixel32( unsigned int x, unsigned int y ) const;
 
+	std::string& get_path();
+
 private:
 	//The actual hardware texture
 	SDL_Texture* mTexture;
@@ -66,4 +68,6 @@ private:
 	//Image dimensions
 	int mWidth;
 	int mHeight;
+
+	std::string mPath;
 };

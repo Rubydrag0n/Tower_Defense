@@ -55,20 +55,14 @@ Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer), 
 
 Menu::~Menu()
 {
-	//TODO: fix this deconstructor, it's broken
-	//delete all the buttons and menu items
-	
+	//delete all the buttons and menu items	
 	for (auto i = 0; i < BUILDINGTYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];
 		for (auto it : *mBuilding_menu_items[BUILDINGTYPE(i)]) {
 			delete it;
 		}
-		mBuilding_menu_items[BUILDINGTYPE(i)]->clear();
 		delete mBuilding_menu_items[BUILDINGTYPE(i)];
 	}
-
-	//TODO: does the unit take care of its own window??
-	delete mUnit_window;
 
 	delete mDemolish_tool;
 }

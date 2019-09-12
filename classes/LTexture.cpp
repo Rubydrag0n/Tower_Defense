@@ -11,6 +11,7 @@ LTexture::LTexture()
 	mHeight = 0;
 	mPixels = nullptr;
 	mPitch = 0;
+	mPath = "";
 }
 
 LTexture::~LTexture()
@@ -21,6 +22,8 @@ LTexture::~LTexture()
 
 bool LTexture::load_from_file(const std::string& path)
 {
+	mPath = path;
+
 	//Get rid of preexisting texture
 	free();
 
@@ -310,4 +313,9 @@ Uint32 LTexture::get_pixel32(const unsigned int x, const unsigned int y) const
 
 	//Get the pixel requested
 	return pixels[(y * (mPitch / 4)) + x];
+}
+
+std::string& LTexture::get_path()
+{
+	return mPath;
 }
