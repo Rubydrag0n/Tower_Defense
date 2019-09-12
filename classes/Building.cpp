@@ -156,6 +156,11 @@ Building::~Building()
 	delete mCarriage;
 	delete mBuilding_window;
 	//don't destroy texture, handled by texture class
+
+	for (auto big_upgrade : mBig_upgrades)
+	{
+		delete big_upgrade;
+	}
 }
 
 void Building::update_building_window()

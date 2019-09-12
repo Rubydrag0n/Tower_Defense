@@ -29,5 +29,4 @@ protected:
 	Level* mLevel;
 	
 	Window* mMenu_item_window;
-
 };
