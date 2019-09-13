@@ -56,5 +56,4 @@ protected:
 	Text** mDefense_values;
 	Text* mHealth_value;
 	Text* mMove_speed_value;
-
 };

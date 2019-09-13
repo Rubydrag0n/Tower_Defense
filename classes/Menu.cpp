@@ -46,15 +46,6 @@ Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer), 
 	dest.y = 1050;
 	dest.w = 0;	//setting to 0 doesn't scale anything
 	dest.h = 0;
-	mMenu_texture = new Text("lives: " + std::to_string(mLevel->get_lives()) +
-		" \tgold: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(GOLD)) +
-		" \twood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WOOD)) +
-		" \tstone: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(STONE)) +
-		" \tiron: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(IRON)) +
-		" \tenergy: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(ENERGY)) +
-		" \twater: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(WATER)) +
-		" \tfood: " + std::to_string(mLevel->get_resources()->get_display_resources().get_resource(FOOD)),
-		dest, WINDOWS, text_color, nullptr);
 
 	SDL_Point coords;
 	coords.x = 1800;
@@ -64,20 +55,14 @@ Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer), 
 
 Menu::~Menu()
 {
-	//TODO: fix this deconstructor, it's broken
-	//delete all the buttons and menu items
-	
+	//delete all the buttons and menu items	
 	for (auto i = 0; i < BUILDINGTYPES_TOTAL; i++) {
 		delete mButtons[BUILDINGTYPE(i)];
 		for (auto it : *mBuilding_menu_items[BUILDINGTYPE(i)]) {
 			delete it;
 		}
-		mBuilding_menu_items[BUILDINGTYPE(i)]->clear();
 		delete mBuilding_menu_items[BUILDINGTYPE(i)];
 	}
-
-	//TODO: does the unit take care of its own window??
-	delete mUnit_window;
 
 	delete mDemolish_tool;
 }

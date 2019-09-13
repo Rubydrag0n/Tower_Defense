@@ -11,6 +11,7 @@ class Tower :
 {
 public:
 	Tower(const std::string& tower_name, SDL_Point coords, Level* level, LAYERS click_layer, LAYERS render_layer);
+	~Tower();
 
 	virtual void create_shot(Enemy* enemy) = 0;
 

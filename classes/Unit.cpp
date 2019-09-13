@@ -116,6 +116,8 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 Unit::~Unit()
 {
 	delete mDefense;
+
+	delete mUnit_window;
 }
 
 

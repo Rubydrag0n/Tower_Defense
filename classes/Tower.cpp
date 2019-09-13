@@ -95,6 +95,13 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	mBuilding_window->add_text_to_window(mRange_value);
 }
 
+Tower::~Tower() 
+{
+	delete mUpgrade_attackspeed_button;
+	delete mUpgrade_range_button;
+	delete mUpgrade_damage_button;
+}
+
 void Tower::render()
 {
 	Building::render();
