@@ -13,4 +13,6 @@ public:
 
 private:
 	double mExplosive_radius;
+
+	Text* mExplosive_radius_value;
 };
