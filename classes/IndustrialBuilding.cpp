@@ -7,21 +7,21 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 	std::move(industrial_building_name), coords, level, click_layer, render_layer)
 {
 	mCarriage = new Carriage("carriage", mLevel, ENEMIES, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
+
+	//add production text in the building window
 	SDL_Color text_color = { 0,0,0,0 };
 	SDL_Rect dest;
 	dest.h = 0;
 	dest.w = 0;
 	dest.x = mBuilding_window->get_dim().x + 20;
 	dest.y = mBuilding_window->get_dim().y + 30;
-
-	mProduction_values = new Text*[RESOURCES_TOTAL];
-
-	auto headline = new Text("        Production", dest, WINDOWCONTENT, text_color, mBuilding_window);
+	auto const headline = new Text("        Production", dest, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(headline);
+	mProduction_values = new Text*[RESOURCES_TOTAL];
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		dest.y += 20;
-		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWS, text_color, mBuilding_window);
+		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWCONTENT, text_color, mBuilding_window);
 		mBuilding_window->add_text_to_window(resource_names);
 		mProduction_values[i] = new Text(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i))), dest, WINDOWCONTENT, text_color, mBuilding_window);
 		mProduction_values[i]->add_x_dim(60);
