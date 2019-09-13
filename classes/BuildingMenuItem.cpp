@@ -63,6 +63,10 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(resource_names);
 	}
+	rect.x = mMenu_item_window->get_dim().x + 220;
+	rect.y = mMenu_item_window->get_dim().y + 20;
+	rect.w = 0;	//setting these to 0 will not scale anything
+	rect.h = 0;
 
 	const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
 	if (kind_of_object == "homingtower" || kind_of_object == "aoetower")
@@ -75,10 +79,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 			gConfig_file->value_or_zero(name_of_object + "/stats", "elec"));
 		auto range = gConfig_file->value(name_of_object + "/stats", "range");
 		auto attack_speed = gConfig_file->value(name_of_object + "/stats", "attackspeed");
-		rect.x = mMenu_item_window->get_dim().x + 220;
-		rect.y = mMenu_item_window->get_dim().y + 20;
-		rect.w = 0;	//setting these to 0 will not scale anything
-		rect.h = 0;
+
 		auto dmg_text = new Text("Dmg: ", rect, WINDOWS, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(dmg_text);
 		rect.y += 30;
@@ -97,7 +98,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 			+ " W: " + std::to_string(int(damage->get_water_dmg()))
 			+ " E: " + std::to_string(int(damage->get_elec_dmg())), rect, WINDOWS, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(damage_distribution_text);
-		rect.x = mMenu_item_window->get_dim().x + 260;
+		rect.x = mMenu_item_window->get_dim().x + 280;
 		rect.y = mMenu_item_window->get_dim().y + 20;
 		auto dmg_value = new Text(std::to_string(int(damage->get_dmg_sum())), rect, WINDOWS, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(dmg_value);
@@ -107,10 +108,31 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 		rect.y += 30;
 		auto range_value = new Text(std::to_string(int(range)), rect, WINDOWS, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(range_value);
+		delete damage;
 	}
 	if (kind_of_object == "industrialbuilding")
 	{
-		
+		auto produce = new Resources();
+		produce->set_resources(gConfig_file->value_or_zero(name_of_object + "/stats", "goldproduction"),
+			gConfig_file->value_or_zero(name_of_object + "/stats", "woodproduction"),
+			gConfig_file->value_or_zero(name_of_object + "/stats", "stoneproduction"),
+			gConfig_file->value_or_zero(name_of_object + "/stats", "ironproduction"),
+			gConfig_file->value_or_zero(name_of_object + "/stats", "energyproduction"),
+			gConfig_file->value_or_zero(name_of_object + "/stats", "waterproduction"),
+			gConfig_file->value_or_zero(name_of_object + "/stats", "foodproduction"));
+		headline = new Text("Production", rect, WINDOWCONTENT, text_color, mMenu_item_window);
+		mMenu_item_window->add_text_to_window(headline);
+		auto production_values = new Text*[RESOURCES_TOTAL];
+		for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+		{
+			rect.y += 20;
+			auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mMenu_item_window);
+			mMenu_item_window->add_text_to_window(resource_names);
+			production_values[i] = new Text(std::to_string(produce->get_display_resources().get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+			production_values[i]->add_x_dim(60);
+			mMenu_item_window->add_text_to_window(production_values[i]);
+		}
+		delete produce;
 	}
 	delete storage_limit;
 	delete maintenance;
