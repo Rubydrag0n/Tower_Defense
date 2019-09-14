@@ -37,9 +37,9 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	dest.h = 26;
 	mUpgrade_damage_button = new UpgradeButton("testbutton", dest, this, mName, "Damage", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
 	dest.x += 56;
-	mUpgrade_range_button = new UpgradeButton("testbutton", dest, this, mName, "Range", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
-	dest.x += 56;
 	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", dest, this, mName, "Attackspeed", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
+	dest.x += 56;
+	mUpgrade_range_button = new UpgradeButton("testbutton", dest, this, mName, "Range", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
 
 	//number of little upgrades displayed
 	SDL_Color text_color = { 0,0,0,0 };
@@ -119,34 +119,12 @@ void Tower::render()
 	}
 }
 
-void Tower::update_building_window(bool is_a_button_hovered)
+void Tower::update_building_window()
 {
 	//updates texture: number of little upgrades
 	mDamage_upgrade_number_texture->set_text(std::to_string(mNumber_of_damage_upgrades));
 	mAttackspeed_upgrade_number_texture->set_text(std::to_string(mNumber_of_attackspeed_upgrades));
 	mRange_upgrade_number_texture->set_text(std::to_string(mNumber_of_range_upgrades));
-
-	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-	{
-		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button);
-		is_a_button_hovered = true;
-	}
-	if (mUpgrade_attackspeed_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-	{
-		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button);
-		is_a_button_hovered = true;
-	}
-
-	if (mUpgrade_range_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-	{
-		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button);
-		is_a_button_hovered = true;
-	}
-	Building::update_building_window(is_a_button_hovered);
-}
-
-void Tower::set_stat_strings_to_normal()
-{
 	auto dmg_value = std::to_string(int(mDamage.get_dmg_sum()));
 	auto as_value = std::to_string(int(mAttack_speed));
 	auto range_value = std::to_string(int(mRange));
@@ -159,6 +137,21 @@ void Tower::set_stat_strings_to_normal()
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
 	mDamage_distribution_value->set_text(dmg_distribution_text);
+
+	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+	{
+		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button);
+	}
+	if (mUpgrade_attackspeed_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+	{
+		set_stat_strings_for_upgrade_buttons(mUpgrade_attackspeed_button);
+	}
+
+	if (mUpgrade_range_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+	{
+		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button);
+	}
+	Building::update_building_window();
 }
 
 void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
@@ -174,19 +167,34 @@ void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 		tower_upgrade_section = "Tower/upgrade" + button->get_upgrade_section();
 	}
 
-	dmg_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "magic")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "fire")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "water")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
-	as_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed"));
-	range_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "range"));
-	auto dmg_distribution_text = "P: " + std::to_string(int(mDamage.get_phys_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys"))
-		+ " M: " + std::to_string(int(mDamage.get_magic_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))
-		+ " F: " + std::to_string(int(mDamage.get_fire_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "fire"))
-		+ " W: " + std::to_string(int(mDamage.get_water_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
-		+ " E: " + std::to_string(int(mDamage.get_elec_dmg())) + " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+	//read upgrade changes out of config
+	auto const plus_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "phys") + gConfig_file->value_or_zero(tower_upgrade_section, "magic")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "fire") + gConfig_file->value_or_zero(tower_upgrade_section, "water")
+		+ gConfig_file->value_or_zero(tower_upgrade_section, "elec");
+	auto const plus_as = gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
+	auto const plus_range = gConfig_file->value_or_zero(tower_upgrade_section, "range");
+	auto const plus_phys_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "phys");
+	auto const plus_magic_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "magic");
+	auto const plus_fire_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "fire");
+	auto const plus_water_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "water");
+	auto const plus_elec_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "elec");
 
+	//do not change the text if the upgrade doesnt change the value of the stat
+	if(plus_dmg != 0) dmg_value += " + " + std::to_string(plus_dmg);
+	if(plus_as != 0) as_value += " + " + std::to_string(plus_as);
+	if(plus_range != 0)	range_value += " + " + std::to_string(plus_range);
+	auto dmg_distribution_text = "P: " + std::to_string(int(mDamage.get_phys_dmg()));
+	if (plus_phys_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_phys_dmg);
+	dmg_distribution_text += " M: " + std::to_string(int(mDamage.get_magic_dmg()));
+	if (plus_magic_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_magic_dmg);
+	dmg_distribution_text += " F: " + std::to_string(int(mDamage.get_fire_dmg()));
+	if (plus_fire_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_fire_dmg);
+	dmg_distribution_text += " W: " + std::to_string(int(mDamage.get_water_dmg()));
+	if (plus_water_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_water_dmg);
+	dmg_distribution_text += " E: " + std::to_string(int(mDamage.get_elec_dmg()));
+	if (plus_elec_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_elec_dmg);
+
+	//set the text changes
 	mDmg_value->set_text(dmg_value);
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
@@ -211,6 +219,7 @@ void Tower::on_tick()
 {
 	Building::on_tick();
 	// try to shoot
+	auto enemy_was_in_range = false;
 	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
 	if (mElapsed_ticks % mAttack_cooldown == 0 && !this->mIdle)
 	{
@@ -221,10 +230,12 @@ void Tower::on_tick()
 			if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
 			{
 				this->create_shot(enemy);
+				enemy_was_in_range = true;
 				break;
 			}
 		}
 	}
+	if (!enemy_was_in_range && mElapsed_ticks % *gFrame_rate == 0) mCurrent_resources->add(mMaintenance);
 }
 
 void Tower::on_click(int mouse_x, int mouse_y)

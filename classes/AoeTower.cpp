@@ -27,14 +27,14 @@ void AoeTower::create_shot(Enemy* enemy)
 
 void AoeTower::on_tick()
 {
-	update_building_window(false);
+	update_building_window();
 	Tower::on_tick();
 }
 
-void AoeTower::update_building_window(bool is_a_button_hovered)
+void AoeTower::update_building_window()
 {
-	Tower::update_building_window(is_a_button_hovered);
 	mExplosive_radius_value->set_text(std::to_string(int(mExplosive_radius)));
+	Tower::update_building_window();
 }
 
 void AoeTower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)

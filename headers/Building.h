@@ -64,12 +64,11 @@ public:
 	//give window for building to the menu, so it can be shown there
 	void on_click(int mouse_x, int mouse_y) override;
 
-	virtual void update_building_window(bool is_a_button_hovered);
+	virtual void update_building_window();
 	void update_great_upgrades();
 	virtual void set_stat_strings_for_upgrade_buttons(UpgradeButton* button);
-	virtual void set_stat_strings_to_normal();
 	void on_button_press(int button_id, Button* button) override;
-	void upgrade_building(Button* button);//button must be from class UpgradeButton
+	void upgrade_building(UpgradeButton* button);//button must be from class UpgradeButton
 	void show_more(Button* button); //
 
 protected:

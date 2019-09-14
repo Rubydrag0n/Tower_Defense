@@ -9,7 +9,7 @@ public:
 
 	void create_shot(Enemy* enemy) override;
 	void on_tick() override;
-	void update_building_window(bool is_a_button_hovered) override;
+	void update_building_window() override;
 	void set_stat_strings_for_upgrade_buttons(UpgradeButton* button) override;
 	bool upgrade(const std::string& tower_upgrade_section) override; 
 

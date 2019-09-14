@@ -49,11 +49,10 @@ public:
 
 	Damage get_damage() const;
 
-	void update_building_window(bool is_a_button_hovered) override;
+	void update_building_window() override;
 	//if an upgradebutton is hovered this function is called and sets the strings with the stats for the upgrade, that are shown in the window
 	void set_stat_strings_for_upgrade_buttons(UpgradeButton* button) override;
 	//sets strings in window so that they do not show the upgrade values of the last upgradebutton that was hovered
-	void set_stat_strings_to_normal() override;
 
 	void on_button_press(int button_id, Button* button) override;
 

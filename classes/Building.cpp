@@ -163,7 +163,7 @@ Building::~Building()
 	}
 }
 
-void Building::update_building_window(bool is_a_button_hovered)
+void Building::update_building_window()
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
@@ -177,18 +177,8 @@ void Building::update_building_window(bool is_a_button_hovered)
 		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
 		{
 			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button());
-			is_a_button_hovered = true;
 		}
 	}
-	if (!is_a_button_hovered)
-	{
-		set_stat_strings_to_normal();
-	}
-}
-
-void Building::set_stat_strings_to_normal()
-{
-	
 }
 
 void Building::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
@@ -234,7 +224,7 @@ void Building::update_great_upgrades()
 	}
 }
 
-void Building::upgrade_building(Button* button)
+void Building::upgrade_building(UpgradeButton* button)
 {
 	const auto building_upgrade_section = mName + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
 	if (gConfig_file->value_or_zero(building_upgrade_section, "count_of_little_upgrades") > mCount_of_little_upgrades)
@@ -242,7 +232,7 @@ void Building::upgrade_building(Button* button)
 		return;
 	}
 	upgrade(building_upgrade_section);
-	set_building_level(dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() + ".");
+	set_building_level(button->get_upgrade_section() + ".");
 	update_great_upgrades();
 }
 
@@ -264,7 +254,7 @@ void Building::show_more(Button* button)
 
 void Building::on_button_press(const int button_id, Button* button)
 {
-	if (button_id == UPGRADE_BUTTON) upgrade_building(button);
+	if (button_id == UPGRADE_BUTTON) upgrade_building(dynamic_cast<UpgradeButton*>(button));
 	if (button_id == SHOW_MORE_BUTTON) show_more(button);
 }
 
@@ -320,11 +310,11 @@ void Building::on_tick()
 {
 	if(mElapsed_ticks % *gFrame_rate == 0)
 	{
-		mIdle = !this->mCurrent_resources->sub(mMaintenance); 
+		mIdle = !mCurrent_resources->sub(mMaintenance); 
 
-		if (!this->mIdle)
+		if (!mIdle)
 		{
-			this->mCurrent_resources->add(mProduce);
+			mCurrent_resources->add(mProduce);
 		}
 	}
 	mElapsed_ticks++;

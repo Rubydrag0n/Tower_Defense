@@ -29,9 +29,9 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 	}
 }
 
-void IndustrialBuilding::update_building_window(bool is_a_button_hovered)
+void IndustrialBuilding::update_building_window()
 {
-	Building::update_building_window(is_a_button_hovered);
+	Building::update_building_window();
 	for(auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		mProduction_values[i]->set_text(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i))));
@@ -41,7 +41,7 @@ void IndustrialBuilding::update_building_window(bool is_a_button_hovered)
 void IndustrialBuilding::on_tick()
 {
 	Building::on_tick();
-	update_building_window(false);
+	update_building_window();
 }
 
 
