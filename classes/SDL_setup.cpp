@@ -74,10 +74,11 @@ bool init_graphics()
 			printf("Warning: Linear texture filtering not enabled!");
 		}
 
-		const auto screen_width = 1920;
-		const auto screen_height = 1080;
+		const auto screen_width = gConfig_file->value("video", "screen_width");
+		const auto screen_height = gConfig_file->value("video", "screen_height");
 
-		const std::string window_flags = "borderless";
+		const std::string window_flags = gConfig_file->value("video", "window_mode");
+
 		Uint32 flags;
 		if (window_flags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
 		else if (window_flags == "borderless") flags = SDL_WINDOW_BORDERLESS;
