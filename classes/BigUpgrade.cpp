@@ -8,7 +8,7 @@ BigUpgrade::BigUpgrade(std::string obj_name, std::string upgrade_section, Upgrad
 	SDL_Color text_color = { 0,0,0,0 };
 	const auto x_difference = 130; // x difference between bigupgradebutton and the shown upgradename
 
-	auto dim_of_upgrade_name_texture = big_upgrade_button->get_dimension();
+	auto dim_of_upgrade_name_texture = mBig_upgrade_button->get_dimension();
 	dim_of_upgrade_name_texture.x -= x_difference;
 	dim_of_upgrade_name_texture.w = 0;
 	dim_of_upgrade_name_texture.h = 0;

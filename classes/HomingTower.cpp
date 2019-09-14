@@ -14,13 +14,13 @@ void HomingTower::create_shot(Enemy* enemy)
 
 void HomingTower::on_tick()
 {
-	update_building_window();
+	update_building_window(false);
 	Tower::on_tick();
 }
 
-void HomingTower::update_building_window()
+void HomingTower::update_building_window(bool is_a_button_hovered)
 {
-	Tower::update_building_window();
+	Tower::update_building_window(is_a_button_hovered);
 }
 
 

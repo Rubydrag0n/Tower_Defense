@@ -145,7 +145,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 		mMaintenance_values[i] = new Text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, mBuilding_window);
 		mMaintenance_values[i]->add_x_dim(130);
 		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
-		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
+		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
 		mBuilding_window->add_text_to_window(resource_names);
 	}	
 	update_great_upgrades();
@@ -163,7 +163,7 @@ Building::~Building()
 	}
 }
 
-void Building::update_building_window()
+void Building::update_building_window(bool is_a_button_hovered)
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
@@ -171,6 +171,29 @@ void Building::update_building_window()
 			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))));
 		mMaintenance_values[i]->set_text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))));
 	}
+	//changes string if a upgradebutton is hovered
+	for (auto& upgrade : mBig_upgrades)
+	{
+		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
+		{
+			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button());
+			is_a_button_hovered = true;
+		}
+	}
+	if (!is_a_button_hovered)
+	{
+		set_stat_strings_to_normal();
+	}
+}
+
+void Building::set_stat_strings_to_normal()
+{
+	
+}
+
+void Building::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
+{
+	
 }
 
 void Building::update_great_upgrades()
@@ -194,9 +217,9 @@ void Building::update_great_upgrades()
 
 	for (auto i = 1; ; i++)
 	{
-		const auto gap_between_to_upgrades = 30;
+		const auto gap_between_two_upgrades = 30;
 		const auto y_difference = -160; // how much the Show-More-Button is away from the Big-Upgrade-Button on the y-Axis
-		button_dim.y += gap_between_to_upgrades;
+		button_dim.y += gap_between_two_upgrades;
 		const auto upgrade_section = get_building_level() + std::to_string(i);
 		if (!gConfig_file->value_exists(get_name() + "/upgrade" + upgrade_section, "exists"))
 		{

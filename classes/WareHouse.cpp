@@ -13,7 +13,7 @@ Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Leve
 
 void Warehouse::on_tick()
 {
-	update_building_window();
+	update_building_window(false);
 	Building::on_tick();
 }
 
@@ -29,8 +29,8 @@ BUILDINGTYPE Warehouse::get_building_type()
 	return WAREHOUSE;
 }
 
-void Warehouse::update_building_window()
+void Warehouse::update_building_window(bool is_a_button_hovered)
 {
-	Building::update_building_window();
+	Building::update_building_window(is_a_button_hovered);
 }
 

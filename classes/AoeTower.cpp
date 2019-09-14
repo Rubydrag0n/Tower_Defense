@@ -27,12 +27,31 @@ void AoeTower::create_shot(Enemy* enemy)
 
 void AoeTower::on_tick()
 {
-	update_building_window();
+	update_building_window(false);
 	Tower::on_tick();
 }
 
-void AoeTower::update_building_window()
+void AoeTower::update_building_window(bool is_a_button_hovered)
 {
-	Tower::update_building_window();
+	Tower::update_building_window(is_a_button_hovered);
 	mExplosive_radius_value->set_text(std::to_string(int(mExplosive_radius)));
+}
+
+void AoeTower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
+{
+	Tower::set_stat_strings_for_upgrade_buttons(button);
+	auto explosive_radius_value = std::to_string((int(mExplosive_radius)));
+	auto const tower_upgrade_section = mName + "/upgrade" + button->get_upgrade_section();
+	explosive_radius_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius"));
+	mExplosive_radius_value->set_text(explosive_radius_value);
+}
+
+bool AoeTower::upgrade(const std::string& tower_upgrade_section)
+{
+	if(Tower::upgrade(tower_upgrade_section))
+	{
+		mExplosive_radius += gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius");
+		return true;
+	}
+	return false;
 }

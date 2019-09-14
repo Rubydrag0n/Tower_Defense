@@ -10,7 +10,7 @@ public:
 
 	void on_tick() override;
 	void render() override;
-	void update_building_window() override;
+	void update_building_window(bool is_a_button_hovered) override;
 
 	BUILDINGTYPE get_building_type() override;
 };

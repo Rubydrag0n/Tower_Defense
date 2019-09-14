@@ -73,12 +73,12 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	auto const damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(damage_distribution_headline);
 	dest.y += 30;
-	mDamage_distribution_text = new Text("P: " + std::to_string(int(mDamage.get_phys_dmg()))
+	mDamage_distribution_value = new Text("P: " + std::to_string(int(mDamage.get_phys_dmg()))
 		+ " M: " + std::to_string(int(mDamage.get_magic_dmg()))
 		+ " F: " + std::to_string(int(mDamage.get_fire_dmg()))
 		+ " W: " + std::to_string(int(mDamage.get_water_dmg()))
 		+ " E: " + std::to_string(int(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mDamage_distribution_text);
+	mBuilding_window->add_text_to_window(mDamage_distribution_value);
 
 	//turret stats-numbers displayed(dynamic)
 	dest.x = mBuilding_window->get_dim().x + 260;
@@ -119,24 +119,13 @@ void Tower::render()
 	}
 }
 
-void Tower::update_building_window()
+void Tower::update_building_window(bool is_a_button_hovered)
 {
-	Building::update_building_window();
 	//updates texture: number of little upgrades
 	mDamage_upgrade_number_texture->set_text(std::to_string(mNumber_of_damage_upgrades));
 	mAttackspeed_upgrade_number_texture->set_text(std::to_string(mNumber_of_attackspeed_upgrades));
 	mRange_upgrade_number_texture->set_text(std::to_string(mNumber_of_range_upgrades));
 
-	//changes string if a upgradebutton is hovered
-	auto is_a_button_hovered = false;
-	for (auto& upgrade : mBig_upgrades)
-	{
-		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
-		{
-			set_stat_strings_for_upgrade_buttons(upgrade->get_big_upgrade_button());
-			is_a_button_hovered = true;
-		}
-	}
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
 	{
 		set_stat_strings_for_upgrade_buttons(mUpgrade_damage_button);
@@ -153,11 +142,7 @@ void Tower::update_building_window()
 		set_stat_strings_for_upgrade_buttons(mUpgrade_range_button);
 		is_a_button_hovered = true;
 	}
-
-	if (!is_a_button_hovered)
-	{
-		set_stat_strings_to_normal();
-	}
+	Building::update_building_window(is_a_button_hovered);
 }
 
 void Tower::set_stat_strings_to_normal()
@@ -173,20 +158,20 @@ void Tower::set_stat_strings_to_normal()
 	mDmg_value->set_text(dmg_value);
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
-	mDamage_distribution_text->set_text(dmg_distribution_text);
+	mDamage_distribution_value->set_text(dmg_distribution_text);
 }
 
-void Tower::set_stat_strings_for_upgrade_buttons(Button* button)
+void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 {
 	//updates texture: stat-values for tower
 	auto dmg_value = std::to_string(int(mDamage.get_dmg_sum()));
 	auto as_value = std::to_string(int(mAttack_speed));
 	auto range_value = std::to_string(int(mRange));
 
-	auto tower_upgrade_section = mName + "/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
-	if (dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() == "Damage" || dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() == "Attackspeed" || dynamic_cast<UpgradeButton*>(button)->get_upgrade_section() == "Range")
+	auto tower_upgrade_section = mName + "/upgrade" + button->get_upgrade_section();
+	if (button->get_upgrade_section() == "Damage" || button->get_upgrade_section() == "Attackspeed" || button->get_upgrade_section() == "Range")
 	{
-		tower_upgrade_section = "Tower/upgrade" + dynamic_cast<UpgradeButton*>(button)->get_upgrade_section();
+		tower_upgrade_section = "Tower/upgrade" + button->get_upgrade_section();
 	}
 
 	dmg_value += " + " + std::to_string(gConfig_file->value_or_zero(tower_upgrade_section, "phys")
@@ -205,7 +190,7 @@ void Tower::set_stat_strings_for_upgrade_buttons(Button* button)
 	mDmg_value->set_text(dmg_value);
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
-	mDamage_distribution_text->set_text(dmg_distribution_text);
+	mDamage_distribution_value->set_text(dmg_distribution_text);
 }
 
 void Tower::on_button_press(const int button_id, Button* button)
