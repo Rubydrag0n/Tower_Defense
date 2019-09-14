@@ -217,11 +217,10 @@ void Tower::set_clicked(const bool value)
 
 void Tower::on_tick()
 {
-	Building::on_tick();
 	// try to shoot
-	auto enemy_was_in_range = false;
 	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
-	if (mElapsed_ticks % mAttack_cooldown == 0 && !this->mIdle)
+	auto enemy_was_in_range = false;
+	if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
 	{
 		const auto end = all_enemies->end();
 		for (auto it = all_enemies->begin(); it != end; ++it)
@@ -229,13 +228,16 @@ void Tower::on_tick()
 			const auto enemy = dynamic_cast<Enemy*>(*it);
 			if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
 			{
-				this->create_shot(enemy);
-				enemy_was_in_range = true;
-				break;
+				mIdle = !mCurrent_resources->sub(mMaintenance);
+				if(!mIdle)
+				{
+					create_shot(enemy);
+					break;
+				}
 			}
 		}
 	}
-	if (!enemy_was_in_range && mElapsed_ticks % *gFrame_rate == 0) mCurrent_resources->add(mMaintenance);
+	Building::on_tick();
 }
 
 void Tower::on_click(int mouse_x, int mouse_y)
