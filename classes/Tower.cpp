@@ -219,8 +219,7 @@ void Tower::on_tick()
 {
 	// try to shoot
 	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
-	auto enemy_was_in_range = false;
-	if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
+	if (mElapsed_ticks % mAttack_cooldown == 0)
 	{
 		const auto end = all_enemies->end();
 		for (auto it = all_enemies->begin(); it != end; ++it)

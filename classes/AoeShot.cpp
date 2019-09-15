@@ -9,7 +9,7 @@ AoeShot::AoeShot(Tower* tower, const SDL_Point location_to_shoot, const double e
 	: Shot(tower), mLocation_to_shoot(location_to_shoot), mExplosive_radius{explosion_radius}
 {
 	//target is set once the shot exists, it wont change
-	this->set_target(location_to_shoot);
+	set_target(location_to_shoot);
 }
 
 void AoeShot::on_tick()
@@ -20,7 +20,7 @@ void AoeShot::on_tick()
 		const auto end = all_enemies->end();
 		for (auto it = all_enemies->begin(); it != end; ++it)
 		{
-			if (Tower::enemy_in_range(dynamic_cast<Enemy*>(*it), mExplosive_radius, this->get_coords()))
+			if (Tower::enemy_in_range(dynamic_cast<Enemy*>(*it), mExplosive_radius, get_coords()))
 			{
 				dynamic_cast<Enemy*>(*it)->take_damage(&mDamage);
 			}

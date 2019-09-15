@@ -4,7 +4,7 @@
 HomingShot::HomingShot(Tower* tower, Enemy *enemy_to_shoot) : Shot(tower), mDelete_me{false}
 {
 	mEnemy_to_shoot = enemy_to_shoot;
-	this->set_target(enemy_to_shoot->get_position());
+	set_target(enemy_to_shoot->get_position());
 	enemy_to_shoot->add_following_shot(this);
 }
 
@@ -15,7 +15,7 @@ bool HomingShot::follow()
 
 void HomingShot::self_destruct()
 {
-	this->mDelete_me = true;
+	mDelete_me = true;
 }
 
 Enemy *HomingShot::get_enemy_to_shoot() const
@@ -30,14 +30,14 @@ void HomingShot::on_tick()
 		return;
 	}
 
-	this->set_target(mEnemy_to_shoot->get_position());
+	set_target(mEnemy_to_shoot->get_position());
 
-	if (this->follow())
+	if (follow())
 	{
 		//if enemy didn't die delete shot yourself
 		//otherwise all shots will be deleted by the enemy on death
-		if (!this->get_enemy_to_shoot()->take_damage(&mDamage)) {
-			this->get_enemy_to_shoot()->delete_following_shot(this);
+		if (!get_enemy_to_shoot()->take_damage(&mDamage)) {
+			get_enemy_to_shoot()->delete_following_shot(this);
 		}
 	}
 }
