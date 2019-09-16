@@ -1,5 +1,7 @@
 #include "HomingShot.h"
 #include "Enemy.h"
+#include "EntityHandler.h"
+#include "Tower.h"
 
 HomingShot::HomingShot(Tower* tower, Enemy *enemy_to_shoot) : Shot(tower), mDelete_me{false}
 {
@@ -10,7 +12,7 @@ HomingShot::HomingShot(Tower* tower, Enemy *enemy_to_shoot) : Shot(tower), mDele
 
 bool HomingShot::follow()
 {
-	return Shot::follow(mEnemy_to_shoot->get_position());
+	return Shot::follow(mTarget);
 }
 
 void HomingShot::self_destruct()
@@ -30,14 +32,23 @@ void HomingShot::on_tick()
 		return;
 	}
 
-	set_target(mEnemy_to_shoot->get_position());
+	if(mEnemy_to_shoot != nullptr) set_target(mEnemy_to_shoot->get_position());
 
-	if (follow())
+	if (Shot::follow(mTarget))
 	{
+		if (mEnemy_to_shoot != nullptr && mExplosive_radius == 0)
+		{
+			mEnemy_to_shoot->take_damage(&mDamage);
+		}
+		else
+		{
+			damaged_an_enemy();
+		}
+		delete this;
+		
+		
 		//if enemy didn't die delete shot yourself
 		//otherwise all shots will be deleted by the enemy on death
-		if (!get_enemy_to_shoot()->take_damage(&mDamage)) {
-			get_enemy_to_shoot()->delete_following_shot(this);
-		}
+		//if (!get_enemy_to_shoot()->take_damage(&mDamage)) get_enemy_to_shoot()->delete_following_shot(this);
 	}
 }

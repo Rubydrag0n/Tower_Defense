@@ -12,7 +12,7 @@
 Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : Building(tower_name, coords, level, click_layer, render_layer), mTower_name(tower_name)
 {
 	const auto tower_stats_section = mTower_name + "/stats";
-
+	mExplosive_radius = gConfig_file->value_or_zero(mTower_name + "/stats", "explosiveradius");
 	//set stat values for the tower
 	mDamage.set_damages(gConfig_file->value_or_zero(tower_stats_section, "phys"),
 		gConfig_file->value_or_zero(tower_stats_section, "magic"),
@@ -70,6 +70,9 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	auto const range_text = new Text("Range: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(range_text);
 	dest.y += 30;
+	auto const explosive_radius_name = new Text("Explosive radius: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
+	mBuilding_window->add_text_to_window(explosive_radius_name);
+	dest.y += 30;
 	auto const damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(damage_distribution_headline);
 	dest.y += 30;
@@ -91,6 +94,10 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	dest.y += 30;
 	mRange_value = new Text(std::to_string(int(mRange)), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mRange_value);
+	dest.y += 30;
+	mExplosive_radius_value = new Text(std::to_string(int(mExplosive_radius)), dest, WINDOWCONTENT, text_color, mBuilding_window);
+	mExplosive_radius_value->add_x_dim(70);
+	mBuilding_window->add_text_to_window(mExplosive_radius_value);
 }
 
 Tower::~Tower() 
@@ -136,6 +143,7 @@ void Tower::update_building_window()
 	mDmg_value->set_text(dmg_value);
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
+	mExplosive_radius_value->set_text(std::to_string(int(mExplosive_radius)));
 	mDamage_distribution_value->set_text(dmg_distribution_text);
 
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
@@ -160,6 +168,7 @@ void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 	auto dmg_value = std::to_string(int(mDamage.get_dmg_sum()));
 	auto as_value = std::to_string(int(mAttack_speed));
 	auto range_value = std::to_string(int(mRange));
+	auto explosive_radius_value = std::to_string(int(mExplosive_radius));
 
 	auto tower_upgrade_section = mName + "/upgrade" + button->get_upgrade_section();
 	if (button->get_upgrade_section() == "Damage" || button->get_upgrade_section() == "Attackspeed" || button->get_upgrade_section() == "Range")
@@ -178,6 +187,7 @@ void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 	auto const plus_fire_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "fire");
 	auto const plus_water_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "water");
 	auto const plus_elec_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "elec");
+	auto const plus_explosive_radius = gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius");
 
 	//do not change the text if the upgrade doesnt change the value of the stat
 	if(plus_dmg != 0) dmg_value += " + " + std::to_string(plus_dmg);
@@ -193,12 +203,14 @@ void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 	if (plus_water_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_water_dmg);
 	dmg_distribution_text += " E: " + std::to_string(int(mDamage.get_elec_dmg()));
 	if (plus_elec_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_elec_dmg);
+	if (plus_explosive_radius != 0) explosive_radius_value += " + " + std::to_string(plus_explosive_radius);
 
 	//set the text changes
 	mDmg_value->set_text(dmg_value);
 	mAs_value->set_text(as_value);
 	mRange_value->set_text(range_value);
 	mDamage_distribution_value->set_text(dmg_distribution_text);
+	mExplosive_radius_value->set_text(explosive_radius_value);
 }
 
 void Tower::on_button_press(const int button_id, Button* button)
@@ -218,21 +230,18 @@ void Tower::set_clicked(const bool value)
 void Tower::on_tick()
 {
 	// try to shoot
-	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
-	if (mElapsed_ticks % mAttack_cooldown == 0)
+	mIdle = !mCurrent_resources->sub_possible(mMaintenance);
+	if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
 	{
+		const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
 		const auto end = all_enemies->end();
 		for (auto it = all_enemies->begin(); it != end; ++it)
 		{
 			const auto enemy = dynamic_cast<Enemy*>(*it);
 			if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
 			{
-				mIdle = !mCurrent_resources->sub(mMaintenance);
-				if(!mIdle)
-				{
-					create_shot(enemy);
-					break;
-				}
+				create_shot(enemy);
+				break;
 			}
 		}
 	}
@@ -259,6 +268,7 @@ bool Tower::upgrade(const std::string& tower_upgrade_section)
 		mProjectile_speed += gConfig_file->value_or_zero(tower_upgrade_section, "projectilespeed");
 		mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
 		mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
+		mExplosive_radius += gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius");
 		return true;
 	}
 	return false;
@@ -310,10 +320,10 @@ bool Tower::upgrade_attack_speed()
 
 bool Tower::enemy_in_range(Enemy* enemy, const double radius, const SDL_Point center)
 {
-	const auto x_div = center.x - enemy->get_position().x;
-	const auto y_div = center.y - enemy->get_position().y;
+	const auto x_div = center.x - enemy->get_position().x - enemy->get_hit_box_offset().x;
+	const auto y_div = center.y - enemy->get_position().y - enemy->get_hit_box_offset().y;
 	const auto dist_to_enemy = sqrt(x_div * x_div + y_div * y_div);
-	return dist_to_enemy <= radius;
+	return dist_to_enemy <= radius + enemy->get_hitbox_radius();
 }
 
 std::string Tower::get_projectile_name() const
@@ -374,5 +384,10 @@ void Tower::increment_number_of_attackspeed_upgrades()
 void Tower::increment_number_of_range_upgrades()
 {
 	mNumber_of_range_upgrades++;
+}
+
+double Tower::get_explosive_radius() const
+{
+	return mExplosive_radius;
 }
 

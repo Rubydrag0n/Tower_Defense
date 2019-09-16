@@ -109,6 +109,17 @@ bool Resources::sub(Resources *cost)
 	return true;
 }
 
+bool Resources::sub_possible(Resources* cost)
+{
+	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
+		if (mResources[i] - cost->get_resource(RESOURCETYPES(i)) < 0) {
+			return false;
+		}
+	}
+	return true;
+}
+
+
 void Resources::add(Resources *income)
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; i++) {

@@ -11,6 +11,9 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 {
 	const auto sprite_section = unit_name + "/sprite";
 	const auto stats_section = unit_name + "/stats";
+	mHitbox_offset.x = gConfig_file->value_or_zero(sprite_section, "hitbox_offset_x");
+	mHitbox_offset.y = gConfig_file->value_or_zero(sprite_section, "hitbox_offset_y");
+	mHitbox_radius = gConfig_file->value_or_zero(sprite_section, "hitbox_radius");
 	//load path of the sprite
 	std::string path = gConfig_file->value(sprite_section, "path");
 	mSprite = gTextures->get_texture(path);	//set the pointer to the sprite
@@ -186,6 +189,18 @@ double Unit::get_move_speed()
 {
 	return mMove_speed;
 }
+
+CoordinatesInDouble Unit::get_hit_box_offset() const
+{
+	return mHitbox_offset;
+}
+
+int Unit::get_hitbox_radius() const
+{
+	return mHitbox_radius;
+}
+
+
 
 
 

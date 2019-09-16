@@ -99,12 +99,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="classes\AoeShot.cpp">
-      <Filter>Source Files\Shots</Filter>
-    </ClCompile>
-    <ClCompile Include="classes\AoeTower.cpp">
-      <Filter>Source Files\Buildings\Towers</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Building.cpp">
       <Filter>Source Files\Buildings</Filter>
     </ClCompile>
@@ -255,22 +249,28 @@
     <ClCompile Include="classes\BuildingMouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="classes\StaticTargetTower.cpp">
+      <Filter>Source Files\Buildings\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\StaticTargetShot.cpp">
+      <Filter>Source Files\Shots</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\OnHitShot.cpp">
+      <Filter>Source Files\Shots</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\OnHitTower.cpp">
+      <Filter>Source Files\Buildings\Towers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\AoeTower.h">
-      <Filter>Header Files\Buildings\Towers</Filter>
     </ClInclude>
     <ClInclude Include="headers\HomingTower.h">
       <Filter>Header Files\Buildings\Towers</Filter>
     </ClInclude>
     <ClInclude Include="headers\Tower.h">
       <Filter>Header Files\Buildings\Towers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\AoeShot.h">
-      <Filter>Header Files\Shots</Filter>
     </ClInclude>
     <ClInclude Include="headers\Shot.h">
       <Filter>Header Files\Shots</Filter>
@@ -418,6 +418,18 @@
     </ClInclude>
     <ClInclude Include="headers\DemolishToolMouseItem.h">
       <Filter>Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\StaticTargetTower.h">
+      <Filter>Header Files\Buildings\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\StaticTargetShot.h">
+      <Filter>Header Files\Shots</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\OnHitTower.h">
+      <Filter>Header Files\Buildings\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\OnHitShot.h">
+      <Filter>Header Files\Shots</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

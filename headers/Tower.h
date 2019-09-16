@@ -31,6 +31,7 @@ public:
 
 	double get_attack_speed() const;
 	double get_range() const;
+	double get_explosive_radius() const;
 	int get_number_of_damage_upgrades() const;
 	int get_number_of_attackspeed_upgrades() const;
 	int get_number_of_range_upgrades() const;
@@ -61,6 +62,7 @@ protected:
 	double mRange;
 	double mAttack_speed; //Attacks per second
 	double mProjectile_speed;
+	double mExplosive_radius; // = 0 if single target, otherwise >= 0
 	Damage mDamage;
 	std::string mProjectile_name;
 	std::string mTower_name;
@@ -80,5 +82,6 @@ protected:
 	Text* mAs_value;
 	Text* mRange_value;
 	Text* mDamage_distribution_value;
+	Text* mExplosive_radius_value;
 };
 

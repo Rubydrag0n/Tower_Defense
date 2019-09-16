@@ -34,6 +34,8 @@ public:
 	//cost is unchanged
 	//can't be const cause for some reason operator[] of vector is not const
 	bool sub(Resources *cost);
+	//if it is possible to subtract the resources return true, otherwise false
+	bool sub_possible(Resources *cost);
 
 	//adds resources, checking for limits
 	void add(Resources *income);
