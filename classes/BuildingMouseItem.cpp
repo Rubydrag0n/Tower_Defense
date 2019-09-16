@@ -2,13 +2,14 @@
 #include "LayerHandler.h"
 #include "ConfigFile.h"
 #include "IndustrialBuilding.h"
-#include "AoeTower.h"
+#include "StaticTargetTower.h"
 #include "HomingTower.h"
 #include "MouseHandler.h"
 #include "SDL_setup.h"
 #include "WareHouse.h"
 #include "Path.h"
 #include "BuildingMouseItem.h"
+#include "OnHitTower.h"
 
 BuildingMouseItem::BuildingMouseItem(const std::string& name_of_object, LTexture* sprite, Level* level, const Resources& construction_costs, LAYERS click_layer) : MouseItem(name_of_object, sprite, level, click_layer)
 {
@@ -63,7 +64,8 @@ void BuildingMouseItem::on_click(const int mouse_x, const int mouse_y)
 			if (mLevel->get_resources()->sub(&mConstruction_costs))
 			{
 				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "aoetower") new AoeTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
+				if (kind_of_object == "statictargettower") new StaticTargetTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
+				if (kind_of_object == "onhittower") new OnHitTower(mName_of_object, p, mLevel, LAYERS::BUILDINGS, LAYERS::BUILDINGS);
 				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
 				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
 				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);

@@ -310,8 +310,7 @@ void Building::on_tick()
 {
 	if(mElapsed_ticks % *gFrame_rate == 0)
 	{
-		mIdle = !mCurrent_resources->sub(mMaintenance); 
-
+		mCurrent_resources->sub(mMaintenance);
 		if (!mIdle)
 		{
 			mCurrent_resources->add(mProduce);

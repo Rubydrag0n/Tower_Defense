@@ -39,7 +39,7 @@ void IndustrialBuilding::update_building_window()
 }
 
 void IndustrialBuilding::on_tick()
-{
+{;
 	Building::on_tick();
 	update_building_window();
 }

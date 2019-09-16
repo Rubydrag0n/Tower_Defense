@@ -6,6 +6,7 @@
 #include "Tower.h"
 #include "LayerHandler.h"
 #include "Particles.h"
+#include "EntityHandler.h"
 
 Shot::Shot(Tower* tower) : Entity(LAYERS::SHOTS), mCoords(), mSprite(), mSprite_dimensions(), mTarget()
 {
@@ -26,6 +27,7 @@ Shot::Shot(Tower* tower) : Entity(LAYERS::SHOTS), mCoords(), mSprite(), mSprite_
 	mCoords_in_double.y = mCoords.y;
 
 	mDamage = tower->get_damage();
+	mExplosive_radius = tower->get_explosive_radius();
 }
 
 void Shot::render()
@@ -37,6 +39,23 @@ void Shot::render()
 	this->points_projectile_to_target(&dest, &center, &angle_in_deg);
 
 	gLayer_handler->renderex_to_layer(this->mSprite, mRender_layer, nullptr, &dest, angle_in_deg, &center, flip);
+}
+
+bool Shot::damaged_an_enemy()
+{
+	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
+	const auto end = all_enemies->end();
+	auto damaged_an_enemy = false;
+	for (auto it = all_enemies->begin(); it != end; ++it)
+	{
+		if (Tower::enemy_in_range(dynamic_cast<Enemy*>(*it), mExplosive_radius, get_coords()))
+		{
+			dynamic_cast<Enemy*>(*it)->take_damage(&mDamage);
+			damaged_an_enemy = true;
+			if (mExplosive_radius == 0) return damaged_an_enemy;
+		}
+	}
+	return damaged_an_enemy;
 }
 
 void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle) const
