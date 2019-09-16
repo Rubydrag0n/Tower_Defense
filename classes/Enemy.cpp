@@ -71,10 +71,7 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYER
 
 Enemy::~Enemy()
 {
-	for (auto followed : mFollowed_by)
-	{
-		delete followed;
-	}
+
 }
 
 void Enemy::on_tick()
@@ -178,13 +175,13 @@ void Enemy::on_death()
 {
 	mLevel->get_resources()->add(&mLoot_resources);
 	new Particle("zombie_death", mPosition, CoordinatesInDouble(), float(this->get_rotation_angle()), 0.f);
-	if (!mFollowed_by.empty()) {
+/*	if (!mFollowed_by.empty()) {
 		for (int i = mFollowed_by.size() - 1; i >= 0; i--)
 		{
 			mFollowed_by.at(i)->self_destruct();
 		}
 		mFollowed_by.clear();
-	}
+	}*/
 	this->set_rendering_enabled(false);
 }
 
@@ -210,22 +207,10 @@ void Enemy::render()
 	gLayer_handler->render_to_layer(mFull_health_bar, OVERLAY, &src_current_health, &current_health);
 }
 
-void Enemy::add_following_shot(HomingShot * shot)
+/*void Enemy::add_following_shot(HomingShot * shot)
 {
 	this->mFollowed_by.emplace_back(shot);
-}
-
-void Enemy::delete_following_shot(HomingShot * shot)
-{
-	for (auto it = mFollowed_by.begin(); it != mFollowed_by.end(); ++it)
-	{
-		if ((*it) == shot) {
-			(*it)->self_destruct();
-			this->mFollowed_by.erase(it);
-			return;
-		}
-	}
-}
+}*/
 
 ENTITYTYPE Enemy::get_type()
 {

@@ -7,17 +7,12 @@ HomingShot::HomingShot(Tower* tower, Enemy *enemy_to_shoot) : Shot(tower), mDele
 {
 	mEnemy_to_shoot = enemy_to_shoot;
 	set_target(enemy_to_shoot->get_position());
-	enemy_to_shoot->add_following_shot(this);
+	//enemy_to_shoot->add_following_shot(this);
 }
 
 bool HomingShot::follow()
 {
 	return Shot::follow(mTarget);
-}
-
-void HomingShot::self_destruct()
-{
-	mDelete_me = true;
 }
 
 Enemy *HomingShot::get_enemy_to_shoot() const
@@ -27,13 +22,7 @@ Enemy *HomingShot::get_enemy_to_shoot() const
 
 void HomingShot::on_tick()
 {
-	if (mDelete_me) {
-		delete this;
-		return;
-	}
-
 	if(mEnemy_to_shoot != nullptr) set_target(mEnemy_to_shoot->get_position());
-
 	if (Shot::follow(mTarget))
 	{
 		if (mEnemy_to_shoot != nullptr && mExplosive_radius == 0)
