@@ -20,7 +20,7 @@ Shot::Shot(Tower* tower) : Entity(LAYERS::SHOTS), mCoords(), mSprite(), mSprite_
 	mCoords = tower->get_coords();
 	mProjectile_speed = tower->get_projectile_speed();
 
-	//middle of a shot is it's center, not top left (makes the most sense for shots)
+	//middle of a shot is its center, not top left (makes the most sense for shots)
 	mCoords.x = mCoords.x + tower->get_dimensions().w / 2;
 	mCoords.y = mCoords.y + tower->get_dimensions().h / 2;
 	mCoords_in_double.x = mCoords.x;

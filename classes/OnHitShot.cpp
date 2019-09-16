@@ -3,8 +3,8 @@
 
 OnHitShot::OnHitShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 {
-	auto const t_x = float(tower->get_coords().x);
-	auto const t_y = float(tower->get_coords().y);
+	auto const t_x = float(tower->get_coords().x + tower->get_dimensions().w / 2);
+	auto const t_y = float(tower->get_coords().y + tower->get_dimensions().h / 2);
 	auto const l_x = float(location_to_shoot.x);
 	auto const l_y = float(location_to_shoot.y);
 	auto const m = (t_y - l_y) / (t_x - l_x);

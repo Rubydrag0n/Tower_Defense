@@ -35,7 +35,6 @@ void HomingShot::on_tick()
 		}
 		delete this;
 		
-		
 		//if enemy didn't die delete shot yourself
 		//otherwise all shots will be deleted by the enemy on death
 		//if (!get_enemy_to_shoot()->take_damage(&mDamage)) get_enemy_to_shoot()->delete_following_shot(this);
