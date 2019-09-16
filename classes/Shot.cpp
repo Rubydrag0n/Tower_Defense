@@ -52,14 +52,8 @@ void Shot::points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double
 	}
 	else
 	{
-		if (y_d < 0)
-		{
-			angle_in_rad = asin(x_d / dist_to_enemy) + (M_PI / 2);
-		}
-		else
-		{
-			angle_in_rad = asin(-(x_d / dist_to_enemy)) - (M_PI / 2);
-		}
+		if (y_d < 0) angle_in_rad = asin(x_d / dist_to_enemy) + (M_PI / 2);
+		else angle_in_rad = asin(-(x_d / dist_to_enemy)) - (M_PI / 2);
 	}
 	*angle = (angle_in_rad / M_PI * 180);
 

@@ -12,7 +12,7 @@ And the ConfigFile Class from here: http://www.adp-gmbh.ch/cpp/config_file.html
 (Temporary) Image credit:
 The Zombie animation - Riley Gombart (https://opengameart.org/content/top-down-animated-zombie-set)
 
-Townhallicon - SimpleIcon (https://www.flaticon.com/free-icon/buildings_34271)
+Morning star demolish tool: https://images.cdn2.stockunlimited.net/clipart/pixel-art-morning-star_1957760.jpg
 
 Explosion sprite - http://1.bp.blogspot.com/-h4gHvGnPfH0/UmFUg1riZlI/AAAAAAAAAFU/FGgUImTIGbU/s640/explosjon3.png
 
