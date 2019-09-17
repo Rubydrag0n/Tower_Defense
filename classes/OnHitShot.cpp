@@ -7,7 +7,12 @@ OnHitShot::OnHitShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 	auto const t_y = float(tower->get_coords().y + tower->get_dimensions().h / 2);
 	auto const l_x = float(location_to_shoot.x);
 	auto const l_y = float(location_to_shoot.y);
-	auto const m = (t_y - l_y) / (t_x - l_x);
+	auto m = (t_y - l_y) / (t_x - l_x);
+	if(t_x - l_x == 0)
+	{
+		if (t_y - l_y < 0) m = 1000000000000;
+		else m = -1000000000000;
+	}
 	auto const n = t_y - m * t_x;
 	
 	float y = 0;
@@ -48,7 +53,7 @@ OnHitShot::OnHitShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 		}
 		else if (l_y > t_y)
 		{
-			x = float((1024 - n) / m);
+			x = (1024 - n) / m;
 			if (x <= 1280 && x >= 0)
 			{
 				location_to_shoot.x = x;

@@ -83,7 +83,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	clickable.w = mSprite_dimensions.w;
 	clickable.h = mSprite_dimensions.h;
 	this->set_clickable_space(clickable);
-	mIdle = false;
+	mIdle = true;
 
 	//set the mouse over window up with initial values
 
@@ -308,13 +308,10 @@ void Building::render()
 
 void Building::on_tick()
 {
-	if(mElapsed_ticks % *gFrame_rate == 0)
+	if(mElapsed_ticks % *gFrame_rate == 0 && !mIdle)
 	{
 		mCurrent_resources->sub(mMaintenance);
-		if (!mIdle)
-		{
-			mCurrent_resources->add(mProduce);
-		}
+		mCurrent_resources->add(mProduce);
 	}
 	mElapsed_ticks++;
 }

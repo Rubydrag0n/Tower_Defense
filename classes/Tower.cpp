@@ -230,19 +230,20 @@ void Tower::set_clicked(const bool value)
 void Tower::on_tick()
 {
 	// try to shoot
-	mIdle = !mCurrent_resources->sub_possible(mMaintenance);
-	if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
+	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
+	const auto end = all_enemies->end();
+	for (auto it = all_enemies->begin(); it != end; ++it)
 	{
-		const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
-		const auto end = all_enemies->end();
-		for (auto it = all_enemies->begin(); it != end; ++it)
+		const auto enemy = dynamic_cast<Enemy*>(*it);
+		if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
 		{
-			const auto enemy = dynamic_cast<Enemy*>(*it);
-			if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
+			mIdle = !mCurrent_resources->sub_possible(mMaintenance);
+			if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
 			{
 				create_shot(enemy);
 				break;
 			}
+
 		}
 	}
 	Building::on_tick();

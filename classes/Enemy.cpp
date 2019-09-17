@@ -175,13 +175,13 @@ void Enemy::on_death()
 {
 	mLevel->get_resources()->add(&mLoot_resources);
 	new Particle("zombie_death", mPosition, CoordinatesInDouble(), float(this->get_rotation_angle()), 0.f);
-/*	if (!mFollowed_by.empty()) {
+	if (!mFollowed_by.empty()) {
 		for (int i = mFollowed_by.size() - 1; i >= 0; i--)
 		{
-			mFollowed_by.at(i)->self_destruct();
+			mFollowed_by.at(i)->set_enemy_to_follow_is_dead(true);
 		}
 		mFollowed_by.clear();
-	}*/
+	}
 	this->set_rendering_enabled(false);
 }
 
@@ -207,10 +207,10 @@ void Enemy::render()
 	gLayer_handler->render_to_layer(mFull_health_bar, OVERLAY, &src_current_health, &current_health);
 }
 
-/*void Enemy::add_following_shot(HomingShot * shot)
+void Enemy::add_following_shot(HomingShot * shot)
 {
 	this->mFollowed_by.emplace_back(shot);
-}*/
+}
 
 ENTITYTYPE Enemy::get_type()
 {

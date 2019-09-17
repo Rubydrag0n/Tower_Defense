@@ -29,7 +29,7 @@ public:
 	void on_death();
 	void render() override; //calls Unit::render() and shows the health bar with two rectangles
 
-//	void add_following_shot(HomingShot* shot);
+	void add_following_shot(HomingShot* shot);
 
 	bool is_dead() const;
 	ENTITYTYPE get_type() override;
@@ -45,4 +45,5 @@ private:
 	LTexture* mFull_health_bar;
 	LTexture* mEmpty_health_bar;
 	SDL_Rect mHealth_bar_dimensions;
+	std::vector<HomingShot*> mFollowed_by;
 };
