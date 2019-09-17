@@ -1,5 +1,6 @@
 #include "OnHitShot.h"
 #include "Tower.h"
+#include "EntityHandler.h"
 
 OnHitShot::OnHitShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 {
@@ -8,9 +9,11 @@ OnHitShot::OnHitShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
 	auto const l_x = float(location_to_shoot.x);
 	auto const l_y = float(location_to_shoot.y);
 	auto m = (t_y - l_y) / (t_x - l_x);
+	// can not divide through zero
+	// for the moment set some big numbers for m if this happens
 	if(t_x - l_x == 0)
 	{
-		if (t_y - l_y < 0) m = 1000000000000;
+		if (t_y - l_y < 0) m = 1000000000000; 
 		else m = -1000000000000;
 	}
 	auto const n = t_y - m * t_x;
@@ -79,6 +82,33 @@ void OnHitShot::on_tick()
 bool OnHitShot::follow()
 {
 	return Shot::follow(mTarget);
+}
+
+
+bool OnHitShot::damaged_an_enemy()
+{
+	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
+	const auto end = all_enemies->end();
+	auto damaged_an_enemy = false;
+	//first iterate through all enemies and look if the shot itself(without explosionradius) hit something
+	for (auto it = all_enemies->begin(); it != end; ++it)
+	{
+		if (Tower::enemy_in_range(dynamic_cast<Enemy*>(*it), 0, get_coords()))
+		{
+			//if the shot hit something damage all enemies that are in the explosion radius
+			for (auto it1 = all_enemies->begin(); it1 != end; ++it1)
+			{
+				if (Tower::enemy_in_range(dynamic_cast<Enemy*>(*it1), mExplosive_radius, get_coords()))
+				{
+					dynamic_cast<Enemy*>(*it1)->take_damage(&mDamage);
+					damaged_an_enemy = true;
+					if (mExplosive_radius == 0) return damaged_an_enemy;
+				}
+			}
+			break;
+		}
+	}
+	return damaged_an_enemy;
 }
 
 

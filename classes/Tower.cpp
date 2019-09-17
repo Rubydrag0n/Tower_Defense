@@ -12,7 +12,7 @@
 Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : Building(tower_name, coords, level, click_layer, render_layer), mTower_name(tower_name)
 {
 	const auto tower_stats_section = mTower_name + "/stats";
-	mExplosive_radius = gConfig_file->value_or_zero(mTower_name + "/stats", "explosiveradius");
+	mExplosive_radius = gConfig_file->value_or_zero(mTower_name + "/stats", "explosive_radius");
 	//set stat values for the tower
 	mDamage.set_damages(gConfig_file->value_or_zero(tower_stats_section, "phys"),
 		gConfig_file->value_or_zero(tower_stats_section, "magic"),
@@ -245,6 +245,7 @@ void Tower::on_tick()
 			}
 
 		}
+		mIdle = true;
 	}
 	Building::on_tick();
 }

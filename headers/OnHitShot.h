@@ -9,5 +9,7 @@ public:
 
 	void on_tick() override;
 
+	bool damaged_an_enemy() override;
+
 	bool follow();
 };

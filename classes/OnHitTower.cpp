@@ -31,7 +31,3 @@ bool OnHitTower::upgrade(const std::string& building_upgrade_section)
 {
 	return Tower::upgrade(building_upgrade_section);
 }
-
-
-
-
