@@ -135,7 +135,7 @@ void Unit::render()
 	
 	mClickable_space.x = int(mPosition.x) - mCenter.x;
 	mClickable_space.y = int(mPosition.y) - mCenter.y;
-	
+
 	update_animation_clip();
 
 	SDL_Rect dest;

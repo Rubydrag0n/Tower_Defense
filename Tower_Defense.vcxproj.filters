@@ -243,9 +243,6 @@
     <ClCompile Include="classes\Window.cpp">
       <Filter>Source Files\Menus\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="classes\MainMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="classes\BuildingMouseItem.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
@@ -260,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="classes\OnHitTower.cpp">
       <Filter>Source Files\Buildings\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\MainMenu.cpp">
+      <Filter>Source Files\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
