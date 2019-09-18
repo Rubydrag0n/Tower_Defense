@@ -1,6 +1,6 @@
 #pragma once
 #include "LTexture.h"
-#include "CoordinatesInDouble.h"
+#include "Vector.h"
 #include "Damage.h"
 #include "Entity.h"
 
@@ -27,7 +27,7 @@ public:
 
 protected:
 	SDL_Point mCoords;
-	CoordinatesInDouble mCoords_in_double;
+	Vector mCoords_in_double;
 	double mProjectile_speed;
 	double mExplosive_radius;
 

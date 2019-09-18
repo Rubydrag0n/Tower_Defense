@@ -3,7 +3,7 @@
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "LayerHandler.h"
-#include "CoordinatesInDouble.h"
+#include "Vector.h"
 #include "Particles.h"
 #include "HomingShot.h"
 #include "Menu.h"
@@ -44,7 +44,7 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYER
 		mCheckpoints.push_back(p);
 	}
 	//starting position is the first checkpoint
-	mPosition = static_cast<CoordinatesInDouble>(mCheckpoints.at(0));
+	mPosition = static_cast<Vector>(mCheckpoints.at(0));
 	//delete first element from vector
 	mCheckpoints.erase(mCheckpoints.begin());
 
@@ -157,7 +157,7 @@ bool Enemy::is_dead() const
 
 SDL_Point Enemy::get_position() const
 {
-	return static_cast<SDL_Point>(*const_cast<CoordinatesInDouble*>(&mPosition));
+	return static_cast<SDL_Point>(*const_cast<Vector*>(&mPosition));
 }
 
 bool Enemy::take_damage(Damage *dmg)
@@ -174,7 +174,7 @@ bool Enemy::take_damage(Damage *dmg)
 void Enemy::on_death()
 {
 	mLevel->get_resources()->add(&mLoot_resources);
-	new Particle("zombie_death", mPosition, CoordinatesInDouble(), float(this->get_rotation_angle()), 0.f);
+	new Particle("zombie_death", mPosition, Vector(), float(this->get_rotation_angle()), 0.f);
 	if (!mFollowed_by.empty()) {
 		for (int i = mFollowed_by.size() - 1; i >= 0; i--)
 		{
@@ -215,4 +215,9 @@ void Enemy::add_following_shot(HomingShot * shot)
 ENTITYTYPE Enemy::get_type()
 {
 	return ENTITYTYPE::ENEMY;
+}
+
+std::vector<SDL_Point> Enemy::get_checkpoints() const
+{
+	return mCheckpoints;
 }

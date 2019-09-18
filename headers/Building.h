@@ -103,5 +103,5 @@ protected:
 	Text** mStorage_values;
 	Text** mMaintenance_values;
 	std::vector<BigUpgrade*> mBig_upgrades;
-	CoordinatesInDouble mButton_offset;
+	Vector mButton_offset;
 };

@@ -1,11 +1,12 @@
 #pragma once
-#include <SDL.h>
 #include "Shot.h"
+
+class Enemy;
 
 class OnHitShot final : public Shot
 {
 public:
-	OnHitShot(Tower* tower, SDL_Point location_to_shoot);
+	OnHitShot(Tower* tower, Enemy* enemy);
 
 	void on_tick() override;
 

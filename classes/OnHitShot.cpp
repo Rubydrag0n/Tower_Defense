@@ -2,8 +2,9 @@
 #include "Tower.h"
 #include "EntityHandler.h"
 
-OnHitShot::OnHitShot(Tower* tower, SDL_Point location_to_shoot) : Shot(tower)
+OnHitShot::OnHitShot(Tower* tower, Enemy* enemy) : Shot(tower)
 {
+	auto location_to_shoot = enemy->get_position();
 	auto const t_x = float(tower->get_coords().x + tower->get_dimensions().w / 2);
 	auto const t_y = float(tower->get_coords().y + tower->get_dimensions().h / 2);
 	auto const l_x = float(location_to_shoot.x);

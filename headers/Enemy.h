@@ -34,6 +34,7 @@ public:
 	bool is_dead() const;
 	ENTITYTYPE get_type() override;
 
+	std::vector<SDL_Point> get_checkpoints() const;
 private:
 	std::vector<SDL_Point> mCheckpoints{};
 	bool mDead;

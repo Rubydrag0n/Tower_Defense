@@ -4,7 +4,7 @@
 #include "Defense.h"
 #include "LTexture.h"
 #include "Entity.h"
-#include "CoordinatesInDouble.h"
+#include "Vector.h"
 #include "Enums.h"
 #include "Clickable.h"
 #include "Window.h"
@@ -25,7 +25,7 @@ public:
 
 	void render() override;
 
-	CoordinatesInDouble get_hit_box_offset() const;
+	Vector get_hit_box_offset() const;
 	int get_hitbox_radius() const;
 	Defense* get_defense();
 	double get_move_speed();
@@ -40,8 +40,8 @@ protected:
 	Defense* mDefense;
 	double mMove_speed;
 	
-	CoordinatesInDouble mPosition;
-	CoordinatesInDouble mHitbox_offset;
+	Vector mPosition;
+	Vector mHitbox_offset;
 	int mHitbox_radius;
 	//Only up, right, down or left for the choosing of the right sprite
 	DIRECTION mDirection;

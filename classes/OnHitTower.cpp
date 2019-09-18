@@ -8,7 +8,7 @@ OnHitTower::OnHitTower(const std::string& tower_name, SDL_Point coords, Level* l
 
 void OnHitTower::create_shot(Enemy* enemy)
 {
-	new OnHitShot(this, enemy->get_position());
+	new OnHitShot(this, enemy);
 }
 
 void OnHitTower::update_building_window()
