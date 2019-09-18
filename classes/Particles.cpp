@@ -3,7 +3,7 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 
-Particle::Particle(const std::string& particle_name, const CoordinatesInDouble& pos, const CoordinatesInDouble& dir, const float rot, const float rot_speed)
+Particle::Particle(const std::string& particle_name, const Vector& pos, const Vector& dir, const float rot, const float rot_speed)
 	: Entity(PARTICLES), mCurrent_clip(), mCurrent_rotation{ rot }, mRotation_speed{ rot_speed }, mPosition { pos }, mSpeed_and_direction{ dir }
 {
 	const auto section = "animation/" + particle_name;

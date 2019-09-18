@@ -57,12 +57,15 @@ public:
 
 	void on_button_press(int button_id, Button* button) override;
 
+	bool get_predicts() const;
+
 protected:
 	int mAttack_cooldown; //60 / mAttackspeed
 	double mRange;
 	double mAttack_speed; //Attacks per second
 	double mProjectile_speed;
 	double mExplosive_radius; // = 0 if single target, otherwise >= 0
+	bool mPredict; // if true tower predicts the movement and shoots where the enemy will be
 	Damage mDamage;
 	std::string mProjectile_name;
 	std::string mTower_name;

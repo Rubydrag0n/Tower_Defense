@@ -1,6 +1,6 @@
 #pragma once
 #include "LTexture.h"
-#include "CoordinatesInDouble.h"
+#include "Vector.h"
 #include "Damage.h"
 #include "Entity.h"
 
@@ -14,7 +14,7 @@ public:
 	
 	void render() override; //renders the shot
 	void on_tick() override = 0;
-	bool damaged_an_enemy(); // shot tries to damage an enemy, if successful return true, otherwise false
+	virtual bool damaged_an_enemy(); // shot tries to damage an enemy, if successful return true, otherwise false
 	void points_projectile_to_target(SDL_Rect* dest, SDL_Point* center, double* angle) const;
 	bool follow(SDL_Point target); //follows the enemy and returns true when it hits
 
@@ -27,7 +27,7 @@ public:
 
 protected:
 	SDL_Point mCoords;
-	CoordinatesInDouble mCoords_in_double;
+	Vector mCoords_in_double;
 	double mProjectile_speed;
 	double mExplosive_radius;
 

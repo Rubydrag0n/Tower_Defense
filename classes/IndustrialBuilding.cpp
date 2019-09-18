@@ -40,6 +40,7 @@ void IndustrialBuilding::update_building_window()
 
 void IndustrialBuilding::on_tick()
 {;
+	mIdle = !mCurrent_resources->sub_possible(mMaintenance);
 	Building::on_tick();
 	update_building_window();
 }

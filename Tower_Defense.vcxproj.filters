@@ -111,9 +111,6 @@
     <ClCompile Include="classes\ConfigFile.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="classes\CoordinatesInDouble.cpp">
-      <Filter>Source Files\Data structures</Filter>
-    </ClCompile>
     <ClCompile Include="classes\Damage.cpp">
       <Filter>Source Files\Data structures</Filter>
     </ClCompile>
@@ -258,6 +255,9 @@
     <ClCompile Include="classes\OnHitTower.cpp">
       <Filter>Source Files\Buildings\Towers</Filter>
     </ClCompile>
+    <ClCompile Include="classes\Vector.cpp">
+      <Filter>Source Files\Data structures</Filter>
+    </ClCompile>
     <ClCompile Include="classes\MainMenu.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
@@ -319,9 +319,6 @@
     </ClInclude>
     <ClInclude Include="headers\ConfigFile.h">
       <Filter>Header Files\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\CoordinatesInDouble.h">
-      <Filter>Header Files\Data structures</Filter>
     </ClInclude>
     <ClInclude Include="headers\Menu.h">
       <Filter>Header Files\Menus</Filter>
@@ -430,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="headers\OnHitShot.h">
       <Filter>Header Files\Shots</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vector.h">
+      <Filter>Header Files\Data structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

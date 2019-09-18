@@ -190,7 +190,7 @@ double Unit::get_move_speed()
 	return mMove_speed;
 }
 
-CoordinatesInDouble Unit::get_hit_box_offset() const
+Vector Unit::get_hit_box_offset() const
 {
 	return mHitbox_offset;
 }

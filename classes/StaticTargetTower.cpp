@@ -9,7 +9,7 @@ StaticTargetTower::StaticTargetTower(const std::string& tower_name, const SDL_Po
 
 void StaticTargetTower::create_shot(Enemy* enemy)
 {
-	new StaticTargetShot(this, enemy->get_position());
+	new StaticTargetShot(this, enemy);
 }
 
 void StaticTargetTower::on_tick()

@@ -1,12 +1,14 @@
 #pragma once
 #include "Shot.h"
 
+class Enemy;
+
 //shot that flies to a static location and triggers when it reaches the location
 class StaticTargetShot final : 
 	public Shot
 {
 public:
-	StaticTargetShot(Tower* tower, SDL_Point location_to_shoot);
+	StaticTargetShot(Tower* tower, Enemy* enemy);
 
 	void on_tick() override;
 	

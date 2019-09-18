@@ -12,7 +12,8 @@
 Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : Building(tower_name, coords, level, click_layer, render_layer), mTower_name(tower_name)
 {
 	const auto tower_stats_section = mTower_name + "/stats";
-	mExplosive_radius = gConfig_file->value_or_zero(mTower_name + "/stats", "explosiveradius");
+	mExplosive_radius = gConfig_file->value_or_zero(tower_stats_section, "explosive_radius");
+	mPredict = gConfig_file->value_or_zero(tower_stats_section, "predict");
 	//set stat values for the tower
 	mDamage.set_damages(gConfig_file->value_or_zero(tower_stats_section, "phys"),
 		gConfig_file->value_or_zero(tower_stats_section, "magic"),
@@ -230,20 +231,22 @@ void Tower::set_clicked(const bool value)
 void Tower::on_tick()
 {
 	// try to shoot
-	mIdle = !mCurrent_resources->sub_possible(mMaintenance);
-	if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
+	const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
+	const auto end = all_enemies->end();
+	for (auto it = all_enemies->begin(); it != end; ++it)
 	{
-		const auto all_enemies = gEntity_handler->get_entities_of_type(ENTITYTYPE::ENEMY);
-		const auto end = all_enemies->end();
-		for (auto it = all_enemies->begin(); it != end; ++it)
+		const auto enemy = dynamic_cast<Enemy*>(*it);
+		if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
 		{
-			const auto enemy = dynamic_cast<Enemy*>(*it);
-			if (enemy_in_range(enemy, mRange, mCoords) && !enemy->is_dead())
+			mIdle = !mCurrent_resources->sub_possible(mMaintenance);
+			if (mElapsed_ticks % mAttack_cooldown == 0 && !mIdle)
 			{
 				create_shot(enemy);
 				break;
 			}
+
 		}
+		mIdle = true;
 	}
 	Building::on_tick();
 }
@@ -269,6 +272,7 @@ bool Tower::upgrade(const std::string& tower_upgrade_section)
 		mProjectile_name.assign(gConfig_file->value(tower_upgrade_section, "projectile_name"));
 		mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
 		mExplosive_radius += gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius");
+		mPredict = gConfig_file->value_or_zero(tower_upgrade_section, "predict");
 		return true;
 	}
 	return false;
@@ -390,4 +394,10 @@ double Tower::get_explosive_radius() const
 {
 	return mExplosive_radius;
 }
+
+bool Tower::get_predicts() const
+{
+	return mPredict;
+}
+
 

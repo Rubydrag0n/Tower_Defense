@@ -1,14 +1,14 @@
 #pragma once
 #include <vector>
 #include "LTexture.h"
-#include "CoordinatesInDouble.h"
+#include "Vector.h"
 #include "Entity.h"
 
 class Particle :
 	public Entity
 {
 public:
-	Particle(const std::string& particle_name, const CoordinatesInDouble& pos, const CoordinatesInDouble& dir, float rot, float rot_speed);
+	Particle(const std::string& particle_name, const Vector& pos, const Vector& dir, float rot, float rot_speed);
 	~Particle();
 
 	void render() override;
@@ -33,9 +33,9 @@ private:
 	//how fast the particle is rotating in deg/tick
 	float mRotation_speed;
 	//current position of the particle (may change in its lifetime)
-	CoordinatesInDouble mPosition;
+	Vector mPosition;
 	//speed and direction of the particle
-	CoordinatesInDouble mSpeed_and_direction;
+	Vector mSpeed_and_direction;
 	//if the particle is flipped (horizontal or vertical) or not
 	SDL_RendererFlip mFlip;
 };

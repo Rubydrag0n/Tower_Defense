@@ -1,7 +1,7 @@
 #pragma once
 #include "LTexture.h"
 #include "Renderable.h"
-#include "CoordinatesInDouble.h"
+#include "Vector.h"
 #include "Enums.h"
 
 class Text : public Renderable
