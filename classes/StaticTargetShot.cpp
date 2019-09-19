@@ -20,7 +20,7 @@ StaticTargetShot::StaticTargetShot(Tower* tower, Enemy* enemy) : Shot(tower)
 		Vector v_e; //vector for speed and direction of enemy
 		v_e.x = enemy->get_checkpoints().at(0).x - enemies_position.x;
 		v_e.y = enemy->get_checkpoints().at(0).y - enemies_position.y;
-		auto const v_e1 = v_e / v_e.get_amount(); //unit vector from v_e
+		auto const v_e1 = v_e / v_e.abs(); //unit vector from v_e
 		v_e = v_e1 * enemy->get_move_speed();
 
 		auto m_e = v_e.y / v_e.x; //increase
@@ -41,27 +41,18 @@ StaticTargetShot::StaticTargetShot(Tower* tower, Enemy* enemy) : Shot(tower)
 		Vector r; //vector that points with a right angel on v_e
 		r.x = s_x-towers_position.x;
 		r.y = s_y-towers_position.y;
-		auto const temp = v_e.get_amount() * v_e.get_amount();
+		auto const temp = v_e.abs() * v_e.abs();
 		auto const a = v_t * v_t - temp;
 		auto const b = enemies_position * (- 2.0) * v_t * v_t
 		+ towers_position * 2 * temp + r * 2 * temp;
 		auto const c = enemies_position * enemies_position * v_t * v_t
-		- (towers_position * towers_position + towers_position * r * 2 + r * r) * temp - v_e * r.get_amount();
+		- (towers_position * towers_position + towers_position * r * 2 + r * r) * temp - v_e * r.abs();
 		auto const q = c / a;
 		auto const p = b / (2 * a);
 		auto const enemies_predicted_position1 = p * -1 + (p * p - q).root();
 		auto const enemies_predicted_position2 = p * -1 - (p * p - q).root();
-		if(enemies_predicted_position1.x < 0 || enemies_predicted_position1.y < 0)
-		{
-			mTarget.x = enemies_predicted_position2.x;
-			mTarget.y = enemies_predicted_position2.y;
-		}
-		else
-		{
-			mTarget.x = enemies_predicted_position1.x;
-			mTarget.y = enemies_predicted_position1.y;
-		}
-
+		mTarget.x = enemies_predicted_position1.x;
+		mTarget.y = enemies_predicted_position1.y;
 	}
 }
 

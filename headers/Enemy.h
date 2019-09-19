@@ -47,4 +47,5 @@ private:
 	LTexture* mEmpty_health_bar;
 	SDL_Rect mHealth_bar_dimensions;
 	std::vector<HomingShot*> mFollowed_by;
+	Vector mMove_direction;
 };

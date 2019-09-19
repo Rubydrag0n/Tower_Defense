@@ -86,6 +86,7 @@ void Enemy::on_click(int mouse_x, int mouse_y)
 
 void Enemy::move()
 {
+	auto position_before = mPosition;
 	if (!mDead)
 	{
 		const auto travel_dist = mMove_speed / *gFrame_rate;	//60.0 is frame rate

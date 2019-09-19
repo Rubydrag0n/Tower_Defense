@@ -54,7 +54,7 @@ Vector Vector::operator/(const double v) const
 }
 
 
-double Vector::get_amount() const
+double Vector::abs() const
 {
 	return sqrt(x * x + y * y);
 }
