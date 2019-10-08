@@ -7,6 +7,7 @@
 #include "Particles.h"
 #include "HomingShot.h"
 #include "Menu.h"
+#include <iostream>
 
 //needs the level name for getting the movement checkpoints from the config file
 Enemy::Enemy(const std::string& monster_name, const int way, Level* level, LAYERS render_layer) : Unit(monster_name, level, render_layer), mDead(false), mHealth_bar_dimensions()
@@ -107,6 +108,7 @@ void Enemy::move()
 			{
 				this->got_through();
 			}
+			update_move_direction(position_before);
 			return;
 		}
 		//normally:
@@ -126,6 +128,7 @@ void Enemy::move()
 				mPosition.y -= travel_dist;
 				mDirection = DIRECTION::UP;
 			}
+			update_move_direction(position_before);
 			return;
 		}
 		//other way around
@@ -140,8 +143,17 @@ void Enemy::move()
 			mPosition.x -= travel_dist;
 			mDirection = DIRECTION::LEFT;
 		}
+		update_move_direction(position_before);
 	}
 }
+
+void Enemy::update_move_direction(Vector old_position)
+{
+	mMove_direction.x = mPosition.x - old_position.x;
+	mMove_direction.y = mPosition.y - old_position.y;
+	mMove_direction / mMove_direction.abs();
+}
+
 
 void Enemy::got_through()
 {
@@ -221,4 +233,9 @@ ENTITYTYPE Enemy::get_type()
 std::vector<SDL_Point> Enemy::get_checkpoints() const
 {
 	return mCheckpoints;
+}
+
+Vector Enemy::get_move_diretion() const
+{
+	return mMove_direction;
 }

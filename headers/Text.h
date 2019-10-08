@@ -17,6 +17,8 @@ public:
 
 	void render() override;
 
+	static std::string remove_trailing_zeros(std::string s);
+
 private:
 	LTexture* mText_texture = new LTexture();
 
@@ -29,3 +31,4 @@ private:
 	//if this obj is not rendered then the button is also not rendered(can be null)
 	Renderable* mTexture_to_render_on;
 };
+

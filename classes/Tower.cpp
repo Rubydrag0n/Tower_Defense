@@ -7,6 +7,7 @@
 #include "SDL_setup.h"
 #include "LayerHandler.h"
 #include "Carriage.h"
+#include "BuildingMenuItem.h"
 
 
 Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : Building(tower_name, coords, level, click_layer, render_layer), mTower_name(tower_name)
@@ -77,26 +78,27 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	auto const damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(damage_distribution_headline);
 	dest.y += 30;
-	mDamage_distribution_value = new Text("P: " + std::to_string(int(mDamage.get_phys_dmg()))
-		+ " M: " + std::to_string(int(mDamage.get_magic_dmg()))
-		+ " F: " + std::to_string(int(mDamage.get_fire_dmg()))
-		+ " W: " + std::to_string(int(mDamage.get_water_dmg()))
-		+ " E: " + std::to_string(int(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, mBuilding_window);
+
+	mDamage_distribution_value = new Text("P: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_phys_dmg()))
+		+ " M: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_magic_dmg()))
+		+ " F: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_fire_dmg()))
+		+ " W: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_water_dmg()))
+		+ " E: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mDamage_distribution_value);
 
 	//turret stats-numbers displayed(dynamic)
 	dest.x = mBuilding_window->get_dim().x + 260;
 	dest.y = mBuilding_window->get_dim().y + 20;
-	mDmg_value = new Text(std::to_string(int(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, mBuilding_window);
+	mDmg_value = new Text(Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mDmg_value);
 	dest.y += 30;
-	mAs_value = new Text(std::to_string(int(mAttack_speed)), dest, WINDOWS, text_color, mBuilding_window);
+	mAs_value = new Text(Text::remove_trailing_zeros(std::to_string(mAttack_speed)), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mAs_value);
 	dest.y += 30;
-	mRange_value = new Text(std::to_string(int(mRange)), dest, WINDOWS, text_color, mBuilding_window);
+	mRange_value = new Text(Text::remove_trailing_zeros(std::to_string(mRange)), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mRange_value);
 	dest.y += 30;
-	mExplosive_radius_value = new Text(std::to_string(int(mExplosive_radius)), dest, WINDOWCONTENT, text_color, mBuilding_window);
+	mExplosive_radius_value = new Text(Text::remove_trailing_zeros(std::to_string(mExplosive_radius)), dest, WINDOWCONTENT, text_color, mBuilding_window);
 	mExplosive_radius_value->add_x_dim(70);
 	mBuilding_window->add_text_to_window(mExplosive_radius_value);
 }
@@ -133,19 +135,16 @@ void Tower::update_building_window()
 	mDamage_upgrade_number_texture->set_text(std::to_string(mNumber_of_damage_upgrades));
 	mAttackspeed_upgrade_number_texture->set_text(std::to_string(mNumber_of_attackspeed_upgrades));
 	mRange_upgrade_number_texture->set_text(std::to_string(mNumber_of_range_upgrades));
-	auto dmg_value = std::to_string(int(mDamage.get_dmg_sum()));
-	auto as_value = std::to_string(int(mAttack_speed));
-	auto range_value = std::to_string(int(mRange));
-	auto dmg_distribution_text = "P: " + std::to_string(int(mDamage.get_phys_dmg()))
-		+ " M: " + std::to_string(int(mDamage.get_magic_dmg()))
-		+ " F: " + std::to_string(int(mDamage.get_fire_dmg()))
-		+ " W: " + std::to_string(int(mDamage.get_water_dmg()))
-		+ " E: " + std::to_string(int(mDamage.get_elec_dmg()));
-	mDmg_value->set_text(dmg_value);
-	mAs_value->set_text(as_value);
-	mRange_value->set_text(range_value);
-	mExplosive_radius_value->set_text(std::to_string(int(mExplosive_radius)));
-	mDamage_distribution_value->set_text(dmg_distribution_text);
+
+	mDmg_value->set_text(Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum())));
+	mAs_value->set_text(Text::remove_trailing_zeros(std::to_string(mAttack_speed)));
+	mRange_value->set_text(Text::remove_trailing_zeros(std::to_string(mRange)));
+	mExplosive_radius_value->set_text(Text::remove_trailing_zeros(std::to_string(mExplosive_radius)));
+	mDamage_distribution_value->set_text("P: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_phys_dmg()))
+		+ " M: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_magic_dmg()))
+		+ " F: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_fire_dmg()))
+		+ " W: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_water_dmg()))
+		+ " E: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_elec_dmg())));
 
 	if (mUpgrade_damage_button->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
 	{
@@ -166,10 +165,10 @@ void Tower::update_building_window()
 void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 {
 	//updates texture: stat-values for tower
-	auto dmg_value = std::to_string(int(mDamage.get_dmg_sum()));
-	auto as_value = std::to_string(int(mAttack_speed));
-	auto range_value = std::to_string(int(mRange));
-	auto explosive_radius_value = std::to_string(int(mExplosive_radius));
+	auto dmg_value = Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum()));
+	auto as_value = Text::remove_trailing_zeros(std::to_string(mAttack_speed));
+	auto range_value = Text::remove_trailing_zeros(std::to_string(mRange));
+	auto explosive_radius_value = Text::remove_trailing_zeros(std::to_string(mExplosive_radius));
 
 	auto tower_upgrade_section = mName + "/upgrade" + button->get_upgrade_section();
 	if (button->get_upgrade_section() == "Damage" || button->get_upgrade_section() == "Attackspeed" || button->get_upgrade_section() == "Range")
@@ -194,15 +193,15 @@ void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 	if(plus_dmg != 0) dmg_value += " + " + std::to_string(plus_dmg);
 	if(plus_as != 0) as_value += " + " + std::to_string(plus_as);
 	if(plus_range != 0)	range_value += " + " + std::to_string(plus_range);
-	auto dmg_distribution_text = "P: " + std::to_string(int(mDamage.get_phys_dmg()));
+	auto dmg_distribution_text = "P: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_phys_dmg()));
 	if (plus_phys_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_phys_dmg);
-	dmg_distribution_text += " M: " + std::to_string(int(mDamage.get_magic_dmg()));
+	dmg_distribution_text += " M: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_magic_dmg()));
 	if (plus_magic_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_magic_dmg);
-	dmg_distribution_text += " F: " + std::to_string(int(mDamage.get_fire_dmg()));
+	dmg_distribution_text += " F: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_fire_dmg()));
 	if (plus_fire_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_fire_dmg);
-	dmg_distribution_text += " W: " + std::to_string(int(mDamage.get_water_dmg()));
+	dmg_distribution_text += " W: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_water_dmg()));
 	if (plus_water_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_water_dmg);
-	dmg_distribution_text += " E: " + std::to_string(int(mDamage.get_elec_dmg()));
+	dmg_distribution_text += " E: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_elec_dmg()));
 	if (plus_elec_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_elec_dmg);
 	if (plus_explosive_radius != 0) explosive_radius_value += " + " + std::to_string(plus_explosive_radius);
 
@@ -283,11 +282,20 @@ bool Tower::upgrade_damage()
 	const auto tower_upgrade_section = "Tower/upgradeDamage";
 	if(Building::upgrade(tower_upgrade_section))
 	{
-		mDamage.add(gConfig_file->value_or_zero(tower_upgrade_section, "phys"),
-			gConfig_file->value_or_zero(tower_upgrade_section, "magic"),
-			gConfig_file->value_or_zero(tower_upgrade_section, "fire"),
-			gConfig_file->value_or_zero(tower_upgrade_section, "water"),
-			gConfig_file->value_or_zero(tower_upgrade_section, "elec"));
+		mDamage.add(mDamage.get_phys_dmg()*0.01,
+			mDamage.get_magic_dmg() * 0.01,
+			mDamage.get_fire_dmg() * 0.01,
+			mDamage.get_water_dmg() * 0.01,
+			mDamage.get_elec_dmg() * 0.01);
+		//mMaintenance->add(mMaintenance.)
+		auto plus_maintenance = new Resources(mMaintenance->get_resource(RESOURCETYPES::GOLD) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::WOOD) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::STONE) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::IRON) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::ENERGY) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::WATER) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::FOOD) * 0.01);
+		mMaintenance->add(plus_maintenance);
 		mCount_of_little_upgrades++;
 		mNumber_of_damage_upgrades++;
 		return true;
@@ -300,7 +308,15 @@ bool Tower::upgrade_range()
 	const auto tower_upgrade_section = "Tower/upgradeRange";
 	if(Building::upgrade(tower_upgrade_section))
 	{
-		mRange += gConfig_file->value(tower_upgrade_section, "range");
+		mRange += mRange * 0.01;
+		auto plus_maintenance = new Resources(mMaintenance->get_resource(RESOURCETYPES::GOLD) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::WOOD) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::STONE) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::IRON) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::ENERGY) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::WATER) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::FOOD) * 0.01);
+		mMaintenance->add(plus_maintenance);
 		mCount_of_little_upgrades++;
 		mNumber_of_range_upgrades++;
 		return true;
@@ -313,8 +329,16 @@ bool Tower::upgrade_attack_speed()
 	const auto tower_upgrade_section = "Tower/upgradeAttackspeed";
 	if(Building::upgrade(tower_upgrade_section))
 	{
-		mAttack_speed += gConfig_file->value(tower_upgrade_section, "attackspeed");
+		mAttack_speed += mAttack_speed * 0.01;
 		mAttack_cooldown = int(*gFrame_rate / mAttack_speed);
+		auto plus_maintenance = new Resources(mMaintenance->get_resource(RESOURCETYPES::GOLD) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::WOOD) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::STONE) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::IRON) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::ENERGY) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::WATER) * 0.01,
+			mMaintenance->get_resource(RESOURCETYPES::FOOD) * 0.01);
+		mMaintenance->add(plus_maintenance);
 		mCount_of_little_upgrades++;
 		mNumber_of_attackspeed_upgrades++;
 		return true;

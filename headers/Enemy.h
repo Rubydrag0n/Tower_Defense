@@ -35,6 +35,8 @@ public:
 	ENTITYTYPE get_type() override;
 
 	std::vector<SDL_Point> get_checkpoints() const;
+	Vector get_move_diretion() const;
+	void update_move_direction(Vector old_position);
 private:
 	std::vector<SDL_Point> mCheckpoints{};
 	bool mDead;
@@ -47,5 +49,5 @@ private:
 	LTexture* mEmpty_health_bar;
 	SDL_Rect mHealth_bar_dimensions;
 	std::vector<HomingShot*> mFollowed_by;
-	Vector mMove_direction;
+	Vector mMove_direction; //unit vector for the move direction
 };

@@ -8,7 +8,7 @@ Resources::Resources() : mResources{ 0 }, mDisplay{ 0.0 }
 	this->set_display_zero();
 }
 
-Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food) : mResources { 0 }, mDisplay{ 0.0 }
+Resources::Resources(const float gold, const float wood, const float stone, const float iron, const float energy, const float water, const float food) : mResources { 0 }, mDisplay{ 0.0 }
 {
 	this->set_resources(gold, wood, stone, iron, energy, water, food);
 	this->mLimit = nullptr;
@@ -32,7 +32,7 @@ Resources::~Resources()
 	delete mLimit;
 }
 
-void Resources::set_resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
+void Resources::set_resources(const float gold, const float wood, const float stone, const float iron, const float energy, const float water, const float food)
 {
 	mResources[GOLD] = gold;
 	mResources[FOOD] = food;
@@ -43,17 +43,17 @@ void Resources::set_resources(const int gold, const int wood, const int stone, c
 	mResources[ENERGY] = energy;
 }
 
-void Resources::set_resource(const RESOURCETYPES type, const int res)
+void Resources::set_resource(const RESOURCETYPES type, const float res)
 {
 	this->mResources[type] = res;
 }
 
-int Resources::get_resource(const RESOURCETYPES type)
+float Resources::get_resource(const RESOURCETYPES type)
 {
 	return mResources[type];
 }
 
-int* Resources::get_resource_pointer(const RESOURCETYPES type)
+float* Resources::get_resource_pointer(const RESOURCETYPES type)
 {
 	return &mResources[type];
 }
@@ -75,7 +75,7 @@ bool Resources::is_empty()
 	return true;
 }
 
-void Resources::add(const RESOURCETYPES type, const int res)
+void Resources::add(const RESOURCETYPES type, const float res)
 {
 	if (mLimit != nullptr) {
 		if (res + mResources[type] > mLimit->get_resource(type)) {
@@ -86,7 +86,7 @@ void Resources::add(const RESOURCETYPES type, const int res)
 	mResources[type] += res;
 }
 
-bool Resources::sub(const RESOURCETYPES type, const int res)
+bool Resources::sub(const RESOURCETYPES type, const float res)
 {
 	if (mResources[type] - res < 0) {
 		return false;
@@ -127,7 +127,7 @@ void Resources::add(Resources *income)
 	}
 }
 
-Resources Resources::operator/(const int &d)
+Resources Resources::operator/(const float &d)
 {
 	Resources r;
 
@@ -170,7 +170,7 @@ bool Resources::transfer(Resources *source)
 	return source->is_empty();
 }
 
-bool Resources::transfer(const RESOURCETYPES type, int *r)
+bool Resources::transfer(const RESOURCETYPES type, float *r)
 {
 	if (this->mLimit == nullptr)
 	{

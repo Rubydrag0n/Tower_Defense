@@ -9,6 +9,7 @@
 #include "Production.h"
 #include "Carriage.h"
 #include "BigUpgrade.h"
+#include "BuildingMenuItem.h"
 
 Building::Building(std::string building_name, SDL_Point coords, Level* level, const LAYERS click_layer,
                    const LAYERS render_layer) : Clickable(click_layer), Entity(render_layer), mCoords{coords},
@@ -138,11 +139,11 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	for(auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		rect.y += 20;
-		mStorage_values[i] = new Text(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i)))
-			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, mBuilding_window);
+		mStorage_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i))))
+			+ "/" + Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mBuilding_window);
 		mStorage_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mStorage_values[i]);
-		mMaintenance_values[i] = new Text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))), rect, WINDOWCONTENT, text_color, mBuilding_window);
+		mMaintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mBuilding_window);
 		mMaintenance_values[i]->add_x_dim(130);
 		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
 		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
@@ -167,9 +168,9 @@ void Building::update_building_window()
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
-		mStorage_values[i]->set_text(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i)))
-			+ "/" + std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i))));
-		mMaintenance_values[i]->set_text(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i))));
+		mStorage_values[i]->set_text(Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i))))
+			+ "/" + Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i)))));
+		mMaintenance_values[i]->set_text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))));
 	}
 	//changes string if a upgradebutton is hovered
 	for (auto& upgrade : mBig_upgrades)
