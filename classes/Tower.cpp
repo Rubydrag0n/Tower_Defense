@@ -171,39 +171,50 @@ void Tower::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 	auto explosive_radius_value = Text::remove_trailing_zeros(std::to_string(mExplosive_radius));
 
 	auto tower_upgrade_section = mName + "/upgrade" + button->get_upgrade_section();
-	if (button->get_upgrade_section() == "Damage" || button->get_upgrade_section() == "Attackspeed" || button->get_upgrade_section() == "Range")
-	{
-		tower_upgrade_section = "Tower/upgrade" + button->get_upgrade_section();
-	}
 
 	//read upgrade changes out of config
-	auto const plus_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "phys") + gConfig_file->value_or_zero(tower_upgrade_section, "magic")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "fire") + gConfig_file->value_or_zero(tower_upgrade_section, "water")
-		+ gConfig_file->value_or_zero(tower_upgrade_section, "elec");
-	auto const plus_as = gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed");
-	auto const plus_range = gConfig_file->value_or_zero(tower_upgrade_section, "range");
-	auto const plus_phys_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "phys");
-	auto const plus_magic_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "magic");
-	auto const plus_fire_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "fire");
-	auto const plus_water_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "water");
-	auto const plus_elec_dmg = gConfig_file->value_or_zero(tower_upgrade_section, "elec");
-	auto const plus_explosive_radius = gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius");
+	auto plus_dmg = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "phys")) + double(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))
+		+ double(gConfig_file->value_or_zero(tower_upgrade_section, "fire")) + double(gConfig_file->value_or_zero(tower_upgrade_section, "water"))
+		+ double(gConfig_file->value_or_zero(tower_upgrade_section, "elec"))));
+	auto plus_as = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "attackspeed"))));
+	auto plus_range = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "range"))));
+	auto const plus_phys_dmg = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "phys"))));
+	auto const plus_magic_dmg = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "magic"))));
+	auto const plus_fire_dmg = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "fire"))));
+	auto const plus_water_dmg = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "water"))));
+	auto const plus_elec_dmg = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "elec"))));
+	auto const plus_explosive_radius = Text::remove_trailing_zeros(std::to_string(double(gConfig_file->value_or_zero(tower_upgrade_section, "explosive_radius"))));
+
+	if (button->get_upgrade_section() == "Damage")
+	{
+		plus_dmg = Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum() * 0.01));
+	}
+
+	if (button->get_upgrade_section() == "Attackspeed")
+	{
+		plus_as = Text::remove_trailing_zeros(std::to_string(get_attack_speed() * 0.01));
+	}
+
+	if (button->get_upgrade_section() == "Range")
+	{
+		plus_range = Text::remove_trailing_zeros(std::to_string(get_range() * 0.01));
+	}
 
 	//do not change the text if the upgrade doesnt change the value of the stat
-	if(plus_dmg != 0) dmg_value += " + " + std::to_string(plus_dmg);
-	if(plus_as != 0) as_value += " + " + std::to_string(plus_as);
-	if(plus_range != 0)	range_value += " + " + std::to_string(plus_range);
+	if(plus_dmg != "0") dmg_value += " + " + plus_dmg;
+	if(plus_as != "0") as_value += " + " + plus_as;
+	if(plus_range != "0")	range_value += " + " + plus_range;
 	auto dmg_distribution_text = "P: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_phys_dmg()));
-	if (plus_phys_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_phys_dmg);
+	if (plus_phys_dmg != "0") dmg_distribution_text += " + " + plus_phys_dmg;
 	dmg_distribution_text += " M: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_magic_dmg()));
-	if (plus_magic_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_magic_dmg);
+	if (plus_magic_dmg != "0") dmg_distribution_text += " + " + plus_magic_dmg;
 	dmg_distribution_text += " F: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_fire_dmg()));
-	if (plus_fire_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_fire_dmg);
+	if (plus_fire_dmg != "0") dmg_distribution_text += " + " + plus_fire_dmg;
 	dmg_distribution_text += " W: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_water_dmg()));
-	if (plus_water_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_water_dmg);
+	if (plus_water_dmg != "0") dmg_distribution_text += " + " + plus_water_dmg;
 	dmg_distribution_text += " E: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_elec_dmg()));
-	if (plus_elec_dmg != 0) dmg_distribution_text += " + " + std::to_string(plus_elec_dmg);
-	if (plus_explosive_radius != 0) explosive_radius_value += " + " + std::to_string(plus_explosive_radius);
+	if (plus_elec_dmg != "0") dmg_distribution_text += " + " + plus_elec_dmg;
+	if (plus_explosive_radius != "0") explosive_radius_value += " + " + plus_explosive_radius;
 
 	//set the text changes
 	mDmg_value->set_text(dmg_value);
