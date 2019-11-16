@@ -33,7 +33,7 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 
 	//little upgrade buttons
 	SDL_Rect dest;
-	dest.x = mBuilding_window->get_dim().x + 30;
+	dest.x = mBuilding_window->get_dim().x + 400;
 	dest.y = mBuilding_window->get_dim().y + 140;
 	dest.w = 26;
 	dest.h = 26;
@@ -60,7 +60,7 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 
 	//turret stats-text displayed(const)
 	dest.x = mBuilding_window->get_dim().x + 200;
-	dest.y = mBuilding_window->get_dim().y + 20;
+	dest.y = mBuilding_window->get_dim().y + 40;
 	dest.w = 0;	//setting these to 0 will not scale anything
 	dest.h = 0;
 	auto const dmg_text = new Text("Dmg: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
@@ -88,7 +88,7 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 
 	//turret stats-numbers displayed(dynamic)
 	dest.x = mBuilding_window->get_dim().x + 260;
-	dest.y = mBuilding_window->get_dim().y + 20;
+	dest.y = mBuilding_window->get_dim().y + 40;
 	mDmg_value = new Text(Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(mDmg_value);
 	dest.y += 30;

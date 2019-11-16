@@ -106,7 +106,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	mProducing = new Production(this);
 
 	//building window
-	mButton_offset.x = 160;
+	mButton_offset.x = 560;
 	mButton_offset.y = 20;
 	SDL_Color text_color = { 0, 0, 0 ,0 };
 	SDL_Rect rect;
@@ -125,7 +125,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	mBuilding_window->disable();
 	if (get_name() != "Warehouse") //text for non-Warehouse buildings is at different position
 	{
-		rect.x += rect.w - 200;
+		//rect.x += rect.w - 200;
 	}
 	rect.x += 20;
 	rect.y += 20;
@@ -135,7 +135,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	auto building_name_text = new Text(mName, rect, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(building_name_text);
 	rect.y += 20;
-	auto headline = new Text("            Storage       Mainten", rect, WINDOWCONTENT, text_color, mBuilding_window);
+	auto headline = new Text("            Storage    Main", rect, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(headline);
 	mStorage_values = new Text*[RESOURCES_TOTAL];
 	mMaintenance_values = new Text*[RESOURCES_TOTAL];
@@ -147,7 +147,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 		mStorage_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mStorage_values[i]);
 		mMaintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mBuilding_window);
-		mMaintenance_values[i]->add_x_dim(180);
+		mMaintenance_values[i]->add_x_dim(150);
 		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
 		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
 		mBuilding_window->add_text_to_window(resource_names);

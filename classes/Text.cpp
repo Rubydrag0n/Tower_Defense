@@ -1,5 +1,6 @@
 #include "Text.h"
 #include "LayerHandler.h"
+#include <iomanip>
 
 Text::Text(std::string text, SDL_Rect dim, LAYERS render_layer, SDL_Color text_color, Renderable* texture_to_render_on) : Renderable(render_layer), mText(text), mDim(dim), mTexture_to_render_on(texture_to_render_on)
 {
@@ -50,9 +51,24 @@ void Text::set_text(std::string text)
 
 std::string Text::remove_trailing_zeros(std::string s)
 {
+	//erase all 0 at the end of the string, if a point is then at the end erase it too
 	s.erase(s.find_last_not_of('0') + 1, std::string::npos);
 	s.erase(s.find_last_not_of('.') + 1, std::string::npos);
-	return s;
+
+	//set precision(number of digits after the point)
+	//can probably be done better
+	auto found_point = false;
+	auto precision = 2;
+	std::string result;
+	for(auto i = 0; i< s.size(); i++)
+	{
+		if (!precision) break;
+		if (found_point) precision--;
+		if (s.at(i) == '.') found_point = true;
+		result.push_back(s.at(i));
+	}
+
+	return result;
 }
 
 
