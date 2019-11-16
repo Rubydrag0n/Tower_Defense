@@ -6,7 +6,7 @@
 IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, const SDL_Point coords, Level* level, LAYERS click_layer, LAYERS render_layer) : Building(
 	std::move(industrial_building_name), coords, level, click_layer, render_layer)
 {
-	mCarriage = new Carriage("carriage", mLevel, ENEMIES, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
+	mCarriage = new Carriage("Carriage", mLevel, ENEMIES, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
 
 	//add production text in the building window
 	SDL_Color text_color = { 0,0,0,0 };

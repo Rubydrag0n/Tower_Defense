@@ -78,10 +78,10 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	mClickable_space.h = gConfig_file->value(sprite_section, "clip_height");
 
 	SDL_Rect rect;
-	rect.x = 1680;
-	rect.y = 824;
+	rect.x = 1530;
+	rect.y = 804;
 	rect.w = 200;
-	rect.h = 200;
+	rect.h = 220;
 
 	mUnit_window = new Window(rect, WINDOWS, WINDOWS);
 	mUnit_window->set_rendering_enabled(false);
@@ -94,6 +94,10 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	dest.y = mUnit_window->get_dim().y + 20;
 	dest.w = 0;
 	dest.h = 0;
+	auto unit_name_text = new Text(unit_name, dest, WINDOWCONTENT, text_color, mUnit_window);
+	unit_name_text->add_x_dim(5);
+	mUnit_window->add_text_to_window(unit_name_text);
+	dest.y += 40;
 	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, mUnit_window);
 	mUnit_window->add_text_to_window(health_name);
 	mHealth_value = new Text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);

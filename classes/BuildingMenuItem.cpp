@@ -39,9 +39,9 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 	SDL_Color text_color = { 0, 0, 0 ,0 };
 	SDL_Rect rect;
 	rect.x = 1280;
-	rect.y = 424;
+	rect.y = 364;
 	rect.w = 400;
-	rect.h = 200;
+	rect.h = 220;
 	mMenu_item_window = new Window(rect, WINDOWS, WINDOWS);
 	mMenu_item_window->set_rendering_enabled(false);
 	mMenu_item_window->disable();
@@ -61,6 +61,9 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 	}
 	else
 	{
+		auto name_of_object_text = new Text(name_of_object, rect, WINDOWCONTENT, text_color, mMenu_item_window);
+		mMenu_item_window->add_text_to_window(name_of_object_text);
+		rect.y += 20;
 		auto headline = new Text("       MaxStorage   Mainten", rect, WINDOWCONTENT, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(headline);
 		auto storage_values = new Text*[RESOURCES_TOTAL];
@@ -78,7 +81,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 			mMenu_item_window->add_text_to_window(resource_names);
 		}
 		rect.x = mMenu_item_window->get_dim().x + 220;
-		rect.y = mMenu_item_window->get_dim().y + 20;
+		rect.y = mMenu_item_window->get_dim().y + 40;
 		rect.w = 0;	//setting these to 0 will not scale anything
 		rect.h = 0;
 
@@ -113,7 +116,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 				+ " E: " + Text::remove_trailing_zeros(std::to_string(damage->get_elec_dmg())), rect, WINDOWS, text_color, mMenu_item_window);
 			mMenu_item_window->add_text_to_window(damage_distribution_text);
 			rect.x = mMenu_item_window->get_dim().x + 280;
-			rect.y = mMenu_item_window->get_dim().y + 20;
+			rect.y = mMenu_item_window->get_dim().y + 40;
 			auto dmg_value = new Text(Text::remove_trailing_zeros(std::to_string(damage->get_dmg_sum())), rect, WINDOWS, text_color, mMenu_item_window);
 			mMenu_item_window->add_text_to_window(dmg_value);
 			rect.y += 30;

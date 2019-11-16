@@ -111,19 +111,19 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	SDL_Color text_color = { 0, 0, 0 ,0 };
 	SDL_Rect rect;
 	rect.x = 1280;
-	rect.y = 624;
+	rect.y = 584;
 	rect.w = 600;
-	rect.h = 200;
+	rect.h = 220;
 	//window for the warehouse is at a different position, than the other buildingwindows
-	if (get_name() == "warehouse")
+	if (get_name() == "Warehouse")
 	{
-		rect.y += 200;
-		rect.w -= 400;
+		rect.y += 220;
+		rect.w -= 350;
 	}
 	mBuilding_window = new Window(rect, WINDOWS, WINDOWS);
 	mBuilding_window->set_rendering_enabled(false);
 	mBuilding_window->disable();
-	if (get_name() != "warehouse") //text for non-Warehouse buildings is at different position
+	if (get_name() != "Warehouse") //text for non-Warehouse buildings is at different position
 	{
 		rect.x += rect.w - 200;
 	}
@@ -132,7 +132,10 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	rect.w = 0;//no scaling on text
 	rect.h = 0;
 
-	auto headline = new Text("       Storage   Mainten", rect, WINDOWCONTENT, text_color, mBuilding_window);
+	auto building_name_text = new Text(mName, rect, WINDOWCONTENT, text_color, mBuilding_window);
+	mBuilding_window->add_text_to_window(building_name_text);
+	rect.y += 20;
+	auto headline = new Text("            Storage       Mainten", rect, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(headline);
 	mStorage_values = new Text*[RESOURCES_TOTAL];
 	mMaintenance_values = new Text*[RESOURCES_TOTAL];
@@ -144,7 +147,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 		mStorage_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mStorage_values[i]);
 		mMaintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mBuilding_window);
-		mMaintenance_values[i]->add_x_dim(130);
+		mMaintenance_values[i]->add_x_dim(180);
 		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
 		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
 		mBuilding_window->add_text_to_window(resource_names);

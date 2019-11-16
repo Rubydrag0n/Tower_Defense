@@ -29,7 +29,7 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	const auto sprite_path = std::string(gConfig_file->value("rangeindicator", "path"));
 	mRange_indicator_sprite = gTextures->get_texture(sprite_path);
 
-	mCarriage = new Carriage("carriage", mLevel, LAYERS::ENEMIES, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
+	mCarriage = new Carriage("Carriage", mLevel, LAYERS::ENEMIES, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
 
 	//little upgrade buttons
 	SDL_Rect dest;
