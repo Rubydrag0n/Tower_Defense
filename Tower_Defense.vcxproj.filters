@@ -91,6 +91,9 @@
     <Filter Include="Source Files\Menus\Windows">
       <UniqueIdentifier>{9afa88d8-2db3-4099-9dec-97a49107f728}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protobuf">
+      <UniqueIdentifier>{359151b3-1e89-43c9-819a-e66dd3b3524d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classes\Game.cpp">
@@ -440,6 +443,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="proto\map.proto">
+      <Filter>protobuf</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.bmp">

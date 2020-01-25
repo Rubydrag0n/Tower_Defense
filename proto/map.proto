@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package towerdefense;
+
+message map {
+    message Layer {
+        repeated uint32 tiles = 1;
+    }
+
+    repeated Layer layers = 1;
+    Layer resources = 2;
+    map<uint32, string> tile_map = 3;
+    uint32 width = 4;
+    uint32 height = 5;
+}
