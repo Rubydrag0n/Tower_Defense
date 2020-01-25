@@ -6,10 +6,10 @@
 UpgradeButton::UpgradeButton(const std::string& button_name, SDL_Rect dim, ButtonObject* obj, std::string building_name, std::string upgrade_section, LAYERS click_layer, LAYERS render_layers, Window* window, int button_id) : WindowButton(button_name, dim, obj, click_layer, render_layers, window, button_id), mUpgrade_section(upgrade_section)
 {
 	SDL_Rect dest;
-	dest.x = 1480;
-	dest.y = 824;
-	dest.w = 200;
-	dest.h = 200;
+	dest.x = 1730;
+	dest.y = 804;
+	dest.w = 190;
+	dest.h = 220;
 	std::string building_upgrade_section;
 	if (upgrade_section == "Damage" || upgrade_section == "Attackspeed" || upgrade_section == "Range")
 	{
@@ -43,7 +43,7 @@ UpgradeButton::UpgradeButton(const std::string& button_name, SDL_Rect dim, Butto
 	dest.y = mUpgrade_window->get_dim().y + mWindow->get_dim().h - 180;
 	dest.w = 0;
 	dest.h = 0;
-	auto headline = new Text("Upgradecosts     Mainten", dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
+	auto headline = new Text("Upgradecosts  Main", dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
 	mUpgrade_window->add_text_to_window(headline);
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
@@ -51,12 +51,12 @@ UpgradeButton::UpgradeButton(const std::string& button_name, SDL_Rect dim, Butto
 		auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
 		mUpgrade_window->add_text_to_window(resource_names);
 
-		auto upgrade_cost_values = new Text(std::to_string(upgrade_costs->get_resource(RESOURCETYPES(i))), dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
+		auto upgrade_cost_values = new Text(Text::remove_trailing_zeros(std::to_string(upgrade_costs->get_resource(RESOURCETYPES(i)))), dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
 		upgrade_cost_values->add_x_dim(60);
 		mUpgrade_window->add_text_to_window(upgrade_cost_values);
 
-		auto upgrade_maintenance_values = new Text(std::to_string(upgrade_maintenance->get_resource(RESOURCETYPES(i))), dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
-		upgrade_maintenance_values->add_x_dim(150);
+		auto upgrade_maintenance_values = new Text(Text::remove_trailing_zeros(std::to_string(upgrade_maintenance->get_resource(RESOURCETYPES(i)))), dest, UPGRADEWINDOWCONTENT, text_color, mUpgrade_window);
+		upgrade_maintenance_values->add_x_dim(120);
 		mUpgrade_window->add_text_to_window(upgrade_maintenance_values);
 	}
 

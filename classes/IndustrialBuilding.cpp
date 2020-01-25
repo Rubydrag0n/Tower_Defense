@@ -6,7 +6,7 @@
 IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, const SDL_Point coords, Level* level, LAYERS click_layer, LAYERS render_layer) : Building(
 	std::move(industrial_building_name), coords, level, click_layer, render_layer)
 {
-	mCarriage = new Carriage("carriage", mLevel, ENEMIES, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
+	mCarriage = new Carriage("Carriage", mLevel, ENEMIES, this, reinterpret_cast<Building*>(mLevel->get_main_building()));
 
 	//add production text in the building window
 	SDL_Color text_color = { 0,0,0,0 };
@@ -23,7 +23,7 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 		dest.y += 20;
 		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWCONTENT, text_color, mBuilding_window);
 		mBuilding_window->add_text_to_window(resource_names);
-		mProduction_values[i] = new Text(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i))), dest, WINDOWCONTENT, text_color, mBuilding_window);
+		mProduction_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i)))), dest, WINDOWCONTENT, text_color, mBuilding_window);
 		mProduction_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mProduction_values[i]);
 	}
@@ -34,7 +34,7 @@ void IndustrialBuilding::update_building_window()
 	Building::update_building_window();
 	for(auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
-		mProduction_values[i]->set_text(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i))));
+		mProduction_values[i]->set_text(Text::remove_trailing_zeros(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i)))));
 	}
 }
 

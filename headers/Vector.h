@@ -16,6 +16,6 @@ public:
 	Vector operator*(double) const;
 	Vector operator/(double) const;
 	Vector root() const;
-	double get_amount() const;
+	double abs() const;
 	operator SDL_Point() const;
 };
