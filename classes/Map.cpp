@@ -11,25 +11,8 @@
 
 Map::Map() : Renderable(BACKGROUND)
 {
-	mTile_size_x = 0;
-	mTile_size_y = 0;
-
-	mOffset_left = 0;
-	mOffset_top = 0;
-	mWidth = 0;
-	mHeight = 0;
-	mLayer_count = 0;
-
-	mBackground_texture = gTextures->get_texture("resources/background.bmp");
-
-	mMap_texture = new LTexture();
-}
-
-
-Map::Map(std::string map_path) : Renderable(BACKGROUND)
-{
-	mTile_size_x = 0;
-	mTile_size_y = 0;
+	mTile_size_x = 64;
+	mTile_size_y = 64;
 
 	mOffset_left = gConfig_file->value("map", "offset_left");
 	mOffset_top = gConfig_file->value("map", "offset_top");
@@ -39,10 +22,13 @@ Map::Map(std::string map_path) : Renderable(BACKGROUND)
 
 	mBackground_texture = gTextures->get_texture("resources/background.bmp");
 
-	/*if (mMap->load_map(map_path, mOffset_left, mOffset_top, mWidth, mHeight) == -1)
-		printf("Could not load %s\n", map_path);*/
 	mMap_texture = new LTexture();
+}
 
+
+Map::Map(std::string map_path) 
+	: Map()
+{
 	this->deserialize(map_path);
 }
 
@@ -82,6 +68,8 @@ bool Map::deserialize(std::string& path)
 
 	auto status = google::protobuf::util::JsonStringToMessage(json_string.str(), &mMap);
 
+	update_map_texture();
+	
 	return status.ok();
 }
 
@@ -90,4 +78,44 @@ void Map::render()
 	gLayer_handler->render_to_layer(mBackground_texture, this->get_render_layer(), nullptr, nullptr);
 	
 	gLayer_handler->render_to_layer(mMap_texture, this->get_render_layer(), nullptr, nullptr);
+}
+
+void Map::update_map_texture() const
+{
+	if (!mMap_texture->create_blank(mWidth, mHeight, SDL_TEXTUREACCESS_TARGET))
+	{
+		printf("Failed to create target texture!\n");
+		return;
+	}
+
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0x00);
+	SDL_RenderClear(gRenderer);
+
+	//we want to render to the texture
+	mMap_texture->set_as_render_target();
+
+	SDL_Rect dest{ 0, 0, mTile_size_x, mTile_size_y };
+
+	//render all the tiles to the map texture
+
+	for (unsigned l = 0; l < mMap.layers_size(); ++l) {
+		towerdefense::map::Layer layer = mMap.layers(l);
+
+		for (unsigned y = 0; y < mMap.height(); ++y) {
+			for (unsigned x = 0; x < mMap.width(); ++x)	{
+
+				const auto index = y * mMap.width() + x;
+				const auto tile = layer.tiles(index);
+
+				const auto tex = gTextures->get_texture(mMap.tile_map().at(layer.tiles(index)));
+
+				if (tile) tex->render(&dest);
+
+				dest.x += dest.w;
+			}
+
+			dest.x = 0;
+			dest.y += dest.h;
+		}
+	}
 }

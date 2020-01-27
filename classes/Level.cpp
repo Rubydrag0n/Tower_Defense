@@ -76,7 +76,7 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 
 	mMenu = new Menu(this, LAYERS::BACKGROUND);
 
-	mMap = new Map("level/Level1.map");
+	mMap = new Map("level/out2.json");
 
 	SDL_Point p;
 	p.x = 1088;
