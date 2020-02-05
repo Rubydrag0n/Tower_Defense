@@ -3,9 +3,6 @@
 #include "Renderable.h"
 #include "../proto/map.pb.h"
 
-#include <vector>
-#include <map>
-
 class Map : Renderable
 {
 public:
@@ -23,6 +20,8 @@ public:
 
 	void render() override;
 
+	TILETYPES get_resource_at_tile(const int x, const int y) const;
+	
 protected:
 	void update_map_texture() const;
 

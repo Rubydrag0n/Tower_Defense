@@ -80,6 +80,11 @@ void Map::render()
 	gLayer_handler->render_to_layer(mMap_texture, this->get_render_layer(), nullptr, nullptr);
 }
 
+TILETYPES Map::get_resource_at_tile(const int x, const int y) const
+{
+	return TILETYPES(mMap.resources().tiles(y * mMap.width() * 2 + x));
+}
+
 void Map::update_map_texture() const
 {
 	if (!mMap_texture->create_blank(mWidth, mHeight, SDL_TEXTUREACCESS_TARGET))
@@ -94,11 +99,9 @@ void Map::update_map_texture() const
 	//we want to render to the texture
 	mMap_texture->set_as_render_target();
 
-	SDL_Rect dest{ 0, 0, mTile_size_x, mTile_size_y };
-
-	//render all the tiles to the map texture
-
+	//render all the tiles on all the layers to the map texture
 	for (unsigned l = 0; l < mMap.layers_size(); ++l) {
+		SDL_Rect dest{ 0, 0, mTile_size_x, mTile_size_y };
 		towerdefense::map::Layer layer = mMap.layers(l);
 
 		for (unsigned y = 0; y < mMap.height(); ++y) {
@@ -106,10 +109,11 @@ void Map::update_map_texture() const
 
 				const auto index = y * mMap.width() + x;
 				const auto tile = layer.tiles(index);
-
-				const auto tex = gTextures->get_texture(mMap.tile_map().at(layer.tiles(index)));
-
-				if (tile) tex->render(&dest);
+				if (tile)
+				{
+					const auto tex = gTextures->get_texture(mMap.tile_map().at(layer.tiles(index)));
+					tex->render(&dest);
+				}
 
 				dest.x += dest.w;
 			}

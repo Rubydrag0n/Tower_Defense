@@ -82,7 +82,7 @@ void Game::start_game()
 
 		gEntity_handler->update();
 
-		switch(mState)
+		switch (mState)
 		{
 		case STATE::MAIN_MENU:
 			break;
