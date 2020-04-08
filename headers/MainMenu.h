@@ -7,13 +7,14 @@ class Game;
 class MainMenu : ButtonObject, Renderable
 {
 public:
-	MainMenu(Game* game);
+	explicit MainMenu(Game* game);
 
 	void render() override;
 
 	void set_enabled(bool enabled);
 
 	void on_button_press(int button_id, Button* button) override;
+
 private:
 	enum class STATE
 	{
@@ -32,8 +33,6 @@ private:
 	Button *mQuit_button;
 	Button *mSettings_button;
 	Button *mStats_button;
-
-	SDL_Point mMouse_position;
 
 	Game* mGame;
 };
