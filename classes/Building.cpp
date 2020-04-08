@@ -153,6 +153,8 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 		mBuilding_window->add_text_to_window(resource_names);
 	}	
 	update_great_upgrades();
+
+	mIs_destroyable = false;
 }
 
 Building::~Building()
@@ -254,6 +256,16 @@ void Building::show_more(Button* button)
 			if (big_upgrade->get_show_more_button()->get_dimension().y > button->get_dimension().y) big_upgrade->shift(value_to_shift);
 		}
 	}
+}
+
+bool Building::is_destroyable()
+{
+	return mIs_destroyable;
+}
+
+void Building::set_destroyable(bool destroyable)
+{
+	mIs_destroyable = destroyable;
 }
 
 void Building::on_button_press(const int button_id, Button* button)

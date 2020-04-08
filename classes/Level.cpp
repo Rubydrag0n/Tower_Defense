@@ -57,6 +57,8 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 
 	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
 	mMain_building->add_resources(r);
+	//can't destroy the main building
+	mMain_building->set_destroyable(false);
 }
 
 Level::~Level()

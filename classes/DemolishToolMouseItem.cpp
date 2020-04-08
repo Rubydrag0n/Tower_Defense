@@ -12,12 +12,8 @@ void DemolishToolMouseItem::on_click(const int mouse_x, const int mouse_y)
 {
 	const auto tile_x = mouse_x / TILE_WIDTH;
 	const auto tile_y = mouse_y / TILE_HEIGHT;
-	const auto building = mLevel->get_building_matrix(tile_x, tile_y);
-	if (building != nullptr)
-	{
-		building->demolish();
-		delete building;
-	}
+	
+	destroy_building(mLevel->get_building_matrix(tile_x, tile_y));
 }
 
 void DemolishToolMouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
@@ -26,11 +22,15 @@ void DemolishToolMouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
 	{
 		const auto tile_x = mouse_x / TILE_WIDTH;
 		const auto tile_y = mouse_y / TILE_HEIGHT;
-		const auto building = mLevel->get_building_matrix(tile_x, tile_y);
-		if (building != nullptr)
-		{
-			building->demolish();
-			delete building;
-		}
+		destroy_building(mLevel->get_building_matrix(tile_x, tile_y));
+	}
+}
+
+void DemolishToolMouseItem::destroy_building(Building* building)
+{
+	if (building != nullptr && building->is_destroyable())
+	{
+		building->demolish();
+		delete building;
 	}
 }
