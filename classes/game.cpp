@@ -96,7 +96,11 @@ void Game::start_game()
 				mCurrent_level = nullptr;
 			}
 			break;
-		default: ;
+		case STATE::EXITING:
+			quit = true;
+			break;
+		default:
+			throw std::exception("Unknown game state");
 		}
 
 		this->render_all();
