@@ -10,7 +10,7 @@ MouseItem::MouseItem(const std::string& name_of_object, LTexture* sprite, Level*
 	mName_of_object = name_of_object;
 	mClickable_space.x = 0;
 	mClickable_space.y = 0;
-	mClickable_space.w = 1920;
+	mClickable_space.w = 1280;
 	mClickable_space.h = 1050;
 	mSprite = sprite;
 	mLevel = level;

@@ -50,16 +50,6 @@ void MainMenu::render()
 	dest.h = 1080;
 	
 	gLayer_handler->render_to_layer(mBackground_sprite, mRender_layer, nullptr, &dest);
-
-	switch(mState)
-	{
-	case STATE::MAIN_MENU: break;
-	case STATE::SETTINGS_MENU: break;
-	case STATE::LEVEL_SELECT: break;
-	case STATE::STATS: break;
-	case STATE::QUIT: break;
-	default: ;
-	}
 }
 
 void MainMenu::set_enabled(const bool enabled)
@@ -100,6 +90,7 @@ void MainMenu::on_button_press(int button_id, Button* button)
 
 	case int(QUIT):
 		mState = STATE::QUIT;
+		mGame->set_state(Game::STATE::EXITING);
 		break;
 
 	case int(SETTINGS):

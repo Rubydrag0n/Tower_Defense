@@ -6,7 +6,7 @@ BigUpgrade::BigUpgrade(std::string obj_name, std::string upgrade_section, Upgrad
 	mShifted_down = false;
 
 	SDL_Color text_color = { 0,0,0,0 };
-	const auto x_difference = 130; // x difference between bigupgradebutton and the shown upgradename
+	const auto x_difference = 130; // x difference between big upgrade button and the shown upgrade name
 
 	auto dim_of_upgrade_name_texture = mBig_upgrade_button->get_dimension();
 	dim_of_upgrade_name_texture.x -= x_difference;
@@ -17,7 +17,7 @@ BigUpgrade::BigUpgrade(std::string obj_name, std::string upgrade_section, Upgrad
 	upgrade_name.assign(gConfig_file->value(obj_name + "/upgrade" + upgrade_section, "name"));
 	mUpgrade_name = new Text(upgrade_name, dim_of_upgrade_name_texture, WINDOWCONTENT, text_color, mBig_upgrade_button->get_window());
 
-	const auto y_difference = 30; // y difference between upgradename and upgradedescription
+	const auto y_difference = 30; // y difference between upgrade name and upgrade description
 	auto dim_of_upgrade_description = dim_of_upgrade_name_texture;
 	dim_of_upgrade_description.y += y_difference;
 

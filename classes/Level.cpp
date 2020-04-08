@@ -29,45 +29,18 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 	mWaves.push_back(first_wave);
 	mWave_number++;
 
-	//create Level-Matrix
-	std::ifstream file("level/Level1.txt");
 	std::string content;
 
-	this->mMap_matrix = new TILETYPES*[MATRIX_WIDTH];
-	this->mMap_buildings = new Building**[MATRIX_WIDTH];
-	for (auto i = 0; i < MATRIX_WIDTH; i++)
+	this->mMap_buildings = new Building * *[MATRIX_WIDTH];
+	for (auto x = 0; x < MATRIX_WIDTH; x++)
 	{
-		this->mMap_matrix[i] = new TILETYPES[MATRIX_HEIGHT];
-		this->mMap_buildings[i] = new Building*[MATRIX_HEIGHT];
-	}
-
-	for (auto y = 0; y < MATRIX_HEIGHT; y++)
-	{
-		file >> content;
-		for (auto x = 0; x < MATRIX_WIDTH; x++)
+		this->mMap_buildings[x] = new Building * [MATRIX_HEIGHT];
+		for (auto y = 0; y < MATRIX_HEIGHT; y++)
 		{
-			switch (content.at(x))
-			{
-			case '0':
-				mMap_matrix[x][y] = TILETYPES::EMPTY;
-				break;
-			case '1':
-				mMap_matrix[x][y] = TILETYPES::MONSTERPATH;
-				break;
-			case '2':
-				mMap_matrix[x][y] = TILETYPES::WOODTILE;
-				break;
-			case '3':
-				mMap_matrix[x][y] = TILETYPES::IRONTILE;
-				break;
-			default:
-				break;
-			}
 			this->mMap_buildings[x][y] = nullptr;
 		}
 	}
-
-
+	
 	//has to happen after mMap_buildings was initialized
 	SDL_Point warehouse_coord;
 	warehouse_coord.x = TILE_WIDTH * gConfig_file->value(level_section, "main_building_x");
@@ -76,25 +49,26 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 
 	mMenu = new Menu(this, LAYERS::BACKGROUND);
 
-	mMap = new Map("level/Level1.map");
+	mMap = new Map("level/" + std::string(gConfig_file->value(level_section, "map_file")));
 
-	SDL_Point p;
-	p.x = 1088;
-	p.y = 448;
-
-	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	const auto r = new Resources(
+		gConfig_file->value(level_section, "gold"),
+		gConfig_file->value(level_section, "wood"),
+		gConfig_file->value(level_section, "stone"),
+		gConfig_file->value(level_section, "iron"),
+		gConfig_file->value(level_section, "energy"),
+		gConfig_file->value(level_section, "water"),
+		gConfig_file->value(level_section, "food")
+	);
+	
 	mMain_building->add_resources(r);
+	//can't destroy the main building
+	mMain_building->set_destroyable(false);
 }
 
 Level::~Level()
 {
 	mDeleting = true;
-
-	for (auto i = 0; i < MATRIX_WIDTH; i++)
-	{
-		delete this->mMap_matrix[i];
-	}
-	delete this->mMap_matrix;
 
 	gEntity_handler->delete_all_entities();
 
@@ -117,12 +91,12 @@ void Level::on_tick()
 	{
 		auto wave = mWaves[i];
 
-		if(last_wave_did_start) wave->update();
+		if (last_wave_did_start) wave->update();
 
 		last_wave_did_start = wave->get_elapsed_ticks() >= wave->get_spawn_delay();
 
-		if(last_wave_did_start && gConfig_file->value_exists("wave" + mLevel_number + "_" + std::to_string(mWave_number), "exists")
-			&& wave->get_wave_number() == std::to_string(mWave_number-1))
+		if (last_wave_did_start && gConfig_file->value_exists("wave" + mLevel_number + "_" + std::to_string(mWave_number), "exists")
+			&& wave->get_wave_number() == std::to_string(mWave_number - 1))
 		{
 			auto new_wave = new Wave(std::to_string(mWave_number), this);
 			mWaves.push_back(new_wave);
@@ -185,14 +159,9 @@ void Level::set_lives(const int lives)
 	mLives = lives;
 }
 
-TILETYPES** Level::get_map_matrix() const
+TILETYPES Level::get_map_matrix(const int x, const int y) const
 {
-	return mMap_matrix;
-}
-
-void Level::set_map_matrix(const int x, const int y, const TILETYPES type) const
-{
-	mMap_matrix[x][y] = type;
+	return mMap->get_resource_at_tile(x, y);
 }
 
 void Level::set_building_matrix(const int x, const int y, Building* building, const int x_size, const int y_size) const
@@ -257,7 +226,7 @@ Warehouse* Level::get_main_building() const
 	return mDeleting ? nullptr : this->mMain_building;
 }
 
-void Level::set_main_building(Warehouse *main_building) 
+void Level::set_main_building(Warehouse* main_building)
 {
 	this->mMain_building = main_building;
 	this->mMain_building->get_current_resources()->set_empty();

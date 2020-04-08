@@ -71,6 +71,9 @@ public:
 	void upgrade_building(UpgradeButton* button);//button must be from class UpgradeButton
 	void show_more(Button* button); //
 
+	bool is_destroyable();
+	void set_destroyable(bool destroyable);
+	
 protected:
 	SDL_Point mCoords;
 	SDL_Point mBuilding_dimensions{};
@@ -104,4 +107,6 @@ protected:
 	Text** mMaintenance_values;
 	std::vector<BigUpgrade*> mBig_upgrades;
 	Vector mButton_offset;
+
+	bool mIs_destroyable;
 };
