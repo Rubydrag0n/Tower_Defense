@@ -82,7 +82,7 @@ void Game::start_game()
 
 		gEntity_handler->update();
 
-		switch(mState)
+		switch (mState)
 		{
 		case STATE::MAIN_MENU:
 			break;
@@ -96,7 +96,11 @@ void Game::start_game()
 				mCurrent_level = nullptr;
 			}
 			break;
-		default: ;
+		case STATE::EXITING:
+			quit = true;
+			break;
+		default:
+			throw std::exception("Unknown game state");
 		}
 
 		this->render_all();

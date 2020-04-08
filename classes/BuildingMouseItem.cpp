@@ -35,7 +35,7 @@ void BuildingMouseItem::on_click(const int mouse_x, const int mouse_y)
 		const auto tile_x = mouse_x / TILE_WIDTH;
 		const auto tile_y = mouse_y / TILE_HEIGHT;
 		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
-		
+
 		int x_size = gConfig_file->value_or_zero(mName_of_object + "/stats", "size_x");
 		int y_size = gConfig_file->value_or_zero(mName_of_object + "/stats", "size_y");
 		if (x_size <= 0) x_size = 1;
@@ -51,7 +51,8 @@ void BuildingMouseItem::on_click(const int mouse_x, const int mouse_y)
 					can_build = false;
 					break;
 				}
-				if (mLevel->get_map_matrix()[tile_x + x_i][tile_y + y_i] != mTile_to_build_on || mLevel->get_building_matrix(tile_x + x_i, tile_y + y_i) != nullptr) {
+				if (mLevel->get_map_matrix(tile_x + x_i, tile_y + y_i) != mTile_to_build_on ||
+					mLevel->get_building_matrix(tile_x + x_i, tile_y + y_i) != nullptr) {
 					can_build = false;
 					break;
 				}
@@ -86,7 +87,7 @@ void BuildingMouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
 		const auto tile_x = mouse_x / TILE_WIDTH;
 		const auto tile_y = mouse_y / TILE_HEIGHT;
 		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
-		const auto tile_type = mLevel->get_map_matrix()[tile_x][tile_y];
+		const auto tile_type = mLevel->get_map_matrix(tile_x, tile_y);
 		if (tile_type == mTile_to_build_on && mLevel->get_building_matrix(tile_x, tile_y) == nullptr)
 		{
 			if (kind_of_object == "path")

@@ -1,8 +1,7 @@
 #pragma once
 #include "LTexture.h"
 #include "Renderable.h"
-#include <vector>
-#include <map>
+#include "../proto/map.pb.h"
 
 class Map : Renderable
 {
@@ -21,8 +20,13 @@ public:
 
 	void render() override;
 
+	TILETYPES get_resource_at_tile(const int x, const int y) const;
+	
 protected:
 	void update_map_texture() const;
+
+	//the map data structure
+	towerdefense::map mMap;
 
 	int mOffset_left;
 	int mOffset_top;
@@ -33,14 +37,11 @@ protected:
 	//members that are deserialized from the map file
 	int mTile_size_x;
 	int mTile_size_y;
-
-	//a map containing the characters and their graphics
-	std::map<char, LTexture*> mTiles;
-
-	//a vector storing the paths to the tile textures so they can be deleted in the destructor
-	std::vector<std::string> mTile_paths;
 	
-	//the finished texture, consisting of the backgroundlayer with added decorations
+	//the finished texture, consisting of the background layer with added decorations
 	LTexture *mMap_texture;
 	LTexture *mBackground_texture;
+
+private:
+
 };

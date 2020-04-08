@@ -21,14 +21,17 @@ public:
 	enum class STATE
 	{
 		MAIN_MENU,
-		PLAYING
-	} mState;
+		PLAYING,
+		EXITING
+	};
 
 public:
 	void set_state(Game::STATE state);
 
 private:
 
+	STATE mState;
+	
 	std::vector<Tower*> mAll_towers;
 	std::vector<IndustrialBuilding*> mAll_industrial_buildings;
 	
