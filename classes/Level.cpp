@@ -51,11 +51,16 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 
 	mMap = new Map("level/" + std::string(gConfig_file->value(level_section, "map_file")));
 
-	SDL_Point p;
-	p.x = 1088;
-	p.y = 448;
-
-	const auto r = new Resources(1000, 500, 200, 200, 0, 0, 2000);
+	const auto r = new Resources(
+		gConfig_file->value(level_section, "gold"),
+		gConfig_file->value(level_section, "wood"),
+		gConfig_file->value(level_section, "stone"),
+		gConfig_file->value(level_section, "iron"),
+		gConfig_file->value(level_section, "energy"),
+		gConfig_file->value(level_section, "water"),
+		gConfig_file->value(level_section, "food")
+	);
+	
 	mMain_building->add_resources(r);
 	//can't destroy the main building
 	mMain_building->set_destroyable(false);
