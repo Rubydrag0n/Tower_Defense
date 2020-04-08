@@ -39,4 +39,7 @@ private:
 	MainMenu* mMain_menu;
 
 	SDL_Point mMouse_position;
+
+	Text mAverage_fps;
+	bool mVsync_enabled;
 };
