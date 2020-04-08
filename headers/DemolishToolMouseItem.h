@@ -9,5 +9,6 @@ public:
 	void on_click(int mouse_x, int mouse_y) override;
 
 	void on_mouse_over(int mouse_x, int mouse_y) override;
-	
+
+	static void destroy_building(Building* building);
 };

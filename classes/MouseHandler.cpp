@@ -101,6 +101,11 @@ void MouseHandler::handle_event(SDL_Event *e)
 
 	auto clicked_on_something = false;	//may only click on one thing with each event.
 
+	if (e->type == SDL_MOUSEBUTTONDOWN && e->button.button == 3)
+	{
+		set_item_on_mouse(nullptr);
+	}
+	
 	for (std::size_t i = 0; i < mClickables.size(); ++i)  // NOLINT(modernize-loop-convert)
 	{
 		auto it = mClickables.at(i);

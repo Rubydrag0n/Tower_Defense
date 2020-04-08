@@ -1,6 +1,8 @@
 //Here comes the definition of the game class
 #include <cstdio>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 #include "Game.h"
 #include "SDL_setup.h"
@@ -14,10 +16,16 @@
 #include "ConfigFile.h"
 #include "Timer.h"
 
-Game::Game() : mState(STATE::MAIN_MENU), mMouse_position()
+Game::Game()
+	: mState(STATE::MAIN_MENU)
+	, mMouse_position()
+	, mAverage_fps("FPS: 0.0", { 0, 0, 0, 0 }, OVERLAY, { 255, 0, 0 })
+	, mVsync_enabled(false)
 {
 	mMain_menu = new MainMenu(this);
 	mCurrent_level = nullptr;
+	const std::string vsync_flag = gConfig_file->value("video", "vsync");
+	if (vsync_flag == "true") mVsync_enabled = true;
 }
 
 Game::~Game()
@@ -53,18 +61,14 @@ void Game::start_game()
 	//the frames per second cap timer
 	Timer cap_timer;
 
-	const auto counted_frames = 0;
+	//how many frames are counted before resetting
+	int max_counted_frames = 60;
+	int counted_frames = 0;
 	fps_timer.start();
 
 	while (!quit)
 	{
 		cap_timer.start();
-
-		//Calculate and correct fps
-		/* Not used right now
-		auto avg_fps = counted_frames / (fps_timer.get_ticks() / 1000.f);
-		if (avg_fps > 2000000) avg_fps = 0;
-		*/
 
 		//also renders the hover window
 		//mouse handler update needs to happen first
@@ -107,13 +111,32 @@ void Game::start_game()
 
 		gLayer_handler->present();
 
+		//only correct fps manually if vsync is disabled
+		if (!mVsync_enabled) {
+			//if frame finished early
+			const auto frame_ticks = cap_timer.get_ticks();
+			if (frame_ticks < *gTicks_per_frame)
+			{
+				//wait remaining time
+				SDL_Delay(*gTicks_per_frame - frame_ticks);
+			}
+		}
 
-		//if frame finished early
-		const auto frame_ticks = cap_timer.get_ticks();
-		if (frame_ticks < *gTicks_per_frame)
+		++counted_frames;
+		if (counted_frames >= max_counted_frames)
 		{
-			//wait remaining time
-			SDL_Delay(*gTicks_per_frame - frame_ticks);
+			//show fps over last couple of frames
+
+			double avg_fps = counted_frames / (fps_timer.get_ticks() / 1000.f);
+			if (avg_fps > 2000000) avg_fps = 0;
+			std::stringstream avg_fps_text;
+			avg_fps_text << std::setw(3) << avg_fps;
+			mAverage_fps.set_text("FPS: " + avg_fps_text.str());
+
+			//restart timer
+			fps_timer.stop();
+			fps_timer.start();
+			counted_frames %= max_counted_frames;
 		}
 	}
 }
@@ -141,14 +164,14 @@ void Game::load_level(const int level_number)
 void Game::set_state(const Game::STATE state)
 {
 	mState = state;
-	switch(state)
+	switch (state)
 	{
 	case STATE::MAIN_MENU:
 		mMain_menu->set_enabled(true);
 		break;
-	case STATE::PLAYING: 
+	case STATE::PLAYING:
 		mMain_menu->set_enabled(false);
 		break;
-	default: ;
+	default:;
 	}
 }

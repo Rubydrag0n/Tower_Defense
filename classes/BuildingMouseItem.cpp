@@ -25,59 +25,56 @@ void BuildingMouseItem::render()
 
 void BuildingMouseItem::on_click(const int mouse_x, const int mouse_y)
 {
-	if (mouse_x < 1280)
-	{
-		SDL_Point p;
-		const auto grid_offset_x = mouse_x % TILE_WIDTH;
-		const auto grid_offset_y = mouse_y % TILE_HEIGHT;
-		p.x = mouse_x - grid_offset_x;
-		p.y = mouse_y - grid_offset_y;
-		const auto tile_x = mouse_x / TILE_WIDTH;
-		const auto tile_y = mouse_y / TILE_HEIGHT;
-		const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
+	SDL_Point p;
+	const auto grid_offset_x = mouse_x % TILE_WIDTH;
+	const auto grid_offset_y = mouse_y % TILE_HEIGHT;
+	p.x = mouse_x - grid_offset_x;
+	p.y = mouse_y - grid_offset_y;
+	const auto tile_x = mouse_x / TILE_WIDTH;
+	const auto tile_y = mouse_y / TILE_HEIGHT;
+	const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
 
-		int x_size = gConfig_file->value_or_zero(mName_of_object + "/stats", "size_x");
-		int y_size = gConfig_file->value_or_zero(mName_of_object + "/stats", "size_y");
-		if (x_size <= 0) x_size = 1;
-		if (y_size <= 0) y_size = 1;
+	int x_size = gConfig_file->value_or_zero(mName_of_object + "/stats", "size_x");
+	int y_size = gConfig_file->value_or_zero(mName_of_object + "/stats", "size_y");
+	if (x_size <= 0) x_size = 1;
+	if (y_size <= 0) y_size = 1;
 
-		auto can_build = true;
+	auto can_build = true;
 
-		for (auto x_i = 0; x_i < x_size; x_i++) {
-			for (auto y_i = 0; y_i < y_size; y_i++)
+	for (auto x_i = 0; x_i < x_size; x_i++) {
+		for (auto y_i = 0; y_i < y_size; y_i++)
+		{
+			if (tile_x + x_i >= MATRIX_WIDTH || tile_y + y_i >= MATRIX_HEIGHT)
 			{
-				if (tile_x + x_i >= MATRIX_WIDTH || tile_y + y_i >= MATRIX_HEIGHT)
-				{
-					can_build = false;
-					break;
-				}
-				if (mLevel->get_map_matrix(tile_x + x_i, tile_y + y_i) != mTile_to_build_on ||
-					mLevel->get_building_matrix(tile_x + x_i, tile_y + y_i) != nullptr) {
-					can_build = false;
-					break;
-				}
+				can_build = false;
+				break;
+			}
+			if (mLevel->get_map_matrix(tile_x + x_i, tile_y + y_i) != mTile_to_build_on ||
+				mLevel->get_building_matrix(tile_x + x_i, tile_y + y_i) != nullptr) {
+				can_build = false;
+				break;
 			}
 		}
+	}
 
-		if (can_build)
+	if (can_build)
+	{
+		//don't combine these with && since we only want to sub resources when we can actually build
+		if (mLevel->get_resources()->sub(&mConstruction_costs))
 		{
-			//don't combine these with && since we only want to sub resources when we can actually build
-			if (mLevel->get_resources()->sub(&mConstruction_costs))
-			{
-				if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "statictargettower") new StaticTargetTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "onhittower") new OnHitTower(mName_of_object, p, mLevel, LAYERS::BUILDINGS, LAYERS::BUILDINGS);
-				if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
-				if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
-				if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
-			}
+			if (kind_of_object == "homingtower") new HomingTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
+			if (kind_of_object == "statictargettower") new StaticTargetTower(this->mName_of_object, p, this->mLevel, BUILDINGS, BUILDINGS);
+			if (kind_of_object == "onhittower") new OnHitTower(mName_of_object, p, mLevel, LAYERS::BUILDINGS, LAYERS::BUILDINGS);
+			if (kind_of_object == "industrialbuilding") new IndustrialBuilding(this->mName_of_object, p, mLevel, LAYERS::BUILDINGS, BUILDINGS);
+			if (kind_of_object == "warehouse") new Warehouse(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
+			if (kind_of_object == "path") new Path(this->mName_of_object, p, mLevel, BUILDINGS, BUILDINGS);
 		}
 	}
 }
 
 void BuildingMouseItem::on_mouse_over(const int mouse_x, const int mouse_y)
 {
-	if (mouse_x < 1280 && this->get_state() == MOUSE_DOWN_LEFT)
+	if (this->get_state() == MOUSE_DOWN_LEFT)
 	{
 		SDL_Point p;
 		const auto grid_offset_x = mouse_x % TILE_WIDTH;
