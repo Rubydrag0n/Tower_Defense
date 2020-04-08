@@ -40,13 +40,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -69,9 +69,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;C:\Users\Anton\Source\Repos\Tower_Defense\headers;C:\vs_dev_lib\SDL2-2.0.8\include;$(IncludePath);E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include</IncludePath>
-    <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\classes;C:\vs_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\vs_dev_lib\SDL2-2.0.8\lib\x86;C:\vs_dev_lib\SDL_Config-1.2\bin;$(LibraryPath)</LibraryPath>
-    <TargetExt>.lib</TargetExt>
+    <IncludePath>E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;C:\Users\Anton\Source\Repos\Tower_Defense\headers;C:\vs_dev_lib\SDL2-2.0.8\include;$(IncludePath);E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include;C:\vs_dev_lib\protobuf\include</IncludePath>
+    <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\classes;C:\vs_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\vs_dev_lib\SDL2-2.0.8\lib\x86;C:\vs_dev_lib\SDL_Config-1.2\bin;C:\vs_dev_lib\protobuf\lib;$(LibraryPath)</LibraryPath>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2-2.0.8\include;C:\Users\Anton\Source\Repos\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
@@ -82,7 +82,7 @@
     <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2-2.0.8\include;C:\Users\Anton\Source\Repos\Tower_Defense\headers;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2-2.0.5\include;$(IncludePath);E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers</IncludePath>
+    <IncludePath>E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\include;E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\include;C:\vs_dev_lib\SDL2_ttf-2.0.14\include;C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\vs_dev_lib\SDL2-2.0.8\include;C:\Users\Anton\Source\Repos\Tower_Defense\headers;F:\Programmieren\C++\Spiele\Tower Defense\Code\Tower_Defense\headers;F:\Programmieren\SDL2\SDL2-2.0.5\include;$(IncludePath);E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\include;E:\Informatik\Programmieren\C++\Spiele\Tower Defense\Tower_Defense\headers;C:\vs_dev_lib\protobuf\lib</IncludePath>
     <LibraryPath>E:\Informatik\Programmieren\SDL2\SDL2-2.0.5\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_ttf-2.0.14\lib\x86;E:\Informatik\Programmieren\SDL2\SDL2_image-2.0.1\lib\x86;F:\Programmieren\SDL2\SDL2-2.0.5\lib\x86;C:\vs_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\vs_dev_lib\SDL2-2.0.8\lib\x86;$(LibraryPath)</LibraryPath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -94,10 +94,11 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <AdditionalOptions>SDL_Config.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -129,7 +130,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -211,6 +212,7 @@
     <ClCompile Include="classes\Window.cpp" />
     <ClCompile Include="classes\WindowButton.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="proto\map.pb.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\OnHitShot.h" />

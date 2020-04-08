@@ -74,10 +74,12 @@ bool init_graphics()
 			printf("Warning: Linear texture filtering not enabled!");
 		}
 
-		const auto screen_width = gConfig_file->value("video", "screen_width");
-		const auto screen_height = gConfig_file->value("video", "screen_height");
+		const std::string video_section = "video";
+		
+		const auto screen_width = gConfig_file->value(video_section, "screen_width");
+		const auto screen_height = gConfig_file->value(video_section, "screen_height");
 
-		const std::string window_flags = gConfig_file->value("video", "window_mode");
+		const std::string window_flags = gConfig_file->value(video_section, "window_mode");
 
 		Uint32 flags;
 		if (window_flags == "fullscreen") flags = SDL_WINDOW_FULLSCREEN;
@@ -99,8 +101,13 @@ bool init_graphics()
 		{
 			//Create renderer for window
 			//SDL_RENDERER_PRESENTVSYNC locks frame rate to the monitors' frame rate
-
-			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+			uint32_t flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
+			const std::string vsync_flag = gConfig_file->value(video_section, "vsync");
+			if (vsync_flag == "true")
+			{
+				flags |= SDL_RENDERER_PRESENTVSYNC;
+			}
+			gRenderer = SDL_CreateRenderer(gWindow, -1, flags);
 			if (gRenderer == nullptr)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
