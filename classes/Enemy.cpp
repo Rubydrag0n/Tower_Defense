@@ -21,7 +21,10 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level, const
 	offset.x = (rand() % 31) - 15;
 	offset.y = (rand() % 31) - 15;
 
-	for (const auto& checkpoint : level->get_map()->get_monster_path(way).checkpoints())
+	Map* map = level->get_map();
+	auto monster_path = map->get_monster_path(way);
+	
+	for (const auto& checkpoint : monster_path.checkpoints())
 	{
 		mCheckpoints.push_back(SDL_Point{ checkpoint.x() + offset.x, checkpoint.y() + offset.y });
 	}
