@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 #include "MenuItem.h"
 #include "Resources.h"
 
@@ -12,6 +14,8 @@ public:
 
 	void on_click(int mouse_x, int mouse_y) override;
 
+	std::shared_ptr<Window> create_window();
+	
 	Resources get_construction_costs() const;
 
 private:

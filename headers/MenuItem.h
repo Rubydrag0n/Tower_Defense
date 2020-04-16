@@ -27,6 +27,4 @@ protected:
 	LTexture* mSprite;
 	std::string mName_of_object; // for example the tower name
 	Level* mLevel;
-	
-	Window* mMenu_item_window;
 };

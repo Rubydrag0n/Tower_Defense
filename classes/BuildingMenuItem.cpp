@@ -5,10 +5,31 @@
 #include "Menu.h"
 #include <strstream>
 
-BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *level, const SDL_Point coords, LAYERS click_layer, LAYERS render_layer) : MenuItem(name_of_object, level, coords, click_layer, render_layer)
+BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *level, const SDL_Point coords, LAYERS click_layer, LAYERS render_layer)
+	: MenuItem(name_of_object, level, coords, click_layer, render_layer)
 {
+}
+
+BuildingMenuItem::~BuildingMenuItem() = default;
+
+void BuildingMenuItem::render()
+{
+	MenuItem::render();
+}
+
+void BuildingMenuItem::on_click(int mouse_x, int mouse_y)
+{
+//	Building::get_default_stats(mName_of_object);
+	gMouse_handler->set_item_on_mouse(new BuildingMouseItem(mName_of_object, mSprite, mLevel, mConstruction_costs, LAYERS::OVERLAY));
+	mLevel->get_menu()->set_menu_item_window(mMenu_item_window);
+}
+
+std::shared_ptr<Window> BuildingMenuItem::create_window()
+{
+	std::shared_ptr<Window> menu_item_window;
+	
 	//set the construction costs of the building
-	const auto building_stats_section = name_of_object + "/stats";
+	const auto building_stats_section = mName_of_object + "/stats";
 	mConstruction_costs.set_resources(gConfig_file->value_or_zero(building_stats_section, "goldcosts"),
 		gConfig_file->value_or_zero(building_stats_section, "woodcosts"),
 		gConfig_file->value_or_zero(building_stats_section, "stonecosts"),
@@ -34,57 +55,50 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 		gConfig_file->value_or_zero(building_stats_section, "energyMain"),
 		gConfig_file->value_or_zero(building_stats_section, "waterMain"),
 		gConfig_file->value_or_zero(building_stats_section, "foodMain"));
-
+	
 	const std::string kind_of_object = gConfig_file->value(mName_of_object + "/menuitem", "kind_of_object");
 	SDL_Color text_color = { 0, 0, 0 ,0 };
-	SDL_Rect rect;
-	rect.x = 1280;
-	rect.y = 364;
-	rect.w = 400;
-	rect.h = 220;
-	mMenu_item_window = new Window(rect, WINDOWS, WINDOWS);
-	mMenu_item_window->set_rendering_enabled(false);
-	mMenu_item_window->disable();
+	SDL_Rect rect{ 1280, 364, 400, 220 };
+	menu_item_window = std::make_shared<Window>(rect, WINDOWS, WINDOWS);
 	rect.x += 20;
 	rect.y += 20;
 	rect.w = 0;//no scaling on text
 	rect.h = 0;
 
-	if(kind_of_object == "path")
+	if (kind_of_object == "path")
 	{
 		auto speed_multiplier = gConfig_file->value(building_stats_section, "speed_multiplier");
-		auto speed_multiplier_name = new Text("Speed Multi", rect, WINDOWCONTENT, text_color, mMenu_item_window);
-		mMenu_item_window->add_text_to_window(speed_multiplier_name);
-		auto speed_multiplier_value = new Text(std::to_string(speed_multiplier), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+		auto speed_multiplier_name = new Text("Speed Multi", rect, WINDOWCONTENT, text_color, menu_item_window);
+		menu_item_window->add_text_to_window(speed_multiplier_name);
+		auto speed_multiplier_value = new Text(std::to_string(speed_multiplier), rect, WINDOWCONTENT, text_color, menu_item_window);
 		speed_multiplier_value->add_x_dim(120);
-		mMenu_item_window->add_text_to_window(speed_multiplier_value);
+		menu_item_window->add_text_to_window(speed_multiplier_value);
 	}
 	else
 	{
-		auto name_of_object_text = new Text(name_of_object, rect, WINDOWCONTENT, text_color, mMenu_item_window);
-		mMenu_item_window->add_text_to_window(name_of_object_text);
+		auto name_of_object_text = new Text(mName_of_object, rect, WINDOWCONTENT, text_color, menu_item_window);
+		menu_item_window->add_text_to_window(name_of_object_text);
 		rect.y += 20;
-		auto headline = new Text("       MaxStorage   Mainten", rect, WINDOWCONTENT, text_color, mMenu_item_window);
-		mMenu_item_window->add_text_to_window(headline);
-		auto storage_values = new Text*[RESOURCES_TOTAL];
-		auto maintenance_values = new Text*[RESOURCES_TOTAL];
+		auto headline = new Text("       MaxStorage   Mainten", rect, WINDOWCONTENT, text_color, menu_item_window);
+		menu_item_window->add_text_to_window(headline);
+		auto storage_values = new Text * [RESOURCES_TOTAL];
+		auto maintenance_values = new Text * [RESOURCES_TOTAL];
 		for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 		{
 			rect.y += 20;
-			storage_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(storage_limit->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+			storage_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(storage_limit->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, menu_item_window);
 			storage_values[i]->add_x_dim(60);
-			mMenu_item_window->add_text_to_window(storage_values[i]);
-			maintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(maintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+			menu_item_window->add_text_to_window(storage_values[i]);
+			maintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(maintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, menu_item_window);
 			maintenance_values[i]->add_x_dim(130);
-			mMenu_item_window->add_text_to_window(maintenance_values[i]);
-			auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(resource_names);
+			menu_item_window->add_text_to_window(maintenance_values[i]);
+			auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(resource_names);
 		}
-		rect.x = mMenu_item_window->get_dim().x + 220;
-		rect.y = mMenu_item_window->get_dim().y + 40;
+		rect.x = menu_item_window->get_dim().x + 220;
+		rect.y = menu_item_window->get_dim().y + 40;
 		rect.w = 0;	//setting these to 0 will not scale anything
 		rect.h = 0;
-
 
 		if (kind_of_object == "onhittower" || kind_of_object == "aoetower" || kind_of_object == "statictargettower")
 		{
@@ -97,45 +111,45 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 			auto range = gConfig_file->value(building_stats_section, "range");
 			auto attack_speed = gConfig_file->value(building_stats_section, "attackspeed");
 
-			auto dmg_text = new Text("Dmg: ", rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(dmg_text);
+			auto dmg_text = new Text("Dmg: ", rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(dmg_text);
 			rect.y += 30;
-			auto as_text = new Text("AS: ", rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(as_text);
+			auto as_text = new Text("AS: ", rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(as_text);
 			rect.y += 30;
-			auto range_text = new Text("Range: ", rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(range_text);
+			auto range_text = new Text("Range: ", rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(range_text);
 			rect.y += 30;
-			auto damage_distribution_headline = new Text("Damage dist: ", rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(damage_distribution_headline);
+			auto damage_distribution_headline = new Text("Damage dist: ", rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(damage_distribution_headline);
 			rect.y += 30;
 			auto damage_distribution_text = new Text("P: " + Text::remove_trailing_zeros(std::to_string(damage->get_phys_dmg()))
 				+ " M: " + Text::remove_trailing_zeros(std::to_string(int(damage->get_magic_dmg())))
 				+ " F: " + Text::remove_trailing_zeros(std::to_string(damage->get_fire_dmg()))
 				+ " W: " + Text::remove_trailing_zeros(std::to_string(damage->get_water_dmg()))
-				+ " E: " + Text::remove_trailing_zeros(std::to_string(damage->get_elec_dmg())), rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(damage_distribution_text);
-			rect.x = mMenu_item_window->get_dim().x + 280;
-			rect.y = mMenu_item_window->get_dim().y + 40;
-			auto dmg_value = new Text(Text::remove_trailing_zeros(std::to_string(damage->get_dmg_sum())), rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(dmg_value);
+				+ " E: " + Text::remove_trailing_zeros(std::to_string(damage->get_elec_dmg())), rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(damage_distribution_text);
+			rect.x = menu_item_window->get_dim().x + 280;
+			rect.y = menu_item_window->get_dim().y + 40;
+			auto dmg_value = new Text(Text::remove_trailing_zeros(std::to_string(damage->get_dmg_sum())), rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(dmg_value);
 			rect.y += 30;
-			auto as_value = new Text(Text::remove_trailing_zeros(std::to_string(attack_speed)), rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(as_value);
+			auto as_value = new Text(Text::remove_trailing_zeros(std::to_string(attack_speed)), rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(as_value);
 			rect.y += 30;
-			auto range_value = new Text(Text::remove_trailing_zeros(std::to_string(range)), rect, WINDOWS, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(range_value);
+			auto range_value = new Text(Text::remove_trailing_zeros(std::to_string(range)), rect, WINDOWS, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(range_value);
 			delete damage;
-			if(kind_of_object == "aoetower")
+			if (kind_of_object == "aoetower")
 			{
 				auto explosive_radius = gConfig_file->value(building_stats_section, "explosiveradius");
-				rect.x = mMenu_item_window->get_dim().x + 220;
-				rect.y = mMenu_item_window->get_dim().y + 160;
-				auto exlosive_radius_text = new Text("Explosive Radius: ", rect, WINDOWCONTENT, text_color, mMenu_item_window);
-				mMenu_item_window->add_text_to_window(exlosive_radius_text);
-				auto explosive_radius_value = new Text(Text::remove_trailing_zeros(std::to_string(explosive_radius)), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+				rect.x = menu_item_window->get_dim().x + 220;
+				rect.y = menu_item_window->get_dim().y + 160;
+				auto exlosive_radius_text = new Text("Explosive Radius: ", rect, WINDOWCONTENT, text_color, menu_item_window);
+				menu_item_window->add_text_to_window(exlosive_radius_text);
+				auto explosive_radius_value = new Text(Text::remove_trailing_zeros(std::to_string(explosive_radius)), rect, WINDOWCONTENT, text_color, menu_item_window);
 				explosive_radius_value->add_x_dim(130);
-				mMenu_item_window->add_text_to_window(explosive_radius_value);
+				menu_item_window->add_text_to_window(explosive_radius_value);
 			}
 		}
 		else if (kind_of_object == "industrialbuilding")
@@ -148,37 +162,23 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 				gConfig_file->value_or_zero(building_stats_section, "energyproduction"),
 				gConfig_file->value_or_zero(building_stats_section, "waterproduction"),
 				gConfig_file->value_or_zero(building_stats_section, "foodproduction"));
-			headline = new Text("Production", rect, WINDOWCONTENT, text_color, mMenu_item_window);
-			mMenu_item_window->add_text_to_window(headline);
-			auto production_values = new Text*[RESOURCES_TOTAL];
+			headline = new Text("Production", rect, WINDOWCONTENT, text_color, menu_item_window);
+			menu_item_window->add_text_to_window(headline);
+			auto production_values = new Text * [RESOURCES_TOTAL];
 			for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 			{
 				rect.y += 20;
-				auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mMenu_item_window);
-				mMenu_item_window->add_text_to_window(resource_names);
-				production_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(produce->get_display_resources().get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+				auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, menu_item_window);
+				menu_item_window->add_text_to_window(resource_names);
+				production_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(produce->get_display_resources().get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, menu_item_window);
 				production_values[i]->add_x_dim(60);
-				mMenu_item_window->add_text_to_window(production_values[i]);
+				menu_item_window->add_text_to_window(production_values[i]);
 			}
 			delete produce;
 		}
 		delete storage_limit;
 		delete maintenance;
 	}
-}
-
-BuildingMenuItem::~BuildingMenuItem() = default;
-
-void BuildingMenuItem::render()
-{
-	MenuItem::render();
-}
-
-void BuildingMenuItem::on_click(int mouse_x, int mouse_y)
-{
-//	Building::get_default_stats(mName_of_object);
-	gMouse_handler->set_item_on_mouse(new BuildingMouseItem(mName_of_object, mSprite, mLevel, mConstruction_costs, LAYERS::OVERLAY));
-	mLevel->get_menu()->set_menu_item_window(mMenu_item_window);
 }
 
 Resources BuildingMenuItem::get_construction_costs() const

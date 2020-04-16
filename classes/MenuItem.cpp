@@ -13,13 +13,10 @@ MenuItem::MenuItem(const std::string& name_of_object, Level *level, const SDL_Po
 	mClickable_space.y = mCoords.y;
 	mClickable_space.w = mSprite->get_width();
 	mClickable_space.h = mSprite->get_height();
-
-	mMenu_item_window = nullptr;
 }
 
 MenuItem::~MenuItem()
 {
-	delete mMenu_item_window;
 }
 
 void MenuItem::render()
