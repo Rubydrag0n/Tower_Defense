@@ -26,18 +26,6 @@ LevelSelectMenu::LevelSelectMenu(Game* game) : MainMenuTab(game)
 	dim.x = first_button_x_location;
 	dim.y = first_button_y_location;
 
-	/*for(auto i = 1; gConfig_file->value_exists("level" + std::to_string(i), "exists"); ++i)
-	{
-		auto new_level_button = new Button("play", dim, this, OVERLAY, OVERLAY, i);
-		mButtons.push_back(new_level_button);
-		dim.x += distance_between_buttons_x;
-		if (dim.x > LOGICAL_SCREEN_WIDTH)
-		{
-			dim.x = first_button_x_location;
-			dim.y += distance_between_buttons_y;
-		}
-	}*/
-
 	auto i = 0;
 	for (const auto& p : std::filesystem::directory_iterator("level"))
 	{
@@ -55,10 +43,10 @@ LevelSelectMenu::LevelSelectMenu(Game* game) : MainMenuTab(game)
 
 		if (status.ok())
 		{
-			auto new_level_button = new Button("play", dim, this, OVERLAY, OVERLAY, ++i);
+			auto new_level_button = new Button("play", dim, this, OVERLAY, OVERLAY, LEVEL+i);
 			mButtons.push_back(new_level_button);
 			dim.x += distance_between_buttons_x;
-			if (dim.x > LOGICAL_SCREEN_WIDTH)
+			if (dim.x+dim.w > LOGICAL_SCREEN_WIDTH)
 			{
 				dim.x = first_button_x_location;
 				dim.y += distance_between_buttons_y;
@@ -67,13 +55,29 @@ LevelSelectMenu::LevelSelectMenu(Game* game) : MainMenuTab(game)
 		else {
 			std::cerr << "Couldn't load map at " << p.path() << std::endl;
 		}
+		++i;
 	}
+	dim.x = LOGICAL_SCREEN_WIDTH - dim.w - 100;
+	dim.y = LOGICAL_SCREEN_HEIGHT - dim.h - 100;
+	auto back_button = new Button("quit", dim, this, OVERLAY, OVERLAY, BACK);
+	mButtons.push_back(back_button);
 	this->set_enabled(false);
 }
 
-void LevelSelectMenu::on_button_press(const int button_id, Button* button)
+void LevelSelectMenu::on_button_press(int button_id, Button* button)
 {
 	this->set_enabled(false);
-	mGame->load_level(button_id);
-	mGame->set_state(Game::STATE::PLAYING);
+
+	if(button_id == BACK)
+	{
+		this->set_enabled(false);
+		mGame->set_state(Game::STATE::MAIN_MENU);
+		mGame->get_main_menu()->set_enabled(true);
+	}
+	else if(button_id >= LEVEL)
+	{
+		this->set_enabled(false);
+		mGame->load_level(button_id - LEVEL + 1);
+		mGame->set_state(Game::STATE::PLAYING);
+	}
 }

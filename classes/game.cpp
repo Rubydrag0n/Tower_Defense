@@ -83,7 +83,6 @@ void Game::start_game()
 		case STATE::MAIN_MENU:
 			break;
 		case STATE::LEVEL_SELECT:
-			mLevel_select_menu->set_enabled(true);
 			break;
 		case STATE::PLAYING:
 			mCurrent_level->on_tick();
@@ -160,3 +159,14 @@ void Game::set_state(const Game::STATE state)
 	default:;
 	}
 }
+
+MainMenu* Game::get_main_menu()
+{
+	return mMain_menu;
+}
+
+LevelSelectMenu* Game::get_level_select_menu()
+{
+	return mLevel_select_menu;
+}
+

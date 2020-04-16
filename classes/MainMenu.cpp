@@ -50,6 +50,7 @@ void MainMenu::on_button_press(int button_id, Button* button)
 		this->set_enabled(false);
 		
 		mGame->set_state(Game::STATE::LEVEL_SELECT);
+		mGame->get_level_select_menu()->set_enabled(true);
 
 		break;
 

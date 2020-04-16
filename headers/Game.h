@@ -24,8 +24,10 @@ public:
 		EXITING
 	};
 
-public:
 	void set_state(Game::STATE state);
+
+	MainMenu* get_main_menu();
+	LevelSelectMenu* get_level_select_menu();
 
 private:
 
