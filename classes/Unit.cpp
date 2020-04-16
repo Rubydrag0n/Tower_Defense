@@ -7,10 +7,17 @@
 #include "Window.h"
 
 
-Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : Entity(render_layer), Clickable(render_layer), mLevel(level), mCenter(), mCurrent_clip(), mSprite_dimensions()
+Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer)
+	: Entity(render_layer)
+	, Clickable(render_layer)
+	, mName(unit_name)
+	, mLevel(level)
+	, mCenter()
+	, mCurrent_clip()
+	, mSprite_dimensions()
 {
-	const auto sprite_section = unit_name + "/sprite";
-	const auto stats_section = unit_name + "/stats";
+	const auto sprite_section = mName + "/sprite";
+	const auto stats_section = mName + "/stats";
 	mHitbox_offset.x = gConfig_file->value_or_zero(sprite_section, "hitbox_offset_x");
 	mHitbox_offset.y = gConfig_file->value_or_zero(sprite_section, "hitbox_offset_y");
 	mHitbox_radius = gConfig_file->value_or_zero(sprite_section, "hitbox_radius");
@@ -76,55 +83,11 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer) : En
 	mClickable_space.y = int(mPosition.y);
 	mClickable_space.w = gConfig_file->value(sprite_section, "clip_width");
 	mClickable_space.h = gConfig_file->value(sprite_section, "clip_height");
-
-	SDL_Rect rect;
-	rect.x = 1530;
-	rect.y = 804;
-	rect.w = 200;
-	rect.h = 220;
-
-	mUnit_window = new Window(rect, WINDOWS, WINDOWS);
-	mUnit_window->set_rendering_enabled(false);
-	mUnit_window->disable();
-	mDefense_values = new Text*[RESISTANCES_TOTAL];
-	SDL_Color text_color = { 0,0,0,0 };
-
-	SDL_Rect dest;
-	dest.x = mUnit_window->get_dim().x + 20;
-	dest.y = mUnit_window->get_dim().y + 20;
-	dest.w = 0;
-	dest.h = 0;
-	auto unit_name_text = new Text(unit_name, dest, WINDOWCONTENT, text_color, mUnit_window);
-	unit_name_text->add_x_dim(5);
-	mUnit_window->add_text_to_window(unit_name_text);
-	dest.y += 40;
-	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, mUnit_window);
-	mUnit_window->add_text_to_window(health_name);
-	mHealth_value = new Text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
-	mHealth_value->add_x_dim(100);
-	mUnit_window->add_text_to_window(mHealth_value);
-	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
-	{
-		dest.y += 20;
-		auto defense_names = new Text(Defense::get_name(RESISTANCES(i)), dest, WINDOWCONTENT, text_color, mUnit_window);
-		mUnit_window->add_text_to_window(defense_names);
-		mDefense_values[i] = new Text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))), dest, WINDOWCONTENT, text_color, mUnit_window);
-		mDefense_values[i]->add_x_dim(100);
-		mUnit_window->add_text_to_window(mDefense_values[i]);
-	}
-	dest.y += 20;
-	auto move_speed_name = new Text("Move Speed", dest, WINDOWCONTENT, text_color, mUnit_window);
-	mUnit_window->add_text_to_window(move_speed_name);
-	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, mUnit_window);
-	mMove_speed_value->add_x_dim(100);
-	mUnit_window->add_text_to_window(mMove_speed_value);
 }
 
 Unit::~Unit()
 {
 	delete mDefense;
-
-	delete mUnit_window;
 }
 
 
@@ -167,6 +130,53 @@ double Unit::get_rotation_angle() const
 	}
 }
 
+void Unit::create_window()
+{
+	delete mUnit_window;
+	
+	SDL_Rect rect;
+	rect.x = 1530;
+	rect.y = 804;
+	rect.w = 200;
+	rect.h = 220;
+
+	mUnit_window = new Window(rect, WINDOWS, WINDOWS);
+	mUnit_window->set_rendering_enabled(false);
+	mUnit_window->disable();
+	mDefense_values = new Text * [RESISTANCES_TOTAL];
+	SDL_Color text_color = { 0,0,0,0 };
+
+	SDL_Rect dest;
+	dest.x = mUnit_window->get_dim().x + 20;
+	dest.y = mUnit_window->get_dim().y + 20;
+	dest.w = 0;
+	dest.h = 0;
+	auto unit_name_text = new Text(mName, dest, WINDOWCONTENT, text_color, mUnit_window);
+	unit_name_text->add_x_dim(5);
+	mUnit_window->add_text_to_window(unit_name_text);
+	dest.y += 40;
+	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, mUnit_window);
+	mUnit_window->add_text_to_window(health_name);
+	mHealth_value = new Text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
+	mHealth_value->add_x_dim(100);
+	mUnit_window->add_text_to_window(mHealth_value);
+	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
+	{
+		dest.y += 20;
+		auto defense_names = new Text(Defense::get_name(RESISTANCES(i)), dest, WINDOWCONTENT, text_color, mUnit_window);
+		mUnit_window->add_text_to_window(defense_names);
+		mDefense_values[i] = new Text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))), dest, WINDOWCONTENT, text_color, mUnit_window);
+		mDefense_values[i]->add_x_dim(100);
+		mUnit_window->add_text_to_window(mDefense_values[i]);
+	}
+	dest.y += 20;
+	auto move_speed_name = new Text("Move Speed", dest, WINDOWCONTENT, text_color, mUnit_window);
+	mUnit_window->add_text_to_window(move_speed_name);
+	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, mUnit_window);
+	mMove_speed_value->add_x_dim(100);
+	mUnit_window->add_text_to_window(mMove_speed_value);
+}
+
 void Unit::update_animation_clip()
 {
 	mAnimation_tick++;
@@ -203,8 +213,3 @@ int Unit::get_hitbox_radius() const
 {
 	return mHitbox_radius;
 }
-
-
-
-
-

@@ -9,7 +9,6 @@
 #include "Clickable.h"
 #include "Window.h"
 
-
 class Level;
 
 /*
@@ -34,9 +33,12 @@ protected:
 	void update_animation_clip();
 	double get_rotation_angle() const;
 
+	void create_window();
 
 	void on_click(int mouse_x, int mouse_y) override;
 
+	std::string mName;
+	
 	Defense* mDefense;
 	double mMove_speed;
 	
@@ -56,7 +58,6 @@ protected:
 	SDL_Rect mSprite_dimensions;
 	Level* mLevel;
 
-	Window* mUnit_window;
 	Text** mDefense_values;
 	Text* mHealth_value;
 	Text* mMove_speed_value;
