@@ -2,13 +2,17 @@
 #include "Menu.h"
 #include "Production.h"
 
-Warehouse::Warehouse(std::string logistics_building_name, SDL_Point coords, Level *level, LAYERS click_layer, LAYERS render_layer) : 
-	Building{std::move(logistics_building_name), coords, level, click_layer, render_layer}
+Warehouse::Warehouse(std::string logistics_building_name, const SDL_Point coords, Level *level, const LAYERS click_layer, const LAYERS render_layer)
+	: Building{std::move(logistics_building_name), coords, level, click_layer, render_layer}
 {
 	//since this is a warehouse it needs to "consume" everything so it requests everything from producing buildings
 	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
 		(*mProducing)[RESOURCETYPES(i)] = CONSUMING;
 	}
+	
+	//Warehouse Window is always shown
+	Building::create_window();
+	mBuilding_window->set_rendering_enabled(true);
 }
 
 void Warehouse::on_tick()
@@ -20,8 +24,6 @@ void Warehouse::on_tick()
 void Warehouse::render()
 {
 	Building::render();
-	//Warehouse Window is always shown
-	mBuilding_window->set_rendering_enabled(true);
 }
 
 BUILDINGTYPE Warehouse::get_building_type()

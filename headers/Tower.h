@@ -50,6 +50,8 @@ public:
 
 	Damage get_damage() const;
 
+	std::shared_ptr<Window> create_window() override;
+	
 	void update_building_window() override;
 	//if an upgradebutton is hovered this function is called and sets the strings with the stats for the upgrade, that are shown in the window
 	void set_stat_strings_for_upgrade_buttons(UpgradeButton* button) override;

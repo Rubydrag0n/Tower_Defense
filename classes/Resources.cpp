@@ -1,21 +1,36 @@
 #include "Resources.h"
 #include <algorithm>
 
-Resources::Resources() : mResources{ 0 }, mDisplay{ 0.0 }
+Resources::Resources()
+	: mResources{ 0 }
+	, mDisplay{ 0.0 }
 {
 	this->set_empty();
 	this->mLimit = nullptr;
 	this->set_display_zero();
 }
 
-Resources::Resources(const float gold, const float wood, const float stone, const float iron, const float energy, const float water, const float food) : mResources { 0 }, mDisplay{ 0.0 }
+Resources::Resources(const double gold, const double wood, const double stone, const double iron, const double energy, const double water, const double food)
+	: mResources { 0 }
+	, mDisplay{ 0.0 }
 {
 	this->set_resources(gold, wood, stone, iron, energy, water, food);
 	this->mLimit = nullptr;
 	this->set_display_zero();
 }
 
-Resources::Resources(Resources* resource, Resources* limit) : mResources{ 0 }, mDisplay{ 0.0 }
+Resources::Resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
+	: mResources{ 0 }
+	, mDisplay{ 0.0 }
+{
+	this->set_resources(double(gold), double(wood), double(stone), double(iron), double(energy), double(water), double(food));
+	this->mLimit = nullptr;
+	this->set_display_zero();
+}
+
+Resources::Resources(Resources* resource, Resources* limit)
+	: mResources{ 0 }
+	, mDisplay{ 0.0 }
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
 		this->set_resource(RESOURCETYPES(i), resource->get_resource(RESOURCETYPES(i)));
@@ -32,7 +47,7 @@ Resources::~Resources()
 	delete mLimit;
 }
 
-void Resources::set_resources(const float gold, const float wood, const float stone, const float iron, const float energy, const float water, const float food)
+void Resources::set_resources(const double gold, const double wood, const double stone, const double iron, const double energy, const double water, const double food)
 {
 	mResources[GOLD] = gold;
 	mResources[FOOD] = food;
@@ -43,17 +58,28 @@ void Resources::set_resources(const float gold, const float wood, const float st
 	mResources[ENERGY] = energy;
 }
 
-void Resources::set_resource(const RESOURCETYPES type, const float res)
+void Resources::set_resources(const int gold, const int wood, const int stone, const int iron, const int energy, const int water, const int food)
+{
+	mResources[GOLD] = double(gold);
+	mResources[FOOD] = double(food);
+	mResources[WOOD] = double(wood);
+	mResources[STONE] = double(stone);
+	mResources[IRON] = double(iron);
+	mResources[WATER] = double(water);
+	mResources[ENERGY] = double(energy);
+}
+
+void Resources::set_resource(const RESOURCETYPES type, const double res)
 {
 	this->mResources[type] = res;
 }
 
-float Resources::get_resource(const RESOURCETYPES type)
+double Resources::get_resource(const RESOURCETYPES type)
 {
 	return mResources[type];
 }
 
-float* Resources::get_resource_pointer(const RESOURCETYPES type)
+double* Resources::get_resource_pointer(const RESOURCETYPES type)
 {
 	return &mResources[type];
 }
@@ -75,7 +101,7 @@ bool Resources::is_empty()
 	return true;
 }
 
-void Resources::add(const RESOURCETYPES type, const float res)
+void Resources::add(const RESOURCETYPES type, const double res)
 {
 	if (mLimit != nullptr) {
 		if (res + mResources[type] > mLimit->get_resource(type)) {
@@ -86,7 +112,7 @@ void Resources::add(const RESOURCETYPES type, const float res)
 	mResources[type] += res;
 }
 
-bool Resources::sub(const RESOURCETYPES type, const float res)
+bool Resources::sub(const RESOURCETYPES type, const double res)
 {
 	if (mResources[type] - res < 0) {
 		return false;
@@ -127,7 +153,7 @@ void Resources::add(Resources *income)
 	}
 }
 
-Resources Resources::operator/(const float &d)
+Resources Resources::operator/(const double &d)
 {
 	Resources r;
 
@@ -137,7 +163,7 @@ Resources Resources::operator/(const float &d)
 	return r;
 }
 
-void Resources::set_limit(Resources* limit)
+void Resources::set_limit(const Resources& limit)
 {
 	delete mLimit;
 	this->mLimit = new Resources(limit);
@@ -147,7 +173,6 @@ Resources* Resources::get_limit() const
 {
 	return mLimit;
 }
-
 
 bool Resources::transfer(Resources *source)
 {
@@ -170,7 +195,7 @@ bool Resources::transfer(Resources *source)
 	return source->is_empty();
 }
 
-bool Resources::transfer(const RESOURCETYPES type, float *r)
+bool Resources::transfer(const RESOURCETYPES type, double *r)
 {
 	if (this->mLimit == nullptr)
 	{
@@ -195,8 +220,8 @@ Resources Resources::get_display_resources()
 	Resources res;
 
 	for (auto i = 0; i < RESOURCES_TOTAL; i++) {
-		this->mDisplay[i] += float(mResources[i] - mDisplay[i]) / 100.f;
-		if (mResources[i] - mDisplay[i] < 1.f) mDisplay[i] = float(mResources[i]);
+		this->mDisplay[i] += double(mResources[i] - mDisplay[i]) / 100.f;
+		if (mResources[i] - mDisplay[i] < 1.f) mDisplay[i] = double(mResources[i]);
 		res.set_resource(RESOURCETYPES(i), int(mDisplay[i]));
 	}
 	return res;

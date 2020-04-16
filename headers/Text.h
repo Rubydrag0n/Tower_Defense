@@ -7,28 +7,27 @@
 class Text : public Renderable
 {
 public:
-	Text(const std::string& text, SDL_Rect dim, LAYERS layer, SDL_Color text_color, Renderable* texture_to_render_on = nullptr);
+	Text(const std::string& text, SDL_Rect dim, LAYERS layer, SDL_Color text_color, bool rendering_enabled);
 	~Text();
-
-	void add_y_dim(int y);
-	void add_x_dim(int x);
-
+	
 	void set_text(const std::string& text);
 
 	void render() override;
 
+	LTexture* get_texture() const;
+
+	void set_position(int x, int y);
+	SDL_Rect& get_dimensions();
+	
 	static std::string remove_trailing_zeros(std::string s);
 
 private:
-	LTexture* mText_texture = new LTexture();
+	LTexture* mText_texture;
 
 	std::string mText;
 
-	SDL_Color mText_color{};
+	SDL_Color mText_color;
 
 	SDL_Rect mDim;
-
-	//if this obj is not rendered then the button is also not rendered (can be null)
-	Renderable* mTexture_to_render_on;
 };
 

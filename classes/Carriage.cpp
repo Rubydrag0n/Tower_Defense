@@ -33,7 +33,7 @@ Carriage::Carriage(const std::string& unit_name, Level* level, LAYERS render_lay
 			gConfig_file->value_or_zero(section, "watercapacity"),
 			gConfig_file->value_or_zero(section, "foodcapacity"));
 	
-	this->mCurrent_resources->set_limit(&limit);
+	this->mCurrent_resources->set_limit(limit);
 
 	update_transportation();
 }

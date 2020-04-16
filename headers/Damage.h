@@ -5,6 +5,7 @@ class Damage
 public:
 	Damage();
 	Damage(double phys, double magic, double fire, double water, double elec);
+	Damage(int phys, int magic, int fire, int water, int elec);
 
 	void add(double phys, double magic, double fire, double water, double elec);
 	//set and get all the different types of damage

@@ -1,4 +1,6 @@
 #include "Unit.h"
+
+#include <utility>
 #include "Textures.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
@@ -7,14 +9,17 @@
 #include "Window.h"
 
 
-Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer)
+Unit::Unit(std::string unit_name, Level* level, LAYERS render_layer)
 	: Entity(render_layer)
 	, Clickable(render_layer)
-	, mName(unit_name)
-	, mLevel(level)
+	, mName(std::move(unit_name))
 	, mCenter()
 	, mCurrent_clip()
 	, mSprite_dimensions()
+	, mLevel(level)
+	, mDefense_values(nullptr)
+	, mHealth_value(nullptr)
+	, mMove_speed_value(nullptr)
 {
 	const auto sprite_section = mName + "/sprite";
 	const auto stats_section = mName + "/stats";
@@ -50,7 +55,7 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer)
 
 	this->mCenter.x = gConfig_file->value(sprite_section, "rotation_center_x");
 	this->mCenter.y = gConfig_file->value(sprite_section, "rotation_center_y");
-	
+
 	// animation tick count is how many ticks it takes for one cycle of the animation to run through.
 	// each clip gets shown for tickcount_per_clip ticks
 	mAnimation_tick_count = mSprite_dimensions.w / clip_width * mSprite_dimensions.h / clip_height * mTickcount_per_clip;
@@ -65,15 +70,15 @@ Unit::Unit(const std::string& unit_name, Level* level, LAYERS render_layer)
 	mDefense->set_health(double(int(gConfig_file->value_or_zero(stats_section, "health"))));
 	mDefense->set_full_health(double(int(gConfig_file->value_or_zero(stats_section, "health"))));
 	mDefense->set_resistances(double(int(gConfig_file->value_or_zero(stats_section, "armor"))),
-						  double(int(gConfig_file->value_or_zero(stats_section, "magicres"))),
-						  double(int(gConfig_file->value_or_zero(stats_section, "fireres"))),
-						  double(int(gConfig_file->value_or_zero(stats_section, "waterres"))),
-						  double(int(gConfig_file->value_or_zero(stats_section, "elecres"))));
+		double(int(gConfig_file->value_or_zero(stats_section, "magicres"))),
+		double(int(gConfig_file->value_or_zero(stats_section, "fireres"))),
+		double(int(gConfig_file->value_or_zero(stats_section, "waterres"))),
+		double(int(gConfig_file->value_or_zero(stats_section, "elecres"))));
 	mDefense->set_immunities(bool(int(gConfig_file->value_or_zero(stats_section, "physimm"))),
-							bool(int(gConfig_file->value_or_zero(stats_section, "magicimm"))),
-							bool(int(gConfig_file->value_or_zero(stats_section, "fireimm"))),
-							bool(int(gConfig_file->value_or_zero(stats_section, "waterimm"))),
-							bool(int(gConfig_file->value_or_zero(stats_section, "elecimm"))));
+		bool(int(gConfig_file->value_or_zero(stats_section, "magicimm"))),
+		bool(int(gConfig_file->value_or_zero(stats_section, "fireimm"))),
+		bool(int(gConfig_file->value_or_zero(stats_section, "waterimm"))),
+		bool(int(gConfig_file->value_or_zero(stats_section, "elecimm"))));
 	//setting up the blending
 	mSprite->set_blend_mode(SDL_BLENDMODE_BLEND);
 
@@ -90,27 +95,23 @@ Unit::~Unit()
 	delete mDefense;
 }
 
-
 void Unit::render()
 {
-	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
-	{
-		mDefense_values[i]->set_text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))));
+	if (mHealth_value != nullptr) {
+		for (auto i = 0; i < RESISTANCES_TOTAL; i++)
+		{
+			mDefense_values[i]->set_text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))));
+		}
+		mMove_speed_value->set_text(std::to_string(int(mMove_speed)));
+		mHealth_value->set_text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())));
 	}
-	mMove_speed_value->set_text(std::to_string(int(mMove_speed)));
-	mHealth_value->set_text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())));
-	
+
 	mClickable_space.x = int(mPosition.x) - mCenter.x;
 	mClickable_space.y = int(mPosition.y) - mCenter.y;
 
 	update_animation_clip();
 
-	SDL_Rect dest;
-
-	dest.x = static_cast<int>(mPosition.x - mCenter.x);
-	dest.y = static_cast<int>(mPosition.y - mCenter.y);
-	dest.w = mCurrent_clip.w;
-	dest.h = mCurrent_clip.h;
+	SDL_Rect dest{ int(mPosition.x - mCenter.x), int(mPosition.y - mCenter.y),  mCurrent_clip.w, mCurrent_clip.h };
 	gLayer_handler->renderex_to_layer(this->mSprite, mRender_layer, &this->mCurrent_clip, &dest, this->get_rotation_angle(), &this->mCenter, SDL_FLIP_NONE);
 }
 
@@ -130,51 +131,41 @@ double Unit::get_rotation_angle() const
 	}
 }
 
-void Unit::create_window()
+std::shared_ptr<Window> Unit::create_window()
 {
-	delete mUnit_window;
-	
-	SDL_Rect rect;
-	rect.x = 1530;
-	rect.y = 804;
-	rect.w = 200;
-	rect.h = 220;
+	SDL_Rect rect{ 1530,804, 200, 220 };
 
-	mUnit_window = new Window(rect, WINDOWS, WINDOWS);
-	mUnit_window->set_rendering_enabled(false);
-	mUnit_window->disable();
+	auto window = std::make_shared<Window>(rect, WINDOWS, WINDOWS);
+
 	mDefense_values = new Text * [RESISTANCES_TOTAL];
-	SDL_Color text_color = { 0,0,0,0 };
+	const SDL_Color text_color{ 0,0,0,0 };
 
-	SDL_Rect dest;
-	dest.x = mUnit_window->get_dim().x + 20;
-	dest.y = mUnit_window->get_dim().y + 20;
-	dest.w = 0;
-	dest.h = 0;
-	auto unit_name_text = new Text(mName, dest, WINDOWCONTENT, text_color, mUnit_window);
-	unit_name_text->add_x_dim(5);
-	mUnit_window->add_text_to_window(unit_name_text);
+	SDL_Rect dest{ window->get_dim().x + 20,window->get_dim().y + 20, 0,0 };
+
+	dest.x += 5;
+	window->add_text_to_window(new Text(mName, dest, WINDOWCONTENT, text_color, false));
 	dest.y += 40;
-	auto health_name = new Text("Health", dest, WINDOWCONTENT, text_color, mUnit_window);
-	mUnit_window->add_text_to_window(health_name);
-	mHealth_value = new Text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, mUnit_window);
-	mHealth_value->add_x_dim(100);
-	mUnit_window->add_text_to_window(mHealth_value);
+	window->add_text_to_window(new Text("Health", dest, WINDOWCONTENT, text_color, false));
+	dest.x += 95;
+	mHealth_value = new Text(std::to_string(int(mDefense->get_health())) + "/" + std::to_string(int(mDefense->get_full_health())), dest, WINDOWCONTENT, text_color, false);
+	window->add_text_to_window(mHealth_value);
+	dest.x -= 100;
 	for (auto i = 0; i < RESISTANCES_TOTAL; i++)
 	{
 		dest.y += 20;
-		auto defense_names = new Text(Defense::get_name(RESISTANCES(i)), dest, WINDOWCONTENT, text_color, mUnit_window);
-		mUnit_window->add_text_to_window(defense_names);
-		mDefense_values[i] = new Text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))), dest, WINDOWCONTENT, text_color, mUnit_window);
-		mDefense_values[i]->add_x_dim(100);
-		mUnit_window->add_text_to_window(mDefense_values[i]);
+		window->add_text_to_window(new Text(Defense::get_name(RESISTANCES(i)), dest, WINDOWCONTENT, text_color, false));
+		dest.x += 100;
+		mDefense_values[i] = new Text(std::to_string(int(mDefense->get_resistance(RESISTANCES(i)))), dest, WINDOWCONTENT, text_color, false);
+		dest.x -= 100;
+		window->add_text_to_window(mDefense_values[i]);
 	}
 	dest.y += 20;
-	auto move_speed_name = new Text("Move Speed", dest, WINDOWCONTENT, text_color, mUnit_window);
-	mUnit_window->add_text_to_window(move_speed_name);
-	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, mUnit_window);
-	mMove_speed_value->add_x_dim(100);
-	mUnit_window->add_text_to_window(mMove_speed_value);
+	window->add_text_to_window(new Text("Move Speed", dest, WINDOWCONTENT, text_color, false));
+	dest.x += 100;
+	mMove_speed_value = new Text(std::to_string(int(mMove_speed)), dest, WINDOWCONTENT, text_color, false);
+	window->add_text_to_window(mMove_speed_value);
+
+	return window;
 }
 
 void Unit::update_animation_clip()
@@ -191,15 +182,15 @@ void Unit::update_animation_clip()
 
 void Unit::on_click(int mouse_x, int mouse_y)
 {
-	mLevel->get_menu()->set_unit_window(mUnit_window);
+	mLevel->get_menu()->set_unit_window(create_window());
 }
 
-Defense* Unit::get_defense()
+Defense* Unit::get_defense() const
 {
 	return mDefense;
 }
 
-double Unit::get_move_speed()
+double Unit::get_move_speed() const
 {
 	return mMove_speed;
 }

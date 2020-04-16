@@ -64,6 +64,8 @@ public:
 	//give window for building to the menu, so it can be shown there
 	void on_click(int mouse_x, int mouse_y) override;
 
+	virtual std::shared_ptr<Window> create_window();
+	
 	virtual void update_building_window();
 	void update_great_upgrades();
 	virtual void set_stat_strings_for_upgrade_buttons(UpgradeButton* button);
@@ -71,7 +73,7 @@ public:
 	void upgrade_building(UpgradeButton* button);//button must be from class UpgradeButton
 	void show_more(Button* button); //
 
-	bool is_destroyable();
+	bool is_destroyable() const;
 	void set_destroyable(bool destroyable);
 	
 protected:
@@ -102,7 +104,7 @@ protected:
 
 	Carriage* mCarriage;
 
-	Window* mBuilding_window;
+	std::shared_ptr<Window> mBuilding_window;
 	Text** mStorage_values;
 	Text** mMaintenance_values;
 	std::vector<BigUpgrade*> mBig_upgrades;

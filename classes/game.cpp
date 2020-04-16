@@ -19,7 +19,7 @@
 Game::Game()
 	: mState(STATE::MAIN_MENU)
 	, mMouse_position()
-	, mAverage_fps("FPS: 0.0", { 0, 0, 0, 0 }, OVERLAY, { 255, 0, 0 })
+	, mAverage_fps("FPS: 0.0", { 0, 0, 0, 0 }, OVERLAY, { 255, 0, 0 }, true)
 	, mVsync_enabled(false)
 {
 	mMain_menu = new MainMenu(this);

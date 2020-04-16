@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 #include <vector>
+#include <memory>
+
 #include "Defense.h"
 #include "LTexture.h"
 #include "Entity.h"
@@ -19,21 +21,21 @@ class Level;
 class Unit : public Entity, public Clickable
 {
 public:
-	explicit Unit(const std::string& unit_name, Level* level, LAYERS render_layer);
+	explicit Unit(std::string unit_name, Level* level, LAYERS render_layer);
 	~Unit();
 
 	void render() override;
 
 	Vector get_hit_box_offset() const;
 	int get_hitbox_radius() const;
-	Defense* get_defense();
-	double get_move_speed();
+	Defense* get_defense() const;
+	double get_move_speed() const;
 
 protected:
 	void update_animation_clip();
 	double get_rotation_angle() const;
 
-	void create_window();
+	std::shared_ptr<Window> create_window();
 
 	void on_click(int mouse_x, int mouse_y) override;
 

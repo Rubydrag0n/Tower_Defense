@@ -6,18 +6,20 @@ class Resources
 {
 public:
 	Resources();
-	Resources(float gold, float wood, float stone, float iron, float energy, float water, float food);
+	Resources(double gold, double wood, double stone, double iron, double energy, double water, double food);
+	Resources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 	explicit Resources(Resources* resource, Resources* limit = nullptr);
 
 	~Resources();
 
 	//set and get all the different values
-	void set_resources(float gold, float wood, float stone, float iron, float energy, float water, float food);
+	void set_resources(double gold, double wood, double stone, double iron, double energy, double water, double food);
+	void set_resources(int gold, int wood, int stone, int iron, int energy, int water, int food);
 	
 	//set and get individual resource
-	void set_resource(RESOURCETYPES type, float res);
-	float get_resource(RESOURCETYPES type);
-	float* get_resource_pointer(RESOURCETYPES type);
+	void set_resource(RESOURCETYPES type, double res);
+	double get_resource(RESOURCETYPES type);
+	double* get_resource_pointer(RESOURCETYPES type);
 
 	//sets all resources to 0
 	void set_empty();
@@ -27,8 +29,8 @@ public:
 	//add and sub individual resources, checking for bounds (underflow, overflow)
 	//on overflow resource is set to the limit
 	//on underflow nothing is done and false returned
-	void add(RESOURCETYPES type, float res);
-	bool sub(RESOURCETYPES type, float res);
+	void add(RESOURCETYPES type, double res);
+	bool sub(RESOURCETYPES type, double res);
 
 	//subtracts cost resources if possible, returns true on success
 	//cost is unchanged
@@ -40,9 +42,9 @@ public:
 	//adds resources, checking for limits
 	void add(Resources *income);
 
-	Resources operator/(const float &d);
+	Resources operator/(const double &d);
 	//sets new limit, current resources will not change
-	void set_limit(Resources* limit);
+	void set_limit(const Resources& limit);
 	Resources* get_limit() const;
 
 	//transfers all the resources it can into this object taking into account the limit
@@ -54,7 +56,7 @@ public:
 	//transfers one resource type
 	//returns true if the source is empty afterwards
 	//false otherwise
-	bool transfer(RESOURCETYPES type, float *r);
+	bool transfer(RESOURCETYPES type, double *r);
 
 	//returns a Resources object that is ticking behind the actual resources
 	//to make it nice to display
@@ -64,8 +66,8 @@ public:
 	static std::string get_name(RESOURCETYPES type);
 
 private:
-	float mResources[RESOURCES_TOTAL];
-	float mDisplay[RESOURCES_TOTAL];
+	double mResources[RESOURCES_TOTAL];
+	double mDisplay[RESOURCES_TOTAL];
 
 	void set_display_zero();
 

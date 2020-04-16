@@ -18,7 +18,7 @@ void OnHitTower::update_building_window()
 
 void OnHitTower::on_tick()
 {
-	update_building_window();
+	if (mBuilding_window != nullptr) update_building_window();
 	Tower::on_tick();
 }
 

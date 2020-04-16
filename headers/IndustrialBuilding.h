@@ -12,7 +12,8 @@ public:
 	void on_click(int mouse_x, int mouse_y) override;
 	void on_tick() override;
 	void update_building_window() override;
-
+	std::shared_ptr<Window> create_window() override;
+	
 private:
 	Text** mProduction_values;
 };

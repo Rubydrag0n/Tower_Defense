@@ -1,4 +1,5 @@
 #include <SDL.h>
+
 #include "Menu.h"
 #include "Tower.h"
 #include "ConfigFile.h"
@@ -30,77 +31,6 @@ Tower::Tower(const std::string& tower_name, const SDL_Point coords, Level *level
 	mRange_indicator_sprite = gTextures->get_texture(sprite_path);
 
 	mCarriage = new Carriage("Carriage", mLevel, LAYERS::ENEMIES, reinterpret_cast<Building*>(mLevel->get_main_building()), this);
-
-	//little upgrade buttons
-	SDL_Rect dest;
-	dest.x = mBuilding_window->get_dim().x + 400;
-	dest.y = mBuilding_window->get_dim().y + 140;
-	dest.w = 26;
-	dest.h = 26;
-	mUpgrade_damage_button = new UpgradeButton("testbutton", dest, this, mName, "Damage", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
-	dest.x += 56;
-	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", dest, this, mName, "Attackspeed", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
-	dest.x += 56;
-	mUpgrade_range_button = new UpgradeButton("testbutton", dest, this, mName, "Range", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
-
-	//number of little upgrades displayed
-	SDL_Color text_color = { 0,0,0,0 };
-	dest.h = 0;
-	dest.w = 0;
-	dest.x = mUpgrade_damage_button->get_dimension().x;
-	dest.y = mUpgrade_damage_button->get_dimension().y + 30;
-	mDamage_upgrade_number_texture = new Text(std::to_string(mNumber_of_damage_upgrades), dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mDamage_upgrade_number_texture);
-	dest.x += 56;
-	mAttackspeed_upgrade_number_texture = new Text(std::to_string(mNumber_of_attackspeed_upgrades), dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mAttackspeed_upgrade_number_texture);
-	dest.x += 56;
-	mRange_upgrade_number_texture = new Text(std::to_string(mNumber_of_attackspeed_upgrades), dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mRange_upgrade_number_texture);
-
-	//turret stats-text displayed(const)
-	dest.x = mBuilding_window->get_dim().x + 200;
-	dest.y = mBuilding_window->get_dim().y + 40;
-	dest.w = 0;	//setting these to 0 will not scale anything
-	dest.h = 0;
-	auto const dmg_text = new Text("Dmg: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(dmg_text);
-	dest.y += 30;
-	auto const as_text = new Text("AS: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(as_text);
-	dest.y += 30;
-	auto const range_text = new Text("Range: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(range_text);
-	dest.y += 30;
-	auto const explosive_radius_name = new Text("Explosive radius: ", dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(explosive_radius_name);
-	dest.y += 30;
-	auto const damage_distribution_headline = new Text("Damage dist: ", dest, WINDOWS, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(damage_distribution_headline);
-	dest.y += 30;
-
-	mDamage_distribution_value = new Text("P: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_phys_dmg()))
-		+ " M: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_magic_dmg()))
-		+ " F: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_fire_dmg()))
-		+ " W: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_water_dmg()))
-		+ " E: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mDamage_distribution_value);
-
-	//turret stats-numbers displayed(dynamic)
-	dest.x = mBuilding_window->get_dim().x + 260;
-	dest.y = mBuilding_window->get_dim().y + 40;
-	mDmg_value = new Text(Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mDmg_value);
-	dest.y += 30;
-	mAs_value = new Text(Text::remove_trailing_zeros(std::to_string(mAttack_speed)), dest, WINDOWS, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mAs_value);
-	dest.y += 30;
-	mRange_value = new Text(Text::remove_trailing_zeros(std::to_string(mRange)), dest, WINDOWS, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(mRange_value);
-	dest.y += 30;
-	mExplosive_radius_value = new Text(Text::remove_trailing_zeros(std::to_string(mExplosive_radius)), dest, WINDOWCONTENT, text_color, mBuilding_window);
-	mExplosive_radius_value->add_x_dim(70);
-	mBuilding_window->add_text_to_window(mExplosive_radius_value);
 }
 
 Tower::~Tower() 
@@ -114,7 +44,7 @@ void Tower::render()
 {
 	Building::render();
 
-	if (mLevel->get_menu()->get_building_window() != nullptr)
+	if (mBuilding_window != nullptr && mLevel->get_menu()->get_building_window() == mBuilding_window)
 	{
 		if (is_clicked() || mBuilding_window->is_clicked())
 		{
@@ -261,9 +191,9 @@ void Tower::on_tick()
 	Building::on_tick();
 }
 
-void Tower::on_click(int mouse_x, int mouse_y)
+void Tower::on_click(const int mouse_x, const int mouse_y)
 {
-	mLevel->get_menu()->set_building_window(mBuilding_window);
+	mLevel->get_menu()->set_building_window(create_window());
 	Building::on_click(mouse_x, mouse_y);
 }
 
@@ -378,6 +308,74 @@ double Tower::get_projectile_speed() const
 Damage Tower::get_damage() const
 {
 	return this->mDamage;
+}
+
+std::shared_ptr<Window> Tower::create_window()
+{
+	Building::create_window();
+	
+	//little upgrade buttons
+	SDL_Rect dest{ mBuilding_window->get_dim().x + 400, mBuilding_window->get_dim().y + 140,26, 26 };
+	mUpgrade_damage_button = new UpgradeButton("testbutton", dest, this, mName, "Damage", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window.get(), BUILDINGWINDOWBUTTONIDS::UPGRADE_DAMAGE_BUTTON);
+	dest.x += 56;
+	mUpgrade_attackspeed_button = new UpgradeButton("testbutton", dest, this, mName, "Attackspeed", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window.get(), BUILDINGWINDOWBUTTONIDS::UPGRADE_ATTACKSPEED_BUTTON);
+	dest.x += 56;
+	mUpgrade_range_button = new UpgradeButton("testbutton", dest, this, mName, "Range", WINDOWCONTENT, WINDOWCONTENT, mBuilding_window.get(), BUILDINGWINDOWBUTTONIDS::UPGRADE_RANGE_BUTTON);
+
+	//number of little upgrades displayed
+	const SDL_Color text_color = { 0,0,0,0 };
+	dest = { 0, 0, mUpgrade_damage_button->get_dimension().x, mUpgrade_damage_button->get_dimension().y + 30 };
+	
+	mDamage_upgrade_number_texture = new Text(std::to_string(mNumber_of_damage_upgrades), dest, WINDOWCONTENT, text_color, false);
+	mBuilding_window->add_text_to_window(mDamage_upgrade_number_texture);
+	dest.x += 56;
+	mAttackspeed_upgrade_number_texture = new Text(std::to_string(mNumber_of_attackspeed_upgrades), dest, WINDOWCONTENT, text_color, false);
+	mBuilding_window->add_text_to_window(mAttackspeed_upgrade_number_texture);
+	dest.x += 56;
+	mRange_upgrade_number_texture = new Text(std::to_string(mNumber_of_attackspeed_upgrades), dest, WINDOWCONTENT, text_color, false);
+	mBuilding_window->add_text_to_window(mRange_upgrade_number_texture);
+
+	//turret stats-text displayed(const)
+	dest.x = mBuilding_window->get_dim().x + 200;
+	dest.y = mBuilding_window->get_dim().y + 40;
+	dest.w = 0;	//setting these to 0 will not scale anything
+	dest.h = 0;
+	mBuilding_window->add_text_to_window(new Text("Dmg: ", dest, WINDOWCONTENT, text_color, false));
+	dest.y += 30;
+	mBuilding_window->add_text_to_window(new Text("AS: ", dest, WINDOWCONTENT, text_color, false));
+	dest.y += 30;
+	mBuilding_window->add_text_to_window(new Text("Range: ", dest, WINDOWCONTENT, text_color, false));
+	dest.y += 30;
+	mBuilding_window->add_text_to_window(new Text("Explosive radius: ", dest, WINDOWCONTENT, text_color, false));
+	dest.y += 30;
+	mBuilding_window->add_text_to_window(new Text("Damage dist: ", dest, WINDOWS, text_color, false));
+	dest.y += 30;
+
+	mDamage_distribution_value = new Text(
+		"P: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_phys_dmg()))
+		+ " M: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_magic_dmg()))
+		+ " F: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_fire_dmg()))
+		+ " W: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_water_dmg()))
+		+ " E: " + Text::remove_trailing_zeros(std::to_string(mDamage.get_elec_dmg())), dest, WINDOWS, text_color, false);
+	mBuilding_window->add_text_to_window(mDamage_distribution_value);
+
+	//turret stats-numbers displayed(dynamic)
+	dest.x = mBuilding_window->get_dim().x + 260;
+	dest.y = mBuilding_window->get_dim().y + 40;
+	mDmg_value = new Text(Text::remove_trailing_zeros(std::to_string(mDamage.get_dmg_sum())), dest, WINDOWS, text_color, false);
+	mBuilding_window->add_text_to_window(mDmg_value);
+	dest.y += 30;
+	mAs_value = new Text(Text::remove_trailing_zeros(std::to_string(mAttack_speed)), dest, WINDOWS, text_color, false);
+	mBuilding_window->add_text_to_window(mAs_value);
+	dest.y += 30;
+	mRange_value = new Text(Text::remove_trailing_zeros(std::to_string(mRange)), dest, WINDOWS, text_color, false);
+	mBuilding_window->add_text_to_window(mRange_value);
+	dest.y += 30;
+	dest.x += 70;
+	mExplosive_radius_value = new Text(Text::remove_trailing_zeros(std::to_string(mExplosive_radius)), dest, WINDOWCONTENT, text_color, false);
+	mBuilding_window->add_text_to_window(mExplosive_radius_value);
+
+	return mBuilding_window;
 }
 
 BUILDINGTYPE Tower::get_building_type()

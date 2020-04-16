@@ -1,5 +1,6 @@
-#include "Building.h"
 #include <utility>
+
+#include "Building.h"
 #include "ConfigFile.h"
 #include "SDL_setup.h"
 #include "Level.h"
@@ -11,12 +12,14 @@
 #include "BigUpgrade.h"
 #include "BuildingMenuItem.h"
 
-Building::Building(std::string building_name, SDL_Point coords, Level* level, const LAYERS click_layer,
-                   const LAYERS render_layer) : Clickable(click_layer), Entity(render_layer), mCoords{coords},
-                                                mSprite_dimensions{},
-                                                mLevel{level},
-                                                mName{std::move(building_name)},
-												mCarriage{nullptr}
+Building::Building(std::string building_name, const SDL_Point coords, Level* level, const LAYERS click_layer, const LAYERS render_layer)
+	: Clickable(click_layer)
+	, Entity(render_layer)
+	, mCoords{ coords }
+	, mSprite_dimensions{}
+	, mLevel{ level }
+	, mName{ std::move(building_name) }
+	, mCarriage{ nullptr }
 {
 	const auto building_sprite_section = mName + "/sprite";
 	const auto building_stats_section = mName + "/stats";
@@ -33,7 +36,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	this->mProduce = new Resources();
 	this->mConstruction_costs = new Resources();
 	this->mCurrent_resources = new Resources();
-	auto resource_limit = new Resources();
 
 	//set the maintenance costs of the building
 	mMaintenance->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldMain"),
@@ -52,13 +54,15 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 		gConfig_file->value_or_zero(building_stats_section, "watercosts"),
 		gConfig_file->value_or_zero(building_stats_section, "foodcosts"));
 
-	resource_limit->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldLimit"),
+	const Resources resource_limit{
+		gConfig_file->value_or_zero(building_stats_section, "goldLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "woodLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "stoneLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "ironLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "energyLimit"),
 		gConfig_file->value_or_zero(building_stats_section, "waterLimit"),
-		gConfig_file->value_or_zero(building_stats_section, "foodLimit"));
+		gConfig_file->value_or_zero(building_stats_section, "foodLimit")
+	};
 
 	//set the resources that are produced per second
 	mProduce->set_resources(gConfig_file->value_or_zero(building_stats_section, "goldproduction"),
@@ -87,7 +91,6 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	mIdle = true;
 
 	//set the mouse over window up with initial values
-
 	int tile = gConfig_file->value(building_stats_section, "tile");
 	mTile_to_build_on = static_cast<TILETYPES>(tile);
 
@@ -105,62 +108,12 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	//initialize what this building is producing and consuming
 	mProducing = new Production(this);
 
-	//building window
-	mButton_offset.x = 560;
-	mButton_offset.y = 20;
-	SDL_Color text_color = { 0, 0, 0 ,0 };
-	SDL_Rect rect;
-	rect.x = 1280;
-	rect.y = 584;
-	rect.w = 600;
-	rect.h = 220;
-	//window for the warehouse is at a different position, than the other buildingwindows
-	if (get_name() == "Warehouse")
-	{
-		rect.y += 220;
-		rect.w -= 350;
-	}
-	mBuilding_window = new Window(rect, WINDOWS, WINDOWS);
-	mBuilding_window->set_rendering_enabled(false);
-	mBuilding_window->disable();
-	if (get_name() != "Warehouse") //text for non-Warehouse buildings is at different position
-	{
-		//rect.x += rect.w - 200;
-	}
-	rect.x += 20;
-	rect.y += 20;
-	rect.w = 0;//no scaling on text
-	rect.h = 0;
-
-	auto building_name_text = new Text(mName, rect, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(building_name_text);
-	rect.y += 20;
-	auto headline = new Text("            Storage    Main", rect, WINDOWCONTENT, text_color, mBuilding_window);
-	mBuilding_window->add_text_to_window(headline);
-	mStorage_values = new Text*[RESOURCES_TOTAL];
-	mMaintenance_values = new Text*[RESOURCES_TOTAL];
-	for(auto i = 0; i < RESOURCES_TOTAL; ++i)
-	{
-		rect.y += 20;
-		mStorage_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i))))
-			+ "/" + Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mBuilding_window);
-		mStorage_values[i]->add_x_dim(60);
-		mBuilding_window->add_text_to_window(mStorage_values[i]);
-		mMaintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mBuilding_window);
-		mMaintenance_values[i]->add_x_dim(150);
-		mBuilding_window->add_text_to_window(mMaintenance_values[i]);
-		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mBuilding_window);
-		mBuilding_window->add_text_to_window(resource_names);
-	}	
-	update_great_upgrades();
-
-	mIs_destroyable = false;
+	mIs_destroyable = true;
 }
 
 Building::~Building()
 {
 	delete mCarriage;
-	delete mBuilding_window;
 	//don't destroy texture, handled by texture class
 
 	for (auto big_upgrade : mBig_upgrades)
@@ -171,13 +124,14 @@ Building::~Building()
 
 void Building::update_building_window()
 {
+	if (!this->mBuilding_window.get()) return;
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		mStorage_values[i]->set_text(Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i))))
 			+ "/" + Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i)))));
 		mMaintenance_values[i]->set_text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))));
 	}
-	//changes string if a upgradebutton is hovered
+	//changes string if a upgrade button is hovered
 	for (auto& upgrade : mBig_upgrades)
 	{
 		if (upgrade->get_big_upgrade_button()->get_state() == L_CLICKABLE_STATE::MOUSE_OVER)
@@ -189,7 +143,7 @@ void Building::update_building_window()
 
 void Building::set_stat_strings_for_upgrade_buttons(UpgradeButton* button)
 {
-	
+
 }
 
 void Building::update_great_upgrades()
@@ -221,8 +175,8 @@ void Building::update_great_upgrades()
 		{
 			break;
 		}
-		const auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, mName, upgrade_section, WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, UPGRADE_BUTTON);
-		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWCONTENT, WINDOWCONTENT, mBuilding_window, SHOW_MORE_BUTTON);
+		const auto big_upgrade_button = new UpgradeButton("testbutton", button_dim, this, mName, upgrade_section, WINDOWCONTENT, WINDOWCONTENT, mBuilding_window.get(), UPGRADE_BUTTON);
+		auto show_more_button = new ShowMoreButton("testbutton", button_dim, this, WINDOWCONTENT, WINDOWCONTENT, mBuilding_window.get(), SHOW_MORE_BUTTON);
 		show_more_button->add_x_dimension(y_difference);
 		show_more_button->set_clickable_space(show_more_button->get_dimension());
 		auto big_upgrade = new BigUpgrade(mName, upgrade_section, big_upgrade_button, show_more_button);
@@ -258,12 +212,12 @@ void Building::show_more(Button* button)
 	}
 }
 
-bool Building::is_destroyable()
+bool Building::is_destroyable() const
 {
 	return mIs_destroyable;
 }
 
-void Building::set_destroyable(bool destroyable)
+void Building::set_destroyable(const bool destroyable)
 {
 	mIs_destroyable = destroyable;
 }
@@ -294,7 +248,7 @@ bool Building::upgrade(const std::string& building_upgrade_section)
 		gConfig_file->value_or_zero(building_upgrade_section, "energycosts"),
 		gConfig_file->value_or_zero(building_upgrade_section, "watercosts"),
 		gConfig_file->value_or_zero(building_upgrade_section, "foodcosts"));
-	if(mLevel->get_resources()->sub(upgrade_cost))
+	if (mLevel->get_resources()->sub(upgrade_cost))
 	{
 		mConstruction_costs->add(upgrade_cost);
 		const auto plus_maintenance = new Resources(gConfig_file->value_or_zero(building_upgrade_section, "goldMain"),
@@ -318,13 +272,13 @@ void Building::render()
 	dest.y = mCoords.y;
 	dest.w = mSprite_dimensions.w;
 	dest.h = mSprite_dimensions.h;
-	
+
 	gLayer_handler->render_to_layer(mSprite, mRender_layer, nullptr, &dest);
 }
 
 void Building::on_tick()
 {
-	if(mElapsed_ticks % *gFrame_rate == 0 && !mIdle)
+	if (mElapsed_ticks % *gFrame_rate == 0 && !mIdle)
 	{
 		mCurrent_resources->sub(mMaintenance);
 		mCurrent_resources->add(mProduce);
@@ -335,6 +289,59 @@ void Building::on_tick()
 void Building::on_click(int mouse_x, int mouse_y)
 {
 
+}
+
+std::shared_ptr<Window> Building::create_window()
+{
+	//building window
+	mButton_offset.x = 560;
+	mButton_offset.y = 20;
+	const SDL_Color text_color = { 0, 0, 0 ,0 };
+	SDL_Rect rect{ 1280, 584, 600, 220 };
+	//window for the warehouse is at a different position, than the other buildingwindows
+	if (get_name() == "Warehouse")
+	{
+		rect.y += 220;
+		rect.w -= 350;
+	}
+	else //text for non-Warehouse buildings is at different position
+	{
+		//TODO: What is this?
+		//rect.x += rect.w - 200;
+	}
+
+	auto window = std::make_shared<Window>(rect, WINDOWS, WINDOWS);
+
+	rect.x += 20;
+	rect.y += 20;
+	rect.w = 0;//no scaling on text
+	rect.h = 0;
+
+	window->add_text_to_window(new Text(mName, rect, WINDOWCONTENT, text_color, false));
+	rect.y += 20;
+	window->add_text_to_window(new Text("            Storage    Main", rect, WINDOWCONTENT, text_color, false));
+	mStorage_values = new Text * [RESOURCES_TOTAL];
+	mMaintenance_values = new Text * [RESOURCES_TOTAL];
+	rect.x += 60;
+	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
+	{
+		rect.y += 20;
+		mStorage_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_display_resources().get_resource(RESOURCETYPES(i))))
+			+ "/" + Text::remove_trailing_zeros(std::to_string(mCurrent_resources->get_limit()->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, false);
+		window->add_text_to_window(mStorage_values[i]);
+		rect.x += 90;
+		mMaintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mMaintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, false);
+		window->add_text_to_window(mMaintenance_values[i]);
+		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, false);
+		window->add_text_to_window(resource_names);
+		rect.x -= 90;
+	}
+
+	mBuilding_window = window;
+	
+	update_great_upgrades();
+	
+	return mBuilding_window;
 }
 
 void Building::set_maintenance(Resources* maintenance)
@@ -378,17 +385,17 @@ Resources* Building::get_current_resources() const
 	return this->mCurrent_resources;
 }
 
-void Building::add_resources(Resources * r) const
+void Building::add_resources(Resources* r) const
 {
 	this->mCurrent_resources->add(r);
 }
 
-bool Building::transfer_resources_in(Resources * r) const
+bool Building::transfer_resources_in(Resources* r) const
 {
 	return this->mCurrent_resources->transfer(r);
 }
 
-bool Building::transfer_resources_out(Resources * r) const
+bool Building::transfer_resources_out(Resources* r) const
 {
 	return r->transfer(this->mCurrent_resources);
 }
@@ -397,7 +404,7 @@ void Building::transfer_resources(Resources* r, Production* production, const bo
 {
 	for (auto i = 0; i < RESOURCES_TOTAL; i++)
 	{
-		switch(production->at(RESOURCETYPES(i)))
+		switch (production->at(RESOURCETYPES(i)))
 		{
 		case NONE:
 			//do nothing
@@ -416,7 +423,7 @@ void Building::transfer_resources(Resources* r, Production* production, const bo
 			else
 				r->transfer(RESOURCETYPES(i), mCurrent_resources->get_resource_pointer(RESOURCETYPES(i)));
 			break;
-		default: 
+		default:
 			;	//shouldn't get here
 		}
 	}

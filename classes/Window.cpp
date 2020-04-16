@@ -5,9 +5,13 @@
 #include "MouseHandler.h"
 
 
-Window::Window(const SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, const STYLE style) : Clickable(click_layer), Renderable(render_layer), mDim(dim), mStyle(style), mR(0), mG(0), mB(0)
+Window::Window(const SDL_Rect dim, const LAYERS click_layer, const LAYERS render_layer, const STYLE style)
+	: Renderable(render_layer)
+	, Clickable(click_layer)
+	, mStyle(style)
+	, mRerender(true)
+	, mDim(dim)
 {
-	
 	const auto category = "frames/" + std::to_string(int(style));
 	mBottom_left_corner = gTextures->get_texture(gConfig_file->value(category, "blcpath"));
 	mBottom_right_corner = gTextures->get_texture(gConfig_file->value(category, "brcpath"));
@@ -21,13 +25,15 @@ Window::Window(const SDL_Rect dim, LAYERS click_layer, LAYERS render_layer, cons
 	mCorner_width = gConfig_file->value(category, "corner_width");
 	mBorder_thickness = gConfig_file->value(category, "border_thickness");
 
-	set_clickable_space(mDim);
+	mWindow_texture = new LTexture();
+	mText_texture = new LTexture();
 
+	set_clickable_space(mDim);
 }
 
 Window::~Window()
 {
-	for(auto& text : mTexts)
+	for (auto& text : mTexts)
 	{
 		delete text;
 	}
@@ -36,55 +42,64 @@ Window::~Window()
 
 void Window::render()
 {
+	gLayer_handler->render_to_layer(mWindow_texture, mRender_layer, nullptr, &mDim);
+
+	if (mRerender) update_text_texture();
+	if (mTexts.empty()) return;
+
+	gLayer_handler->render_to_layer(mText_texture, mTexts[0]->get_render_layer(), nullptr, &mDim);
+}
+
+void Window::create_window_texture() const
+{
+	if (!mWindow_texture->create_blank(mDim.w, mDim.h, SDL_TEXTUREACCESS_TARGET))
+	{
+		printf("Failed to create target texture!\n");
+		return;
+	}
+
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0x00);
+	SDL_RenderClear(gRenderer);
+
+	//we want to render to the texture
+	mWindow_texture->set_as_render_target();
+
 	//draw the inner color of the window (background of the window)
-	SDL_Rect dest;
-	dest.x = mDim.x;
-	dest.y = mDim.y;
-	dest.w = mDim.w;
-	dest.h = mDim.h;
+	SDL_Rect dest{ 0, 0, mDim.w, mDim.h };
 
-	gLayer_handler->render_to_layer(mBackground, mRender_layer, nullptr, &dest);
-
-	dest.w = 0;	//don't scale corners
-	dest.h = 0;
+	mBackground->render(&dest);
 
 	//draw the four corners
-	gLayer_handler->render_to_layer(mTop_left_corner, mRender_layer, nullptr, &dest);
+	mTop_left_corner->render(&dest);
 	dest.x = mDim.x + mDim.w - mCorner_width;
-	gLayer_handler->render_to_layer(mTop_right_corner, mRender_layer, nullptr, &dest);
+	mTop_right_corner->render(&dest);
 	dest.y = mDim.y + mDim.h - mCorner_height;
-	gLayer_handler->render_to_layer(mBottom_right_corner, mRender_layer, nullptr, &dest);
+	mBottom_right_corner->render(&dest);
 	dest.x = mDim.x;
-	gLayer_handler->render_to_layer(mBottom_left_corner, mRender_layer, nullptr, &dest);
+	mBottom_left_corner->render(&dest);
 
 	//draw the borders
 	//horizontal top:
-	dest.x = mDim.x + mCorner_width;
-	dest.y = mDim.y;
-	dest.w = mDim.w - 2 * mCorner_width;
-	dest.h = mBorder_thickness;
+	dest = { mCorner_width, 0, mDim.w - 2 * mCorner_width, mBorder_thickness };
 
-	gLayer_handler->render_to_layer(mHorizontal_border, mRender_layer, nullptr, &dest);
+	mHorizontal_border->render(&dest);
 
 	//horizontal bottom:
 	dest.y = mDim.y + mDim.h - mBorder_thickness;
 	//width, height and x stay the same
 
-	gLayer_handler->render_to_layer(mHorizontal_border, mRender_layer, nullptr, &dest);
+	mHorizontal_border->render(&dest);
 
 	//vertical left:
-	dest.x = mDim.x;
-	dest.y = mDim.y + mCorner_height;
-	dest.w = mBorder_thickness;
-	dest.h = mDim.h - 2 * mCorner_height;
+	dest = { 0, mCorner_height, mBorder_thickness, mDim.h - 2 * mCorner_height };
 
-	gLayer_handler->render_to_layer(mVertical_border, mRender_layer, nullptr, &dest);
+	mVertical_border->render(&dest);
 
 	//vertical right
 	dest.x = mDim.x + mDim.w - mBorder_thickness;
 	//width, height and y stay the same
 
-	gLayer_handler->render_to_layer(mVertical_border, mRender_layer, nullptr, &dest);
+	mVertical_border->render(&dest);
 }
 
 void Window::set_dim(const SDL_Rect dim)
@@ -100,5 +115,26 @@ SDL_Rect Window::get_dim() const
 void Window::add_text_to_window(Text* text)
 {
 	mTexts.push_back(text);
+	mRerender = true;
 }
 
+void Window::update_text_texture()
+{
+	if (!mWindow_texture->create_blank(mDim.w, mDim.h, SDL_TEXTUREACCESS_TARGET))
+	{
+		printf("Failed to create target texture!\n");
+		return;
+	}
+
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0x00);
+	SDL_RenderClear(gRenderer);
+
+	SDL_Rect dest;
+	for (const auto& text : mTexts)
+	{
+		dest = text->get_dimensions();
+		text->get_texture()->render(&dest);
+	}
+
+	mRerender = false;
+}
