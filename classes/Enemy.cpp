@@ -10,7 +10,10 @@
 #include <iostream>
 
 //needs the level name for getting the movement checkpoints from the config file
-Enemy::Enemy(const std::string& monster_name, const int way, Level* level, const LAYERS render_layer) : Unit(monster_name, level, render_layer), mDead(false), mHealth_bar_dimensions()
+Enemy::Enemy(const std::string& monster_name, const int way, Level* level, const LAYERS render_layer)
+	: Unit(monster_name, level, render_layer)
+	, mDead(false)
+	, mHealth_bar_dimensions()
 {
 	const auto monster_sprite_section = monster_name + "/sprite";
 	const auto monster_stats_section = monster_name + "/stats";
@@ -45,7 +48,6 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level, const
 	mHealth_bar_dimensions.w = gConfig_file->value(healthbar_sprite_section, "image_width");
 	mHealth_bar_dimensions.h = gConfig_file->value(healthbar_sprite_section, "image_height");
 
-
 	mLoot_resources.set_resources(gConfig_file->value_or_zero(monster_stats_section, "goldloot"),
 		gConfig_file->value_or_zero(monster_stats_section, "woodloot"),
 		gConfig_file->value_or_zero(monster_stats_section, "stoneloot"),
@@ -55,10 +57,7 @@ Enemy::Enemy(const std::string& monster_name, const int way, Level* level, const
 		gConfig_file->value_or_zero(monster_stats_section, "foodloot"));
 }
 
-Enemy::~Enemy()
-{
-
-}
+Enemy::~Enemy() = default;
 
 void Enemy::on_tick()
 {
