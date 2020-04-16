@@ -137,53 +137,40 @@ void Menu::add_menu_item(BuildingMenuItem* building_menu_item, const BUILDINGTYP
 	this->mBuilding_menu_items[tab]->push_back(building_menu_item);
 }
 
-void Menu::set_building_window(Window* building_window)
+void Menu::set_building_window(const std::shared_ptr<Window>& building_window)
 {
-	if(mBuilding_window != nullptr)
-	{
-		mBuilding_window->set_rendering_enabled(false);
-		mBuilding_window->disable();
-	}
 	mBuilding_window = building_window;
 	mBuilding_window->set_rendering_enabled(true);
 	mBuilding_window->enable();
 }
 
-Window* Menu::get_building_window() const
+std::shared_ptr<Window> Menu::get_building_window() const
 {
 	return mBuilding_window;
 }
 
-void Menu::set_unit_window(Window* unit_window)
+void Menu::set_unit_window(const std::shared_ptr<Window>& unit_window)
 {
-	if(mUnit_window != nullptr)
-	{
-		mUnit_window->set_rendering_enabled(false);
-		mUnit_window->disable();
-	}
+
 	mUnit_window = unit_window;
 	mUnit_window->set_rendering_enabled(true);
 	mUnit_window->enable();
 }
 
-Window* Menu::get_unit_window() const
+std::shared_ptr<Window> Menu::get_unit_window() const
 {
 	return mUnit_window;
 }
 
-void Menu::set_menu_item_window(Window* menu_item_window)
+void Menu::set_menu_item_window(const std::shared_ptr<Window>& menu_item_window)
 {
-	if (mMenu_item_window != nullptr)
-	{
-		mMenu_item_window->set_rendering_enabled(false);
-		mMenu_item_window->disable();
-	}
+	mMenu_item_window.reset();
 	mMenu_item_window = menu_item_window;
 	mMenu_item_window->set_rendering_enabled(true);
 	mMenu_item_window->enable();
 }
 
-Window* Menu::get_menu_item_window() const
+std::shared_ptr<Window> Menu::get_menu_item_window() const
 {
 	return mMenu_item_window;
 }
