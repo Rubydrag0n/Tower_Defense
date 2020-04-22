@@ -5,7 +5,7 @@
 
 class Game;
 
-class MainMenu : public MainMenuTab, ButtonObject
+class MainMenu : public MainMenuTab, public ButtonObject
 {
 public:
 	explicit MainMenu(Game* game);
