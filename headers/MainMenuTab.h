@@ -6,7 +6,7 @@
 
 class Game;
 
-class MainMenuTab : Renderable
+class MainMenuTab : public Renderable
 {
 public:
 	MainMenuTab(Game* game);
