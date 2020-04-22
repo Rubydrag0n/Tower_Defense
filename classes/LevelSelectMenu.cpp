@@ -67,13 +67,15 @@ LevelSelectMenu::LevelSelectMenu(Game* game) : MainMenuTab(game)
 void LevelSelectMenu::on_button_press(int button_id, Button* button)
 {
 	this->set_enabled(false);
-
+	//button ids in range from 0 to LEVEL_SELECT_BUTTONS::LEVEL - 1 are for buttons that are not "level buttons"
 	if(button_id == BACK)
 	{
 		this->set_enabled(false);
 		mGame->set_state(Game::STATE::MAIN_MENU);
 		mGame->get_main_menu()->set_enabled(true);
 	}
+	//button ids in range from LEVEL_SELECT_BUTTONS::LEVEL to (LEVEL_SELECT_BUTTONS::LEVEL + number of levels - 1) are for all level buttons
+	//that way new levels that are added, do not need an own entry in the LEVEL_SELECT_BUTTONS enum and the level number can be derived back from the button_id (button_id - LEVEL + 1)
 	else if(button_id >= LEVEL)
 	{
 		this->set_enabled(false);

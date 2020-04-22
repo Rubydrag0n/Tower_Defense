@@ -12,20 +12,19 @@ MainMenu::MainMenu(Game* game) : MainMenuTab(game)
 	mTitle_sprite = gTextures->get_texture(gConfig_file->value(sprite_section, "title"));
 	mMain_menu_sprite = gTextures->get_texture(gConfig_file->value(sprite_section, "mainmenu"));
 
-	SDL_Rect dim;
-	dim.w = gConfig_file->value("button/play", "clip_width");
-	dim.h = gConfig_file->value("button/play", "clip_height");
-	dim.x = LOGICAL_SCREEN_WIDTH / 2 - dim.w;
-	dim.y = 300;
+	SDL_Rect dim {
+		LOGICAL_SCREEN_WIDTH / 2 - gConfig_file->value("button/play", "clip_width"),
+		300,
+		gConfig_file->value("button/play", "clip_width"),
+		gConfig_file->value("button/play", "clip_height")
+	};
 
-	auto play_button = new Button("play", dim, this, OVERLAY, OVERLAY, PLAY);
-	mButtons.push_back(play_button);
+	mButtons.push_back(new Button("play", dim, this, OVERLAY, OVERLAY, PLAY));
 
 	dim.w = gConfig_file->value("button/quit", "clip_width");
 	dim.h = gConfig_file->value("button/quit", "clip_height");
 	dim.y = 500;
-	auto quit_button = new Button("quit", dim, this, OVERLAY, OVERLAY, QUIT);
-	mButtons.push_back(quit_button);
+	mButtons.push_back(new Button("quit", dim, this, OVERLAY, OVERLAY, QUIT));
 
 	dim.w = gConfig_file->value("button/settings", "clip_width");
 	dim.h = gConfig_file->value("button/settings", "clip_height");
@@ -44,34 +43,34 @@ MainMenu::MainMenu(Game* game) : MainMenuTab(game)
 
 void MainMenu::on_button_press(int button_id, Button* button)
 {
-	switch(button_id)
+	switch (button_id)
 	{
-	case int(PLAY):
-		this->set_enabled(false);
-		
-		mGame->set_state(Game::STATE::LEVEL_SELECT);
-		mGame->get_level_select_menu()->set_enabled(true);
+		case int(PLAY) :
+			this->set_enabled(false);
 
-		break;
+			mGame->set_state(Game::STATE::LEVEL_SELECT);
+			mGame->get_level_select_menu()->set_enabled(true);
 
-	case int(QUIT):
-		mGame->set_state(Game::STATE::EXITING);
-		break;
+			break;
 
-	case int(SETTINGS):
-		break;
+			case int(QUIT) :
+				mGame->set_state(Game::STATE::EXITING);
+				break;
 
-	case int(STATS):
-		break;
+				case int(SETTINGS) :
+					break;
 
-	case int(BACK) :
-		this->set_enabled(true);
+					case int(STATS) :
+						break;
 
-		break;
+						case int(BACK) :
+							this->set_enabled(true);
 
-	default:
-		printf("This button doesn't exist?!\n\r");
-		break;
+							break;
+
+						default:
+							printf("This button doesn't exist?!\n\r");
+							break;
 	}
 }
 

@@ -9,6 +9,7 @@ public:
 
 	void on_button_press(int button_id, Button* button) override;
 
+	//extra buttons should be added before the "LEVEL" entry
 	enum LEVEL_SELECT_BUTTONS
 	{
 		BACK,
