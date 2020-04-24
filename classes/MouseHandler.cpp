@@ -101,7 +101,6 @@ void MouseHandler::handle_event(SDL_Event *e)
 
 	auto clicked_on_something = false;	//may only click on one thing with each event.
 
-	//when right clicking always set item to null
 	if (e->type == SDL_MOUSEBUTTONDOWN && e->button.button == 3)
 	{
 		set_item_on_mouse(nullptr);
