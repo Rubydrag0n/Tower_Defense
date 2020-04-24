@@ -2,7 +2,7 @@
 #include "ButtonObject.h"
 #include "MainMenuTab.h"
 
-class LevelSelectMenu : public MainMenuTab, ButtonObject
+class LevelSelectMenu : public MainMenuTab, public ButtonObject
 {
 public:
 	LevelSelectMenu(Game* game);
