@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "EntityHandler.h"
 #include "Game.h"
+#include "MouseHandler.h"
 
 Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(level_number)), mMain_building(), mDeleting(false), mGame(game)
 {
@@ -77,6 +78,8 @@ Level::~Level()
 	delete mMenu;
 
 	mGame->set_state(Game::STATE::MAIN_MENU);
+
+	gMouse_handler->set_item_on_mouse(nullptr);
 }
 
 void Level::on_tick()
