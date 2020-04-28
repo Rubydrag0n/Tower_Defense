@@ -65,6 +65,3 @@ std::string Text::remove_trailing_zeros(std::string s)
 
 	return result;
 }
-
-
-
