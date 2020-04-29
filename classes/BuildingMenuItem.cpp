@@ -64,7 +64,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 		auto name_of_object_text = new Text(name_of_object, rect, WINDOWCONTENT, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(name_of_object_text);
 		rect.y += 20;
-		auto headline = new Text("       MaxStorage   Mainten", rect, WINDOWCONTENT, text_color, mMenu_item_window);
+		auto headline = new Text("       MaxStorage   Cost(M)", rect, WINDOWCONTENT, text_color, mMenu_item_window);
 		mMenu_item_window->add_text_to_window(headline);
 		auto storage_values = new Text*[RESOURCES_TOTAL];
 		auto maintenance_values = new Text*[RESOURCES_TOTAL];
@@ -74,7 +74,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 			storage_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(storage_limit->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
 			storage_values[i]->add_x_dim(60);
 			mMenu_item_window->add_text_to_window(storage_values[i]);
-			maintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(maintenance->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+			maintenance_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mConstruction_costs.get_resource(RESOURCETYPES(i))))+ "(" +Text::remove_trailing_zeros(std::to_string(maintenance->get_resource(RESOURCETYPES(i)))) + ")", rect, WINDOWCONTENT, text_color, mMenu_item_window);
 			maintenance_values[i]->add_x_dim(130);
 			mMenu_item_window->add_text_to_window(maintenance_values[i]);
 			auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mMenu_item_window);
@@ -156,7 +156,7 @@ BuildingMenuItem::BuildingMenuItem(const std::string& name_of_object, Level *lev
 				rect.y += 20;
 				auto resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), rect, WINDOWS, text_color, mMenu_item_window);
 				mMenu_item_window->add_text_to_window(resource_names);
-				production_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(produce->get_display_resources().get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
+				production_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(produce->get_resource(RESOURCETYPES(i)))), rect, WINDOWCONTENT, text_color, mMenu_item_window);
 				production_values[i]->add_x_dim(60);
 				mMenu_item_window->add_text_to_window(production_values[i]);
 			}
