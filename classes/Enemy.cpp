@@ -162,6 +162,7 @@ bool Enemy::take_damage(Damage *dmg)
 	if(mDefense->take_damage(dmg) && !this->is_dead())
 	{
 		mDead = true;
+		mLevel->get_resources()->add(&mLoot_resources);
 		this->on_death();
 		return true;
 	}
@@ -169,8 +170,7 @@ bool Enemy::take_damage(Damage *dmg)
 }
 
 void Enemy::on_death()
-{
-	mLevel->get_resources()->add(&mLoot_resources);
+{	
 	new Particle("zombie_death", mPosition, Vector(), float(this->get_rotation_angle()), 0.f);
 	if (!mFollowed_by.empty()) {
 		for (int i = mFollowed_by.size() - 1; i >= 0; i--)
