@@ -25,12 +25,8 @@ Menu::Menu(Level *level, const LAYERS render_layer) : Renderable(render_layer), 
 		= new Button("ResourceButton", dim, this, BUILDINGS, BUILDINGS, BUILDINGTYPE::INDUSTRIAL_BUILDING);
 
 	dim.x = 1500;
-	mButtons[BUILDINGTYPE::WAREHOUSE]
-		= new Button("BuildingsButton", dim, this, BUILDINGS, BUILDINGS, BUILDINGTYPE::WAREHOUSE);
-
-	dim.x = 1600;
 	mButtons[BUILDINGTYPE::STREET]
-		= new Button("TowerButton", dim, this, BUILDINGS, BUILDINGS, BUILDINGTYPE::STREET);
+		= new Button("ResourceButton", dim, this, BUILDINGS, BUILDINGS, BUILDINGTYPE::STREET);
 
 
 	for (auto i = 0; i < BUILDINGTYPE::BUILDINGTYPES_TOTAL; i++) {
