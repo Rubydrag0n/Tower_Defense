@@ -1,38 +1,39 @@
+#include <iomanip>
 #include "Text.h"
 #include "LayerHandler.h"
-#include <iomanip>
 
-Text::Text(const std::string& text, const SDL_Rect dim, const LAYERS render_layer, const SDL_Color text_color, Renderable* texture_to_render_on)
-	: Renderable(render_layer), mText(text), mDim(dim), mTexture_to_render_on(texture_to_render_on)
+Text::Text(const std::string& text, const SDL_Rect dim, const LAYERS layer, const SDL_Color text_color, const bool rendering_enabled)
+	: Renderable(layer), mText_texture(new LTexture()), mText(text), mDim(dim)
 {
 	mText_color = text_color;
 	mText_texture->load_from_rendered_text(text, mText_color);
+	set_rendering_enabled(rendering_enabled);
 }
 
 Text::~Text()
 {
-	mText_texture->free();
 	delete mText_texture;
 }
 
 void Text::render()
 {
-	//Show current button sprite if mTexture is null or rendering of the texture is enabled
-	//this won't generate an access violation because of fast evaluation of the ||
-	if (mTexture_to_render_on == nullptr || mTexture_to_render_on->is_rendering_enabled())
-	{
-		gLayer_handler->render_to_layer(mText_texture, mRender_layer, nullptr, &mDim);
-	}
+	gLayer_handler->render_to_layer(mText_texture, mRender_layer, nullptr, &mDim);
 }
 
-void Text::add_y_dim(const int y)
+LTexture* Text::get_texture() const
 {
-	mDim.y += y;
+	return mText_texture;
 }
 
-void Text::add_x_dim(const int x)
+void Text::set_position(int x, int y)
 {
-	mDim.x += x;
+	mDim.x = x;
+	mDim.y = y;
+}
+
+SDL_Rect& Text::get_dimensions()
+{
+	return mDim;
 }
 
 void Text::set_text(const std::string& text)
@@ -65,6 +66,3 @@ std::string Text::remove_trailing_zeros(std::string s)
 
 	return result;
 }
-
-
-
