@@ -154,7 +154,7 @@ Building::Building(std::string building_name, SDL_Point coords, Level* level, co
 	}	
 	update_great_upgrades();
 
-	mIs_destroyable = false;
+	mIs_destroyable = true;
 }
 
 Building::~Building()
