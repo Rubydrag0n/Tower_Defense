@@ -117,8 +117,13 @@ void Menu::sort_items_into_menu()
 				break;
 			}
 			name_of_object.assign(gConfig_file->value(types.at(j), std::to_string(i)));
-			const auto new_item = new BuildingMenuItem(name_of_object, mLevel, coords, WINDOWCONTENT, WINDOWCONTENT);
-			this->add_menu_item(new_item, BUILDINGTYPE(j));
+			//checks if building is available in this level
+			if(std::find(mLevel->get_available_buildings().begin(), mLevel->get_available_buildings().end(), name_of_object) != mLevel->get_available_buildings().end())
+			{
+				//adds building-menu-item to level
+				const auto new_item = new BuildingMenuItem(name_of_object, mLevel, coords, WINDOWCONTENT, WINDOWCONTENT);
+				this->add_menu_item(new_item, BUILDINGTYPE(j));
+			}
 		}
 	}
 }

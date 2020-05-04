@@ -1,4 +1,5 @@
 #include <utility>
+#include <sstream>
 
 #include "Level.h"
 #include "Building.h"
@@ -9,6 +10,8 @@
 #include "EntityHandler.h"
 #include "Game.h"
 #include "MouseHandler.h"
+
+using namespace std;
 
 Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(level_number)), mMain_building(), mDeleting(false), mGame(game)
 {
@@ -48,8 +51,6 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 	warehouse_coord.y = TILE_HEIGHT * gConfig_file->value(level_section, "main_building_y");
 	mMain_building = new Warehouse(gConfig_file->value(level_section, "main_building_name"), warehouse_coord, this, BUILDINGS, BUILDINGS);
 
-	mMenu = new Menu(this, LAYERS::BACKGROUND);
-
 	mMap = new Map("level/" + std::string(gConfig_file->value(level_section, "map_file")));
 
 	const auto r = new Resources(
@@ -65,6 +66,20 @@ Level::Level(std::string level_number, Game* game) : mLevel_number(std::move(lev
 	mMain_building->add_resources(r);
 	//can't destroy the main building
 	mMain_building->set_destroyable(false);
+
+	//add available buildings as strings in vector
+	std::string s = gConfig_file->value(level_section, "available_buildings");
+	std::stringstream available_buildings(s);
+	while(available_buildings.good())
+	{
+		std::string building;
+		std::string ss = ", ";
+		std::getline(available_buildings, building, ',');
+		mAvailable_buildings.push_back(building);
+	}
+
+	//menu needs to be initialized after creating the vector with the available buildings
+	mMenu = new Menu(this, LAYERS::BACKGROUND);
 }
 
 Level::~Level()
@@ -245,3 +260,9 @@ Map* Level::get_map() const
 {
 	return mMap;
 }
+
+std::vector<std::string>& Level::get_available_buildings()
+{
+	return mAvailable_buildings;
+}
+
