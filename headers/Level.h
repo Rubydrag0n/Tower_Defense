@@ -43,6 +43,7 @@ public:
 	Map* get_map() const;
 
 	std::vector<std::string>& get_available_buildings();
+	std::vector<std::string>& get_available_upgrades();
 	
 private:
 	std::string mLevel_number;
@@ -66,4 +67,6 @@ private:
 
 	//available buildings in this level
 	std::vector<std::string> mAvailable_buildings;
+	//available building upgrades in this level
+	std::vector<std::string> mAvailable_upgrades;
 };
