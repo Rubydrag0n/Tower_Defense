@@ -13,16 +13,14 @@ IndustrialBuilding::IndustrialBuilding(std::string industrial_building_name, con
 	SDL_Rect dest;
 	dest.h = 0;
 	dest.w = 0;
-	dest.x = mBuilding_window->get_dim().x + 20;
-	dest.y = mBuilding_window->get_dim().y + 30;
+	dest.x = mBuilding_window->get_dim().x + 200;
+	dest.y = mBuilding_window->get_dim().y + 40;
 	auto const headline = new Text("        Production", dest, WINDOWCONTENT, text_color, mBuilding_window);
 	mBuilding_window->add_text_to_window(headline);
 	mProduction_values = new Text*[RESOURCES_TOTAL];
 	for (auto i = 0; i < RESOURCES_TOTAL; ++i)
 	{
 		dest.y += 20;
-		auto const resource_names = new Text(Resources::get_name(RESOURCETYPES(i)), dest, WINDOWCONTENT, text_color, mBuilding_window);
-		mBuilding_window->add_text_to_window(resource_names);
 		mProduction_values[i] = new Text(Text::remove_trailing_zeros(std::to_string(mProduce->get_display_resources().get_resource(RESOURCETYPES(i)))), dest, WINDOWCONTENT, text_color, mBuilding_window);
 		mProduction_values[i]->add_x_dim(60);
 		mBuilding_window->add_text_to_window(mProduction_values[i]);

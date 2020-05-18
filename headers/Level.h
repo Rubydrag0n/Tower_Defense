@@ -14,7 +14,7 @@ class Game;
 class Level
 {
 public:
-	explicit Level(std::string level_number, Game* game);
+	Level(std::string level_number, Game* game);
 	~Level();
 
 	//at the moment: update the first wave in the vector, if this wave is dead spawn the next wave
@@ -40,6 +40,10 @@ public:
 	void set_main_building(Warehouse *main_building);
 
 	Menu* get_menu() const;
+	Map* get_map() const;
+
+	std::vector<std::string>& get_available_buildings();
+	std::vector<std::string>& get_available_upgrades();
 	
 private:
 	std::string mLevel_number;
@@ -60,4 +64,9 @@ private:
 	Game* mGame;
 
 	Menu* mMenu;
+
+	//available buildings in this level
+	std::vector<std::string> mAvailable_buildings;
+	//available building upgrades in this level
+	std::vector<std::string> mAvailable_upgrades;
 };
